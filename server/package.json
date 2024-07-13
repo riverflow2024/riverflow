@@ -1,0 +1,28 @@
+{
+  "name": "riverflow",
+  "version": "1.0.0",
+  "description": "大專結訓作品",
+  "main": "app.js",
+  "scripts": {
+    "start": "nodemon server.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zhier1114/RiverFlow.git"
+  },
+  "bugs": {
+    "url": "https://github.com/zhier1114/RiverFlow/issues"
+  },
+  "homepage": "https://github.com/zhier1114/RiverFlow#readme",
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "morgan": "^1.10.0"
+  },
+  "devDependencies": {
+    "standard": "^17.1.0"
+  }
+}
