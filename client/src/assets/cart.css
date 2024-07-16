@@ -2,16 +2,16 @@
   background-color: #1d1d1d;
   margin: 0 auto;
   width: 100%;
+  overflow: hidden;
 }
 
 /* 導覽列內容 */
-
-/* container容器調整間距 */
+/*------ container容器調整間距------ */
 .container {
-  padding: 5rem 10em;
+  padding: 5rem 10rem;
 }
 
-/* 上方內容 */
+/*------- 上方內容 ------ */
 .top h3 {
   color: white;
   font-size: 2.5rem;
@@ -21,11 +21,7 @@
   letter-spacing: 5px;
 }
 
-.top hr {
-  color: #baf13a;
-}
-
-/* 上方說明欄 */
+/*------ 上方細項欄 ------ */
 .table-bar {
   display: flex;
   justify-content: space-between;
@@ -37,10 +33,15 @@
   font-size: 1.3rem;
 }
 
-.table-bar h4:nth-of-type(1) {
-  padding-right: 40rem;
+/* 調整商品右方細項間距 */
+.table-bar h4 {
+  text-align: center;
 }
-/* cart-container 商品列表 */
+/* 商品文字推右方文字 */
+.product {
+  padding-right: 20rem;
+}
+/*------ cart-container 商品列表 ------*/
 .cart-container {
   display: flex;
   flex-direction: column;
@@ -52,9 +53,10 @@
   color: white;
   border-radius: 20px;
   display: flex;
+  justify-content: space-around;
   align-items: center;
   margin-top: 30px;
-  padding: 10px;
+  padding: 10px 0px;
 }
 
 .cart-item-content h4 {
@@ -64,23 +66,23 @@
 
 .cart-item-small {
   display: flex;
-  justify-content: space-between;
-  gap: 8.5rem; /* 調整 gap 值 */
-}
-.cart-item-small p:nth-of-type(1) {
-  padding-left: 36rem;
-  padding-right: 1rem;
+  flex: 1;
+  align-items: center;
+  padding-left: 220px;
+  gap: 5rem;
+  justify-content: space-evenly;
 }
 
 .cart-item img {
   margin-right: 20px;
 }
 
+/* ------固定下方------ */
 .checkButton {
   position: fixed;
   bottom: 0;
   height: 70px;
-  width: 80%;
+  width: 75%;
   background-color: #88a83c;
   border-radius: 5px;
   color: white;
