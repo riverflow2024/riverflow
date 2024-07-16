@@ -1,95 +1,144 @@
-.wrap {
-  background-color: #1d1d1d;
+/* ------ 全局容器設置 ------ */
+.container-f {
   margin: 0 auto;
   width: 100%;
   overflow: hidden;
 }
 
-/* 導覽列內容 */
-/*------ container容器調整間距------ */
 .container {
   padding: 5rem 10rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  box-sizing: border-box;
 }
 
-/*------- 上方內容 ------ */
+@media (max-width: 768px) {
+  .container {
+    padding: 2rem;
+  }
+}
+
+/*------ 頂部樣式 ------ */
+.top {
+  margin-top: 5rem;
+}
+
 .top h3 {
-  color: white;
-  font-size: 2.5rem;
+  color: var(--gr1);
+  font-size: 2rem;
   font-weight: bold;
-  padding-bottom: 15px;
-  border-bottom: 2px solid #baf13a;
+  padding-bottom: 2rem;
+  border-bottom: 2px solid var(--main);
   letter-spacing: 5px;
 }
 
-/*------ 上方細項欄 ------ */
-.table-bar {
+/* ------商品價錢樣式 ------*/
+.shop-bar {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   margin-top: 20px;
   padding: 10px 40px;
-  color: white;
-  border: 2px solid #baf13a;
+  color: var(--gr1);
+  border: 2px solid var(--main);
   border-radius: 15px;
   font-size: 1.3rem;
+  box-sizing: border-box;
 }
 
-/* 調整商品右方細項間距 */
-.table-bar h4 {
+.product {
+  padding-right: 300px;
+}
+
+@media (max-width: 768px) {
+  .shop-bar {
+    flex-direction: column;
+    padding: 10px 20px;
+    font-size: 1rem;
+  }
+}
+
+.shop-bar h4 {
   text-align: center;
 }
-/* 商品文字推右方文字 */
-.product {
-  padding-right: 20rem;
-}
-/*------ cart-container 商品列表 ------*/
+
+/* ------商品列表樣式------ */
 .cart-container {
   display: flex;
   flex-direction: column;
 }
 
 .cart-item {
-  background-color: #333333;
-  border: 2px solid #baf13a;
-  color: white;
+  background-color: var(--bk2);
+  border: 2px solid var(--main);
+  color: var(--gr1);
   border-radius: 20px;
   display: flex;
-  justify-content: space-around;
   align-items: center;
   margin-top: 30px;
-  padding: 10px 0px;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+.cart-item img {
+  width: 10%;
+}
+
+@media (max-width: 768px) {
+  .cart-item {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .cart-item img {
+    width: 50px;
+    margin-bottom: 10px;
+  }
+}
+
+.cart-item-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 30%;
+  padding: 0 20px;
+  line-height: 30px;
 }
 
 .cart-item-content h4 {
   font-size: 1.5rem;
-  line-height: 3rem;
 }
 
 .cart-item-small {
   display: flex;
-  flex: 1;
   align-items: center;
-  padding-left: 220px;
-  gap: 5rem;
-  justify-content: space-evenly;
+  gap: 9rem;
 }
 
-.cart-item img {
-  margin-right: 20px;
+@media (max-width: 768px) {
+  .cart-item-small {
+    flex-direction: column;
+    gap: 1rem;
+  }
 }
 
-/* ------固定下方------ */
+/*------ 固定底部樣式 ------- */
 .checkButton {
   position: fixed;
   bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: calc(100% - 40px);
+  max-width: 1200px;
   height: 70px;
-  width: 75%;
   background-color: #88a83c;
+  color: var(--gr1);
   border-radius: 5px;
-  color: white;
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0 20px;
+  box-sizing: border-box;
 }
 
 .rightCheckButton {
@@ -100,14 +149,28 @@
 
 .rightCheckButton a {
   text-decoration: none;
-  color: white;
+  color: var(--gr1);
   background-color: #97c629;
   padding: 10px 30px;
   border-radius: 10px;
 }
 
 .rightCheckButton a:hover {
-  background-color: white;
+  background-color: var(--gr1);
   color: #97c629;
   transition: 1s;
+}
+
+@media (max-width: 768px) {
+  .checkButton {
+    width: calc(100% - 40px);
+    flex-direction: column;
+    height: auto;
+    padding: 10px 20px;
+  }
+
+  .rightCheckButton {
+    flex-direction: column;
+    gap: 10px;
+  }
 }
