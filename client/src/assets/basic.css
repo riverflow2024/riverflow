@@ -109,7 +109,7 @@ input[type='submit']:hover {
 
 /*未滿版*/
 .container {
-  max-width: 1200px;
+  max-width: 80%;
   margin: auto;
   padding: 0 20px;
 }
@@ -118,6 +118,12 @@ input[type='submit']:hover {
   /* padding: 0 20px; */
   width: 100%;
 }
+@media screen and (max-width: 768px) {
+  .container {
+    max-width: 100%;
+  }
+}
+
 
 /*flex*/
 .flex {
