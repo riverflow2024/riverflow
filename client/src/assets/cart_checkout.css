@@ -72,16 +72,17 @@
 }
 
 .content-right {
+  width: 28%;
   border: 1px solid var(--main);
   border-radius: 10px;
   position: fixed;
-  padding: 30px 40px;
+  padding: 0px 40px;
   top: 10%;
   right: 4%;
   background-color: var(--bk2);
 }
 .content-right .payment-method {
-  margin-top: 20px;
+  margin-top: 40px;
 }
 .content-right .payment-method h2 {
   font-size: 2rem;
@@ -89,6 +90,35 @@
 .content-right .form-group {
   padding-top: 1rem;
   margin-top: 5px;
+}
+.content-right .dropdown {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+}
+.content-right .dropdown input {
+  width: 100%;
+  padding: 3px;
+  box-sizing: border-box;
+  cursor: pointer;
+}
+.content-right .dropdown .dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: var(--bk2);
+  z-index: 1;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  width: 100%;
+}
+.content-right .dropdown .dropdown-content div {
+  padding: 10px;
+  cursor: pointer;
+}
+.content-right .dropdown .dropdown-content div:hover {
+  background-color: var(--bk1);
+}
+.content-right .dropdown.active .dropdown-content {
+  display: block;
 }
 .content-right .text-border {
   border: 2px solid #fff;
@@ -117,7 +147,8 @@
 .content-right .submit {
   border: 1px solid #fff;
   border-radius: 4px;
-  margin-top: 30px;
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
 .content-right .submit a {
   color: #fff;
@@ -127,7 +158,7 @@
 }
 .content-right .submit a:hover {
   background-color: #fff;
-  color: var(--main);
+  color: var(--main2);
   font-weight: bold;
   transition: 2s;
 }

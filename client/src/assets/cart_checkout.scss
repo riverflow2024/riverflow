@@ -1,9 +1,9 @@
-//左邊內容物
+// 左邊內容物
 .content-left {
   width: 60%;
   margin-top: 5rem;
 
-  //  商品確認步驟
+  // 商品確認步驟
   .order-steps {
     border-bottom: 2px solid var(--main);
     padding-bottom: 1rem;
@@ -16,7 +16,7 @@
       font-size: 1.6rem;
     }
     margin-bottom: 3rem;
-    //調整icon
+    // 調整icon
     .fa-solid {
       font-size: 25px;
     }
@@ -44,7 +44,7 @@
     img {
       width: 15%;
     }
-    //商品項目的商品名稱內容等等
+    // 商品項目的商品名稱內容等等
     .cart-item-content {
       text-align: left;
       padding-left: 10px;
@@ -89,16 +89,19 @@
 
 // 右方容器
 .content-right {
+  width: 28%;
   border: 1px solid var(--main);
   border-radius: 10px;
   position: fixed;
-  padding: 30px 40px;
+  padding: 0px 40px;
   top: 10%;
   right: 4%;
   background-color: var(--bk2);
+  // max-height: 80vh;
+  // overflow-y: auto;
 
   .payment-method {
-    margin-top: 20px;
+    margin-top: 40px;
     h2 {
       font-size: 2rem;
     }
@@ -107,6 +110,41 @@
   .form-group {
     padding-top: 1rem;
     margin-top: 5px;
+  }
+
+  // 隱藏下拉
+  .dropdown {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+
+    input {
+      width: 100%;
+      padding: 3px;
+      box-sizing: border-box;
+      cursor: pointer;
+    }
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      background-color: var(--bk2);
+      z-index: 1;
+      box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+      width: 100%;
+
+      div {
+        padding: 10px;
+        cursor: pointer;
+
+        &:hover {
+          background-color: var(--bk1);
+        }
+      }
+    }
+  }
+
+  .dropdown.active .dropdown-content {
+    display: block;
   }
 
   .text-border {
@@ -124,7 +162,7 @@
     margin-bottom: 2rem;
   }
 
-  //   總金額項目
+  // 總金額項目
   .total-amount {
     border-top: 2px solid #fff;
     padding-top: 20px;
@@ -141,8 +179,8 @@
   .submit {
     border: 1px solid #fff;
     border-radius: 4px;
-
-    margin-top: 30px;
+    margin-top: 20px;
+    margin-bottom: 20px;
 
     a {
       color: #fff;
@@ -152,7 +190,7 @@
     }
     a:hover {
       background-color: #fff;
-      color: var(--main);
+      color: var(--main2);
       font-weight: bold;
       transition: 2s;
     }
