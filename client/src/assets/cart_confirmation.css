@@ -23,52 +23,23 @@
 .container .content-left .order-info h3 {
   font-size: 20px;
 }
-.container .content-left .cart-items {
-  display: flex;
-  align-items: center;
-  text-align: center;
-  margin-top: 20px;
-  padding-left: 10px;
-  padding: 20px 10px;
+.container .content-left .customer-info {
+  margin-top: 10px;
+}
+.container .content-left .customer-info label {
+  margin-top: 200px;
+}
+.container .content-left .customer-info input {
+  color: #fff;
+  width: 100%;
   border: 2px solid var(--main);
   background-color: var(--bk2);
   border-radius: 10px;
-  gap: 1rem;
+  padding: 5px;
+  margin: 10px 0px;
 }
-.container .content-left .cart-items img {
-  width: 15%;
-}
-.container .content-left .cart-items .cart-item-content {
-  text-align: left;
-  padding-left: 10px;
-  padding-right: 6rem;
-  line-height: 25px;
-}
-.container .content-left .cart-items .cart-item-content h4 {
-  font-size: 1.2rem;
-}
-.container .content-left .cart-items .cart-item-content h5 {
-  font-size: 1rem;
-}
-.container .content-left .cart-items .quantity-plus-minus {
-  display: flex;
-  margin-right: 7rem;
-  align-items: center;
-  gap: 10px;
-}
-.container .content-left .cart-items .quantity {
-  font-size: 1.3rem;
-}
-.container .content-left .cart-items i:hover {
-  color: var(--main);
-  transition: 1s;
-}
-.container .content-left .cart-items .fa-solid {
-  color: #fff;
-  font-size: 1.2rem;
-}
-.container .content-left .cart-items .total {
-  font-size: 1.3rem;
+.container .content-left .customer-info #order-note {
+  padding-bottom: 9rem;
 }
 .container .content-right {
   width: 28%;
@@ -120,6 +91,7 @@
   display: block;
 }
 .container .content-right .text-border {
+  color: #fff;
   border: 2px solid #fff;
   width: 96%;
   border-radius: 5px;
