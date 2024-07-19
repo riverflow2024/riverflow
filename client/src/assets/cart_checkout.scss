@@ -10,14 +10,14 @@
       padding-bottom: 1rem;
       display: flex;
       justify-content: space-between;
+      margin-bottom: 3rem;
 
       a {
         color: white;
         padding-right: 2rem;
         font-size: 1.6rem;
       }
-      margin-bottom: 3rem;
-      // 調整icon
+
       .fa-solid {
         font-size: 25px;
       }
@@ -25,70 +25,37 @@
 
     .order-info {
       line-height: 30px;
+
       h3 {
         font-size: 20px;
       }
     }
-    // 商品項目
-    .cart-items {
-      display: flex;
-      align-items: center;
-      text-align: center;
-      margin-top: 20px;
-      padding-left: 10px;
-      padding: 20px 10px;
-      border: 2px solid var(--main);
-      background-color: var(--bk2);
-      border-radius: 10px;
-      gap: 1rem;
 
-      img {
-        width: 15%;
-      }
-      // 商品項目的商品名稱內容等等
-      .cart-item-content {
-        text-align: left;
-        padding-left: 10px;
-        padding-right: 6rem;
+    // 顧客資訊
+    .customer-info {
+      margin-top: 10px;
 
-        line-height: 25px;
-        h4 {
-          font-size: 1.2rem;
-        }
-        h5 {
-          font-size: 1rem;
-        }
+      label {
+        margin-top: 200px;
       }
 
-      // 加減符號數量並排
-      .quantity-plus-minus {
-        display: flex;
-        margin-right: 7rem;
-        align-items: center;
-        gap: 10px;
-      }
-
-      .quantity {
-        font-size: 1.3rem;
-      }
-
-      i:hover {
-        color: var(--main);
-        transition: 1s;
-      }
-
-      .fa-solid {
+      input {
         color: #fff;
-        font-size: 1.2rem;
+        width: 100%;
+        border: 2px solid var(--main);
+        background-color: var(--bk2);
+        border-radius: 10px;
+        padding: 5px;
+        margin: 10px 0px;
       }
 
-      .total {
-        font-size: 1.3rem;
+      #order-note {
+        padding-bottom: 9rem;
       }
     }
   }
 
-  // 右方容器
+  // 右邊內容物
   .content-right {
     width: 28%;
     border: 1px solid var(--main);
@@ -98,11 +65,10 @@
     top: 10%;
     right: 4%;
     background-color: var(--bk2);
-    // max-height: 80vh;
-    // overflow-y: auto;
 
     .payment-method {
       margin-top: 40px;
+
       h2 {
         font-size: 2rem;
       }
@@ -113,7 +79,7 @@
       margin-top: 5px;
     }
 
-    // 隱藏下拉
+    // 製作下拉式選單
     .dropdown {
       position: relative;
       display: inline-block;
@@ -125,6 +91,7 @@
         box-sizing: border-box;
         cursor: pointer;
       }
+
       .dropdown-content {
         display: none;
         position: absolute;
@@ -142,13 +109,15 @@
           }
         }
       }
+
+      &.active .dropdown-content {
+        display: block;
+      }
     }
 
-    .dropdown.active .dropdown-content {
-      display: block;
-    }
-
+    // 文字框框
     .text-border {
+      color: #fff;
       border: 2px solid #fff;
       width: 96%;
       border-radius: 5px;
@@ -156,6 +125,7 @@
       margin-top: 2px;
       padding: 5px;
     }
+
     .invoice-promo-code {
       width: 98%;
       display: flex;
@@ -163,20 +133,20 @@
       margin-bottom: 2rem;
     }
 
-    // 總金額項目
     .total-amount {
       border-top: 2px solid #fff;
       padding-top: 20px;
 
-      // 金額數字浮到最後方
       p {
         line-height: 30px;
+
         span {
           float: right;
         }
       }
     }
 
+    // 送出按鈕
     .submit {
       border: 1px solid #fff;
       border-radius: 4px;
@@ -188,13 +158,15 @@
         text-align: center;
         padding: 20px;
         display: block;
+
+        &:hover {
+          background-color: #fff;
+          color: var(--main2);
+          font-weight: bold;
+          transition: 2s;
+        }
       }
-      a:hover {
-        background-color: #fff;
-        color: var(--main2);
-        font-weight: bold;
-        transition: 2s;
-      }
+
       i {
         padding-bottom: 5px;
         margin: 0px;
