@@ -3,9 +3,10 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>RiverFlow</title>
     <link rel="stylesheet" href="../src/assets/cart.css" />
     <link rel="stylesheet" href="../src/assets/reset.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
     <link rel="stylesheet" href="../src/assets/basic.css" />
   </head>
   <body class="w-bg">
@@ -16,83 +17,105 @@
         <!-- 上方購物車及購物車說明 -->
         <div class="top">
           <h3>River Flow | 購物車</h3>
-          <div class="shop-bar">
-            <h4 class="product">商品</h4>
-            <h4 class="price">單價</h4>
-            <h4 class="quantity">數量</h4>
-            <h4 class="total">總金額</h4>
-            <h4 class="delete">刪除</h4>
-          </div>
         </div>
         <!-- 商品容器製作 -->
-        <ul class="cart-container">
-          <!-- 商品項目 -->
-          <li class="cart-item">
-            <img src="../src/assets/images/Bootstrap_logo.svg.png" width="100px" alt="" />
-            <div class="cart-item-content">
-              <h4>購物商品名稱</h4>
-              <h5>購物詳細內容</h5>
-            </div>
-            <div class="cart-item-small">
-              <p class="price">NT$591</p>
-              <p class="quantity">2</p>
-              <p class="total">NT$1182</p>
-              <i class="delete">icon</i>
-            </div>
-          </li>
-          <li class="cart-item">
-            <img src="../src/assets/images/Bootstrap_logo.svg.png" width="100px" alt="" />
-            <div class="cart-item-content">
-              <h4>購物商品名稱</h4>
-              <h5>購物詳細內容</h5>
-            </div>
-            <div class="cart-item-small">
-              <p class="price">NT$591</p>
-              <p class="quantity">2</p>
-              <p class="total">NT$1182</p>
-              <i class="delete">icon</i>
-            </div>
-          </li>
-          <li class="cart-item">
-            <img src="../src/assets/images/Bootstrap_logo.svg.png" width="100px" alt="" />
-            <div class="cart-item-content">
-              <h4>購物商品名稱</h4>
-              <h5>購物詳細內容</h5>
-            </div>
-            <div class="cart-item-small">
-              <p class="price">NT$591</p>
-              <p class="quantity">2</p>
-              <p class="total">NT$1182</p>
-              <i class="delete">icon</i>
-            </div>
-          </li>
-          <li class="cart-item">
-            <img src="../src/assets/images/Bootstrap_logo.svg.png" width="100px" alt="" />
-            <div class="cart-item-content">
-              <h4>購物商品名稱</h4>
-              <h5>購物詳細內容</h5>
-            </div>
-            <div class="cart-item-small">
-              <p class="price">NT$591</p>
-              <p class="quantity">2</p>
-              <p class="total">NT$1182</p>
-              <i class="delete">icon</i>
-            </div>
-          </li>
-          <li class="cart-item">
-            <img src="../src/assets/images/Bootstrap_logo.svg.png" width="100px" alt="" />
-            <div class="cart-item-content">
-              <h4>購物商品名稱</h4>
-              <h5>購物詳細內容</h5>
-            </div>
-            <div class="cart-item-small">
-              <p class="price">NT$591</p>
-              <p class="quantity">2</p>
-              <p class="total">NT$1182</p>
-              <i class="delete">icon</i>
-            </div>
-          </li>
-        </ul>
+        <div class="cart-border">
+          <!-- cart外框 -->
+          <table class="cart-table">
+            <thead>
+              <tr>
+                <th>商品</th>
+                <th>單價</th>
+                <th>數量</th>
+                <th>總金額</th>
+                <th>刪除</th>
+              </tr>
+            </thead>
+          </table>
+        </div>
+        <!-- cart商品內容 -->
+        <div class="cart-border-inner">
+          <table class="cart-table">
+            <tbody>
+              <tr class="cart-item">
+                <td>
+                  <img src="../src/assets/images/Bootstrap_logo.svg.png" width="100px" alt="" />
+                  <div class="cart-item-content">
+                    <h4>購物商品名稱</h4>
+                    <h5>購物詳細內容</h5>
+                  </div>
+                </td>
+                <td class="price">NT$591</td>
+                <td>
+                  <div class="quantity-plus-minus">
+                    <a href="#"><i class="fa-solid fa-circle-minus"></i></a>
+                    <p class="quantity">2</p>
+                    <a href="#"><i class="fa-solid fa-circle-plus"></i></a>
+                  </div>
+                </td>
+                <td class="total">NT$1182</td>
+                <td>
+                  <a href="#" class="delete"><i class="fa-regular fa-trash-can"></i></a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="cart-border-inner">
+          <table class="cart-table">
+            <tbody>
+              <tr class="cart-item">
+                <td>
+                  <img src="../src/assets/images/Bootstrap_logo.svg.png" width="100px" alt="" />
+                  <div class="cart-item-content">
+                    <h4>購物商品名稱</h4>
+                    <h5>購物詳細內容</h5>
+                  </div>
+                </td>
+                <td class="price">NT$591</td>
+                <td>
+                  <div class="quantity-plus-minus">
+                    <a href="#"><i class="fa-solid fa-circle-minus"></i></a>
+                    <p class="quantity">2</p>
+                    <a href="#"><i class="fa-solid fa-circle-plus"></i></a>
+                  </div>
+                </td>
+                <td class="total">NT$1182</td>
+                <td>
+                  <a href="#" class="delete"><i class="fa-regular fa-trash-can"></i></a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="cart-border-inner">
+          <table class="cart-table">
+            <tbody>
+              <tr class="cart-item">
+                <td>
+                  <img src="../src/assets/images/Bootstrap_logo.svg.png" width="100px" alt="" />
+                  <div class="cart-item-content">
+                    <h4>購物商品名稱</h4>
+                    <h5>購物詳細內容</h5>
+                  </div>
+                </td>
+                <td class="price">NT$591</td>
+                <td>
+                  <div class="quantity-plus-minus">
+                    <a href="#"><i class="fa-solid fa-circle-minus"></i></a>
+                    <p class="quantity">2</p>
+                    <a href="#"><i class="fa-solid fa-circle-plus"></i></a>
+                  </div>
+                </td>
+                <td class="total">NT$1182</td>
+                <td>
+                  <a href="#" class="delete"><i class="fa-regular fa-trash-can"></i></a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
         <!-- 固定下方買單 -->
         <div class="checkButton">
           <p>已選購5項商品</p>

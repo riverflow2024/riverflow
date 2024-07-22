@@ -1,8 +1,9 @@
+@import url(basic.css);
+
 /* ------ 全局容器設置 ------ */
 .container-f {
   margin: 0 auto;
   width: 100%;
-  overflow: hidden;
 }
 
 .container {
@@ -29,97 +30,107 @@
   font-weight: bold;
   padding-bottom: 2rem;
   border-bottom: 2px solid var(--main);
-  letter-spacing: 5px;
 }
 
-/* ------商品價錢樣式 ------*/
-.shop-bar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+/* ------表格樣式 ------ */
+/* 上面文字外框 */
+.cart-border {
   margin-top: 20px;
-  padding: 10px 40px;
-  color: var(--gr1);
   border: 2px solid var(--main);
-  border-radius: 15px;
-  font-size: 1.3rem;
-  box-sizing: border-box;
-}
-
-.product {
-  padding-right: 300px;
-}
-
-@media (max-width: 768px) {
-  .shop-bar {
-    flex-direction: column;
-    padding: 10px 20px;
-    font-size: 1rem;
-  }
-}
-
-.shop-bar h4 {
+  border-radius: 20px;
+  padding-bottom: 10px;
   text-align: center;
 }
 
-/* ------商品列表樣式------ */
-.cart-container {
-  display: flex;
-  flex-direction: column;
+/* 調整整個table */
+.cart-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.cart-table th {
+  padding-left: 2rem;
+}
+
+/* 商品文字去推右方位置 */
+.cart-table th:nth-of-type(1) {
+  width: 40%;
+  padding-right: 20rem;
+}
+
+/* 商品內容外框 */
+.cart-border-inner {
+  padding: 10px;
+  margin-top: 20px;
+  border: 2px solid var(--main);
+  border-radius: 20px;
+  background-color: var(--bk2);
+}
+
+.cart-table tbody {
+  font-size: 1.2rem;
 }
 
 .cart-item {
-  background-color: var(--bk2);
-  border: 2px solid var(--main);
-  color: var(--gr1);
-  border-radius: 20px;
   display: flex;
   align-items: center;
-  margin-top: 30px;
-  padding: 10px;
-  box-sizing: border-box;
 }
 
 .cart-item img {
-  width: 10%;
-}
-
-@media (max-width: 768px) {
-  .cart-item {
-    flex-direction: column;
-    text-align: center;
-  }
-
-  .cart-item img {
-    width: 50px;
-    margin-bottom: 10px;
-  }
+  display: inline-block;
+  vertical-align: middle;
+  width: 100px;
 }
 
 .cart-item-content {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  width: 30%;
-  padding: 0 20px;
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 15rem;
   line-height: 30px;
 }
-
-.cart-item-content h4 {
-  font-size: 1.5rem;
+/* 購物車裡的詳細內心大小 */
+.cart-item-content h5 {
+  font-size: 1rem;
 }
 
-.cart-item-small {
+.price {
+  margin-right: 2.3rem;
+}
+
+.cart-item td {
+  padding: 10px 20px;
+  text-align: left;
+}
+
+.quantity-plus-minus {
   display: flex;
   align-items: center;
-  gap: 9rem;
+  gap: 15px;
+  margin-right: 4rem;
+}
+.total {
+  margin-right: 6rem;
 }
 
-@media (max-width: 768px) {
-  .cart-item-small {
-    flex-direction: column;
-    gap: 1rem;
-  }
+.quantity-plus-minus i {
+  font-size: 1rem;
+  color: var(--gr1);
+}
+
+.quantity-plus-minus i:hover {
+  color: var(--main);
+  transition: 1s;
+}
+
+.delete i {
+  font-size: 1.3rem;
+  color: var(--gr1);
+}
+
+.delete i:hover {
+  color: var(--main);
+  transition: 1s;
 }
 
 /*------ 固定底部樣式 ------- */
