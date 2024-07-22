@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../assets/memberTickets.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+<body>
+    <header>
+        <img src="../assets/images/indexImg/nav.jpg" alt="">
+    </header>
+
+    <section class="w-bg">
+
+        <div class="nav-box" flex="1">
+            <div class="wrap">
+                <div class="member">
+                    <div>
+                        <img class="member-img" src="../assets/images/person.jpeg" alt="">
+                    </div>
+                    <div class="profile">
+                        <h3>Hey！小明</h3>
+                        <a href="member.html">個人資料</a>
+                    </div>
+                </div>
+                <div class="nav">
+                    <ul>
+                        <li><a href="memberOrderList.html"><i class="bi bi-clipboard"></i> 訂單查詢</a></li>
+                        <li><a href="memberTickets.html"><i class="bi bi-ticket-perforated"></i> 活動票券</a></li>
+                        <li><a href="memberCollection.html"><i class="bi bi-heart"></i> 我的最愛</a></li>
+
+                    </ul>
+
+                </div>
+            </div>
+
+        </div>
+        <div class="order-box" flex="2">
+            
+                <h3>活動票券</h3>
+                <div class="btn-box">
+                    <button class="tablink" onclick="openPage('Ticket', this,'3px solid var(--main)')" id="defaultOpen">活動中</button>
+                    <button class="tablink" onclick="openPage('Unpaid', this,'3px solid var(--main)')">未付款</button>
+                    <button class="tablink" onclick="openPage('OrderDone', this,'3px solid var(--main)')">已完成</button> 
+                </div>
+
+                <div id="Ticket" class="tabcontent">
+                    <div class="order">
+                        <div class="wrap">
+                            <span>訂單編號：1234567890</span>
+                            <button class="orderbtn">訂單明細</button>
+                        </div>
+                        <table>
+                            <thead>
+                                <th>日期</th>
+                                <th colspan="2">活動名稱</th>
+                                <th>數量</th>
+                                <th>總金額</th>
+                                <th>付款方式</th>
+                                <th>狀態</th>
+                            </thead>
+                            
+                            <tbody>
+                                <td>2024/07/03</td>
+                                <td colspan="2">《大嘻哈哈哈》-烏拉拉</td>
+                                <td>2</td>
+                                <td>$1450</td>
+                                <td>信用卡</td>
+                                <td>活動中</td>
+                            </tbody>
+                        </table>
+                    </div>
+                   
+
+                </div>
+                <div id="Unpaid" class="tabcontent">
+                    <div class="order">
+                        <div class="wrap">
+                            <span>訂單編號：1234567890</span>
+                            <button class="orderbtn">訂單明細</button>
+                        </div>
+                        <table>
+                            <thead>
+                                <th>日期</th>
+                                <th colspan="2">活動名稱</th>
+                                <th>數量</th>
+                                <th>總金額</th>
+                                <th>付款方式</th>
+                                <th>狀態</th>
+                            </thead>
+                            
+                            <tbody>
+                                <td>2024/07/03</td>
+                                <td colspan="2">《大嘻哈哈哈》-烏拉拉</td>
+                                <td>2</td>
+                                <td>$1450</td>
+                                <td>信用卡</td>
+                                <td>未付款</td>
+                            </tbody>
+                        </table>
+                    </div>
+                   
+
+                </div>
+                <div id="OrderDone" class="tabcontent">
+                    <div class="order">
+                        <div class="wrap">
+                            <span>訂單編號：1234567890</span>
+                            <button class="orderbtn">訂單明細</button>
+                        </div>
+                        <table>
+                            <thead>
+                                <th>日期</th>
+                                <th colspan="2">活動名稱</th>
+                                <th>數量</th>
+                                <th>總金額</th>
+                                <th>付款方式</th>
+                                <th>狀態</th>
+                            </thead>
+                            
+                            <tbody>
+                                <td>2024/07/03</td>
+                                <td colspan="2">《大嘻哈哈哈》-烏拉拉</td>
+                                <td>2</td>
+                                <td>$1450</td>
+                                <td>信用卡</td>
+                                <td>已完成</td>
+                            </tbody>
+                        </table>
+                    </div>
+                   
+
+                </div>
+
+
+              
+        </div>
+
+    </section>
+
+    <script>
+        function openPage(pageName,elmnt,border) {
+          var i, tabcontent, tablinks;
+          tabcontent = document.getElementsByClassName("tabcontent");
+          for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].style.display = "none";
+          }
+          tablinks = document.getElementsByClassName("tablink");
+          for (i = 0; i < tablinks.length; i++) {
+            tablinks[i].style.borderBottom = "3px solid var(--bk2)";
+          }
+          document.getElementById(pageName).style.display = "block";
+          elmnt.style.borderBottom = border;
+        }
+        
+        // Get the element with id="defaultOpen" and click on it
+        document.getElementById("defaultOpen").click();
+        </script>
+
+
+
+</body>
+
+</html>
