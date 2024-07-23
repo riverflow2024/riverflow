@@ -1,9 +1,12 @@
+@charset "UTF-8";
+@import url("basic.css");
+/* 變量設置 */
 .container .content-left {
   width: 60%;
   margin-top: 5rem;
 }
 .container .content-left .order-steps {
-  border-bottom: 2px solid var(--main);
+  border-bottom: 2px solid #baf13a;
   padding-bottom: 1rem;
   display: flex;
   justify-content: space-between;
@@ -23,6 +26,45 @@
 .container .content-left .order-info h3 {
   font-size: 20px;
 }
+.container .content-left .cart-items {
+  display: flex;
+  align-items: center;
+  margin-top: 30px;
+  border: 2px solid #baf13a;
+  background-color: #333;
+  padding: 12px;
+  border-radius: 20px;
+}
+.container .content-left .cart-items img {
+  width: 130px;
+}
+.container .content-left .cart-items .cart-item-content {
+  margin-left: 20px;
+  line-height: 30px;
+}
+.container .content-left .cart-items .cart-item-content h4 {
+  font-size: 1.3rem;
+}
+.container .content-left .cart-items .quantity-plus-minus {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-right: 6rem;
+  margin-left: 6rem;
+}
+.container .content-left .cart-items .quantity-plus-minus .quantity {
+  font-size: 1.3rem;
+}
+.container .content-left .cart-items .quantity-plus-minus .fa-solid {
+  color: #fff;
+}
+.container .content-left .cart-items .quantity-plus-minus .fa-solid:hover {
+  color: #baf13a;
+  transition: 1s;
+}
+.container .content-left .cart-items .total {
+  font-size: 1.3rem;
+}
 .container .content-left .customer-info {
   margin-top: 10px;
 }
@@ -32,8 +74,8 @@
 .container .content-left .customer-info input {
   color: #fff;
   width: 100%;
-  border: 2px solid var(--main);
-  background-color: var(--bk2);
+  border: 2px solid #baf13a;
+  background-color: #333;
   border-radius: 10px;
   padding: 5px;
   margin: 10px 0px;
@@ -43,13 +85,13 @@
 }
 .container .content-right {
   width: 28%;
-  border: 1px solid var(--main);
+  border: 1px solid #baf13a;
   border-radius: 10px;
   position: fixed;
   padding: 0px 40px;
   top: 10%;
   right: 4%;
-  background-color: var(--bk2);
+  background-color: #333;
 }
 .container .content-right .payment-method {
   margin-top: 40px;
@@ -75,7 +117,7 @@
 .container .content-right .dropdown .dropdown-content {
   display: none;
   position: absolute;
-  background-color: var(--bk2);
+  background-color: #333;
   z-index: 1;
   box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
   width: 100%;
@@ -85,7 +127,7 @@
   cursor: pointer;
 }
 .container .content-right .dropdown .dropdown-content div:hover {
-  background-color: var(--bk1);
+  background-color: #1d1d1d;
 }
 .container .content-right .dropdown.active .dropdown-content {
   display: block;
@@ -93,14 +135,14 @@
 .container .content-right .text-border {
   color: #fff;
   border: 2px solid #fff;
-  width: 96%;
+  width: 100%;
   border-radius: 5px;
   margin: 0px;
   margin-top: 2px;
   padding: 5px;
 }
 .container .content-right .invoice-promo-code {
-  width: 98%;
+  width: 100%;
   display: flex;
   gap: 30px;
   margin-bottom: 2rem;
@@ -129,7 +171,7 @@
 }
 .container .content-right .submit a:hover {
   background-color: #fff;
-  color: var(--main2);
+  color: #98d900;
   font-weight: bold;
   transition: 2s;
 }
