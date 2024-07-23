@@ -105,7 +105,12 @@ option:checked, option:hover {
     background-repeat: repeat-x, repeat-y;
     background-size: 100% 80%;
 }
-
+@media screen and (max-width: 768px) {
+  .w-bg {
+    background-repeat: unset;
+    background-size: 100%;
+  }
+}
 
 /*未滿版*/
 .container {
@@ -139,4 +144,16 @@ option:checked, option:hover {
     font-size: 36px;
     font-style: normal;
     line-height: 160%;
+}
+
+/*scrollBar調整*/
+.scrollCust::-webkit-scrollbar {
+  width: 5px;
+}
+.scrollCust::-webkit-scrollbar-track {
+  background-color: var(--bk1);
+}
+.scrollCust::-webkit-scrollbar-thumb {
+  background-color: var(--main);
+  border-radius: 5px;
 }
