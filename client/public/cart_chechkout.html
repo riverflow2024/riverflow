@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>RiverFlow|訂單資訊</title>
+    <link rel="stylesheet" href="../src/assets/cart_checkout.css" />
+    <link rel="stylesheet" href="../src/assets/cart_checkout.scss" />
+    <link rel="stylesheet" href="../src/assets/reset.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+    <link rel="stylesheet" href="../src/assets/basic.css" />
+  </head>
+  <body class="w-bg">
+    <!-- 未滿版的容器 -->
+    <div class="container">
+      <!-- 左邊畫面content容器 -->
+      <div class="content-left">
+        <div class="order-steps">
+          <div class="order-detail">
+            <a href="#">訂單資訊</a>
+            <i class="fa-solid fa-arrow-right-long"></i>
+          </div>
+          <div class="order-detail">
+            <a href="#" style="color: darkgray">訂單確認 </a>
+            <i style="color: gray" class="fa-solid fa-arrow-right-long"></i>
+          </div>
+          <div class="order-detail">
+            <a href="#" style="color: gray">訂單完成 </a>
+            <i class="fa-solid fa-arrow-right-long" style="visibility: hidden"></i>
+          </div>
+        </div>
+        <!-- 商品顯示資訊 -->
+        <div class="order-info">
+          <h3>訂單資訊</h3>
+          <p>已選購<span id="#">五樣商品</span></p>
+        </div>
+        <!-- 商品項目 -->
+        <div class="cart-items">
+          <img src="../src/assets/images/Bootstrap_logo.svg.png" width="10%" alt="image" />
+          <div class="cart-item-content">
+            <h4>購物商品名稱</h4>
+            <h5>購物詳細內容</h5>
+          </div>
+          <!-- 加減icon -->
+          <div class="quantity-plus-minus">
+            <a href="#"><i class="fa-solid fa-circle-minus"></i></a>
+            <p class="quantity">2</p>
+            <a href="#"><i class="fa-solid fa-circle-plus"></i></a>
+          </div>
+          <p class="total">NT$1182</p>
+        </div>
+
+        <!-- 商品項目 -->
+        <div class="cart-items">
+          <img src="../src/assets/images/Bootstrap_logo.svg.png" width="10%" alt="image" />
+          <div class="cart-item-content">
+            <h4>購物商品名稱</h4>
+            <h5>購物詳細內容</h5>
+          </div>
+          <!-- 加減icon -->
+          <div class="quantity-plus-minus">
+            <a href="#"><i class="fa-solid fa-circle-minus"></i></a>
+            <p class="quantity">2</p>
+            <a href="#"><i class="fa-solid fa-circle-plus"></i></a>
+          </div>
+          <p class="total">NT$1182</p>
+        </div>
+      </div>
+      <!-- 右方容器 -->
+      <div class="content-right">
+        <!--  右方內容物 -->
+        <div class="payment-method">
+          <h2>選擇付款方式</h2>
+
+          <form>
+            <div class="form-group dropdown">
+              <label class="country" for="country">國家</label>
+              <br />
+              <input class="text-border" type="text" id="country" placeholder="請選擇國家" readonly />
+              <div class="dropdown-content">
+                <div>台灣</div>
+                <div>美國</div>
+                <div>馬來西亞</div>
+                <div>日本</div>
+                <div>韓國</div>
+              </div>
+            </div>
+
+            <!-- 運送方式選擇 -->
+            <div class="form-group dropdown">
+              <label for="delivery-method">運送方式</label>
+              <br />
+              <input class="text-border" type="text" id="delivery-method" placeholder="請選擇運送方式" readonly />
+              <div class="dropdown-content">
+                <div>7-ELEVEN</div>
+                <div>全家</div>
+                <div>OK Mart</div>
+              </div>
+            </div>
+
+            <!-- 付款方式 -->
+            <div class="form-group dropdown">
+              <label for="payment-method">付款方式</label>
+              <br />
+              <input class="text-border" type="text" id="payment-method" placeholder="請選擇付款方式" readonly />
+              <div class="dropdown-content">
+                <div>信用卡</div>
+                <div>ATM 轉帳</div>
+                <div>貨到付款</div>
+              </div>
+            </div>
+            <!-- 電子發票、促銷代碼容器 -->
+            <div class="invoice-promo-code">
+              <!-- 電子發票欄位 -->
+              <div class="form-group dropdown">
+                <label for="invoice">電子發票</label>
+                <br />
+                <input class="text-border" type="text" id="invoice" placeholder="請選擇發票類型" readonly />
+                <div class="dropdown-content">
+                  <div>二聯式(個人)</div>
+                  <div>三聯式(公司行號)</div>
+                  <div>捐贈發票</div>
+                  <div>手機載具</div>
+                </div>
+              </div>
+              <!-- 促銷代碼欄位 -->
+              <div class="form-group dropdown">
+                <label for="promo-code">使用促銷代碼</label>
+                <br />
+                <input type="text" class="text-border" id="promo-code" placeholder="請輸入優惠券或代碼" />
+              </div>
+            </div>
+            <!-- 總金額 -->
+            <div class="total-amount">
+              <p>商品金額: <span>$2,536</span></p>
+              <p>運費金額: <span>$0</span></p>
+              <p>付款總金額: <span>$2,536</span></p>
+            </div>
+
+            <!-- 訂單確認 這邊用a代替 -->
+            <div class="submit">
+              <a href="#">訂單確認</a>
+              <!-- <i class="fa-solid fa-arrow-right-long"></i> -->
+            </div>
+
+            <!-- <button type="submit">訂單確認</button> -->
+          </form>
+        </div>
+      </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script>
+      $(document).ready(function () {
+        $('.dropdown input').on('click', function () {
+          $(this).parent().toggleClass('active')
+        })
+
+        $('.dropdown-content div').on('click', function () {
+          var value = $(this).text()
+          $(this).closest('.dropdown').find('input').val(value)
+          $(this).parent().parent().removeClass('active')
+        })
+      })
+    </script>
+  </body>
+</html>
