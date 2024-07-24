@@ -22,7 +22,6 @@
 │ │ │ └── api.js
 │ │ ├── App.js  [主應用組件：定應結構和路由]
 │ │ └── index.js  [APP進入點組件：渲染DOM]
-│ ├── .gitignore  [git忽略文件]
 │ └── package.json  [前端配置文件]
 │
 ├── /server  [後端相關文件]
@@ -36,7 +35,6 @@
 │ │ └── authMiddleware.js
 │ ├── app.js  [router統合接口、中介文件配置]
 │ ├── server.js  [後端server啟動文件]
-│ ├── .gitignore
 │ └── package.json
 │
 ├── .gitignore
