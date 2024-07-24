@@ -1,6 +1,7 @@
-/* .w-bg {
-  background-size: 90% 100%;
-} */
+.w-bg {
+  background-repeat: unset;
+  background-size: 100%;
+}
 
 .maintitle {
   font-size: 80px;
@@ -15,7 +16,7 @@
   color: #98d900;
   font-family: "Noto Sans TC", sans-serif;
   font-weight: bold;
-  width: 50%;
+  width: 100%;
   padding: 20px;
   /* border: 1px solid white; */
   margin-top: 15vh;
@@ -32,7 +33,7 @@ section {
 .orgin {
   background-color: rgba(187, 182, 182, 60%);
   width: auto;
-  height: 90vh;
+  height: auto;
   color: white;
   text-align: start;
   font-size: 30px;
@@ -46,7 +47,7 @@ section {
 .orgintitle {
   color: white;
   text-align: start;
-  font-size: 50px;
+  font-size: 40px;
   font-family: "Nunito Sans", sans-serif;
   font-optical-sizing: auto;
   margin-bottom: 80px;
@@ -67,7 +68,7 @@ section {
   font-family: "Nunito Sans", sans-serif;
   font-optical-sizing: auto;
   color: white;
-  font-size: 25px;
+  font-size: 20px;
   font-weight: normal;
   padding: 10vh;
   line-height: 1.5;
@@ -107,21 +108,21 @@ button {
 
 .pic2 {
   transform: rotate(7deg);
-  margin-left: 400px;
-  margin-top: -100px;
+  margin-left: 30vh;
+  margin-top: -10vh;
   z-index: 1;
 }
 
 .pic3 {
-  margin-left: 50px;
-  margin-top: -100px;
+  margin-left: 5vh;
+  margin-top: -10vh;
   z-index: 0;
 }
 
 .pic4 {
   transform: rotate(-9deg);
-  margin-left: 300px;
-  margin-top: -100px;
+  margin-left: 30vh;
+  margin-top: -10vh;
   z-index: 1;
 }
 
