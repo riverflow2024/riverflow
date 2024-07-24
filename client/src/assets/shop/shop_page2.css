@@ -167,7 +167,7 @@
   color: #1d1d1d;
 }
 .container-f .wrap .product-info .size .quantity .add-minus input {
-  pointer-events: none; /* 禁止用戶直接編輯數量 */
+  pointer-events: none;
 }
 .container-f .wrap .product-info .quantity {
   border-top: 1px solid #baf13a;

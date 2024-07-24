@@ -199,12 +199,13 @@ $side2: #a839ff;
           background-color: $main;
           color: $bk1;
         }
+        // 增加選項顏色
         .selected {
           background-color: $main;
           color: $bk1;
         }
         .quantity .add-minus input {
-          pointer-events: none; /* 禁止用戶直接編輯數量 */
+          pointer-events: none;
         }
       }
 
