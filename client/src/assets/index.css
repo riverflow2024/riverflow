@@ -11,6 +11,7 @@ html {
 
 body {
   background: var(--bk1);
+  overflow-x: hidden;
 }
 
 .content {
@@ -38,12 +39,9 @@ body {
   text-decoration: none;
   background: transparent;
   padding-right: 20px;
-  font-family: "Noto Sans TC";
   font-size: 14px;
-  font-style: normal;
   font-weight: 500;
   width: 10rem;
-  height: auto;
 }
 .read_moreBtn .circle {
   transition: all 0.45s cubic-bezier(0.65, 0, 0.076, 1);
@@ -103,14 +101,6 @@ body {
 }
 .read_moreBtn:hover .button-text {
   color: var(--bk1);
-}
-
-.title {
-  color: white;
-  font-family: "Sedgwick Ave Display";
-  font-size: 36px;
-  font-weight: 400;
-  line-height: 113px;
 }
 
 .title_sub {
@@ -199,8 +189,8 @@ header {
 }
 
 .logoSection {
-  display: none !important;
-  width: 100%;
+  overflow: hidden;
+  width: 100vw;
   height: 900px;
   display: flex;
   flex-direction: column;
@@ -211,7 +201,7 @@ header {
   height: 650px;
   position: relative;
   display: flex;
-  margin-top: 30px;
+  margin-top: 100px;
   justify-content: center;
   align-items: center;
   box-sizing: border-box;
@@ -319,8 +309,8 @@ header {
   display: block;
   background-image: linear-gradient(180deg, #1d1d1d 24.52%, #000 102.19%);
   background-size: 100%;
-  -webkit-clip-path: polygon(0 0, 100% 0, 100% 98%, 0 82%);
-          clip-path: polygon(0 0, 100% 0, 100% 98%, 0 82%);
+  -webkit-clip-path: polygon(0 0, 100% 0, 100% 98%, 0 83%);
+          clip-path: polygon(0 0, 100% 0, 100% 98%, 0 83%);
   position: absolute;
   top: 0;
   bottom: 0;
@@ -332,8 +322,8 @@ header {
   content: "";
   display: block;
   background-image: url(../assets/images/indexImg/introSection_bg.png);
-  -webkit-clip-path: polygon(0 0, 100% 0, 100% 98%, 0 82%);
-          clip-path: polygon(0 0, 100% 0, 100% 98%, 0 82%);
+  -webkit-clip-path: polygon(0 0, 100% 0, 100% 98%, 0 83%);
+          clip-path: polygon(0 0, 100% 0, 100% 98%, 0 83%);
   width: 100%;
   opacity: 0.1;
   background-blend-mode: color-burn;
@@ -346,7 +336,10 @@ header {
   z-index: -1;
 }
 .introSection .introSection_wrap {
+  max-width: 1440px;
+  margin: auto;
   height: 900px;
+  justify-content: center;
   position: relative;
   display: flex;
 }
@@ -482,21 +475,20 @@ header {
   z-index: 2;
 }
 .introSection .introSection_wrap .transitions-box {
-  position: relative;
+  overflow: hidden;
 }
 .introSection .introSection_wrap .transitions-box .transitions {
   -o-object-fit: contain;
      object-fit: contain;
-  position: absolute;
 }
 
 .djSection {
-  display: none !important;
   width: 100%;
   height: 800px;
-  display: flex;
   padding-top: 50px;
   position: relative;
+  display: flex;
+  align-items: stretch;
 }
 .djSection::before {
   content: "";
@@ -516,7 +508,7 @@ header {
 .djSection .item .djImg-box {
   position: absolute;
   top: -120px;
-  right: 0px;
+  right: 50px;
 }
 .djSection .item .wrap {
   flex: 1;
@@ -534,7 +526,7 @@ header {
   width: 22vw;
 }
 .djSection .item .wrap:nth-of-type(1) {
-  padding: 100px 150px 0px 50px;
+  padding: 100px 10vw 0px 5vw;
 }
 .djSection .item h2 {
   height: 113px;
@@ -542,19 +534,20 @@ header {
   line-height: 113px;
   display: block;
   align-items: center;
+  white-space: nowrap;
   position: relative;
+  display: flex;
 }
 .djSection .item h2 .titlebg {
   width: 240px;
   height: 100%;
   position: absolute;
   top: 0;
-  left: 0;
+  left: -10px;
   z-index: -1;
 }
 
 .BreakingSection {
-  display: none !important;
   width: 100%;
   height: 800px;
   display: flex;
@@ -624,7 +617,6 @@ header {
 }
 
 .rapSection {
-  display: none !important;
   width: 100%;
   height: 800px;
   display: flex;
@@ -657,14 +649,15 @@ header {
   position: absolute;
   top: 50px;
   left: -100px;
+  z-index: -1;
 }
 .rapSection .item .wrap {
   flex: 1;
   position: relative;
-  padding: 100px 150px 0px 50px;
+  padding: 100px 10vw 0px 5vw;
 }
 .rapSection .item .wrap:nth-of-type(2) {
-  padding: 100px 0px 0px 200px;
+  padding: 100px 0px 0px 10vw;
 }
 .rapSection .item .wrap:nth-of-type(2) h3 {
   color: white;
@@ -694,7 +687,7 @@ header {
   height: 100%;
   position: absolute;
   top: 0;
-  left: -10px;
+  left: 0px;
   z-index: -1;
 }
 .rapSection .rapImg {
@@ -702,7 +695,7 @@ header {
   width: 60%;
   bottom: 0;
   left: 0;
-  z-index: -2;
+  z-index: -1;
 }
 
 .Transitions {
@@ -805,6 +798,7 @@ header {
 }
 
 .SkateSection {
+  display: none !important;
   width: 100%;
   height: 800px;
   display: flex;
@@ -854,12 +848,15 @@ header {
     height: 100vh;
   }
   .logoSection .logoBox {
-    width: 100%;
-    height: 600px;
+    width: 100vw;
+    height: 500px;
+    margin-top: 100px;
   }
   .logoSection .logoBox svg {
-    width: 450px;
-    height: 450px;
+    width: 400px;
+  }
+  .logoSection .logoBox .logo {
+    width: 300px;
   }
   .introSection {
     height: 1000px;
@@ -867,8 +864,8 @@ header {
   .introSection::before {
     background-image: linear-gradient(180deg, #1d1d1d 24.52%, #000 102.19%);
     background-size: 100%;
-    -webkit-clip-path: polygon(0 0, 100% 0, 100% 98%, 0 92%);
-            clip-path: polygon(0 0, 100% 0, 100% 98%, 0 92%);
+    -webkit-clip-path: polygon(0 0, 100% 0, 100% 100%, 0 90%);
+            clip-path: polygon(0 0, 100% 0, 100% 100%, 0 90%);
     position: absolute;
     top: 0;
     bottom: 0;
@@ -878,8 +875,8 @@ header {
   }
   .introSection::after {
     background-image: url(../assets/images/indexImg/introSection_bg.png);
-    -webkit-clip-path: polygon(0 0, 100% 0, 100% 98%, 0 92%);
-            clip-path: polygon(0 0, 100% 0, 100% 98%, 0 92%);
+    -webkit-clip-path: polygon(0 0, 100% 0, 100% 100%, 0 90%);
+            clip-path: polygon(0 0, 100% 0, 100% 100%, 0 90%);
     background-blend-mode: color-burn;
     mix-blend-mode: color-dodge;
     position: absolute;
@@ -915,13 +912,11 @@ header {
     width: 150px;
   }
   .introSection .introSection_wrap .item:nth-child(2) .saul {
-    margin-top: 100px;
+    margin-top: 50px;
     margin-left: 10px;
   }
   .introSection .introSection_wrap .item:nth-child(3) {
-    position: absolute;
-    top: 0;
-    left: 0;
+    margin-bottom: 30px;
   }
   .introSection .introSection_wrap .item:nth-child(3) .starWhite {
     position: absolute;
@@ -940,15 +935,15 @@ header {
   }
   @keyframes ani2 {
     0% {
-      right: 23vw;
+      right: 30vw;
       top: 400px;
     }
     50% {
-      right: 23vw;
+      right: 30vw;
       top: 420px;
     }
     100% {
-      right: 23vw;
+      right: 30vw;
       top: 400px;
     }
   }
@@ -956,61 +951,199 @@ header {
     position: absolute;
     -o-object-fit: contain;
        object-fit: contain;
-    right: 30vw;
-    bottom: 400px;
+    right: 40vw;
+    bottom: 350px;
+  }
+  .introSection .introSection_wrap .item:nth-child(3) .djKool {
+    right: 10vw;
+    bottom: 5vh;
+  }
+  .introSection .introSection_wrap .item:nth-child(3) .djKoolBg {
+    right: 9vw;
+    bottom: 5vh;
+  }
+  .introSection .introSection_wrap .item:nth-child(3) .djKoolsay {
+    right: 2vw;
+    bottom: 0vh;
   }
   .introSection .transitions-box {
-    display: none !important;
-    width: 100%;
-    padding-top: 10px;
+    padding-top: 30px;
     overflow: hidden;
     position: absolute;
-    bottom: 0;
+    bottom: -10px;
   }
   .introSection .transitions-box .transitions {
-    width: 768px;
     -o-object-fit: cover;
        object-fit: cover;
-    transform: scale(2);
+    transform: scale(2) rotate(2deg);
   }
   .djSection {
     flex-direction: column;
-    height: 1400px;
+    height: 1200px;
   }
   .djSection .item .djImg-box {
     top: -10px;
-    left: 100px;
+    right: 100px;
   }
   .djSection .item .djImg-box img {
-    width: 80%;
+    width: 60vw;
   }
   .djSection .item .wrap .twdj-box {
     position: absolute;
     top: 50px;
-    left: 50px;
+    left: 40px;
     z-index: 1;
   }
   .djSection .item .wrap .djgif_box {
-    width: 200px;
-    right: 50px;
+    width: 250px;
   }
   .djSection .item .wrap:nth-of-type(1) {
-    padding: 100px 100px 0px 100px;
+    padding: 100px 10vw 0px 10vw;
+  }
+  .BreakingSection {
+    flex-direction: column;
+    overflow: hidden;
+  }
+  .BreakingSection .item .wrap {
+    padding: 0px 10vw 0px 10vw;
+  }
+  .BreakingSection .item .dance-wrap {
+    display: flex;
+    position: relative;
+  }
+  .BreakingSection .item .dance-wrap .danceA {
+    transform: translate(30%, 10%);
+  }
+  .BreakingSection .item .dance-wrap .danceB {
+    transform: translate(30%, 10%);
+  }
+  .BreakingSection .item .dance-wrap .danceC {
+    transform: translate(0%, 10%);
+  }
+  .BreakingSection .item:nth-of-type(2) {
+    display: none;
+  }
+  .rapSection {
+    flex-direction: column-reverse;
+    height: 1000px;
+    margin-top: 100px;
+  }
+  .rapSection .item .rapImg-box img:nth-of-type(1) {
+    width: 150px;
+    position: absolute;
+    top: -150px;
+    left: 100px;
+  }
+  .rapSection .item .rapImg-box img:nth-of-type(2) {
+    width: 320px;
+    top: -50px;
+    transform: rotate(10deg);
+  }
+  .rapSection .item .rapImg-box img:nth-of-type(3) {
+    width: 90%;
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+    z-index: 1;
+  }
+  .rapSection .item .wrap {
+    flex: 1;
+    position: relative;
+    padding: 0px 10vw 0px 10vw;
+  }
+  .rapSection .item .wrap:nth-of-type(2) {
+    padding: 50px 0px 0px 35vw;
+  }
+  .rapSection .item .wrap:nth-of-type(2) h3 {
+    color: white;
+    font-family: "Just Another Hand";
+    font-size: 60px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    letter-spacing: 7.68px;
+  }
+  .rapSection .item .wrap:nth-of-type(2) h3:nth-of-type(2) {
+    opacity: 0.5;
+  }
+  .rapSection .item .wrap:nth-of-type(2) h3:nth-of-type(3) {
+    opacity: 0.2;
+  }
+  .rapSection .rapImg {
+    width: 80%;
   }
 }
 @media screen and (max-width: 500px) {
-  .logoBox {
-    width: 400px;
-    height: 400px;
+  .read_moreBtn {
+    top: 100px;
+    bottom: -10px;
   }
   .logoBox svg {
-    width: 450px;
-    height: 450px;
+    width: 500px;
+    height: 500px;
   }
-  .item:nth-child(2) {
-    padding: 50px 5vw;
+  .introSection::before {
+    background-image: linear-gradient(180deg, #1d1d1d 24.52%, #000 102.19%);
+    background-size: 100%;
+    -webkit-clip-path: polygon(0 0, 100% 0, 100% 100%, 0 98%);
+            clip-path: polygon(0 0, 100% 0, 100% 100%, 0 98%);
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: -1;
   }
-  .item:nth-child(3) .djKoolsay {
+  .introSection::after {
+    background-image: url(../assets/images/indexImg/introSection_bg.png);
+    -webkit-clip-path: polygon(0 0, 100% 0, 100% 100%, 0 98%);
+            clip-path: polygon(0 0, 100% 0, 100% 100%, 0 98%);
+    background-blend-mode: color-burn;
+    mix-blend-mode: color-dodge;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: -1;
+  }
+  .introSection .item:nth-child(3) .starWhite,
+  .introSection .item:nth-child(3) .starGreen,
+  .introSection .item:nth-child(3) .line,
+  .introSection .item:nth-child(3) .djKool,
+  .introSection .item:nth-child(3) .djKoolBg {
     display: none;
+  }
+  .introSection .item:nth-child(3) .djKoolsay {
+    width: 200px;
+  }
+  .introSection .transitions-box {
+    overflow: hidden;
+    position: absolute;
+    bottom: -10px;
+  }
+  .djSection {
+    height: 600px;
+  }
+  .djSection .item .wrap .djgif_box {
+    width: 150px;
+    right: 10px;
+  }
+  .BreakingSection {
+    margin-top: 300px;
+  }
+  .rapSection .item .wrap:nth-of-type(2) {
+    padding: 50px 0px 0px 10vw;
+  }
+  .rapSection .item .rapImg-box img:nth-of-type(1) {
+    width: 100px;
+    top: -90px;
+  }
+  .rapSection .item .rapImg-box img:nth-of-type(2) {
+    width: 280px;
+  }
+  .rapSection .rapImg {
+    width: 400px;
+    bottom: 100px;
   }
 }/*# sourceMappingURL=index.css.map */
