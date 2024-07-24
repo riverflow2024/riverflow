@@ -10,8 +10,6 @@ html {
 }
 
 body {
-  width: 100%;
-  height: 100%;
   background: var(--bk1);
 }
 
@@ -188,6 +186,10 @@ body {
   }
 }
 
+.hidden {
+  overflow: hidden;
+}
+
 header {
   width: 100%;
   position: fixed;
@@ -197,6 +199,7 @@ header {
 }
 
 .logoSection {
+  display: none !important;
   width: 100%;
   height: 900px;
   display: flex;
@@ -204,8 +207,8 @@ header {
   align-items: center;
 }
 .logoSection .logoBox {
-  width: 700px;
-  height: 700px;
+  width: 650px;
+  height: 650px;
   position: relative;
   display: flex;
   margin-top: 30px;
@@ -314,8 +317,8 @@ header {
 .introSection::before {
   content: "";
   display: block;
-  width: 100%;
   background-image: linear-gradient(180deg, #1d1d1d 24.52%, #000 102.19%);
+  background-size: 100%;
   -webkit-clip-path: polygon(0 0, 100% 0, 100% 98%, 0 82%);
           clip-path: polygon(0 0, 100% 0, 100% 98%, 0 82%);
   position: absolute;
@@ -343,15 +346,14 @@ header {
   z-index: -1;
 }
 .introSection .introSection_wrap {
-  height: 750px;
+  height: 900px;
   position: relative;
   display: flex;
 }
 .introSection .introSection_wrap .item:nth-child(2) {
   flex: 2;
   padding: 100px 0px;
-  padding-left: 160px;
-  margin-right: 250px;
+  padding-left: 5vw;
 }
 .introSection .introSection_wrap .item:nth-child(2) h1 {
   width: 100%;
@@ -387,20 +389,13 @@ header {
   position: absolute;
   top: 0;
   transform: translate(-40%, 10%) rotate(40deg);
+  z-index: -1;
 }
 .introSection .introSection_wrap .item .introCdImg-box .hippop {
   width: 316px;
   position: absolute;
   bottom: 100px;
-  left: 150px;
-}
-.introSection .introSection_wrap .transitions-box {
-  position: relative;
-}
-.introSection .introSection_wrap .transitions-box .transitions {
-  -o-object-fit: contain;
-     object-fit: contain;
-  position: absolute;
+  left: 5vw;
 }
 .introSection .introSection_wrap .item:nth-child(3) {
   width: 100%;
@@ -411,57 +406,57 @@ header {
   position: absolute;
   -o-object-fit: contain;
      object-fit: contain;
-  left: 0px;
-  top: 300px;
+  right: 15vw;
+  top: 400px;
 }
 .introSection .introSection_wrap .item:nth-child(3) .line {
   position: absolute;
   -o-object-fit: contain;
      object-fit: contain;
-  left: -180px;
+  right: 1vw;
   top: 300px;
   animation: ani2 1s linear infinite;
 }
 @keyframes ani2 {
   0% {
-    left: -180px;
-    top: 300px;
+    right: 23vw;
+    top: 400px;
   }
   50% {
-    left: -220px;
-    top: 320px;
+    right: 23vw;
+    top: 420px;
   }
   100% {
-    left: -180px;
-    top: 300px;
+    right: 23vw;
+    top: 400px;
   }
 }
 .introSection .introSection_wrap .item:nth-child(3) .starGreen {
   position: absolute;
   -o-object-fit: contain;
      object-fit: contain;
-  left: -220px;
-  bottom: 250px;
+  right: 30vw;
+  bottom: 400px;
 }
 .introSection .introSection_wrap .item:nth-child(3) .djKool {
-  width: 251px;
+  width: 250px;
   position: absolute;
   -o-object-fit: contain;
      object-fit: contain;
-  left: -200px;
-  bottom: 50px;
-  z-index: 1;
+  right: 12vw;
+  bottom: 5vh;
+  z-index: 2;
   animation: ani3 1s linear infinite;
   animation-timing-function: linear;
   transform-origin: 50% 50%;
 }
 .introSection .introSection_wrap .item:nth-child(3) .djKoolBg {
-  width: 251px;
+  width: 250px;
   position: absolute;
   -o-object-fit: contain;
      object-fit: contain;
-  left: -190px;
-  bottom: 50px;
+  right: 11vw;
+  bottom: 5vh;
   animation: ani3 1s linear infinite;
   transform-origin: 50% 50%;
 }
@@ -483,11 +478,20 @@ header {
   width: 576px;
   position: absolute;
   right: 150px;
-  bottom: -50px;
-  z-index: 1;
+  bottom: -4vh;
+  z-index: 2;
+}
+.introSection .introSection_wrap .transitions-box {
+  position: relative;
+}
+.introSection .introSection_wrap .transitions-box .transitions {
+  -o-object-fit: contain;
+     object-fit: contain;
+  position: absolute;
 }
 
 .djSection {
+  display: none !important;
   width: 100%;
   height: 800px;
   display: flex;
@@ -550,6 +554,7 @@ header {
 }
 
 .BreakingSection {
+  display: none !important;
   width: 100%;
   height: 800px;
   display: flex;
@@ -557,13 +562,13 @@ header {
   margin-top: 80px;
 }
 .BreakingSection .item {
-  flex: 1;
+  flex: 2;
   position: relative;
 }
 .BreakingSection .item .wrap {
   flex: 1;
   position: relative;
-  padding: 100px 50px 0px 150px;
+  padding: 100px 0vw 0px 10vw;
 }
 .BreakingSection .item .wrap h2 {
   height: 113px;
@@ -596,29 +601,30 @@ header {
 }
 .BreakingSection .item .danceImg-box {
   position: absolute;
-  top: -150px;
-  left: 150px;
+  top: -10vh;
+  left: 15vw;
 }
 .BreakingSection .item img:nth-child(2) {
-  width: 299px;
+  width: 43%;
   position: absolute;
-  left: -50px;
+  left: -5vw;
   bottom: 0;
 }
 .BreakingSection .item img:nth-child(3) {
-  width: 299px;
+  width: 43%;
   position: absolute;
-  left: 100px;
+  left: 10vw;
   bottom: 100px;
 }
 .BreakingSection .item img:nth-child(4) {
-  width: 299px;
+  width: 43%;
   position: absolute;
-  left: 250px;
+  left: 20vw;
   bottom: 250px;
 }
 
 .rapSection {
+  display: none !important;
   width: 100%;
   height: 800px;
   display: flex;
@@ -652,12 +658,6 @@ header {
   top: 50px;
   left: -100px;
 }
-.rapSection .item .rapImg-box img:nth-of-type(3) {
-  width: 869px;
-  position: absolute;
-  bottom: 0px;
-  left: 0px;
-}
 .rapSection .item .wrap {
   flex: 1;
   position: relative;
@@ -669,11 +669,11 @@ header {
 .rapSection .item .wrap:nth-of-type(2) h3 {
   color: white;
   font-family: "Just Another Hand";
-  font-size: 96px;
-  font-style: normal;
+  font-size: 80px;
   font-weight: 400;
   line-height: normal;
   letter-spacing: 7.68px;
+  white-space: nowrap;
 }
 .rapSection .item .wrap:nth-of-type(2) h3:nth-of-type(2) {
   opacity: 0.5;
@@ -697,6 +697,13 @@ header {
   left: -10px;
   z-index: -1;
 }
+.rapSection .rapImg {
+  position: absolute;
+  width: 60%;
+  bottom: 0;
+  left: 0;
+  z-index: -2;
+}
 
 .Transitions {
   width: 100%;
@@ -716,6 +723,7 @@ header {
 }
 
 .GraffitiSection {
+  display: none !important;
   width: 100%;
   height: 1324px;
   position: relative;
@@ -759,7 +767,7 @@ header {
   width: 400px;
   overflow: hidden;
   position: absolute;
-  top: 350px;
+  top: 30vw;
   right: 0;
   z-index: 1;
 }
@@ -769,7 +777,7 @@ header {
 .GraffitiSection .item .wrap {
   flex: 1;
   position: relative;
-  padding: 100px 20px 0px 150px;
+  padding: 100px 20px 0px 6vw;
 }
 .GraffitiSection .item .wrap h2 {
   height: 113px;
@@ -788,7 +796,7 @@ header {
   z-index: -1;
 }
 .GraffitiSection .item .wrap img {
-  width: 430px;
+  width: 70%;
 }
 .GraffitiSection .item .wrap .gC {
   width: 300px;
@@ -808,7 +816,7 @@ header {
 .SkateSection .item .wrap {
   flex: 1;
   position: relative;
-  padding: 100px 50px 0px 50px;
+  padding: 100px 2vw 0px 2vw;
 }
 .SkateSection .item .wrap h2 {
   height: 113px;
@@ -832,11 +840,177 @@ header {
 .SkateSection .item .skateA {
   position: absolute;
   top: -100px;
-  left: -10px;
+  left: -2vw;
 }
 .SkateSection .item .skateB {
   position: absolute;
-  width: 446px;
+  width: 90%;
   top: -100px;
   z-index: 1;
+}
+
+@media screen and (max-width: 768px) {
+  .logoSection {
+    height: 100vh;
+  }
+  .logoSection .logoBox {
+    width: 100%;
+    height: 600px;
+  }
+  .logoSection .logoBox svg {
+    width: 450px;
+    height: 450px;
+  }
+  .introSection {
+    height: 1000px;
+  }
+  .introSection::before {
+    background-image: linear-gradient(180deg, #1d1d1d 24.52%, #000 102.19%);
+    background-size: 100%;
+    -webkit-clip-path: polygon(0 0, 100% 0, 100% 98%, 0 92%);
+            clip-path: polygon(0 0, 100% 0, 100% 98%, 0 92%);
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: -1;
+  }
+  .introSection::after {
+    background-image: url(../assets/images/indexImg/introSection_bg.png);
+    -webkit-clip-path: polygon(0 0, 100% 0, 100% 98%, 0 92%);
+            clip-path: polygon(0 0, 100% 0, 100% 98%, 0 92%);
+    background-blend-mode: color-burn;
+    mix-blend-mode: color-dodge;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: -1;
+  }
+  .introSection .introSection_wrap .item:nth-child(1) {
+    display: none;
+  }
+  .introSection .introSection_wrap .item:nth-child(2) {
+    position: absolute;
+    top: 0;
+    left: 0;
+    box-sizing: border-box;
+    padding: 50px 10vw;
+    margin: 0;
+    z-index: 2;
+  }
+  .introSection .introSection_wrap .item:nth-child(2) h1 {
+    display: flex;
+    flex-wrap: wrap;
+    line-height: normal;
+    white-space: nowrap;
+  }
+  .introSection .introSection_wrap .item:nth-child(2) .introImg-box {
+    width: 150px;
+    margin: 0px 10px;
+  }
+  .introSection .introSection_wrap .item:nth-child(2) .introImg-box svg {
+    width: 150px;
+  }
+  .introSection .introSection_wrap .item:nth-child(2) .saul {
+    margin-top: 100px;
+    margin-left: 10px;
+  }
+  .introSection .introSection_wrap .item:nth-child(3) {
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+  .introSection .introSection_wrap .item:nth-child(3) .starWhite {
+    position: absolute;
+    -o-object-fit: contain;
+       object-fit: contain;
+    right: 15vw;
+    top: 400px;
+  }
+  .introSection .introSection_wrap .item:nth-child(3) .line {
+    position: absolute;
+    -o-object-fit: contain;
+       object-fit: contain;
+    right: 1vw;
+    top: 300px;
+    animation: ani2 1s linear infinite;
+  }
+  @keyframes ani2 {
+    0% {
+      right: 23vw;
+      top: 400px;
+    }
+    50% {
+      right: 23vw;
+      top: 420px;
+    }
+    100% {
+      right: 23vw;
+      top: 400px;
+    }
+  }
+  .introSection .introSection_wrap .item:nth-child(3) .starGreen {
+    position: absolute;
+    -o-object-fit: contain;
+       object-fit: contain;
+    right: 30vw;
+    bottom: 400px;
+  }
+  .introSection .transitions-box {
+    display: none !important;
+    width: 100%;
+    padding-top: 10px;
+    overflow: hidden;
+    position: absolute;
+    bottom: 0;
+  }
+  .introSection .transitions-box .transitions {
+    width: 768px;
+    -o-object-fit: cover;
+       object-fit: cover;
+    transform: scale(2);
+  }
+  .djSection {
+    flex-direction: column;
+    height: 1400px;
+  }
+  .djSection .item .djImg-box {
+    top: -10px;
+    left: 100px;
+  }
+  .djSection .item .djImg-box img {
+    width: 80%;
+  }
+  .djSection .item .wrap .twdj-box {
+    position: absolute;
+    top: 50px;
+    left: 50px;
+    z-index: 1;
+  }
+  .djSection .item .wrap .djgif_box {
+    width: 200px;
+    right: 50px;
+  }
+  .djSection .item .wrap:nth-of-type(1) {
+    padding: 100px 100px 0px 100px;
+  }
+}
+@media screen and (max-width: 500px) {
+  .logoBox {
+    width: 400px;
+    height: 400px;
+  }
+  .logoBox svg {
+    width: 450px;
+    height: 450px;
+  }
+  .item:nth-child(2) {
+    padding: 50px 5vw;
+  }
+  .item:nth-child(3) .djKoolsay {
+    display: none;
+  }
 }/*# sourceMappingURL=index.css.map */
