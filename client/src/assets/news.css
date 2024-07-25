@@ -39,8 +39,6 @@ header {
   height: 100vh;
   padding-right: 20px;
   /* Style the buttons inside the tab */
-  /* Change background color of buttons on hover */
-  /* Create an active/current "tab button" class */
 }
 .news .nav-box .tab {
   position: fixed;
