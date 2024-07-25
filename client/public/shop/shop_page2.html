@@ -6,79 +6,340 @@
     <title>Document</title>
     <link rel="stylesheet" href="../src/assets/reset.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
-    <link rel="stylesheet" href="../src/assets/basic.css" />
-    <link rel="stylesheet" href="../src/assets/shop_page2.css" />
+    <link rel="stylesheet" href="/riverflow/client/src/assets/basic.css" />
+    <link rel="stylesheet" href="/riverflow/client/src/assets/shop/shop_page2.css" />
+    <link rel="stylesheet" href="/riverflow/client/src/assets/shop/lightbox.min.css" />
   </head>
 
-  <body>
-    <div class="container">
-      <div class="product">
-        <!-- 燈箱效果 -->
-        <div class="product-images">
-          <img src="滑板圖片.jpg" alt="圖片" />
-          <div class="thumbnails">
-            <img src="縮圖1.jpg" alt="縮圖1" />
-            <img src="縮圖2.jpg" alt="縮圖2" />
-            <img src="縮圖3.jpg" alt="縮圖3" />
-            <img src="縮圖4.jpg" alt="縮圖4" />
+  <body class="w-bg">
+    <div class="container-f">
+      <!-- 上面圖片及商品介紹容器 -->
+      <div class="wrap">
+        <!-- 燈箱效果製作 -->
+        <aside class="product-images">
+          <!-- 燈箱大照片 -->
+          <div class="product-images-big">
+            <a
+              class="#"
+              href="https://i.pinimg.com/564x/8d/a3/fd/8da3fde782226de77033dabdebcbc15e.jpg"
+              data-lightbox="example-set"
+              data-title="美式拼貼滑板"
+              ><img
+                class="example-image"
+                src="https://i.pinimg.com/564x/8d/a3/fd/8da3fde782226de77033dabdebcbc15e.jpg"
+                alt="skate1"
+            /></a>
+            <!-- 我的最愛標籤 -->
+            <a href="#" class="favorite"><i class="fa-regular fa-heart"></i></a>
           </div>
-        </div>
-        <div class="product-info">
-          <h1>滑板</h1>
-          <div class="price">NT$3835</div>
-          <div class="rating"><span>4.3/5</span></div>
+          <!-- 燈箱小照片 -->
+          <div class="product-image-small">
+            <a
+              class="#"
+              href="https://i.pinimg.com/564x/c6/a4/c5/c6a4c5053209d3b926c39f97e86c9956.jpg"
+              data-lightbox="example-set"
+              data-title="美式拼貼滑板"
+              ><img
+                class="example-image"
+                src="https://i.pinimg.com/564x/c6/a4/c5/c6a4c5053209d3b926c39f97e86c9956.jpg"
+                alt="skate2"
+            /></a>
+            <a
+              class="#"
+              href="https://i.pinimg.com/564x/b7/39/76/b73976029de0acf20a86cd31b287fa78.jpg"
+              data-lightbox="example-set"
+              data-title="美式拼貼滑板"
+              ><img
+                class="example-image"
+                src="https://i.pinimg.com/564x/b7/39/76/b73976029de0acf20a86cd31b287fa78.jpg"
+                alt="skate3"
+            /></a>
+            <a
+              class="#"
+              href="https://i.pinimg.com/564x/6d/52/15/6d5215b8b28bf77ab984b5e9b284e22a.jpg"
+              data-lightbox="example-set"
+              data-title="美式拼貼滑板"
+              ><img
+                class="example-image"
+                src="https://i.pinimg.com/564x/6d/52/15/6d5215b8b28bf77ab984b5e9b284e22a.jpg"
+                alt="skate4"
+            /></a>
+            <a
+              class="#"
+              href="https://i.pinimg.com/564x/29/81/57/29815751e0217371de4edd74c8b0c014.jpg"
+              data-lightbox="example-set"
+              data-title="美式拼貼滑板"
+              ><img
+                class="example-image"
+                src="https://i.pinimg.com/564x/29/81/57/29815751e0217371de4edd74c8b0c014.jpg"
+                alt="skate5"
+            /></a>
+          </div>
+        </aside>
+
+        <main class="product-info">
+          <h1>美式拼貼滑板</h1>
+          <div class="labels">
+            <span class="label normal">滑板</span>
+            <span class="label new">新品</span>
+          </div>
+          <!-- price-rating容器 -->
+          <div class="price-rating">
+            <div class="price"><span>NT$3,835</span></div>
+            <div class="rating"><i class="fa-solid fa-star"></i><span>4.3/5</span></div>
+          </div>
+
           <div class="details">
-            <ul>
-              <li>這邊放介紹</li>
-              <li>這邊放適用</li>
-              <li>這邊放介紹</li>
-            </ul>
+            <!-- 說明 -->
+            <div class="details-item">
+              <i class="fa-regular fa-comment"></i>
+              <div class="details-text">
+                <span>說明</span>
+                <p>美式拼貼滑板結合了獨特的拼貼設計和高性能材質，是一款既時尚又實用的滑板，適合各類滑板愛好者。</p>
+              </div>
+            </div>
+
+            <!-- 適用-->
+            <div class="details-item">
+              <i class="fa-solid fa-street-view"></i>
+              <div class="details-text">
+                <span>適用</span>
+                <p>運動愛好者、初學者</p>
+              </div>
+            </div>
+
+            <!-- 材質 -->
+            <div class="details-item">
+              <i class="fa-brands fa-think-peaks"></i>
+              <div class="details-text">
+                <span>材質</span>
+                <p>高強度七層楓木、耐磨防滑砂紙、聚氨酯輪子、ABEC-9軸承</p>
+              </div>
+            </div>
           </div>
+
+          <!-- 尺寸選擇 -->
           <div class="size">
-            <button>7.75 寸</button>
-            <button>8.0 寸</button>
-            <button>8.25 寸</button>
+            <h3>尺寸</h3>
+            <button class="size-option">黑色拼貼/7.75 寸</button>
+            <button class="size-option">白色拼貼/7.75 寸</button>
+            <button class="size-option">黑色拼貼/8.25 寸</button>
+            <button class="size-option">白色拼貼/8.25 寸</button>
           </div>
+
+          <!-- 數量及加入購物車 -->
           <div class="quantity">
-            <input type="number" value="1" />
-            <button class="add-to-cart">加入購物車 NT$36835</button>
+            <!-- 加減區域 -->
+            <div class="add-minus">
+              <button id="minus"><i class="fa-solid fa-minus"></i></button>
+              <input type="number" id="quantity-input" value="1" readonly />
+              <button id="plus"><i class="fa-solid fa-plus"></i></button>
+            </div>
+            <!-- 購物車按鈕 -->
+            <button class="add-to-cart"><span id="price" data-price="3835">$3,835 | </span>加入購物車</button>
           </div>
-          <div>
+          <div class="order-info">
             <ul>
-              <li>NT$999 以上訂單免運費</li>
-              <li>12:00 pm 前訂購可當天發貨</li>
-              <li>7 天無理由退換貨</li>
+              <li><i class="fa-regular fa-circle-check"></i> NT$999 以上訂單免運費</li>
+              <li><i class="fa-regular fa-circle-check"></i> 12:00 pm 前訂購可當天發貨</li>
+              <li><i class="fa-regular fa-circle-check"></i> 7 天無理由退換貨</li>
             </ul>
           </div>
-        </div>
+        </main>
       </div>
-      <div class="recommendations">
+
+      <!-- 下方 更多選擇項目 -->
+      <div class="recommendations container">
         <h2>你可能會喜歡</h2>
-        <div class="item">
-          <img src="推薦1.jpg" alt="推薦1" />
-          <h3>滑板國手淨軒-不專用滑板</h3>
-          <div class="price">NT$30</div>
-          <button>加入購物車</button>
-        </div>
-        <div class="item">
-          <img src="推薦2.jpg" alt="推薦2" />
-          <h3>一般級滑板套裝 3/7</h3>
-          <div class="price">NT$210</div>
-          <button>加入購物車</button>
-        </div>
-        <div class="item">
-          <img src="推薦3.jpg" alt="推薦3" />
-          <h3>中型滑板 11/19</h3>
-          <div class="price">NT$310</div>
-          <button>加入購物車</button>
-        </div>
-        <div class="item">
-          <img src="推薦4.jpg" alt="推薦4" />
-          <h3>DJ Miss. 精選專輯 CD 套裝</h3>
-          <div class="price">NT$368</div>
-          <button>加入購物車</button>
-        </div>
-      </div>
+
+        <!-- 商品容器 -->
+         <div class="product-item-container">
+           <!-- 商品 -->  
+          <div class="product-item">
+            <div class="product-img"> 
+               <img
+              src="https://images.goodsmile.info/cgm/images/product/20220502/12665/98719/large/d870c31d5f264155ac6e3e359b7d34bc.jpg"
+              alt="滑板編號1"
+            />
+             <!-- 收到我的最愛 -->
+             <a href="#" class="favorite"><i class="fa-regular fa-heart"></i></a>
+          </div>
+            <!-- 卡片下面的標籤 -->
+            <div class="labels">
+              <span class="label skate">滑板</span>
+              <span class="label new">新品</span>
+            </div>
+            <div class="product-info">
+              <h4>TsL滑板</h4>
+              <div class="product-text">
+                <p>NT$3683</p>
+             <button class="add-to-cart">加入購物車</button>
+              </div>
+            </div>
+          </div>
+             <!-- 商品 -->  
+          <div class="product-item">
+            <div class="product-img"> 
+               <img
+              src="https://shoplineimg.com/59b2d9e49a76f018310010d2/5d299190d0467a0038ae06eb/800x.webp?source_format=jpg"
+              alt="RAP編號5"
+            />
+             <!-- 收到我的最愛 -->
+             <a href="#" class="favorite"><i class="fa-regular fa-heart"></i></a>
+          </div>
+            <!-- 卡片下面的標籤 -->
+            <div class="labels">
+              <span class="label normal">饒舌</span>
+              <!-- <span class="label new">新品</span> -->
+            </div>
+            <div class="product-info">
+              <h4>6ix9ine原裝CD專輯</h4>
+              <div class="product-text">
+                <p>NT$550</p>
+             <button class="add-to-cart">加入購物車</button>
+              </div>
+            </div>
+          </div>
+               <!-- 商品 -->  
+               <div class="product-item">
+                <div class="product-img"> 
+                   <img
+                  src="https://shoplineimg.com/59b2d9e49a76f018310010d2/5e908f90c0e941001e48bc23/800x.webp?source_format=jpg"
+                  alt="DJ"
+                />
+                 <!-- 收到我的最愛 -->
+                 <a href="#" class="favorite"><i class="fa-regular fa-heart"></i></a>
+              </div>
+                <!-- 卡片下面的標籤 -->
+                <div class="labels">
+                  <span class="label normal">DJ</span>
+                  <!-- <span class="label new">新品</span> -->
+                </div>
+                <div class="product-info">
+                  <h4>復古手提箱造型 藍芽黑膠唱盤</h4>
+                  <div class="product-text">
+                    <p>NT$4980</p>
+                 <button class="add-to-cart">加入購物車</button>
+                  </div>
+                </div>
+              </div>
+                   <!-- 商品 -->  
+          <div class="product-item">
+            <div class="product-img"> 
+               <img
+              src="https://shoplineimg.com/59b2d9e49a76f018310010d2/5ecf805b323c4a00273a9717/800x.webp?source_format=png"
+              alt="滑板編號2"
+            />
+             <!-- 收到我的最愛 -->
+             <a href="#" class="favorite"><i class="fa-regular fa-heart"></i></a>
+          </div>
+            <!-- 卡片下面的標籤 -->
+            <div class="labels">
+              <span class="label skate">滑板</span>
+
+            </div>
+            <div class="product-info">
+              <h4> Raw經典煙紙品牌滑板</h4>
+              <div class="product-text">
+                <p>NT$2,880</p>
+             <button class="add-to-cart">加入購物車</button>
+              </div>
+            </div>
+          </div>
+
+      
+         </div>
+     
+         <!-- 購物車加入提醒 -->
+    <div id="cart-notification" class="cart-notification">
+      已成功加入購物車
     </div>
+
+    <script src="/riverflow/client/src/assets/shop/lightbox-plus-jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script>
+    $(function () {      
+  // ----- 燈箱效果 -----
+  lightbox.option({
+    resizeDuration: 200,
+    wrapAround: true,
+  });
+
+  // ----- 我的最愛標籤 -----
+  $('.favorite').on('click', function(event) {
+    event.preventDefault();
+    $(this).find('i').toggleClass('selected');
+    // 在這更新數據庫
+  });
+
+  //----- 尺寸選擇 -----
+  // 保存選中的尺寸
+  let selectedSize = ''; 
+  $('.size-option').on('click', function() {
+    // 點到新的就移除
+    $('.size-option').removeClass('selected');
+    // 添加
+    $(this).addClass('selected');
+    selectedSize = $(this).text();
+    console.log("選中的項目是: " + selectedSize);
+  });
+
+  //----- 數量選擇 -----
+  // 減
+  $('#minus').click(function(event) {
+    event.preventDefault();
+    let currentValue = parseInt($('#quantity-input').val());
+    if (currentValue > 1) {
+      $('#quantity-input').val(currentValue - 1);
+      updateTotalPrice();
+    }
+  });
+
+  // 加
+  $('#plus').click(function(event) {
+    event.preventDefault();
+    let currentValue = parseInt($('#quantity-input').val());
+    $('#quantity-input').val(currentValue + 1);
+    // 價錢更新
+    updateTotalPrice();
+  });
+
+  // 更新價錢
+  function updateTotalPrice() {
+    let quantity = parseInt($('#quantity-input').val());
+    let unitPrice = parseInt($('#price').data('price'));
+    let totalPrice = unitPrice * quantity;
+    $('#price').text(`$${totalPrice} | `);
+  }
+
+  //----- 加入購物車 -----
+  $('.add-to-cart').click(function() {
+    let quantity = $('#quantity-input').val();
+    if (selectedSize === '') {
+      alert('請選擇一個項目');
+      return;
+    }
+    // 檢查有沒有成功加入
+    // console.log("加入購物車的項目: " + selectedSize);
+    // console.log("加入購物車的數量: " + quantity);
+
+    // 顯示購物車通知
+    $('#cart-notification').fadeIn();
+    
+    // 2秒後隱藏通知
+    setTimeout(function() {
+      $('#cart-notification').fadeOut();
+    }, 2000);
+
+  
+    // 處理動態更新
+    // 這裡添加處理，記住我要把數據發送到伺服器顯示在購物車中
+    
+  });
+
+});
+
+    </script>
   </body>
 </html>

@@ -716,7 +716,6 @@ header {
 }
 
 .GraffitiSection {
-  display: none !important;
   width: 100%;
   height: 1324px;
   position: relative;
@@ -748,7 +747,7 @@ header {
   bottom: 0;
   left: 0;
   right: 0;
-  z-index: 2;
+  z-index: 3;
 }
 .GraffitiSection .item {
   flex: 1;
@@ -798,7 +797,6 @@ header {
 }
 
 .SkateSection {
-  display: none !important;
   width: 100%;
   height: 800px;
   display: flex;
