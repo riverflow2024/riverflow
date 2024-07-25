@@ -6,18 +6,16 @@ app.use(bodyParser.json())
 
 // Routers
 const userRoutes = require('./routes/users')
-const productRoutes = require('./routes/products')
-const orderRoutes = require('./routes/orders')
+// const productRoutes = require('./routes/products')
+// const orderRoutes = require('./routes/orders')
 
 // Use routes
-app.use('/riverflow/users', userRoutes)
-app.use('/riverflow/products', productRoutes)
-app.use('/riverflow/orders', orderRoutes)
+app.use('/riverflow/user', userRoutes)
+// app.use('/riverflow/products', productRoutes)
+// app.use('/riverflow/orders', orderRoutes)
 
 // app.get('/', (req, res) => {
 //   res.send('Hello World!')
 // })
 
 module.exports = app
-
-console.log('123')

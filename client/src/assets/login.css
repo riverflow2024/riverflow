@@ -1,13 +1,9 @@
+@charset "UTF-8";
 @import url(basic.css);
 @import url("https://fonts.googleapis.com/css2?family=Just+Another+Hand&display=swap");
 * {
   margin: 0;
   padding: 0;
-}
-
-body {
-  width: 100%;
-  height: 100%;
 }
 
 header {
@@ -18,11 +14,8 @@ header {
   z-index: 99;
 }
 
-.w-bg {
-  background-size: 100%;
-}
-
-section {
+/*------- 會員登入--------- */
+.login {
   width: 100%;
   height: 100vh;
   display: flex;
@@ -30,7 +23,7 @@ section {
   box-sizing: border-box;
   padding: 200px 0px 0px 0px;
 }
-section .login {
+.login form {
   width: 25%;
   height: 30vh;
   padding: 80px;
@@ -41,16 +34,16 @@ section .login {
   border-radius: 10px;
   box-shadow: 0px 0px 30px 0px rgba(0, 0, 0, 0.25);
 }
-section .login h4 {
+.login form h4 {
   color: var(--main);
   text-align: center;
   margin-bottom: 20px;
   letter-spacing: 1px;
 }
-section .login .input-text {
+.login form .input-text {
   margin: 10px 0px;
 }
-section .login input[type=password] {
+.login form input[type=password] {
   background: transparent;
   width: 80%;
   border: 0;
@@ -59,7 +52,7 @@ section .login input[type=password] {
   line-height: 160%;
   margin-left: 10px;
 }
-section .login a {
+.login form a {
   color: var(--main);
   font-family: "Noto Sans TC";
   font-size: 15px;
@@ -69,17 +62,171 @@ section .login a {
   text-align: center;
   margin-top: 10px;
 }
-section .login input[type=submit] {
+.login form input[type=submit] {
   margin-top: 10px;
   font-size: 15px;
   font-weight: 600;
   letter-spacing: 1px;
 }
-section .login span {
+.login form span {
   color: var(--gr2);
   font-size: 15px;
   font-weight: 300;
   letter-spacing: 1px;
   text-align: center;
   margin-top: 10px;
+}
+
+/*------- 會員註冊--------- */
+.register {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  box-sizing: border-box;
+  padding: 200px 0px 0px 0px;
+}
+.register form {
+  width: 25%;
+  padding: 80px;
+  margin-bottom: 100px;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--bk2);
+  border-radius: 10px;
+  box-shadow: 0px 0px 30px 0px rgba(0, 0, 0, 0.25);
+}
+.register form h4 {
+  color: var(--main);
+  text-align: center;
+  margin-bottom: 20px;
+  letter-spacing: 1px;
+}
+.register form .input-text {
+  margin: 15px 0px;
+}
+.register form input[type=password] {
+  background: transparent;
+  width: 80%;
+  border: 0;
+  color: var(--main);
+  font-size: 16px;
+  line-height: 160%;
+  margin-left: 10px;
+}
+.register form .input-checkbox {
+  padding: 5px 0px;
+  margin: 15px 0px;
+}
+.register form .input-checkbox span {
+  padding-left: 10px;
+}
+.register form a {
+  color: var(--main);
+  font-family: "Noto Sans TC";
+  font-size: 15px;
+  font-style: normal;
+  font-weight: 200;
+  letter-spacing: 1px;
+  text-align: center;
+  margin-top: 10px;
+}
+.register form input[type=submit] {
+  margin-top: 10px;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+.register form span {
+  color: var(--gr2);
+  font-size: 15px;
+  font-weight: 300;
+  letter-spacing: 1px;
+  text-align: center;
+  margin-top: 10px;
+}
+
+/*------- 忘記密碼--------- */
+.password {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  box-sizing: border-box;
+  padding: 200px 0px 0px 0px;
+}
+.password form {
+  width: 25%;
+  padding: 80px;
+  margin-bottom: 25vh;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--bk2);
+  border-radius: 10px;
+  box-shadow: 0px 0px 30px 0px rgba(0, 0, 0, 0.25);
+}
+.password form h4 {
+  color: var(--main);
+  text-align: center;
+  margin-bottom: 20px;
+  letter-spacing: 1px;
+}
+.password form .input-text {
+  margin: 10px 0px;
+  margin-bottom: 50px;
+}
+.password form p {
+  color: var(--gr2);
+  margin-bottom: 20px;
+}
+.password form input[type=submit] {
+  margin-top: 10px;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+
+/*------- 修改密碼-------- */
+.verify {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  box-sizing: border-box;
+  padding: 200px 0px 0px 0px;
+}
+.verify form {
+  width: 25%;
+  padding: 80px;
+  margin-bottom: 200px;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--bk2);
+  border-radius: 10px;
+  box-shadow: 0px 0px 30px 0px rgba(0, 0, 0, 0.25);
+}
+.verify form h4 {
+  color: var(--main);
+  text-align: center;
+  margin-bottom: 20px;
+  letter-spacing: 1px;
+}
+.verify form .input-text {
+  margin: 15px 0px;
+  padding-right: 25px;
+  justify-content: space-between;
+}
+.verify form input[type=password] {
+  background: transparent;
+  width: 75%;
+  border: 0;
+  color: var(--main);
+  font-size: 16px;
+  line-height: 160%;
+}
+.verify form input[type=submit] {
+  margin-top: 50px;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 1px;
 }/*# sourceMappingURL=login.css.map */

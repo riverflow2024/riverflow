@@ -59,34 +59,34 @@ localhost/riverflow/events/:eventId/tickets
 ///////////////
 
 1. 註冊頁面
-localhost/riverflow/users/register
+localhost/riverflow/user/register
 
 2. 登入頁面
-localhost/riverflow/users/login
+localhost/riverflow/user/login
 
 3. 忘記密碼
-localhost/riverflow/users/resetPassword
+localhost/riverflow/user/resetPassword
 
 4. 重設密碼
-localhost/riverflow/users/resetPassword/hash
+localhost/riverflow/user/resetPassword/hash
 
-5. 會員中心(好像沒頁面？)
-localhost/riverflow/users/center
+5. 會員中心
+localhost/riverflow/user/
 
-6. 會員資料編輯
-localhost/riverflow/users/edit
+6. 會員資料編輯?
+localhost/riverflow/user/edit
 
 7. 會員訂單查詢
-localhost/riverflow/users/order
+localhost/riverflow/user/order
 
 8. 會員訂單詳細查詢
-localhost/riverflow/users/order/:orderId
+localhost/riverflow/user/order/:orderId
 
 9. 我的最愛商品
-localhost/riverflow/users/order/favorites
+localhost/riverflow/user/order/favorites
 
 10. 會員票券查詢
-localhost/riverflow/users/events
+localhost/riverflow/user/events
 
 11. 會員票券詳細查詢
-localhost/riverflow/users/events/:eventId
+localhost/riverflow/user/events/:eventId

@@ -6,8 +6,8 @@ const { registerUser, loginUser, getUser, updateUser, deleteUser } = require('..
 
 router.post('/register', registerUser)
 router.post('/login', loginUser)
-router.get('/:userId', getUser)
-router.put('/:userId', updateUser)
-router.delete('/:userId', deleteUser)
+router.get('/:id', getUser)
+router.put('/:id', updateUser)
+router.delete('/:id', deleteUser)
 
 module.exports = router
