@@ -14,7 +14,8 @@ body {
     background: var(--bk1);
     box-sizing: border-box;
     color: #fff;
-    font-family: 'Noto Sans Telugu', 'Noto Sans TC', sans-serif;
+    /* font-family: 'Noto Sans Telugu', 'Noto Sans TC', sans-serif; */
+    font-family: 'Noto Sans TC', sans-serif;
     font-weight: 400;
     line-height: 100%;
     margin: 0;
@@ -31,6 +32,123 @@ img {
     width: 100%;
 }
 
+/*----- header -----*/
+header {
+    background-color: var(--bk1);
+    padding: 10px 20px;
+}
+header .container {
+    flex-wrap: nowrap;
+    justify-content: space-between;
+}
+header .headerLink {
+    flex-wrap: nowrap;
+}
+header .headerLink a {
+    color: #e9e9e9;
+}
+header li {
+    display: inline-block;
+}
+header .headerLink>li {
+    margin: 0 10px;
+}
+header .cultureList.flex {
+    display: none;
+    background: var(--bk1);
+    flex-direction: column;
+    text-align: center;
+    padding: 10px;
+    position: absolute;
+}
+header .cultureListName:hover .cultureList {
+    display: flex;
+}
+.cultureOpt {
+    display: block;
+    margin: 5px 0;
+}
+.headerIcon {
+    font-size: 20px;
+    margin: 0 10px;
+}
+@media screen and (max-width: 768px) {
+    header .headerLink {
+        display: none;
+    }
+}
+
+
+
+/*----- Footer -----*/
+footer {
+    background-color: var(--bk1);
+    padding: 60px 0;
+    position: relative;
+}
+footer::before {
+    content: '';
+    background-image: url('../assets/images/footer_deco.png');
+    background-repeat: no-repeat;
+    display: block;
+    width: 242px;
+    height: 28px;
+    position: absolute;
+    right: 0;
+    top: -14px;
+}
+footer .container {
+    justify-content: space-between;
+}
+footer .footer-right {
+    align-items: flex-end;
+    flex-direction: column;
+}
+footer .footerLink {
+    color: #e9e9e9;
+    /* line-height: 160%; */
+    padding: 6px 10px;
+}
+footer .footerLink:hover {
+    color: var(--main)
+}
+footer .copyright {
+    color: #D9D9D9;
+    font-size: 14px;
+    margin-top: 20px;
+}
+@media screen and (max-width: 768px) {
+    footer .container {
+        flex-direction: column;
+        justify-content: center;
+    }
+    footer .footer-right {
+        align-items: center;
+        margin-top: 40px;
+    }
+    footer .linkList {
+        flex-direction: column;
+    }
+    footer .footerLink {
+        padding: 10px;
+    }
+}
+
+
+/*logo*/
+.logo {
+    max-width: 108px;
+}
+
+/*手機版限定*/
+.mobOnly {
+    display: none;
+}
+@media screen and (max-width: 768px) {
+    .mobOnly {
+        display: block;
+    }
+}
 
 /*input*/
 .input-text {
@@ -122,6 +240,11 @@ option:checked, option:hover {
 .container-f {
     /* padding: 0 20px; */
     width: 100%;
+}
+@media screen and (max-width: 768px) {
+    .container {
+        max-width: 100%;
+    }
 }
 
 /*flex*/
