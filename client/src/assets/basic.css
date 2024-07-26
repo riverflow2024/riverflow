@@ -42,40 +42,113 @@ header .container {
     justify-content: space-between;
 }
 header .headerLink {
+    border: 1px solid var(--main);
+    border-radius: 30px;
     flex-wrap: nowrap;
+    margin-right: 5px;
+    padding: 0;
 }
 header .headerLink a {
     color: #e9e9e9;
+    display: inline-block;
+    padding: 10px 20px;
+}
+header .headerLink a:hover {
+  background-color: var(--main);
+  border-radius: 30px;
+  color: var(--bk1);
 }
 header li {
     display: inline-block;
+    padding: 0;
 }
-header .headerLink>li {
-    margin: 0 10px;
+header .headerLink>li, header .headerLink label {
+    display: inline-block;
+    line-height: 100%;
+    margin-right: 15px;
+}
+header .cultureListName {
+  position: relative;
+}
+header .headerLink>li:last-child {
+  margin-right: 0;
 }
 header .cultureList.flex {
     display: none;
-    background: var(--bk1);
+    background: var(--bk2);
+    border-radius: 10px;
     flex-direction: column;
     text-align: center;
     padding: 10px;
     position: absolute;
+    top: 50px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: max-content;
+}
+header .cultureList i {
+  margin-right: 5px;
 }
 header .cultureListName:hover .cultureList {
     display: flex;
 }
-.cultureOpt {
-    display: block;
+header .cultureList .cultureOpt {
+    color: var(--main2);
+    display: flex;
+    align-items: center;
     margin: 5px 0;
+    padding: 7px 15px;
 }
+/*嘻哈五元素Icons*/
+.cultureList li .cultureOpt::before {
+  content: '';
+  background-position: center center;
+  background-repeat: no-repeat;
+  display: inline-block;
+  margin-right: 10px;
+  width: 24px;
+  height: 24px;
+}
+.cultureList li:nth-of-type(1) .cultureOpt::before {
+  background-image: url('../assets/images/cultureIcon01.png');
+}
+.cultureList li:nth-of-type(2) .cultureOpt::before {
+  background-image: url('../assets/images/cultureIcon02.png');
+}
+.cultureList li:nth-of-type(3) .cultureOpt::before {
+  background-image: url('../assets/images/cultureIcon03.png');
+}
+.cultureList li:nth-of-type(4) .cultureOpt::before {
+  background-image: url('../assets/images/cultureIcon04.png');
+}
+.cultureList li:nth-of-type(5) .cultureOpt::before {
+  background-image: url('../assets/images/cultureIcon05.png');
+}
+.cultureList li:hover .cultureOpt::before {
+  filter: saturate(0) brightness(0.2);
+}
+
 .headerIcon {
+    color: var(--main);
     font-size: 20px;
     margin: 0 10px;
 }
+.menuBar {
+  cursor: pointer;
+}
+@media screen and (max-width: 900px) {
+  header .container {
+    max-width: 100%;
+    padding: 0;
+  }
+  header .headerLink a {
+    padding: 10px 15px;
+  }
+}
 @media screen and (max-width: 768px) {
-    header .headerLink {
-        display: none;
-    }
+  header .headerLink {
+    display: none;
+  }
 }
 
 
@@ -100,6 +173,9 @@ footer::before {
 footer .container {
     justify-content: space-between;
 }
+footer .logo {
+  max-width: 160px;
+}
 footer .footer-right {
     align-items: flex-end;
     flex-direction: column;
@@ -118,16 +194,13 @@ footer .copyright {
     margin-top: 20px;
 }
 @media screen and (max-width: 768px) {
-    footer .container {
+    footer .flex.container {
         flex-direction: column;
         justify-content: center;
     }
     footer .footer-right {
         align-items: center;
         margin-top: 40px;
-    }
-    footer .linkList {
-        flex-direction: column;
     }
     footer .footerLink {
         padding: 10px;

@@ -3,7 +3,7 @@
 /*---------------------------------------------*/
 /*              關於我們頁面 Start              */
 /*---------------------------------------------*/
-.aboutPage .container {
+.aboutPage section.container {
     max-width: 1200px;
 }
 /*大標*/
@@ -120,7 +120,7 @@
 
 /*RWD*/
 @media screen and (max-width: 1350px) {
-    .aboutPage .container {
+    .aboutPage section.container {
         max-width: 80%;
     }
 }
@@ -154,6 +154,10 @@
     #aboutMem02 .memImgBlk::before {
         bottom: 25px;
         right: -40px;
+    }
+
+    .aboutPage footer .container {
+        max-width: 100%;
     }
 }
 /*---------------------------------------------*/
