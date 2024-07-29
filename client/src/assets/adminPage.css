@@ -60,6 +60,9 @@ i.fa-solid {
 .sideMenu {
     padding: 20px;
 }
+.sideMenuOpt {
+    margin-top: 40px;
+}
 .menuTitle {
     font-size: 20px;
     font-weight: 500;
@@ -86,7 +89,7 @@ i.fa-solid {
 
 
 /*---------------------------------------------*/
-/*              主要區塊Main Start              */
+/*              商品列表 Start              */
 /*---------------------------------------------*/
 .main {
     padding: 0 40px;
@@ -119,7 +122,7 @@ thead {
 }
 td {
     border: 0;
-    font-size: 14px;
+    /* font-size: 14px; */
     padding: 10px 5px;
     text-align: center;
     width: auto;
@@ -145,21 +148,25 @@ td {
     margin: 2px 0;
     padding: 5px 10px;
 }
+.blogSort .sort {
+    border-radius: 20px;
+    padding: 5px 30px
+}
 .prdPrice::before {
     content: '$ ';
 }
-.prdStock, .prdStatus {
+.prdStock, .Status {
     font-weight: bold;
 }
-.prdOpt .flex {
+.itemOpt .flex {
     justify-content: center;
 }
-.prdOpr {
+.itemOpr {
     font-size: 14px;
     justify-content: space-between;
     margin: 3px;
     width: 80px;
 }
-.prdOpr .fa-arrow-down {
+.itemOpr .fa-arrow-down {
     font-size: 16px;
 }
