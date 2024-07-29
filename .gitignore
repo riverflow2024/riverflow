@@ -6,3 +6,6 @@ node_modules
 *.env
 # 其他檔案
 *.xlsx
+# scss
+*.scss
+*.css.map

@@ -1,56 +1,69 @@
-// const Product = require('../models/Product') // 假設你有一個 Product 模型
+const productModel = require('../models/productModel');
 
-// exports.getAllProducts = async (req, res) => {
-//   try {
-//     const products = await Product.find()
-//     res.json(products)
-//   } catch (error) {
-//     res.status(500).json({ error: error.message })
-//   }
-// }
+// 取得所有產品
+const getAllProducts = async (req, res) => {
+    try {
+        const products = await productModel.getAllProduct();
+        res.json(products);
+    } catch (error) {
+        res.status(500).json({ message: error.message + "this" });
+    }
+}
 
-// exports.getProduct = async (req, res) => {
-//   try {
-//     const product = await Product.findById(req.params.productId)
-//     if (!product) {
-//       return res.status(404).json({ message: 'Product not found' })
-//     }
-//     res.json(product)
-//   } catch (error) {
-//     res.status(500).json({ error: error.message })
-//   }
-// }
+// 取得單個產品
+const getProductById = async (req, res) => {
+    try {
+        const product = await productModel.getProduct(req.params.id);
+        if (!product) {
+            return res.status(404).json({ message: 'Product not found' });
+        }
+        res.json(product);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+}
 
-// exports.createProduct = async (req, res) => {
-//   try {
-//     const newProduct = new Product(req.body)
-//     const savedProduct = await newProduct.save()
-//     res.status(201).json(savedProduct)
-//   } catch (error) {
-//     res.status(400).json({ error: error.message })
-//   }
-// }
+// 新增產品
+const createProduct = async (req, res) => {
+    try {
+        const newProduct = await productModel.createProduct(req.body);
+        res.status(201).json(newProduct);
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+}
 
-// exports.updateProduct = async (req, res) => {
-//   try {
-//     const product = await Product.findByIdAndUpdate(req.params.productId, req.body, { new: true })
-//     if (!product) {
-//       return res.status(404).json({ message: 'Product not found' })
-//     }
-//     res.json(product)
-//   } catch (error) {
-//     res.status(500).json({ error: error.message })
-//   }
-// }
+// 更新產品
+const updateProduct = async (req, res) => {
+    try {
+        const updatedProduct = await productModel.updateProduct(req.params.id, req.body);
+        if (!updatedProduct) {
+            return res.status(404).json({ message: 'Product not found' });
+        }
+        res.json(updatedProduct);
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+}
 
-// exports.deleteProduct = async (req, res) => {
-//   try {
-//     const product = await Product.findByIdAndDelete(req.params.productId)
-//     if (!product) {
-//       return res.status(404).json({ message: 'Product not found' })
-//     }
-//     res.json({ message: 'Product deleted' })
-//   } catch (error) {
-//     res.status(500).json({ error: error.message })
-//   }
-// }
+// 刪除產品
+const deleteProduct = async (req, res) => {
+    try {
+        const deletedProduct = await productModel.deleteProduct(req.params.id);
+        if (!deletedProduct) {
+            return res.status(404).json({ message: 'Product not found' });
+        }
+        res.json({ message: 'Product deleted' });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+}
+
+
+module.exports = {
+    getAllProducts,
+    getProductById,
+    createProduct,
+    updateProduct,
+    deleteProduct,
+};

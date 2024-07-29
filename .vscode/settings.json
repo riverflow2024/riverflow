@@ -1,4 +1,12 @@
 {
+<<<<<<< HEAD
+<<<<<<< HEAD
+    "liveServer.settings.port": 5501
+=======
+    "liveServer.settings.port": 5502
+>>>>>>> 64f77a553be5d22185c453cd1e6708e5ecb19b74
+}
+=======
   "liveServer.settings.port": 5502,
   "sqltools.connections": [
     {
@@ -17,3 +25,4 @@
     }
   ]
 }
+>>>>>>> e62a9d05136a70ee726822aa54b19f6aa0dc8cf3

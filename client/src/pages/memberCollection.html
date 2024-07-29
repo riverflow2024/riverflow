@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../assets/member.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+<body class="w-bg">
+    <header>
+        <img src="../assets/images/indexImg/nav.jpg" alt="">
+    </header>
+
+    <section class="Collection" >
+
+        <div class="nav-box" flex="1">
+            <div class="wrap">
+                <div class="member">
+                    <div>
+                        <img class="member-img" src="../assets/images/person.jpeg" alt="">
+                    </div>
+                    <div class="profile">
+                        <h3>Hey！小明</h3>
+                        <a href="member.html">個人資料</a>
+                    </div>
+                </div>
+                <div class="nav">
+                    <ul>
+                        <li><a href="memberOrderList.html"><i class="bi bi-clipboard"></i> 訂單查詢</a></li>
+                        <li><a href="memberTickets.html"><i class="bi bi-ticket-perforated"></i> 活動票券</a></li>
+                        <li><a href="memberCollection.html"><i class="bi bi-heart"></i> 我的最愛</a></li>
+
+                    </ul>
+
+                </div>
+            </div>
+
+        </div>
+        <div class="order-box" flex="2">
+            
+                <h3>我的最愛</h3>
+                <div class="btn-box">
+                    <button class="tablink" onclick="openPage('Collection', this,'3px solid var(--main)')" id="defaultOpen">商品</button>
+                  
+                </div>
+
+                <div id="Collection" class="tabcontent">
+                    <div class="order">
+                        
+                        <div class=Img-box>
+                            <img src="../assets/images/Bootstrap_logo.svg.png" alt="">
+                        </div>
+                        <div class="container">
+                            <div class="wrap">
+                               <span> 商品名稱：商品名稱商品名稱商品名稱商品名稱商品名稱</span>
+                               <button class="closebtn"><i class="bi bi-x"></i></button>
+                            </div>
+                            <div class="wrap">
+                                <span>尺寸：Ｍ&nbsp;&nbsp;&nbsp;數量：1</span>
+                            </div>
+                            <div class="wrap">
+                                <span>金額  NT. $880</span>
+                                <button class="orderbtn">加入購物車</button>
+                            </div>
+                        </div>
+                        
+                    </div>
+                   
+
+                </div>
+              
+
+
+              
+        </div>
+
+    </section>
+
+    <script>
+        function openPage(pageName,elmnt,border) {
+          var i, tabcontent, tablinks;
+          tabcontent = document.getElementsByClassName("tabcontent");
+          for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].style.display = "none";
+          }
+          tablinks = document.getElementsByClassName("tablink");
+          for (i = 0; i < tablinks.length; i++) {
+            tablinks[i].style.borderBottom = "3px solid var(--bk2)";
+          }
+          document.getElementById(pageName).style.display = "block";
+          elmnt.style.borderBottom = border;
+        }
+        
+        // Get the element with id="defaultOpen" and click on it
+        document.getElementById("defaultOpen").click();
+        </script>
+
+
+
+</body>
+
+</html>
