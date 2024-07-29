@@ -45,7 +45,7 @@ header .headerLink {
     border: 1px solid var(--main);
     border-radius: 30px;
     flex-wrap: nowrap;
-    margin-right: 5px;
+    margin: 0 5px 0 0;
     padding: 0;
 }
 header .headerLink a {
@@ -132,6 +132,9 @@ header .cultureList .cultureOpt {
     color: var(--main);
     font-size: 20px;
     margin: 0 10px;
+}
+i.fa-solid.fa-ticket {
+  transform: rotate(45deg);
 }
 .menuBar {
   cursor: pointer;

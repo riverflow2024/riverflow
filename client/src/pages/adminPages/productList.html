@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="../../assets/adminPage.css">
+    <script
+        src="https://code.jquery.com/jquery-3.7.1.js"
+        integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+        crossorigin="anonymous"></script>
+    <title>商品管理</title>
+</head>
+
+<body>
+    <div class="admin-page">
+        <div class="sideBar">
+            <div class="greeting flex">
+                <div><span>管理帳號</span>，你好！</div>
+                <button class="btn">登出</button>
+            </div>
+            <div class="sideMenu">
+                <ul>
+                    <li>
+                        <label for="pdtMenu" class="menuTitle flex">
+                            <i class="fa-solid fa-bag-shopping"></i>商品管理
+                        </label>
+                        <!-- <input type="checkbox" id="pdtMenu"> -->
+                        <ul class="secMenu">
+                            <li>
+                                <a href="#" class="menuPage thisPage">商品列表</a>
+                            </li>
+                            <li>
+                                <a href="#" class="menuPage">商品訂單</a>
+                            </li>
+                            <li>
+                                <a href="#" class="menuPage">優惠活動</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="main">
+            <div class="pageTitle">
+                商品列表
+            </div>
+            <div class="flex">
+                <a href="" class="divided"><button class="btn">新增商品</button></a>
+                <div class="flex">
+                    <input type="text" name="" id="pdtSearch" placeholder="商品搜尋">
+                    <input type="submit" value="搜尋">
+                </div>
+            </div>
+            <table page="1" itemShowing="5" class="listTable">
+                <thead>
+                    <tr>
+                        <td>圖片</td>
+                        <td>分類</td>
+                        <td>商品編號</td>
+                        <td>商品名稱</td>
+                        <td>價格</td>
+                        <td>總庫存</td>
+                        <td>狀態</td>
+                        <td>操作</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="item">
+                        <td><img src="../../assets/images/newsbanner.jpg" alt="" class="prdImgPre"></td>
+                        <td class="prdSort">
+                            <div class="sort">塗鴉周邊</div>
+                            <div class="sort">優惠商品</div><br>
+                            <div class="sort">新上市</div>
+                        </td>
+                        <td class="prdId">240708102104</td>
+                        <td class="prdName">藝術家聯名T恤【白】</td>
+                        <td class="prdPrice">1120</td>
+                        <td class="prdStock">100</td>
+                        <td class="prdStatus">上架</td>
+                        <td class="prdOpt">
+                            <div class="flex">
+                                <a href="#"><button id="btnEdit" class="btn prdOpr inline-flex"><i class="fa-solid fa-pen"></i>編輯</button></a>
+                                <a href="#"><button id="btnView" class="btn prdOpr inline-flex"><i class="fa-solid fa-eye"></i>檢視</button></a>
+                            </div>
+                            <div class="flex">
+                                <button id="btnSta" class="btn prdOpr inline-flex"><i class="fa-solid fa-arrow-down"></i>下架</button>
+                                <button class="btn prdOpr inline-flex"><i class="fa-solid fa-trash"></i>刪除</button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="item">
+                        <td><img src="../../assets/images/newsbanner.jpg" alt="" class="prdImgPre"></td>
+                        <td class="prdSort">
+                            <div class="sort">塗鴉周邊</div>
+                            <div class="sort">優惠商品</div><br>
+                            <div class="sort">新上市</div>
+                        </td>
+                        <td class="prdId">240708102104</td>
+                        <td class="prdName">藝術家聯名T恤【白】</td>
+                        <td class="prdPrice">1120</td>
+                        <td class="prdStock">100</td>
+                        <td class="prdStatus">下架</td>
+                        <td class="prdOpt">
+                            <div class="flex">
+                                <a href="#"><button id="btnEdit" class="btn prdOpr inline-flex"><i class="fa-solid fa-pen"></i>編輯</button></a>
+                                <a href="#"><button id="btnView" class="btn prdOpr inline-flex"><i class="fa-solid fa-eye"></i>檢視</button></a>
+                            </div>
+                            <div class="flex">
+                                <button id="btnSta" class="btn prdOpr inline-flex"><i class="fa-solid fa-arrow-down"></i>下架</button>
+                                <button class="btn prdOpr inline-flex"><i class="fa-solid fa-trash"></i>刪除</button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <script>
+        $('.prdStatus').each(function(index, elem) {
+            // console.log(elem.innerText)
+            if (elem.innerText == '上架') {
+                $(this).css('color', 'var(--side)')
+            } else if (elem.innerText == '下架') {
+                $(this).css('color', 'var(--err)')
+            }
+        })
+    </script>
+</body>
+
+</html>

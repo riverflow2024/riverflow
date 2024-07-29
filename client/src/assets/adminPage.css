@@ -1,0 +1,165 @@
+@import url(basic.css);
+/*後台管理 CSS*/
+body {
+    --mainlighter: #F6FFE0;
+    --err: #FF7E55;
+    --cancel: #A8A7A7;
+    --gr0: #F5F5F5;
+
+    background-color: #fff;
+    color: #000;
+}
+
+.btn, input[type="submit"] {
+    border-radius: 5px;
+    font-weight: bold;
+    padding: 7px 15px;
+}
+input[type="text"] {
+    border: 1px solid var(--cancel);
+    border-radius: 5px;
+    color: var(--bk2);
+    margin-right: 5px;
+    padding: 3px 5px;
+}
+i.fa-solid {
+    font-size: 14px;
+    margin-right: 5px;
+}
+
+
+.admin-page {
+    position: relative;
+}
+
+/*---------------------------------------------*/
+/*              左側SideBar Start              */
+/*---------------------------------------------*/
+.sideBar {
+    background-color: #3B3B3B;
+    color: var(--gr1);
+    height: 100%;
+    /* max-width: 300px; */
+    position: fixed;
+    top: 0;
+    width: 20%;
+}
+.greeting {
+    background-color: var(--bk1);
+    justify-content: space-between;
+    line-height: 160%;
+    padding: 20px;
+}
+.sideBar ul {
+    list-style: none;
+    padding: 0;
+}
+.sideBar li {
+    justify-content: space-between;
+}
+.sideMenu {
+    padding: 20px;
+}
+.menuTitle {
+    font-size: 20px;
+    font-weight: 500;
+}
+.menuTitle i {
+    color: var(--main2);
+    font-size: 24px;
+    margin-right: 10px;
+}
+.sideBar .secMenu {
+    padding-left: 35%;
+}
+.secMenu li {
+    margin: 15px 0;
+}
+.menuPage {
+    color: var(--gr0); 
+    font-weight: 400;
+}
+.menuPage.thisPage, .menuPage:hover {
+    color: var(--main);
+    font-weight: bold;
+}
+
+
+/*---------------------------------------------*/
+/*              主要區塊Main Start              */
+/*---------------------------------------------*/
+.main {
+    padding: 0 40px;
+    margin-left: auto;
+    width: calc(80% - 80px);
+}
+.pageTitle {
+    font-size: 24px;
+    font-weight: bold;
+    line-height: 140%;
+    margin: 20px 0;
+}
+.divided {
+    border-right: 1px solid var(--cancel);
+    display: inline-block;
+    padding: 3px 7px;
+}
+
+.listTable {
+    border-collapse: collapse;
+    border-spacing: 0;
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
+    margin: 30px 0;
+    width: 100%
+}
+
+thead {
+    background-color: var(--main);
+}
+td {
+    border: 0;
+    font-size: 14px;
+    padding: 10px 5px;
+    text-align: center;
+    width: auto;
+}
+.item {
+    border-bottom: 1px solid var(--cancel);
+}
+.item:last-of-type {
+    border-bottom: 0;
+}
+.prdImgPre {
+    aspect-ratio: 1/1;
+    border-radius: 5px;
+    height: auto;
+    object-fit: cover;
+    width: 80px;
+}
+.sort {
+    background-color: var(--main2);
+    border-radius: 30px;
+    color: var(--gr0);
+    display: inline-block;
+    margin: 2px 0;
+    padding: 5px 10px;
+}
+.prdPrice::before {
+    content: '$ ';
+}
+.prdStock, .prdStatus {
+    font-weight: bold;
+}
+.prdOpt .flex {
+    justify-content: center;
+}
+.prdOpr {
+    font-size: 14px;
+    justify-content: space-between;
+    margin: 3px;
+    width: 80px;
+}
+.prdOpr .fa-arrow-down {
+    font-size: 16px;
+}
