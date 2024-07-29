@@ -112,7 +112,6 @@ $side2: #a839ff;
     padding: 20px 20px 20px 30px;
     margin-left: 50px;
     display: flex;
-
     background-color: #333;
     border-radius: 20px;
     flex-wrap: wrap;
@@ -165,7 +164,7 @@ $side2: #a839ff;
       .sold-out {
         position: absolute;
         width: 100%;
-        height: 10%;
+        height: 20%;
         top: 60%;
         left: 50%;
         transform: translate(-50%, -50%) rotate(-25deg);

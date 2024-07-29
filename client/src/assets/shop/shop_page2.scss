@@ -11,6 +11,9 @@ $side: #a839ff;
 $side2: #a839ff;
 
 .container-f {
+  @media (max-width: 1200px) {
+    scale: (0.9);
+  }
   .wrap {
     padding-top: 50px;
     padding-left: 20px;
@@ -114,17 +117,17 @@ $side2: #a839ff;
           margin: 0;
 
           &.normal {
-            padding-top: 8px;
+            padding: 4px 20px;
             background-color: #fff;
           }
           // 優惠橙色
           &.sale {
-            padding-top: 8px;
+            padding: 4px 20px;
             background-color: #ff5722;
           }
           // 新品黃色
           &.new {
-            padding-top: 8px;
+            padding: 4px 20px;
             background-color: #ffc107;
           }
         }

@@ -8,23 +8,20 @@
     <link rel="stylesheet" href="/riverflow/client/src/assets/reset.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
     <link rel="stylesheet" href="/riverflow/client/src/assets/basic.css" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   </head>
   <body class="w-bg">
     <div class="container-f">
       <div class="navbar"></div>
-      <!-- 裡面容器 -->
       <div class="container">
-        <!-- 上方購物車及購物車說明 -->
         <div class="top">
           <h3>River Flow | 購物車</h3>
         </div>
-        <!-- 商品容器製作 -->
         <div class="cart-border">
-          <!-- cart外框 -->
           <table class="cart-table">
             <thead>
               <tr>
-                <th>商品</th>
+                <div class="shop-push"><th>商品</th></div>
                 <th>單價</th>
                 <th>數量</th>
                 <th>總金額</th>
@@ -33,179 +30,97 @@
             </thead>
           </table>
         </div>
-        <!-- cart商品內容 -->
         <div class="cart-border-inner">
           <table class="cart-table">
-            <tbody>
+            <tbody id="cart-items">
               <tr class="cart-item">
                 <td>
-                  <img src="/riverflow/client/src/assets/images/Bootstrap_logo.svg.png" alt="image" />
-                  <div class="cart-item-content">
-                    <h4>購物商品名稱</h4>
-                    <h5>購物詳細內容</h5>
+                  <div class="cart-item-left-content">
+                    <img src="/riverflow/client/src/assets/images/newsbanner.jpg" alt="image" />
+                    <div class="cart-item-content">
+                      <h4>購物商品名稱</h4>
+                      <h5>購物詳細內容</h5>
+                    </div>
                   </div>
                 </td>
-                <td class="price">NT$591</td>
-                <td>
-                  <div class="quantity-plus-minus">
-                    <a href="#"><i class="fa-solid fa-circle-minus"></i></a>
-                    <p class="quantity">2</p>
-                    <a href="#"><i class="fa-solid fa-circle-plus"></i></a>
-                  </div>
-                </td>
-                <td class="total">NT$1182</td>
-                <td>
-                  <a href="#" class="delete"><i class="fa-regular fa-trash-can"></i></a>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <div class="cart-border-inner">
-          <table class="cart-table">
-            <tbody>
-              <tr class="cart-item">
-                <td>
-                  <img src="/riverflow/client/src/assets/images/Bootstrap_logo.svg.png" alt="image" />
-                  <div class="cart-item-content">
-                    <h4>購物商品名稱</h4>
-                    <h5>購物詳細內容</h5>
-                  </div>
-                </td>
-                <td class="price">NT$591</td>
-                <td>
-                  <div class="quantity-plus-minus">
-                    <a href="#"><i class="fa-solid fa-circle-minus"></i></a>
-                    <p class="quantity">2</p>
-                    <a href="#"><i class="fa-solid fa-circle-plus"></i></a>
-                  </div>
-                </td>
-                <td class="total">NT$1182</td>
-                <td>
-                  <a href="#" class="delete"><i class="fa-regular fa-trash-can"></i></a>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <div class="cart-border-inner">
-          <table class="cart-table">
-            <tbody>
-              <tr class="cart-item">
-                <td>
-                  <img src="/riverflow/client/src/assets/images/Bootstrap_logo.svg.png" alt="image" />
-                  <div class="cart-item-content">
-                    <h4>購物商品名稱</h4>
-                    <h5>購物詳細內容</h5>
-                  </div>
-                </td>
-                <td class="price">NT$591</td>
-                <td>
-                  <div class="quantity-plus-minus">
-                    <a href="#"><i class="fa-solid fa-circle-minus"></i></a>
-                    <p class="quantity">2</p>
-                    <a href="#"><i class="fa-solid fa-circle-plus"></i></a>
-                  </div>
-                </td>
-                <td class="total">NT$1182</td>
-                <td>
-                  <a href="#" class="delete"><i class="fa-regular fa-trash-can"></i></a>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <div class="cart-border-inner">
-          <table class="cart-table">
-            <tbody>
-              <tr class="cart-item">
-                <td>
-                  <img src="/riverflow/client/src/assets/images/Bootstrap_logo.svg.png" alt="image" />
-                  <div class="cart-item-content">
-                    <h4>購物商品名稱</h4>
-                    <h5>購物詳細內容</h5>
-                  </div>
-                </td>
-                <td class="price">NT$591</td>
-                <td>
-                  <div class="quantity-plus-minus">
-                    <a href="#"><i class="fa-solid fa-circle-minus"></i></a>
-                    <p class="quantity">2</p>
-                    <a href="#"><i class="fa-solid fa-circle-plus"></i></a>
-                  </div>
-                </td>
-                <td class="total">NT$1182</td>
-                <td>
-                  <a href="#" class="delete"><i class="fa-regular fa-trash-can"></i></a>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <div class="cart-border-inner">
-          <table class="cart-table">
-            <tbody>
-              <tr class="cart-item">
-                <td>
-                  <img src="/riverflow/client/src/assets/images/Bootstrap_logo.svg.png" alt="image" />
-                  <div class="cart-item-content">
-                    <h4>購物商品名稱</h4>
-                    <h5>購物詳細內容</h5>
-                  </div>
-                </td>
-                <td class="price">NT$591</td>
-                <td>
-                  <div class="quantity-plus-minus">
-                    <a href="#"><i class="fa-solid fa-circle-minus"></i></a>
-                    <p class="quantity">2</p>
-                    <a href="#"><i class="fa-solid fa-circle-plus"></i></a>
-                  </div>
-                </td>
-                <td class="total">NT$1182</td>
-                <td>
-                  <a href="#" class="delete"><i class="fa-regular fa-trash-can"></i></a>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <div class="cart-border-inner">
-          <table class="cart-table">
-            <tbody>
-              <tr class="cart-item">
-                <td>
-                  <img src="/riverflow/client/src/assets/images/Bootstrap_logo.svg.png" alt="image" />
-                  <div class="cart-item-content">
-                    <h4>購物商品名稱</h4>
-                    <h5>購物詳細內容</h5>
-                  </div>
-                </td>
-                <td class="price">NT$591</td>
-                <td>
-                  <div class="quantity-plus-minus">
-                    <a href="#"><i class="fa-solid fa-circle-minus"></i></a>
-                    <p class="quantity">2</p>
-                    <a href="#"><i class="fa-solid fa-circle-plus"></i></a>
-                  </div>
-                </td>
-                <td class="total">NT$1182</td>
-                <td>
-                  <a href="#" class="delete"><i class="fa-regular fa-trash-can"></i></a>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
 
-        <!-- 固定下方買單 -->
+                <td class="price">NT$591</td>
+                <td>
+                  <div class="quantity-plus-minus">
+                    <a href="#" class="quantity-minus"><i class="fa-solid fa-circle-minus"></i></a>
+                    <p class="quantity">2</p>
+                    <a href="#" class="quantity-plus"><i class="fa-solid fa-circle-plus"></i></a>
+                  </div>
+                </td>
+                <td class="total">NT$1182</td>
+                <td>
+                  <a href="#" class="delete"><i class="fa-regular fa-trash-can"></i></a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
         <div class="checkButton">
-          <p>已選購5項商品</p>
+          <p>已選購 <span id="item-count">0</span> 項商品</p>
           <div class="rightCheckButton">
-            總金額:$2333
-            <a href="cart_chechkout.html">前往買單-></a>
+            總金額: $<span id="total-amount">0</span>
+            <a href="/riverflow/client/public/cart/cart_chechkout.html">前往買單-></a>
           </div>
         </div>
       </div>
     </div>
+    <script>
+      $(document).ready(function () {
+        const $cartItemsContainer = $('#cart-items')
+        const $itemCount = $('#item-count')
+        const $totalAmount = $('#total-amount')
+
+        function updateCart($row, quantity) {
+          const price = parseInt($row.find('.price').text().replace('NT$', ''), 10)
+          $row.find('.total').text(`NT$${price * quantity}`)
+          updateTotals()
+        }
+
+        function updateTotals() {
+          let newTotalItems = 0
+          let newTotalPrice = 0
+
+          $cartItemsContainer.find('.cart-item').each(function () {
+            const quantity = parseInt($(this).find('.quantity').text(), 10)
+            const total = parseInt($(this).find('.total').text().replace('NT$', ''), 10)
+
+            newTotalItems += quantity
+            newTotalPrice += total
+          })
+
+          $itemCount.text(newTotalItems)
+          $totalAmount.text(newTotalPrice)
+        }
+
+        $cartItemsContainer.on('click', '.quantity-minus, .quantity-plus, .delete', function (event) {
+          event.preventDefault()
+
+          const $target = $(event.target)
+          const $row = $target.closest('tr')
+          const $quantityElement = $row.find('.quantity')
+          let quantity = parseInt($quantityElement.text(), 10)
+
+          if ($target.closest('.quantity-minus').length && quantity > 1) {
+            quantity -= 1
+            $quantityElement.text(quantity)
+            updateCart($row, quantity)
+          } else if ($target.closest('.quantity-plus').length) {
+            quantity += 1
+            $quantityElement.text(quantity)
+            updateCart($row, quantity)
+          } else if ($target.closest('.delete').length) {
+            $row.remove()
+            updateTotals()
+          }
+        })
+
+        updateTotals()
+      })
+    </script>
   </body>
 </html>

@@ -106,9 +106,9 @@
   width: 100%;
   display: flex;
   gap: 30px;
-  margin-bottom: 2rem;
 }
 .container .content-right .total-amount {
+  margin-top: 2rem;
   border-top: 2px solid #fff;
   padding-top: 20px;
 }
@@ -140,4 +140,6 @@
   padding-bottom: 5px;
   margin: 0px;
   display: block;
-}/*# sourceMappingURL=cart_confirmation.css.map */
+}
+
+/*# sourceMappingURL=cart_confirmation.css.map */
