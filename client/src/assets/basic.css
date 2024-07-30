@@ -296,7 +296,7 @@ option:checked, option:hover {
     background-image: url('../assets/images/background.png');
     background-blend-mode: soft-light;
     background-position: center center;
-    background-repeat: repeat-x, repeat-y;
+    background-repeat: repeat-y;
     background-size: 100% 80%;
 }
 @media screen and (max-width: 768px) {

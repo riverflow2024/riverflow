@@ -10,16 +10,21 @@ body {
     color: #000;
 }
 
+input, select {
+    background-color: transparent;
+    color: var(--bk1);
+    font-family: 'Noto Sans TC', sans-serif;
+    font-size: 16px;
+}
+
 .btn, input[type="submit"] {
     border-radius: 5px;
+    font-size: 16px;
     font-weight: bold;
     padding: 7px 15px;
 }
 input[type="text"] {
-    border: 1px solid var(--cancel);
-    border-radius: 5px;
     color: var(--bk2);
-    margin-right: 5px;
     padding: 3px 5px;
 }
 i.fa-solid {
@@ -39,7 +44,7 @@ i.fa-solid {
     background-color: #3B3B3B;
     color: var(--gr1);
     height: 100%;
-    /* max-width: 300px; */
+    max-width: 250px;
     position: fixed;
     top: 0;
     width: 20%;
@@ -89,12 +94,11 @@ i.fa-solid {
 
 
 /*---------------------------------------------*/
-/*              商品列表 Start              */
+/*              主要區塊Main Start              */
 /*---------------------------------------------*/
 .main {
-    padding: 0 40px;
-    margin-left: auto;
-    width: calc(80% - 80px);
+    margin: 0 30px 0 auto;
+    width: calc(100% - 310px);
 }
 .pageTitle {
     font-size: 24px;
@@ -106,6 +110,16 @@ i.fa-solid {
     border-right: 1px solid var(--cancel);
     display: inline-block;
     padding: 3px 7px;
+}
+input[type="text"].search {
+    border: 1px solid var(--cancel);
+    border-radius: 4px;
+    margin: 0 5px;
+}
+@media screen and (max-width: 1250px) {
+    .main {
+        width: calc(80% - 50px);
+    }
 }
 
 .listTable {
@@ -122,7 +136,7 @@ thead {
 }
 td {
     border: 0;
-    /* font-size: 14px; */
+    line-height: 120%;
     padding: 10px 5px;
     text-align: center;
     width: auto;
@@ -150,7 +164,7 @@ td {
 }
 .blogSort .sort {
     border-radius: 20px;
-    padding: 5px 30px
+    padding: 5px 25px
 }
 .prdPrice::before {
     content: '$ ';
@@ -169,4 +183,123 @@ td {
 }
 .itemOpr .fa-arrow-down {
     font-size: 16px;
+}
+.btnList {
+    justify-content: center;
+}
+.btnList .btn {
+    margin: 0 5px;
+}
+
+
+/*---------------------------------------------*/
+/*              新增/編輯頁面Start              */
+/*---------------------------------------------*/
+
+.tabs {
+    margin: 30px 0;
+}
+.tabBtnList {
+    display: flex;
+    list-style: none;
+    margin: 0;
+}
+.tabBtnList li {
+    display: inline-block;
+}
+.tabBtn {
+    background-color: var(--gr1);
+    border: 0;
+    /* border: 1px solid; */
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    color: var(--bk1);
+    cursor: pointer;
+    display: inline-block;
+    padding: 8px 20px;
+    position: relative;
+    bottom: -1px;
+}
+.tabBtn.active {
+    background-color: var(--mainlighter);
+    border: 1px solid;
+    border-bottom: 0;
+}
+.tabContent {
+    background-color: var(--mainlighter);
+    border: 1px solid;
+    border-radius: 10px;
+    padding: 20px;
+}
+
+.infoItem {
+    display: flex;
+    margin: 20px 0;
+    align-items: center;
+}
+.infoItem.itemList {
+    display: block;
+}
+.descInfo, .specInfo {
+    display: block;
+    margin-left: 30px;
+}
+.descItem, .specItem {
+    display: block;
+    margin: 10px 0;
+}
+.tabContent input[type="text"] {
+    border: 0;
+    border-radius: 0;
+    border-bottom: 1px solid;
+    margin: 0;
+    margin-left: 5px;
+}
+.required {
+    color: var(--err);
+}
+.custUpload {
+    background-color: var(--main);
+    border: 0;
+    border-radius: 10px;
+    color: var(--bk1);
+    cursor: pointer;
+    display: inline-block;
+    padding: 10px;
+    text-align: center;
+}
+input[type="file"] {
+    border: 0;
+    clip: rect(0,0,0,0);
+    position: absolute;
+    width: 1px;
+    height: -0;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+}
+.tabContent select {
+    border-color: var(--bk1);
+    border-radius: 4px;
+}
+hr {
+    margin: 20px 0;
+}
+.specSum {
+    width: 100%;
+}
+.itemTitle {
+    line-height: 120%;
+}
+.specItemInfo {
+    position: relative;
+}
+input[type="number"] {
+    border: 0;
+    border-bottom: 1px solid;
+    text-align: right;
+}
+.priceMark {
+    position: absolute;
+    top: 15px;
 }
