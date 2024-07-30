@@ -8,7 +8,10 @@
     <link rel="stylesheet" href="/riverflow/client/src/assets/reset.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
     <link rel="stylesheet" href="/riverflow/client/src/assets/basic.css" />
+    <!-- Jquery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- 彈跳視窗 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   </head>
   <body class="w-bg">
     <!-- 未滿版的容器 -->
@@ -246,7 +249,7 @@
           var value = $(this).val()
           if (value) {
             $('#credit-card-group').hide()
-            $('#payment-info').text(`付款方式：信用卡|卡號：${value}`)
+            $('#payment-info').text(`付款方式：信用卡`)
           }
         })
 
@@ -275,6 +278,20 @@
           const finalTotal = itemTotal + shippingFee
           $('#final-total').text(`$${finalTotal}`)
         }
+
+        // 彈跳視窗 訂單完成
+        $('#submit-order').click(function (e) {
+          e.preventDefault()
+
+          Swal.fire({
+            title: '訂單完成',
+            text: '謝謝您的購買!',
+            icon: 'success',
+            confirmButtonColor: '#98d900',
+            timer: 3000,
+            timerProgressBar: true
+          })
+        })
       })
     </script>
   </body>
