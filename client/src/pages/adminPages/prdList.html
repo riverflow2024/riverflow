@@ -31,7 +31,7 @@
                                 <a href="prdList.html" class="menuPage thisPage">商品列表</a>
                             </li>
                             <li>
-                                <a href="#" class="menuPage">商品訂單</a>
+                                <a href="prdOrder.html" class="menuPage">商品訂單</a>
                             </li>
                             <li>
                                 <a href="discount.html" class="menuPage">優惠活動</a>
@@ -57,7 +57,7 @@
                                 <a href="eventList.html" class="menuPage">活動列表</a>
                             </li>
                             <li>
-                                <a href="#" class="menuPage">活動訂單</a>
+                                <a href="eventOrder.html" class="menuPage">活動訂單</a>
                             </li>
                         </ul>
                     </li>
@@ -92,9 +92,9 @@
                     <tr class="item">
                         <td><img src="../../assets/images/newsbanner.jpg" alt="" class="prdImgPre"></td>
                         <td class="prdSort">
-                            <div class="sort">塗鴉周邊</div>
-                            <div class="sort">優惠商品</div><br>
-                            <div class="sort">新上市</div>
+                            <div class="sort">塗鴉周邊</div><br>
+                            <div class="sort">優惠商品</div>
+                            <!-- <div class="sort">新上市</div> -->
                         </td>
                         <td class="prdId">240708102104</td>
                         <td class="prdName">藝術家聯名T恤【白】</td>
@@ -115,8 +115,8 @@
                     <tr class="item">
                         <td><img src="../../assets/images/newsbanner.jpg" alt="" class="prdImgPre"></td>
                         <td class="prdSort">
-                            <div class="sort">塗鴉周邊</div>
-                            <div class="sort">優惠商品</div><br>
+                            <div class="sort">塗鴉周邊</div><br>
+                            <div class="sort">優惠商品</div>
                             <div class="sort">新上市</div>
                         </td>
                         <td class="prdId">240708102104</td>
@@ -146,6 +146,8 @@
                 $(this).css('color', 'var(--side)')
             } else if (elem.innerText == '下架') {
                 $(this).css('color', 'var(--err)')
+            } else if (elem.innerText == '售完') {
+                $(this).css('color', 'var(--cancel)')
             }
         })
     </script>

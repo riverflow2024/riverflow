@@ -10,7 +10,7 @@
         src="https://code.jquery.com/jquery-3.7.1.js"
         integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
         crossorigin="anonymous"></script>
-    <title>優惠活動</title>
+    <title>商品訂單</title>
 </head>
 
 <body>
@@ -31,10 +31,10 @@
                                 <a href="prdList.html" class="menuPage">商品列表</a>
                             </li>
                             <li>
-                                <a href="prdOrder.html" class="menuPage">商品訂單</a>
+                                <a href="prdOrder.html" class="menuPage thisPage">商品訂單</a>
                             </li>
                             <li>
-                                <a href="discount.html" class="menuPage thisPage">優惠活動</a>
+                                <a href="discount.html" class="menuPage">優惠活動</a>
                             </li>
                         </ul>
                     </li>
@@ -66,59 +66,62 @@
         </div>
         <div class="main">
             <div class="pageTitle">
-                優惠列表
+                商品訂單
             </div>
             <div class="flex">
-                <a href="#" class="divided"><button class="btn">新增優惠</button></a>
+                <!-- <a href="addPrd.html" class="divided"><button class="btn">新增商品</button></a> -->
                 <div class="flex">
-                    <input type="text" name="" id="discountSearch" class="search" placeholder="優惠搜尋">
+                    <input type="text" name="" id="pdtSearch" class="search" placeholder="關鍵字搜尋">
                     <input type="submit" value="搜尋">
                 </div>
             </div>
             <table page="1" itemShowing="5" class="listTable">
                 <thead>
                     <tr>
-                        <td>優惠名稱</td>
-                        <td>開始日期</td>
-                        <td>結束日期</td>
-                        <td>優惠敘述</td>
-                        <td>活動狀態</td>
+                        <td>訂單標號</td>
+                        <td>訂購人姓名</td>
+                        <td>訂購人手機</td>
+                        <td>訂單價格</td>
+                        <td>付款方式</td>
+                        <td>狀態</td>
                         <td>操作</td>
                     </tr>
                 </thead>
                 <tbody>
                     <tr class="item">
-                        <td class="discountTitle">全館周年慶</td>
-                        <td class="time">2024.07.26<br/>19:00:00</td>
-                        <td class="time">2024.08.01<br/>19:00:00</td>
-                        <td class="discountDesc">滿3000折300</td>
-                        <td class="Status">上架</td>
+                        <td class="prdOrderId">240708102104</td>
+                        <td class="userName">王O明</td>
+                        <td class="userPhone">0900000001</td>
+                        <td class="prdOrderPrice">1120</td>
+                        <td class="prdPayment">線上付款</td>
+                        <td class="Status">已完成</td>
                         <td class="itemOpt">
                             <div class="flex">
                                 <a href="#"><button id="btnEdit" class="btn itemOpr inline-flex"><i class="fa-solid fa-pen"></i>編輯</button></a>
                                 <a href="#"><button id="btnView" class="btn itemOpr inline-flex"><i class="fa-solid fa-eye"></i>檢視</button></a>
                             </div>
-                            <div class="flex">
+                            <!-- <div class="flex">
                                 <button id="btnSta" class="btn itemOpr inline-flex"><i class="fa-solid fa-arrow-down"></i>下架</button>
                                 <button class="btn itemOpr inline-flex"><i class="fa-solid fa-trash"></i>刪除</button>
-                            </div>
+                            </div> -->
                         </td>
                     </tr>
                     <tr class="item">
-                        <td class="discountTitle">黑色星期五免運GO</td>
-                        <td class="time">2024.07.26<br/>19:00:00</td>
-                        <td class="time">2024.08.01<br/>19:00:00</td>
-                        <td class="discountDesc">全館免運費</td>
-                        <td class="Status">下架</td>
+                        <td class="prdOrderId">240708102104</td>
+                        <td class="userName">王O明</td>
+                        <td class="userPhone">0900000002</td>
+                        <td class="prdOrderPrice">1120</td>
+                        <td class="prdPayment">線上付款</td>
+                        <td class="Status">已取消</td>
                         <td class="itemOpt">
                             <div class="flex">
                                 <a href="#"><button id="btnEdit" class="btn itemOpr inline-flex"><i class="fa-solid fa-pen"></i>編輯</button></a>
                                 <a href="#"><button id="btnView" class="btn itemOpr inline-flex"><i class="fa-solid fa-eye"></i>檢視</button></a>
                             </div>
-                            <div class="flex">
+                            <!-- <div class="flex">
                                 <button id="btnSta" class="btn itemOpr inline-flex"><i class="fa-solid fa-arrow-down"></i>下架</button>
                                 <button class="btn itemOpr inline-flex"><i class="fa-solid fa-trash"></i>刪除</button>
-                            </div>
+                            </div> -->
                         </td>
                     </tr>
                 </tbody>
@@ -128,10 +131,10 @@
     <script>
         $('.Status').each(function(index, elem) {
             // console.log(elem.innerText)
-            if (elem.innerText == '上架') {
+            if (elem.innerText == '已完成') {
                 $(this).css('color', 'var(--side)')
-            } else if (elem.innerText == '下架') {
-                $(this).css('color', 'var(--err)')
+            } else if (elem.innerText == '已取消') {
+                $(this).css('color', 'var(--cancel)')
             }
         })
     </script>
