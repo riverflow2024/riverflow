@@ -8,15 +8,15 @@
     <link rel="stylesheet" href="../../src/assets/basic.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
-    <link rel="stylesheet" href="../../src/assets/event/eventPay.css">
+    <link rel="stylesheet" href="../../src/assets/event/eventPage4.css">
     <style>
-    
+        
     </style>
 </head>
 
 <body class="w-bg">
     <div class="wrap container">
-        <div class="header">我是導覽列</div>
+        <div class="header"><img src="../../src/assets/images/indexImg/nav.jpg" alt=""></div>
 
         <!-- 活動明細 -->
         <div class="eventName">
@@ -55,80 +55,6 @@
                 <p></p>
             </div>
         </div>
-        <!-- 聯絡人資訊 -->
-        <div class="ticketChoose">
-            <div class="ticketText">
-                <h3>聯絡人資訊</h3>
-            </div>
-            <div class="contact">
-
-                <div></div>
-                <!-- 填寫聯絡人資料 -->
-                <div>
-                    <div>
-                        <!-- 姓名 -->
-                        <label for="contactName">顧客姓名</label>
-                        <br>
-                        <input type="text" id="contactName" name="contactName" placeholder="請輸入姓名">
-                    </div>
-                    <!-- 電子信箱 -->
-                    <div>
-                        <label for="contactEmail">電子信箱</label>
-                        <br>
-                        <input type="text" id="contactEmail" name="contactEmail" placeholder="請輸入電子信箱">
-                    </div>
-                    <!-- 電話號碼 -->
-                    <div>
-                        <label for="contactPhone">電話號碼</label>
-                        <br>
-                        <input type="text" id="contactPhone" name="contactPhone" placeholder="請輸入電話號碼">
-                    </div>
-                </div>
-                <div></div>
-            </div>
-
-
-        </div>
-
-        <!-- 取票方式 -->
-        <div class="ticketChoose">
-            <div class="ticketText">
-                <h3>取票方式</h3>
-            </div>
-
-            <!-- ibon取票radio -->
-            <div class="ticketTake">
-                <div class="takeTitle">
-                    <label for="fee">
-                        <input type="radio" name="fee" id="fee">
-                        <div>
-                            <p>ibon</p>
-                            <p>取票時，酌收30元手續費</p>
-                        </div>
-                    </label>
-                </div>
-            </div>
-        </div>
-
-        <!-- 付款方式 -->
-        <div class="ticketChoose">
-            <div class="ticketText">
-                <h3>付款方式</h3>
-            </div>
-
-            <!-- 信用卡radio -->
-            <div class="ticketTake">
-                <div class="takeTitle">
-                    <label for="credit">
-                        <input type="radio" name="credit" id="credit">
-                        <div>
-                            <p>信用卡線上支付</p>
-                        </div>
-                    </label>
-                </div>
-            </div>
-        </div>
-
 
 
         <!-- 購票明細 -->
@@ -205,27 +131,13 @@
         </div>
         <!-- 下一步按鍵 -->
         <div class="nextBtn">
-            <button class="nextStep" disabled>下一步</button>
+            <a href="./eventPay.html">下一步</a>
         </div>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-        $(document).ready(function () {
 
-            // 如果input text裡面沒有填東西 radio沒有點選
-            $('input').on('change keyup', function () {
-                if ($('input[name="credit"]:checked').length > 0 &&
-                    $('input[name="fee"]:checked').length > 0 &&
-                    $('#contactName').val() !== '' &&
-                    $('#contactEmail').val() !== '' &&
-                    $('#contactPhone').val() !== '') {
-                    $('.nextStep').prop('disabled', false);
-                } else {
-                    $('.nextStep').prop('disabled', true);
-                }
-            })
-        })
     </script>
 </body>
 
