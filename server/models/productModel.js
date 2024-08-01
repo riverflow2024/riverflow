@@ -10,7 +10,18 @@ dbConnect.connect((err) => {
 // 取得所有產品
 exports.getAllProduct = () => {
     return new Promise((resolve, reject) => {
-        dbConnect.query('SELECT * FROM products', (err, products) => {
+        dbConnect.query(`
+            SELECT 
+            products.productid, productName, productcategories.categoryid, categories.categoryName , productoptions.productPrice , productfavorite.userid
+            FROM 
+            products, productcategories ,categories, productoptions ,productfavorite, productimages
+            WHERE 
+            products.productid = productcategories.productid 
+            AND productcategories.categoryid = categories.categoryid    
+            AND products.productid =  productoptions.productid
+            AND products.productid = productfavorite.productid
+            AND products.productid = productimages.productid
+            `, (err, products) => { 
             if (err) return reject(err);
             resolve(products);
         });
@@ -20,9 +31,22 @@ exports.getAllProduct = () => {
 // 取得單個產品
 exports.getProduct = (id) => {
     return new Promise((resolve, reject) => {
-        dbConnect.query('SELECT * FROM products WHERE productid = ?', [id], (err, product) => {
+        dbConnect.query(`
+            SELECT 
+            *
+            FROM 
+            products, productcategories ,categories,productoptions ,productratings, productfavorite
+            WHERE 
+            products.productid = ? 
+            AND products.productid = productcategories.productid 
+            AND productcategories.categoryid = categories.categoryid 
+            AND products.productid =  productoptions.productid
+            AND products.productid = productratings.productid
+            AND products.productid = productfavorite.productid
+                        AND productfavorite.userid = 1
+            `, [id], (err, product) => {
             if (err) return reject(err);
-            resolve(product[0]);
+            resolve(product);
         });
     });
 };
