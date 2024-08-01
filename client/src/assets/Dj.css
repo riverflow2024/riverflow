@@ -5,6 +5,9 @@ html {
   padding: 0;
 }
 
+.wrap {
+  width: 100%;
+}
 /* 導覽列 */
 .header-nav {
   position: absolute;
@@ -21,8 +24,11 @@ html {
 /*------> banner<------ */
 /* 跑馬燈海報區域位置調整 */
 .banner {
+  margin-top: 0px;
   height: 100vh;
   position: relative;
+  z-index: -999;
+  /* 跑馬燈上的圖片 */
 }
 /* 跑馬燈文字調整 */
 .marquee p {
@@ -51,13 +57,38 @@ html {
 .marquee p:nth-of-type(4) {
   transform: translateX(-15%);
 }
-
-/* 跑馬燈上的圖片 */
-.banner img {
+/* 播放機 */
+#Record {
   position: absolute;
-  bottom: 15%;
-  width: 100%;
-  z-index: 100;
+  width: 45%;
+  left: 28%;
+  top: 20%;
+}
+
+/* 播放機的那一條 */
+#RecordBar {
+  position: absolute;
+  width: 19%;
+  top: 30%;
+  left: 52%;
+}
+
+/* 處理唱片轉動 */
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+/* 唱片圖片 */
+#DjImg {
+  width: 19%;
+  position: absolute;
+  top: 33%;
+  left: 43.5%;
+  animation: rotate 5s linear infinite;
 }
 
 /* -----介紹內容----- */
@@ -120,11 +151,12 @@ html {
 .content p {
   font-size: 1.3rem;
   line-height: 2rem;
-  margin: 0; /* 確保文字沒有額外的間距 */
+  margin: 0;
 }
 
 /* 底下介紹 */
 .bottom-content img {
+  margin-bottom: 5rem;
   width: 100%;
   height: 50vh;
   opacity: 0.5;
@@ -133,7 +165,7 @@ html {
 .bottom-text {
   color: white;
   z-index: 10;
-  padding: 0px 30px;
+  padding: 0px 50px;
   text-align: center;
 }
 .bottom-content h2 {
@@ -142,37 +174,17 @@ html {
   color: #baf13a;
 }
 .bottom-content p {
+  margin-top: 50px;
   line-height: 25px;
 }
 
-/* base.css */
-:root {
-  font-size: 16px;
-  --page-padding: 1.5rem;
-  --color-text: #fff;
-  --color-bg: #1d1d1d;
-  --color-link: rgba(255, 255, 255, 0.6);
-  --color-link-hover: #fff;
-  --color-bg-1: #2f251e;
-  --color-bg-2: #43392f;
-  --color-bg-3: var(--color-bg-1);
-  --color-bg-4: var(--color-bg-2);
-  --color-bg-5: var(--color-bg-1);
-  --color-bg-6: var(--color-bg-2);
-}
-
+/* 這邊拿來調整position sticky效果 */
 body {
-  margin: 0;
-  color: var(--color-text);
-  background-color: var(--color-bg);
-  font-family: 'area-variable', sans-serif;
-  font-variation-settings: 'slnt' 0, 'wdth' 150, 'wght' 500, 'INKT' 0;
   width: 100%;
   overflow-x: hidden;
 }
 
 .content {
-  padding: var(--page-padding);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -256,7 +268,6 @@ body {
     grid-template-columns: auto auto auto 1fr 1fr;
     grid-template-rows: auto 1fr auto;
     align-content: space-between;
-    grid-template-areas: 'title back prev sub sponsor' 'heading heading heading heading heading' 'demos demos demos demos demos';
   }
   .frame__heading {
     margin-top: 0;
