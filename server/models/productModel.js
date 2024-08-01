@@ -1,69 +1,87 @@
 const dbConnect = require('./dbConnect')
 
-
 dbConnect.connect((err) => {
-    if (err) throw err
-    console.log('Connected to the database')
+  if (err) throw err
+  console.log('Connected to the database')
 })
-
 
 // 取得所有產品
 exports.getAllProduct = () => {
-    return new Promise((resolve, reject) => {
-        dbConnect.query('SELECT * FROM products', (err, products) => {
-            if (err) return reject(err);
-            resolve(products);
-        });
-    });
-};
+  return new Promise((resolve, reject) => {
+    dbConnect.query('SELECT * FROM products', (err, products) => {
+      if (err) return reject(err)
+      resolve(products)
+    })
+  })
+}
+const express = require('express')
+const router = express.Router()
+
+// 假設這些控制器函數已經定義
+
+//product
+const {
+  getProductById,
+  getAllProducts,
+  createProduct,
+  updateProduct,
+  deleteProduct
+} = require('../controllers/productController')
+
+//新增
+router.post('/', createProduct)
+//更新
+router.put('/:id', updateProduct)
+//刪除
+router.delete('/:id', deleteProduct)
+//取得全部
+router.get('/', getAllProducts)
+//取得單個
+router.get('/:id', getProductById)
+
+module.exports = router
 
 // 取得單個產品
 exports.getProduct = (id) => {
-    return new Promise((resolve, reject) => {
-        dbConnect.query('SELECT * FROM products WHERE productid = ?', [id], (err, product) => {
-            if (err) return reject(err);
-            resolve(product[0]);
-        });
-    });
-};
-
+  return new Promise((resolve, reject) => {
+    dbConnect.query('SELECT * FROM products WHERE productid = ?', [id], (err, product) => {
+      if (err) return reject(err)
+      resolve(product[0])
+    })
+  })
+}
 
 // 新增產品
 exports.createProduct = (productData) => {
-    return new Promise((resolve, reject) => {
-        dbConnect.query('INSERT INTO products SET ?', productData, (err, result) => {
-            if (err) return reject(err);
-            resolve({ message: 'Product created', id: result.insertId });
-        });
-    });
-};
+  return new Promise((resolve, reject) => {
+    dbConnect.query('INSERT INTO products SET ?', productData, (err, result) => {
+      if (err) return reject(err)
+      resolve({ message: 'Product created', id: result.insertId })
+    })
+  })
+}
 
 // 更新產品
 exports.updateProduct = (id, productData) => {
-    return new Promise((resolve, reject) => {
-        dbConnect.query('UPDATE products SET ? WHERE productid = ?', [productData, id], (err, result) => {
-            if (err) return reject(err);
-            resolve({ message: 'Product updated', changed: result.changedRows });
-        });
-    });
-};
+  return new Promise((resolve, reject) => {
+    dbConnect.query('UPDATE products SET ? WHERE productid = ?', [productData, id], (err, result) => {
+      if (err) return reject(err)
+      resolve({ message: 'Product updated', changed: result.changedRows })
+    })
+  })
+}
 
 // 刪除產品
 exports.deleteProduct = (id) => {
-    return new Promise((resolve, reject) => {
-        dbConnect.query('DELETE FROM products WHERE productid = ?', [id], (err, result) => {
-            if (err) return reject(err);
-            resolve({ message: 'Product deleted', deleted: result.affectedRows });
-        });
-    });
-};
-
-
-
+  return new Promise((resolve, reject) => {
+    dbConnect.query('DELETE FROM products WHERE productid = ?', [id], (err, result) => {
+      if (err) return reject(err)
+      resolve({ message: 'Product deleted', deleted: result.affectedRows })
+    })
+  })
+}
 
 //--------------------------------------------------------------------------------------------------------------------
-
-
 
 //取得
 // exports.getProduct = (req,res) =>{
@@ -80,7 +98,6 @@ exports.deleteProduct = (id) => {
 //     })
 // }
 
-
 // //新增
 // exports.createProduct = (req,res) =>{
 //     dbConnect.query('INSERT INTO products SET?',req.body,(err, result) =>{
@@ -89,7 +106,6 @@ exports.deleteProduct = (id) => {
 //     })
 // }
 
-
 // //更新
 // exports.updateProduct = (req,res) =>{
 //     dbConnect.query('UPDATE products SET? WHERE productid =?',[req.body, req.params.id],(err, result) =>{
@@ -97,7 +113,7 @@ exports.deleteProduct = (id) => {
 //         res.send({message: 'Product updated', changed: result.changedRows})
 //     })
 // }
- 
+
 // //刪除
 // exports.deleteProduct = (req,res) =>{
 //     dbConnect.query('DELETE FROM products WHERE productid =?',[req.params.id],(err, result) =>{

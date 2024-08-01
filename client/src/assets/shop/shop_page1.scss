@@ -15,13 +15,12 @@ $side2: #a839ff;
   .swiper {
     width: 100%;
     height: 600px;
-
     .swiper-slide {
       position: relative;
 
       img {
         width: 100%;
-        height: 100%;
+        height: 600px;
         object-fit: cover;
         opacity: 0.6;
       }
@@ -62,23 +61,24 @@ $side2: #a839ff;
     padding: 10px 20px;
     width: 20%;
     height: 80%;
-    border: 2px solid var(--main2);
+    border: 0.75px solid var(--main2);
     border-radius: 20px;
 
     .filter-text {
       padding-bottom: 20px;
       padding-top: 20px;
+    }
 
-      h3 {
-        font-size: 1.2rem;
-        padding-bottom: 10px;
-        color: $main;
-      }
+    h3 {
+      font-size: 1.2rem;
+      padding-bottom: 10px;
+      color: $main;
+    }
 
-      input {
-        border-bottom: 2px solid var(--main2);
-        margin: 0px;
-      }
+    input {
+      width: 100%;
+      border-bottom: 0.75px solid var(--main2);
+      margin: 0px;
     }
 
     ul li {
@@ -116,18 +116,18 @@ $side2: #a839ff;
     border-radius: 20px;
     flex-wrap: wrap;
     overflow-y: auto;
+    height: 100%;
 
     .product-item {
-      width: 29%;
-      height: 45vh;
-      margin: 2%;
+      width: 28%;
+      border-radius: 10px;
+      height: 30%;
+      margin: 2.5%;
       background-color: #fff;
-      border-radius: 0 0 10px 10px;
-      box-shadow: 2px 5px 5px 3px rgba(0, 0, 0, 0.1);
+      box-shadow: 2px 3px 3px 3px rgba(0, 0, 0, 0.1);
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      position: relative;
     }
 
     // 售完商品用js去新增使用
@@ -144,6 +144,7 @@ $side2: #a839ff;
         width: 100%;
         height: 100%;
         background-color: rgba(0, 0, 0, 0.5);
+        border-radius: 0px 0px 10px 10px;
         z-index: 1;
       }
     }
@@ -153,6 +154,7 @@ $side2: #a839ff;
       height: 200px;
       object-fit: cover;
       position: relative;
+      border-radius: 100px;
 
       img {
         height: 200px;
@@ -211,6 +213,8 @@ $side2: #a839ff;
       align-items: center;
       color: black;
       font-size: 0.6rem;
+      background-color: #fff;
+      border-radius: 20%;
 
       span {
         text-align: center;
@@ -236,6 +240,8 @@ $side2: #a839ff;
       padding-left: 15px;
       padding-top: 15px;
       padding-bottom: 20px;
+      background-color: #fff;
+      border-radius: 0px 0px 15px 15px;
     }
 
     h4 {

@@ -102,22 +102,9 @@
               <input class="text-border" type="text" id="payment-method" placeholder="請選擇付款方式" readonly />
               <span id="payment-info" class="payment-display"></span>
               <div class="dropdown-content">
-                <div>信用卡</div>
+                <div>線上付款</div>
                 <div>貨到付款</div>
               </div>
-            </div>
-
-            <!-- 信用卡卡號輸入框 -->
-            <div class="form-group" id="credit-card-group" style="display: none">
-              <label for="credit-card">信用卡卡號</label>
-              <br />
-              <input
-                class="text-border"
-                type="text"
-                id="credit-card"
-                placeholder="5342-4502-1204-9533"
-                value="5342-4502-1204-9533"
-              />
             </div>
 
             <!-- 電子發票 -->
@@ -231,13 +218,6 @@
             $input.val(value)
             $(this).parent().removeClass('active')
             $('#payment-info').text('付款方式：' + value)
-
-            // 檢查是否是信用卡選擇，顯示卡號輸入框
-            if (value === '信用卡') {
-              $('#credit-card-group').show()
-            } else {
-              $('#credit-card-group').hide()
-            }
           })
 
         // 信用卡卡號輸入完畢後隱藏輸入框
