@@ -11,13 +11,11 @@ const {
   deleteProduct
 } = require('../controllers/productController')
 
-// const {getProduct, getAllProduct , createProduct, updateProduct, deleteProduct} = require('../models/productModel');
-
-// router.get('/', getAllProduct);
-// router.get('/:id',getProduct)
-
+//新增
 router.post('/', createProduct)
+//更新
 router.put('/:id', updateProduct)
+//刪除
 router.delete('/:id', deleteProduct)
 
 router.get('/', getAllProducts)
