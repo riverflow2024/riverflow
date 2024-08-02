@@ -84,11 +84,13 @@ html {
 }
 /* 唱片圖片 */
 #DjImg {
+  margin: 0px;
   width: 19%;
   position: absolute;
   top: 33%;
   left: 43.5%;
   animation: rotate 5s linear infinite;
+  cursor: pointer;
 }
 
 /* -----介紹內容----- */
