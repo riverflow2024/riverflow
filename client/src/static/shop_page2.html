@@ -3,16 +3,18 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>RiverFlow商城</title>
     <link rel="stylesheet" href="../src/assets/reset.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
-    <link rel="stylesheet" href="/riverflow/client/src/assets/basic.css" />
-    <link rel="stylesheet" href="/riverflow/client/src/assets/shop/shop_page2.css" />
-    <link rel="stylesheet" href="/riverflow/client/src/assets/shop/lightbox.min.css" />
+    <link rel="stylesheet" href="../assets/basic.css" />
+    <link rel="stylesheet" href="../assets/shop/shop_page2.css" />
+    <link rel="stylesheet" href="../assets/shop/lightbox.min.css" />
   </head>
 
   <body class="w-bg">
     <div class="container-f">
+      <div class="header"><img src="../../src/assets/images/indexImg/nav.jpg" alt=""></div>
+
       <!-- 上面圖片及商品介紹容器 -->
       <div class="wrap">
         <!-- 燈箱效果製作 -->
@@ -254,8 +256,9 @@
     <div id="cart-notification" class="cart-notification">
       已成功加入購物車
     </div>
-
-    <script src="/riverflow/client/src/assets/shop/lightbox-plus-jquery.min.js"></script>
+    <!-- 彈跳視窗 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="../assets/shop/lightbox-plus-jquery.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <script>
@@ -323,14 +326,21 @@
     // 檢查有沒有成功加入
     // console.log("加入購物車的項目: " + selectedSize);
     // console.log("加入購物車的數量: " + quantity);
-
-    // 顯示購物車通知
-    $('#cart-notification').fadeIn();
-    
-    // 2秒後隱藏通知
-    setTimeout(function() {
-      $('#cart-notification').fadeOut();
-    }, 2000);
+    const Toast = Swal.mixin({
+  toast: true,
+  position: "top-end",
+  showConfirmButton: false,
+  timer: 3000,
+  timerProgressBar: true,
+  didOpen: (toast) => {
+    toast.onmouseenter = Swal.stopTimer;
+    toast.onmouseleave = Swal.resumeTimer;
+  }
+});
+Toast.fire({
+  icon: "success",
+  title: "已成功加入購物車"
+});
 
   
     // 處理動態更新

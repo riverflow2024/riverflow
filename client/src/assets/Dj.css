@@ -10,7 +10,6 @@ html {
 }
 /* 導覽列 */
 .header-nav {
-  position: absolute;
   background-color: #1d1d1d;
   width: 100%;
   box-shadow: 1px 2px 10px rgb(0, 0, 0);
@@ -31,6 +30,9 @@ html {
   /* 跑馬燈上的圖片 */
 }
 /* 跑馬燈文字調整 */
+.marquee {
+  height: 100vh;
+}
 .marquee p {
   margin: 10px;
   font-family: 'Kanit', sans-serif;
