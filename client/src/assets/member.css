@@ -22,12 +22,11 @@ header {
 /*------- 個人資料--------- */
 .Member {
   width: 100%;
-  display: flex;
   gap: 20px;
-  flex-wrap: wrap;
-  padding-top: 140px;
-  padding-bottom: 50px;
+  padding: 140px 10vw 50px 10vw;
+  display: flex;
   justify-content: center;
+  text-wrap: nowrap;
 }
 .Member h3 {
   color: var(--main);
@@ -50,8 +49,35 @@ header {
   width: 88px;
   height: 88px;
   border-radius: 50%;
-  -o-object-fit: cover;
-     object-fit: cover;
+  overflow: hidden;
+  position: relative;
+}
+.Member .nav-box .member .member-img .img {
+  opacity: 0.5;
+}
+.Member .nav-box .member .member-img .prettier-input {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+.Member .nav-box .member .member-img .prettier-input input {
+  display: none;
+}
+.Member .nav-box .member .member-img .prettier-input div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 88px;
+  text-align: center;
+  padding: 8px;
+  font-size: 14px;
+  font-weight: 800;
+  background-color: hsla(78, 87%, 59%, 0.5);
+  color: white;
+  cursor: pointer;
+}
+.Member .nav-box .member .member-img .prettier-input:hover div {
+  background-color: hsla(0, 0%, 80%, 0.5);
 }
 .Member .nav-box .member .profile {
   padding: 10px;
@@ -85,6 +111,15 @@ header {
   background: var(--bk2);
   padding: 40px;
 }
+.Member .profile-box .wrap .item {
+  border-bottom: 0.5px solid var(--gr2);
+}
+.Member .profile-box .wrap span {
+  display: block;
+  padding: 5px 0px;
+  color: #eee;
+  font-weight: 200;
+}
 .Member .profile-box .input-card {
   width: 100%;
   padding: 15px 0;
@@ -96,6 +131,10 @@ header {
 .Member .profile-box .input-card:has(input:focus-visible) {
   border-bottom: 1px solid var(--main);
 }
+.Member .profile-box .input-card div {
+  padding: 5px 0px;
+  color: white;
+}
 .Member .profile-box input {
   width: 100%;
   background: transparent;
@@ -105,7 +144,7 @@ header {
   line-height: 160%;
 }
 .Member .profile-box input[type=date]::-webkit-calendar-picker-indicator {
-  background: none;
+  background-color: var(--main);
 }
 .Member .profile-box select {
   margin-top: 10px;
@@ -117,7 +156,7 @@ header {
   padding: 40px 0;
   gap: 20px;
 }
-.Member .profile-box .btn-box input[type=submit] {
+.Member .profile-box .btn-box input[type=button] {
   background-color: var(--main);
   border: 0;
   border-radius: 10px;
@@ -127,12 +166,11 @@ header {
   padding: 10px;
   text-align: center;
 }
-.Member .profile-box .btn-box input[type=submit]:hover {
+.Member .profile-box .btn-box input[type=button]:hover {
   background-color: var(--main2);
 }
-.Member .profile-box .btn-box .btn {
-  width: 200px;
-  font-size: 16px;
+.Member .profile-box.active {
+  display: block;
 }
 
 /*------- 訂單查詢--------- */
@@ -268,7 +306,8 @@ header {
   border-collapse: collapse;
   table-layout: fixed;
 }
-.OrderList .order-box .tabcontent .order th, .OrderList .order-box .tabcontent .order td {
+.OrderList .order-box .tabcontent .order th,
+.OrderList .order-box .tabcontent .order td {
   font-size: 16px;
   font-weight: 200;
   text-align: center;
@@ -277,10 +316,12 @@ header {
 .OrderList .order-box .tabcontent .order th {
   border-bottom: 0.5px solid var(--main);
 }
-.OrderList .order-box .tabcontent .order th:nth-of-type(1), .OrderList .order-box .tabcontent .order td:nth-of-type(1) {
+.OrderList .order-box .tabcontent .order th:nth-of-type(1),
+.OrderList .order-box .tabcontent .order td:nth-of-type(1) {
   text-align: justify;
 }
-.OrderList .order-box .tabcontent .order th:nth-of-type(4), .OrderList .order-box .tabcontent .order td:nth-of-type(4) {
+.OrderList .order-box .tabcontent .order th:nth-of-type(4),
+.OrderList .order-box .tabcontent .order td:nth-of-type(4) {
   text-align: right;
 }
 .OrderList .order-box .tabcontent .btn {
@@ -445,12 +486,14 @@ header {
   text-align: right;
 }
 .Order .order-box .tabcontent .order .accordion {
+  width: 100%;
   color: #baf13a;
   font-size: 16px;
   font-weight: 300;
   transition: 0.5s;
 }
 .Order .order-box .tabcontent .order .accordion .container {
+  max-width: 100% !important;
   position: relative;
   margin: 10px 0px;
   padding: 0px;
@@ -633,7 +676,8 @@ header {
   border-collapse: collapse;
   table-layout: fixed;
 }
-.Tickets .order-box .tabcontent .order th, .Tickets .order-box .tabcontent .order td {
+.Tickets .order-box .tabcontent .order th,
+.Tickets .order-box .tabcontent .order td {
   font-size: 16px;
   font-weight: 200;
   line-height: 25px;
@@ -643,13 +687,16 @@ header {
 .Tickets .order-box .tabcontent .order th {
   border-bottom: 0.5px solid var(--main);
 }
-.Tickets .order-box .tabcontent .order th:nth-of-type(1), .Tickets .order-box .tabcontent .order td:nth-of-type(1) {
+.Tickets .order-box .tabcontent .order th:nth-of-type(1),
+.Tickets .order-box .tabcontent .order td:nth-of-type(1) {
   text-align: justify;
 }
-.Tickets .order-box .tabcontent .order th:nth-of-type(2), .Tickets .order-box .tabcontent .order td:nth-of-type(2) {
+.Tickets .order-box .tabcontent .order th:nth-of-type(2),
+.Tickets .order-box .tabcontent .order td:nth-of-type(2) {
   text-align: justify;
 }
-.Tickets .order-box .tabcontent .order th:nth-of-type(6), .Tickets .order-box .tabcontent .order td:nth-of-type(6) {
+.Tickets .order-box .tabcontent .order th:nth-of-type(6),
+.Tickets .order-box .tabcontent .order td:nth-of-type(6) {
   text-align: right;
 }
 .Tickets .order-box .tabcontent .btn {
@@ -811,7 +858,8 @@ header {
   font-weight: 200;
   letter-spacing: 1px;
 }
-.Collection .order-box .tabcontent .order .container .wrap .orderbtn:hover, .Collection .order-box .tabcontent .order .container .wrap .closebtn:hover {
+.Collection .order-box .tabcontent .order .container .wrap .orderbtn:hover,
+.Collection .order-box .tabcontent .order .container .wrap .closebtn:hover {
   background: var(--main);
   color: var(--bk1);
   font-weight: 400;
@@ -860,5 +908,11 @@ header {
   }
   .order-box {
     width: 300px;
+  }
+  .btn-box {
+    flex-direction: column;
+  }
+  .btn-box .btn {
+    width: 100% !important;
   }
 }/*# sourceMappingURL=member.css.map */

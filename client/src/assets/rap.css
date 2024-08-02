@@ -83,7 +83,7 @@ header {
 }
 .rap .rap-container .beatmaker-box .beatmaker .screen span {
   font-family: "Silkscreen", sans-serif;
-  font-weight: 700;
+  font-weight: 400;
   font-style: normal;
   font-size: 30px;
   color: rgb(177, 177, 177);
@@ -174,7 +174,7 @@ header {
 .rap .rap-container .wrap .tabcontent h1 {
   margin-bottom: 20px;
   font-family: "Silkscreen", sans-serif;
-  font-weight: 700;
+  font-weight: 500;
   font-style: normal;
   font-size: 50px;
   line-height: normal;

@@ -25,7 +25,8 @@
   border: 1px solid #baf13a;
   width: 75%;
   height: 100%;
-  object-fit: cover;
+  -o-object-fit: cover;
+     object-fit: cover;
   border-radius: 20px;
 }
 .container-f .wrap .product-images .product-images-big .fa-regular {
@@ -61,7 +62,8 @@
   border-radius: 5px;
   width: 4rem;
   height: 8vh;
-  object-fit: cover;
+  -o-object-fit: cover;
+     object-fit: cover;
 }
 .container-f .wrap .product-info {
   width: 50%;
@@ -265,7 +267,8 @@
 }
 .container-f .recommendations .product-item-container .product-item .product-img img {
   height: 200px;
-  object-fit: cover;
+  -o-object-fit: cover;
+     object-fit: cover;
 }
 .container-f .recommendations .product-item-container .product-item .fa-regular {
   position: absolute;
@@ -349,6 +352,4 @@
   padding: 15px;
   border-radius: 5px;
   z-index: 1000;
-}
-
-/*# sourceMappingURL=shop_page2.css.map */
+}/*# sourceMappingURL=shop_page2.css.map */

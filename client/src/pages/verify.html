@@ -6,9 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="../assets/login.css">
-    <link rel="stylesheet"
-href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-</head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
 <body class="w-bg">
     <header>
@@ -19,20 +17,43 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
         <form >
             <h4>修改密碼</h4>
             <div class="input-text">
-                <label>密碼</label>
-                <input type="password" name="" id="" placeholder="">
-                <i class="fa-regular fa-eye"></i>
+                <label>新密碼</label>
+                <input type="password" name="" id="newPassword" value="12345">
+                <div><i id="newBtn" class="bi bi-eye-slash-fill"></i></div>
             </div>
             <div class="input-text">
-                <label>新密碼</label>
-                <input type="password" name="" id="" placeholder="">
-                <i class="fa-regular fa-eye"></i>
+                <label >確認密碼</label>
+                <input type="password" name="" id="checkPassword" value="12345">
+                <div><i id="checkBtn" class="bi bi-eye-slash-fill"></i></div>
             </div>
             
             <input type="submit" value="確認">
             
         </form>
     </section>
+
+    <script>
+            newBtn.onclick=function(){
+            var x = $('#newBtn').hasClass('bi-eye-slash-fill');
+            if(x){
+                $('#newBtn').removeClass('bi-eye-slash-fill').addClass('bi-eye-fill')
+                $('#newPassword').attr("type", "text").css('width','80%');
+            }else{
+                $('#newBtn').removeClass('bi-eye-fill').addClass('bi-eye-slash-fill')
+                $('#newPassword').attr("type", "password");
+            }
+        }
+            checkBtn.onclick=function(){
+            var x = $('#checkBtn').hasClass('bi-eye-slash-fill');
+            if(x){
+                $('#checkBtn').removeClass('bi-eye-slash-fill').addClass('bi-eye-fill')
+                $('#checkPassword').attr("type", "text").css('width','80%');
+            }else{
+                $('#checkBtn').removeClass('bi-eye-fill').addClass('bi-eye-slash-fill')
+                $('#checkPassword').attr("type", "password");
+            }
+        }
+    </script>
 
 </body>
 

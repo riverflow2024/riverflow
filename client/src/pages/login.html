@@ -6,11 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="../assets/login.css">
-    <link rel="stylesheet"
-href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-</head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+ 
 
-<body class="w-bg">
+<body class="w-bg scrollCust">
     <header>
         <img src="../assets/images/indexImg/nav.jpg" alt="">
     </header>
@@ -24,17 +23,32 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
             </div>
             <div class="input-text">
                 <label>密碼</label>
-                <input type="password" name="" id="" placeholder="">
-                <i class="fa-regular fa-eye"></i>
+                <input type="password" name="" id="password" value="12345">
+                <div><i id="showBtn" class="bi bi-eye-slash-fill"></i></div>
             </div>
             <a href="password.html">忘記密碼？</a>
             <input type="submit" value="Login">
             <span>
                 沒有River Flow帳號嗎？
                 <a href="register.html">前往註冊</a>
+               
             </span>
         </form>
     </section>
+
+    <script>
+        showBtn.onclick=function(){
+            var x = $('#showBtn').hasClass('bi-eye-slash-fill');
+            if(x){
+                $('#showBtn').removeClass('bi-eye-slash-fill').addClass('bi-eye-fill')
+                $('#password').attr("type", "text").css('width','80%');
+            }else{
+                $('#showBtn').removeClass('bi-eye-fill').addClass('bi-eye-slash-fill')
+                $('#password').attr("type", "password");
+            }
+        }
+        
+    </script>
 
 </body>
 

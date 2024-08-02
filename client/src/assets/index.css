@@ -1,3 +1,4 @@
+@charset "UTF-8";
 @import url(basic.css);
 @import url("https://fonts.googleapis.com/css2?family=Just+Another+Hand&display=swap");
 * {
@@ -180,12 +181,21 @@ body {
   overflow: hidden;
 }
 
-header {
+#navbar {
   width: 100%;
-  position: fixed;
-  top: 0;
   background: var(--bk1);
   z-index: 99;
+}
+
+.sticky {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 99;
+}
+
+.sticky + .sticky-content {
+  padding-top: 70px;
 }
 
 .logoSection {
@@ -216,6 +226,9 @@ header {
   transform-origin: 50% 50%;
   animation: ani1 10s linear infinite;
   animation-delay: 1s;
+}
+.logoSection .logoBox .logo {
+  width: 438px !important;
 }
 @keyframes ani1 {
   0% {
@@ -471,7 +484,7 @@ header {
   width: 576px;
   position: absolute;
   right: 150px;
-  bottom: -4vh;
+  bottom: 5vh;
   z-index: 2;
 }
 .introSection .introSection_wrap .transitions-box {
@@ -507,7 +520,7 @@ header {
 }
 .djSection .item .djImg-box {
   position: absolute;
-  top: -120px;
+  top: 0px;
   right: 50px;
 }
 .djSection .item .wrap {
@@ -620,7 +633,8 @@ header {
   width: 100%;
   height: 800px;
   display: flex;
-  margin-top: 200px;
+  margin-top: 300px;
+  padding-top: 50px;
   position: relative;
 }
 .rapSection::before {
@@ -749,6 +763,9 @@ header {
   right: 0;
   z-index: 3;
 }
+.GraffitiSection .item:nth-of-type(2) {
+  padding-top: 150px;
+}
 .GraffitiSection .item {
   flex: 1;
   display: flex;
@@ -759,7 +776,7 @@ header {
   width: 400px;
   overflow: hidden;
   position: absolute;
-  top: 30vw;
+  top: 18vw;
   right: 0;
   z-index: 1;
 }
@@ -796,6 +813,33 @@ header {
   right: 0;
 }
 
+.skateTransitions {
+  width: 100%;
+  position: relative;
+  /*---滑板動畫---*/
+}
+.skateTransitions .path {
+  width: 100%;
+  margin-top: 100px;
+  position: relative;
+}
+.skateTransitions .plane {
+  offset-path: path("M-1 1.21575C-1 1.20712 110.492 1.21575 121.414 1.21575C165.739 1.21575 210.065 1.21575 254.391 1.21575C267.686 1.21575 283.166 3.08179 296.334 5.17493C314.064 7.99312 332.913 8.9201 350.913 8.9201C375.319 8.9201 394.93 15.1601 417.712 22.4027C426.832 25.3021 439.414 29.0313 448.264 30.1071C462.279 31.8107 474.638 43.2302 488.343 45.4088C507.212 48.4081 527.875 57.7952 545.2 66.2748C555.26 71.198 565.131 74.0518 574.095 81.2555C595.906 98.7828 616.454 116.996 635.716 136.898C659.049 161.006 681.173 187.403 705.519 211.16C713.867 219.306 725.599 226.467 735.449 232.453C750.541 241.626 763.998 253.242 779.153 262.308C802.923 276.526 825.325 293.363 848.645 308.534C861.533 316.918 878.833 329.706 893.799 334.001C918.646 341.132 941.263 358.618 967.434 363.321C986.593 366.763 1005.66 378.155 1025.12 378.729C1037.43 379.093 1051.37 381.081 1062.61 384.401C1070.92 386.854 1086.69 386.434 1095.13 386.434C1110.8 386.434 1126.1 388.36 1141.73 388.36C1167.14 388.36 1192.99 392.212 1219.41 392.212C1270.45 392.212 1323.24 390.286 1373.3 390.286C1396.23 390.286 1440 388.36 1440 388.36");
+  position: relative;
+  top: 0;
+  left: 0;
+}
+.skateTransitions .fly {
+  position: absolute;
+  transform-origin: 50% -60%;
+  animation: plane-fly 5s infinite ease-in-out;
+}
+@keyframes plane-fly {
+  100% {
+    offset-distance: 100%;
+  }
+}
+
 .SkateSection {
   width: 100%;
   height: 800px;
@@ -808,7 +852,7 @@ header {
 .SkateSection .item .wrap {
   flex: 1;
   position: relative;
-  padding: 100px 2vw 0px 2vw;
+  padding: 250px 2vw 0px 2vw;
 }
 .SkateSection .item .wrap h2 {
   height: 113px;
@@ -831,14 +875,97 @@ header {
 }
 .SkateSection .item .skateA {
   position: absolute;
-  top: -100px;
+  bottom: 0;
   left: -2vw;
 }
 .SkateSection .item .skateB {
   position: absolute;
   width: 90%;
-  top: -100px;
+  top: 100px;
   z-index: 1;
+}
+
+/*--------- ontop 按鈕 ---------*/
+#ontop {
+  display: flex;
+  width: 160px;
+  height: 160px;
+}
+#ontop .gotop {
+  position: absolute;
+  width: 160px;
+  animation: ontop 10s linear infinite;
+}
+#ontop .goup {
+  width: 17px;
+  margin: auto;
+}
+@keyframes ontop {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.ontop {
+  position: fixed;
+  bottom: 80px;
+  right: -30px;
+  z-index: 99;
+}
+
+/*--------- section 按鈕 ---------*/
+#sectionBtn {
+  width: 50px;
+}
+#sectionBtn a {
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  margin: 5px 0px;
+  opacity: 0.5;
+  transition: 1s all;
+}
+#sectionBtn a span {
+  font-size: 14px;
+  font-weight: 400;
+  letter-spacing: 1px;
+  color: var(--main);
+  opacity: 0;
+  transition: 0.5s all;
+  position: relative;
+  top: 15px;
+}
+#sectionBtn a div {
+  width: 6px;
+  height: 18px;
+  margin: 3px 10px 0px 0px;
+  border-radius: 5px;
+  background: var(--gr2);
+  transition: 1s all;
+  box-shadow: 0px 15px 25px -5px var(--bk1);
+}
+#sectionBtn a:hover {
+  opacity: 1;
+  transition: 1s all;
+}
+#sectionBtn a:hover span {
+  opacity: 1;
+  transition: 0.5s all;
+  top: 0px;
+}
+#sectionBtn a:hover div {
+  background: var(--main);
+  transition: 1s all;
+}
+
+.sectionBtn {
+  position: fixed;
+  top: 20%;
+  right: 20px;
+  z-index: 1000;
 }
 
 @media screen and (max-width: 768px) {
@@ -1070,6 +1197,15 @@ header {
   .rapSection .rapImg {
     width: 80%;
   }
+  .GraffitiSection::before {
+    top: 200px;
+  }
+  .GraffitiSection .item .gA-box {
+    width: 300px;
+  }
+  .SkateSection .item:nth-child(2) {
+    flex: 2;
+  }
 }
 @media screen and (max-width: 500px) {
   .read_moreBtn {
@@ -1143,5 +1279,42 @@ header {
   .rapSection .rapImg {
     width: 400px;
     bottom: 100px;
+  }
+  .Transitions {
+    display: none;
+  }
+  .GraffitiSection::after {
+    display: none;
+  }
+  .GraffitiSection::before {
+    display: none;
+  }
+  .GraffitiSection .item {
+    padding: 0px !important;
+  }
+  .GraffitiSection .item .gA-box {
+    width: 300px;
+  }
+  .GraffitiSection .item .wrap {
+    padding: 0px 10vw;
+  }
+  .GraffitiSection .item .wrap:nth-of-type(2) {
+    display: none;
+  }
+  .SkateSection {
+    flex-direction: column;
+    height: 600px;
+  }
+  .SkateSection .item:nth-child(1) {
+    display: none;
+  }
+  .SkateSection .item .wrap {
+    padding: 0px 10vw;
+  }
+  .SkateSection .item .skateB {
+    position: absolute;
+    width: 90%;
+    top: 0px;
+    z-index: 1;
   }
 }/*# sourceMappingURL=index.css.map */
