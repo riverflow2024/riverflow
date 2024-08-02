@@ -1,5 +1,5 @@
 @charset "UTF-8";
-@import url("basic.css");
+@import url('basic.css');
 /* 變量設置 */
 .container-f .swiper {
   width: 100%;
@@ -10,7 +10,7 @@
 }
 .container-f .swiper .swiper-slide img {
   width: 100%;
-  height: 100%;
+  height: 600px;
   object-fit: cover;
   opacity: 0.6;
 }
@@ -43,20 +43,21 @@
   padding: 10px 20px;
   width: 20%;
   height: 80%;
-  border: 2px solid var(--main2);
+  border: 0.75px solid var(--main2);
   border-radius: 20px;
 }
 .container .shop-filter .filter-text {
   padding-bottom: 20px;
   padding-top: 20px;
 }
-.container .shop-filter .filter-text h3 {
+.container .shop-filter h3 {
   font-size: 1.2rem;
   padding-bottom: 10px;
   color: #baf13a;
 }
-.container .shop-filter .filter-text input {
-  border-bottom: 2px solid var(--main2);
+.container .shop-filter input {
+  width: 100%;
+  border-bottom: 0.75px solid var(--main2);
   margin: 0px;
 }
 .container .shop-filter ul li {
@@ -88,31 +89,32 @@
   border-radius: 20px;
   flex-wrap: wrap;
   overflow-y: auto;
+  height: 100%;
 }
 .container .product-list .product-item {
   width: 29%;
-  height: 45vh;
-  margin: 2%;
+  border-radius: 10px;
+  height: 30%;
+  margin: 1.5%;
   background-color: #fff;
-  border-radius: 0 0 10px 10px;
-  box-shadow: 2px 5px 5px 3px rgba(0, 0, 0, 0.1);
+  box-shadow: 2px 3px 3px 3px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  position: relative;
 }
 .container .product-list .sold-out-card {
   position: relative;
   pointer-events: none;
 }
 .container .product-list .sold-out-card::before {
-  content: "";
+  content: '';
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 0px 0px 10px 10px;
   z-index: 1;
 }
 .container .product-list .product-img {
@@ -120,6 +122,7 @@
   height: 200px;
   object-fit: cover;
   position: relative;
+  border-radius: 100px;
 }
 .container .product-list .product-img img {
   height: 200px;
@@ -172,6 +175,8 @@
   align-items: center;
   color: black;
   font-size: 0.6rem;
+  background-color: #fff;
+  border-radius: 20%;
 }
 .container .product-list .labels span {
   text-align: center;
@@ -190,6 +195,8 @@
   padding-left: 15px;
   padding-top: 15px;
   padding-bottom: 20px;
+  background-color: #fff;
+  border-radius: 0px 0px 15px 15px;
 }
 .container .product-list h4 {
   font-weight: bolder;
