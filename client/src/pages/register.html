@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="../assets/login.css">
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
 <body class="w-bg">
@@ -14,7 +15,7 @@
     </header>
 
     <section class="register">
-        <form>
+        <div class="form">
             <h4>註冊新帳號</h4>
             <div class="input-text">
                 <label>姓名</label>
@@ -31,21 +32,23 @@
             </div>
             <input type="submit" value="Login">
             <label class="input-checkbox">
-                <input type="checkbox"><span>我已詳閱並同意</span><a href="" onclick="openBtn()">隱私權政策</a>
+                <input type="checkbox"><span>我已詳閱並同意</span><button onclick="openBtn()">隱私權政策</button>
             </label>
             <span>
                 沒有River Flow帳號嗎？
                 <a href="login.html">前往登入</a>
             </span>
-        </form>
+        </div>
 
+
+        <!-- 隱私權 彈跳視窗 -->
         <div class="privacy" id="privacy">
             <div class="privacy-wrap">
                 <div class="privacy-header">
                     <h3>服務條款與隱私權</h3>
                     <button class="closebtn" onclick="cancelBtn()"><i class="bi bi-x"></i></button>
                 </div>
-                <div class="privacy-body">
+                <div class="privacy-body scrollCust">
                     <div class="privacy-container">
                         <h3>RIVERFLOW 服務條款</h3>
                         <p>歡迎您使用 RIVERFLOW 的服務。本服務條款（以下簡稱「條款」）規範您使用我們提供的網站、活動及商品銷售服務。請您仔細閱讀以下條款，以確保您了解並接受所有條款內容。</p>
@@ -122,21 +125,16 @@
             </div>
 
         </div>
+
+       
+
+
+
     </section>
 
 
     <script>
 
-        const privacy = document.getElementById('privacy');
-
-        function openBtn() {
-            privacy.style.visibility = 'visible';
-        }
-
-        function cancelBtn() {
-            privacy.style.visibility = 'hidden';
-        }
-        
         showBtn.onclick = function () {
             var x = $('#showBtn').hasClass('bi-eye-slash-fill');
             if (x) {
@@ -148,6 +146,14 @@
             }
         }
 
+        const privacy = document.getElementById('privacy');
+        function openBtn() {
+            privacy.style.visibility = 'visible';
+        }
+
+        function cancelBtn() {
+            privacy.style.visibility = 'hidden';
+        }
 
     </script>
 
