@@ -59,18 +59,18 @@
                     <input type="text" name="" id="" class="" placeholder="搜尋活動">
                 </div>
                 <div class="titleSelect">
-                    <div><a href="#">全部</a></div>
-                    <div><a href="#">刷碟 Disc Jockey</a></div>
-                    <div><a href="#">街舞 Street Dance</a></div>
-                    <div><a href="#">饒舌 Rap</a></div>
-                    <div><a href="#">塗鴉 Graffiti</a></div>
-                    <div><a href="#">滑板 Skate</a></div>
+                    <div><a href="#" dataFilter="all">全部</a></div>
+                    <div><a href="#" dataFilter="DJ">刷碟 Disc Jockey</a></div>
+                    <div><a href="#" dataFilter="streetdance">街舞 Street Dance</a></div>
+                    <div><a href="#" dataFilter="rap">饒舌 Rap</a></div>
+                    <div><a href="#" dataFilter="graffiti">塗鴉 Graffiti</a></div>
+                    <div><a href="#" dataFilter="skate">滑板 Skate</a></div>
                 </div>
             </div>
             <!-- 活動卡片列表 -->
             <div class="eventList">
                 <div class="eventProduct">
-                    <div class="eventCard">
+                    <div class="eventCard" dataCategory="DJ">
                         <a href="">
                             <img src="https://img.redbull.com/images/c_fill,g_auto,w_550,h_428/q_auto,f_auto/redbullcom/2023/12/26/d2dwugrazmfwjonyk7vh/redbullorbit"
                                 alt="圖片">
@@ -78,7 +78,7 @@
                             <p>2024-09-19 至 2024-09-20</p>
                         </a>
                     </div>
-                    <div class="eventCard">
+                    <div class="eventCard" dataCategory="streetdance">
                         <a href="">
                             <img src="https://img.redbull.com/images/c_fill,g_auto,w_550,h_428/q_auto,f_auto/redbullcom/2023/12/26/d2dwugrazmfwjonyk7vh/redbullorbit"
                                 alt="圖片">
@@ -86,7 +86,7 @@
                             <p>2024-09-19 至 2024-09-20</p>
                         </a>
                     </div>
-                    <div class="eventCard">
+                    <div class="eventCard" dataCategory="streetdance">
                         <a href="">
                             <img src="https://img.redbull.com/images/c_fill,g_auto,w_550,h_428/q_auto,f_auto/redbullcom/2023/12/26/d2dwugrazmfwjonyk7vh/redbullorbit"
                                 alt="圖片">
@@ -94,7 +94,47 @@
                             <p>2024-09-19 至 2024-09-20</p>
                         </a>
                     </div>
-                    <div class="eventCard">
+                    <div class="eventCard" dataCategory="rap">
+                        <a href="">
+                            <img src="https://img.redbull.com/images/c_fill,g_auto,w_550,h_428/q_auto,f_auto/redbullcom/2023/12/26/d2dwugrazmfwjonyk7vh/redbullorbit"
+                                alt="圖片">
+                            <p>Orbit的NBA全明星陣容</p>
+                            <p>2024-09-19 至 2024-09-20</p>
+                        </a>
+                    </div>
+                    <div class="eventCard" dataCategory="rap">
+                        <a href="">
+                            <img src="https://img.redbull.com/images/c_fill,g_auto,w_550,h_428/q_auto,f_auto/redbullcom/2023/12/26/d2dwugrazmfwjonyk7vh/redbullorbit"
+                                alt="圖片">
+                            <p>Orbit的NBA全明星陣容</p>
+                            <p>2024-09-19 至 2024-09-20</p>
+                        </a>
+                    </div>
+                    <div class="eventCard" dataCategory="rap">
+                        <a href="">
+                            <img src="https://img.redbull.com/images/c_fill,g_auto,w_550,h_428/q_auto,f_auto/redbullcom/2023/12/26/d2dwugrazmfwjonyk7vh/redbullorbit"
+                                alt="圖片">
+                            <p>Orbit的NBA全明星陣容</p>
+                            <p>2024-09-19 至 2024-09-20</p>
+                        </a>
+                    </div>
+                    <div class="eventCard" dataCategory="graffiti">
+                        <a href="">
+                            <img src="https://img.redbull.com/images/c_fill,g_auto,w_550,h_428/q_auto,f_auto/redbullcom/2023/12/26/d2dwugrazmfwjonyk7vh/redbullorbit"
+                                alt="圖片">
+                            <p>Orbit的NBA全明星陣容</p>
+                            <p>2024-09-19 至 2024-09-20</p>
+                        </a>
+                    </div>
+                    <div class="eventCard" dataCategory="graffiti">
+                        <a href="">
+                            <img src="https://img.redbull.com/images/c_fill,g_auto,w_550,h_428/q_auto,f_auto/redbullcom/2023/12/26/d2dwugrazmfwjonyk7vh/redbullorbit"
+                                alt="圖片">
+                            <p>Orbit的NBA全明星陣容</p>
+                            <p>2024-09-19 至 2024-09-20</p>
+                        </a>
+                    </div>
+                    <div class="eventCard" dataCategory="graffiti">
                         <a href="">
                             <img src="https://img.redbull.com/images/c_fill,g_auto,w_550,h_428/q_auto,f_auto/redbullcom/2023/12/26/d2dwugrazmfwjonyk7vh/redbullorbit"
                                 alt="圖片">
@@ -111,6 +151,8 @@
             </div>
         </div>
     </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         // 輪播圖
         const swiper = new Swiper('.swiper', {
@@ -145,6 +187,23 @@
             //     el: '.swiper-scrollbar',
             // },
         });
+
+        $(document).ready(function(){
+
+            //  商品篩選功能
+            $(".titleSelect div a").on("click",function(){
+                var filterValue = $(this).attr('dataFilter');
+                
+                if(filterValue == "all"){
+                    $(".eventCard").show();
+                }else{
+                    $(".eventCard").hide();
+                    $('.eventCard[dataCategory="'+ filterValue +'"]').show();
+                }
+
+                // console.log("OK");
+            })
+        })
     </script>
 </body>
 
