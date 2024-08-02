@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../assets/basic.css">
+
+    <style>
+        /* 第1、2個section + 動畫 */
+        @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700;800&display=swap");
+
+        *,
+        *:after,
+        *:before {
+            box-sizing: border-box;
+            margin: 0;
+        }
+
+        body {
+            display: grid;
+            place-items: center;
+            min-height: 100vh;
+            font-family: "Montserrat", sans-serif;
+            color: rgb(248, 248, 248);
+            overflow-x: hidden;
+        }
+
+        section {
+            min-height: 100vh;
+            width: 100vw;
+        }
+
+        section:nth-of-type(1) {
+            background: rgb(248, 248, 248);
+        }
+
+        main {
+            overflow: auto;
+            overflow-x: hidden;
+            height: 100vh;
+            width: 100vw;
+        }
+
+        h2 {
+            font-size: clamp(2rem, 3vw + 1rem, 8rem);
+            color: rgb(0, 0, 0);
+        }
+
+        .section__content:nth-child(1) {
+            min-height: 100vh;
+            width: 100vw;
+            display: grid;
+            place-items: center;
+            position: sticky;
+            top: 0;
+            overflow: hidden;
+            background-color: var(--bk1);
+            background-image: url('../assets/images/Graffiti/Vector.png');
+            background-position: center;
+            background-size: contain;
+            background-repeat: no-repeat;
+        }
+
+        section:nth-of-type(1) {
+            color: rgb(0, 0, 0);
+        }
+
+        section:nth-of-type(1) .section__content {
+            overflow: hidden;
+        }
+
+        section:nth-of-type(2) {
+            z-index: 2;
+            color: rgb(0, 0, 0);
+            min-height: 200vh;
+            background: rgb(0, 0, 0);
+        }
+
+        section:nth-of-type(2) p {
+            --opacity: 1;
+            color: var(--main);
+            font-size: clamp(1.2rem, 2vw + 1rem, 2rem);
+            letter-spacing: 0;
+            font-weight: 400;
+            line-height: 1.2;
+            width: 40ch;
+            max-width: calc(100% - 4rem);
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            translate: -50% -50%;
+            opacity: 0;
+        }
+
+        section:nth-of-type(1) svg {
+            --opacity: 1;
+            font-weight: 700;
+            font-size: clamp(2rem, 10vw + 1rem, 10rem);
+            transform-origin: 50% 50%;
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            opacity: 0.4;
+            translate: -50% -50%;
+            overflow: hidden;
+        }
+
+        section:nth-of-type(3) {
+            z-index: 4;
+        }
+
+        section:nth-of-type(1) .section__content {
+            overflow: visible;
+            transform-style: preserve-3d;
+            perspective: 70vh;
+        }
+
+        svg text {
+            font-size: clamp(2rem, 6vw + 1rem, 6rem);
+            font-weight: 600;
+        }
+
+        section:nth-of-type(1) {
+            height: 250vh;
+        }
+
+        video {
+            position: fixed;
+            inset: 0;
+            object-fit: cover;
+            width: 100%;
+            height: 100vh;
+            filter: saturate(1) brightness(1);
+            opacity: 0;
+        }
+
+
+        @supports (animation-timeline: scroll()) {
+            section {
+                view-timeline-name: --section;
+            }
+
+            section:nth-of-type(1) svg {
+                animation: blow-out both ease-in, fade-in both ease-in;
+                animation-timeline: --section;
+                animation-range: exit-crossing 10% exit 0%,
+                    exit-crossing 10% exit-crossing 25%;
+            }
+
+            section:nth-of-type(2) p {
+                animation: fade-in both linear, fade-out both linear;
+                animation-timeline: --section;
+                animation-range: entry 10% entry 35%, exit 0% exit 25%;
+            }
+
+            video {
+                animation: fade-in both linear, fade-out both linear;
+                animation-timeline: --section;
+                animation-range: entry 0% entry 25%, exit 10% exit 35%;
+            }
+
+            @keyframes fade-in {
+                to {
+                    opacity: var(--opacity, 0.55);
+                }
+            }
+
+            @keyframes fade-out {
+                to {
+                    opacity: 0.5;
+
+                }
+            }
+
+            @keyframes blow-out {
+
+                0%,
+                95% {
+                    background: transparent;
+                }
+
+                to {
+                    transform: translate3d(0.04ch, 0, 50vh);
+
+                }
+            }
+        }
+
+        /* 第三個section */
+        /* 第一個內容 */
+        .illustrate {
+            background: var(--bk1);
+            background-image: url('../riverflow/client/src/assets/images/background.png');
+            background-blend-mode: soft-light;
+            background-position: center center;
+            background-repeat: repeat-x, repeat-y;
+            background-size: 100% 80%;
+            /* display: flex; */
+        }
+
+        .graffiti1 {
+            z-index: -1;
+        }
+
+        .graffitiContent {
+            display: flex;
+            padding: 0 5rem;
+            align-items: center;
+            margin-top: 2rem;
+            padding-top: 13rem;
+
+        }
+
+        .graffitiContent img {
+            margin-left: 3rem;
+            width: 30%;
+        }
+
+        .graffitiContent>div h4 {
+            text-align: center;
+            margin-bottom: 2rem;
+            font-size: 1.5rem;
+        }
+
+        .graffitiContent p:last-child {
+            margin-top: 1rem;
+        }
+
+        /* 第二個內容 */
+        .graffiti3 {
+            width: 20%;
+            position: relative;
+            left: 2rem;
+        }
+
+        .graffiti5 {
+            width: 25%;
+            position: relative;
+            left: 50%;
+            transform: rotate(12deg);
+        }
+
+        .graffitiContent2 {
+            display: flex;
+            padding: 0 5rem;
+            align-items: center;
+            margin-top: -6rem;
+        }
+
+        .graffitiContent2 img {
+            width: 40%;
+            margin-right: 3rem;
+        }
+
+        .graffitiContent2>div h4 {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .graffitiContent2 p {
+            margin-bottom: 1rem;
+        }
+
+        /* 第三個內容 */
+        .paste1 {
+            width: 20%;
+            position: relative;
+            left: 4rem;
+            top: 5rem;
+            z-index: -1;
+        }
+        .paste2{
+            width: 25%;
+            position: relative;
+            right: 8rem;
+            top: 8rem;
+        }
+        .paste3{
+            width: 35%;
+            position: relative;
+            left: 15%;
+        }
+        .paste4{
+            width: 35%;
+            position: relative;
+            transform: rotate(-100deg);
+            left: 60%;
+            bottom: 30rem;
+            z-index: -1;
+        }
+
+        .graffitiContent3 {
+            display: flex;
+            padding: 0 5rem;
+            margin-top: -25rem;
+            align-items: center;
+
+        }
+
+        .graffitiContent3 img {
+            width: 40%;
+            margin-left: 3rem;
+        }
+
+        .graffitiContent3>div h4 {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .paste5{
+            width: 15%;
+            position: relative;
+            bottom: 18rem;
+            left: 6%;
+            z-index: -1;
+        }
+        .paste6{
+            width: 8%;
+            position: relative;
+            bottom: 10rem;
+            left: 10%;
+        }
+        .paste7{
+            width: 5%;
+            position: relative;
+            bottom: 10rem;
+            left: 10%;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <section>
+        <div class="section__content">
+            <svg>
+                <!-- <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle">
+                    Graffiti
+                </text> -->
+
+
+                <image href="../assets/images/Graffiti/graffitiIndex.png" x="50%" y="50%" width="200" height="200"
+                    transform="translate(-100, -100)" />
+
+            </svg>
+        </div>
+    </section>
+    <section>
+        <video src="../assets/images/Graffiti/Postcard from Bulgaria _ Friends On Foreign Soil.mov" autoplay muted loop
+            playsinline></video>
+        <div class="section__content">
+            <p>
+                作為嘻哈文化的四大元素之一，塗鴉（ Graffiti ）最早發跡於 1960
+                年代的紐約布朗克斯區，當時的黑人青少年因為長期受到種族歧視與不平等對待，於是將不滿的情緒宣洩在隨處塗鴉上，任意在街上寫下帶有諷刺意味的文字和圖樣，也讓當年的塗鴉創作被視為髒亂的象徵。後來隨著時代變遷，加上嘻哈文化的流行，塗鴉漸漸成為一種透過圖像、字體向社會表達自我的藝術形式。
+            </p>
+        </div>
+    </section>
+    <section class="illustrate w-bg">
+        <div>
+
+            <img class="graffiti1" src="../assets/images/Graffiti/graffiti0.png" alt=""
+                style="width: 25%;transform:scaleX(-1) rotate(-30deg);position: absolute;left: 2rem;">
+
+            <div class="graffitiContent">
+                <div>
+                    <h4>什麼樣的創作可以被稱為街頭塗鴉</h4>
+                    <p>塗鴉(Graffiti)其實沒有非常硬性的定義，但通常是指在公共空間或私有設施、牆壁上做的人為標記，這些人為標記可以是一幅圖畫，也可以是圖騰或純文字。大部分能看到街頭塗鴉的地點有建築外牆、商店鐵捲門或是大眾運輸工具上。（當然，沒有經過設施擁有者許可的塗鴉一般屬於違法或犯罪行為。）
+                    </p>
+                    <p>街頭塗鴉通常以噴漆或是麥克筆在牆上作畫，字體設計與圖樣的變化可以根據使用的工具而有所不同。例如，噴漆罐可以更換不同的噴頭，噴頭有許多種類的尺寸和形狀，不同的噴頭款式可以產生不同的線寬和噴霧效果。
+                    </p>
+                </div>
+                <img src="../assets/images/Graffiti/graffiti1.jpeg" alt="">
+            </div>
+            <!-- 第二個內容 -->
+            <img class="graffiti3" src="../assets/images/Graffiti/graffiti3.png" alt="">
+            <img class="graffiti5" src="../assets/images/Graffiti/graffiti5.png" alt="">
+            <div class="graffitiContent2">
+                <img src="../assets/images/Graffiti/graffiti4.jpeg" alt="">
+                <div>
+                    <h4>街頭塗鴉可以細分成哪些形式？</h4>
+                    <p>街頭塗鴉可以根據創作的內容以及難度分為三種形式：標貼塗鴉（tag）、拋擲塗鴉（throw-up）、大作塗鴉（piece）。</p>
+                    <p>第一種 tag 是從 1960 年代的美國青少年幫派發展出來，他們會將自己的名字經過設計後直接用麥克筆或噴漆簽在牆上，或是做成貼紙貼在牆上，方便又快速的創作手法是最適合入門的塗鴉形式。</p>
+                    <p>第二種 throw-up 通常是指單一填色勾邊的圖像形式，使用兩種以上的顏色作畫，並在基本的圖樣或字母加上反光點、厚度、陰影等等，讓塗鴉空間化並增加立體感，有不同的字體、風格之分，最常見的
+                        throw-up 字體是「泡泡字（bubble）」，圓潤的字體外型方便寫手迅速作畫，能在短時間內留下標記，是目前街頭塗鴉的主流。</p>
+                    <p>第三種 piece 是三種塗鴉形式裡難度最高的，英文的 piece 是 masterpiece
+                        的縮寫，通常指一件「大型塗鴉藝術作品」。這種類型的塗鴉有完整的構圖與設計，需要花費較多心力在創作上。這類作品需要較大的空間，也會利用多樣的畫作技法進行創作，藝術效果最明顯，大部分的大作塗鴉會在指定的合法區域內完成（例如：河濱公園的塗鴉區、西門電影公園等等），是完整度最高的塗鴉創作。
+                    </p>
+                </div>
+            </div>
+            <!-- 第三個內容 -->
+            <img class="paste1" src="../assets/images/Graffiti/Paste1.png">
+            <img class="paste2" src="../assets/images/Graffiti/Paste2.png">
+            <img class="paste3" src="../assets/images/Graffiti/Paste3.png" >
+            <img class="paste4" src="../assets/images/Graffiti/Paste4.png" >
+            <div class="graffitiContent3">
+                <div>
+                    <h4>塗鴉寫手保持匿名、不露臉的原因</h4>
+                    <p>從事街頭塗鴉的藝術家被稱為寫手（writer），寫手們會為自己取一個專屬的簽名符號（tag，類似在塗鴉圈中使用的藝名），不公開自己的真實姓名或露臉，主要是為了保護身份並避開法律責任。大部分的寫手在塗鴉時會戴上面罩，則是為了防止吸入噴漆影響身體健康。
+                    </p>
+                </div>
+                <img src="../assets/images/Graffiti/graffiti6.jpeg" alt="">
+
+            </div>
+            <img class="paste7" src="../assets/images/Graffiti/Paste7.png" >
+            <img class="paste6" src="../assets/images/Graffiti/Paste6.png" >
+            <img class="paste5" src="../assets/images/Graffiti/Paste5.png" >
+            
+        </div>
+
+
+    </section>
+
+
+</body>
+
+</html>

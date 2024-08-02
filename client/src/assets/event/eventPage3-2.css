@@ -206,6 +206,10 @@
 
     .seatImage {
       width: 100%;
+      text-align: center;
+    }
+    .seatImage img{
+      width: 80%;
     }
     .seat{
       margin-bottom: 1.8rem;
