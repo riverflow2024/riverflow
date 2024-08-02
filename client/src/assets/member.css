@@ -70,9 +70,11 @@ header {
   width: 88px;
   text-align: center;
   padding: 8px;
-  font-size: 14px;
-  font-weight: 800;
-  background-color: hsla(78, 87%, 59%, 0.5);
+  font-size: 15px;
+  font-weight: 400;
+  letter-spacing: 2px;
+  background-color: hsla(78, 65%, 44%, 0.5);
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.33);
   color: white;
   cursor: pointer;
 }

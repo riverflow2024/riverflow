@@ -554,4 +554,26 @@ header {
   50% {
     transform: translateX(10px);
   }
+}
+
+.back-btn {
+  width: 70px;
+  height: 55px;
+  position: fixed;
+  bottom: 50%;
+  left: 150px;
+  z-index: 99;
+  text-align: end;
+  line-height: 25px;
+}
+.back-btn h4 {
+  color: var(--gr2);
+  letter-spacing: 1px;
+}
+.back-btn i {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  font-size: 25px;
+  color: var(--main);
 }/*# sourceMappingURL=news.css.map */
