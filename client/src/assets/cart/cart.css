@@ -1,5 +1,5 @@
 @charset "UTF-8";
-@import url("basic.css");
+@import url('basic.css');
 /* 變量設置 */
 /* 全局容器設置 */
 .container-f {
@@ -148,7 +148,7 @@
   left: 50%;
   transform: translateX(-50%);
   width: calc(100% - 40px);
-  max-width: 1280px;
+  width: 90%;
   height: 70px;
   background-color: #749f10;
   color: #e9e9e9;
