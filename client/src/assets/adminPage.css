@@ -27,6 +27,11 @@ input[type="text"] {
     color: var(--bk2);
     padding: 3px 5px;
 }
+input[type="datetime-local"] {
+    border: 0;
+    border-bottom: 1px solid;
+    padding: 3px 5px;
+}
 i.fa-solid {
     font-size: 14px;
     margin-right: 5px;
@@ -166,9 +171,9 @@ td {
     border-radius: 20px;
     padding: 5px 25px
 }
-.prdPrice::before {
+/* .prdPrice::before {
     content: '$ ';
-}
+} */
 .prdStock, .Status {
     font-weight: bold;
 }
@@ -257,7 +262,11 @@ td {
 }
 .required {
     color: var(--err);
+    /* display: none; */
 }
+/* input:invalid .required {
+    display: inline-block;
+} */
 .custUpload {
     background-color: var(--main);
     border: 0;
@@ -297,9 +306,22 @@ hr {
 input[type="number"] {
     border: 0;
     border-bottom: 1px solid;
+    padding: 3px 5px;
     text-align: right;
 }
 .priceMark {
     position: absolute;
     top: 15px;
+}
+.priceMark.event {
+    top: 8px;
+}
+.itemflexList {
+    display: flex;
+}
+.itemflexList>div {
+    margin-right: 15px;
+}
+.itemPrice {
+    position: relative;
 }

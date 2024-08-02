@@ -133,6 +133,12 @@
         </div>
     </div>
     <script>
+        $('#btnSta').on('click', function() {
+            x = $(this).find('.Status')
+            console.log(x);
+            // $(this).find('.Status').text()
+        })
+
         $('.Status').each(function(index, elem) {
             // console.log(elem.innerText)
             if (elem.innerText == '上架') {
