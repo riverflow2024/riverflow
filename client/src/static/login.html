@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../assets/login.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+ 
+
+<body class="w-bg scrollCust">
+    <header>
+        <img src="../assets/images/indexImg/nav.jpg" alt="">
+    </header>
+
+    <section class="login" >
+        <form >
+            <h4>會員登入</h4>
+            <div class="input-text">
+                <label>帳號</label>
+                <input type="text" name="" id="" placeholder="email">
+            </div>
+            <div class="input-text">
+                <label>密碼</label>
+                <input type="password" name="" id="password" value="12345">
+                <div><i id="showBtn" class="bi bi-eye-slash-fill"></i></div>
+            </div>
+            <a href="password.html">忘記密碼？</a>
+            <input type="submit" value="Login">
+            <span>
+                沒有River Flow帳號嗎？
+                <a href="register.html">前往註冊</a>
+               
+            </span>
+        </form>
+
+         <!-- 無法登入 彈跳視窗 -->
+
+         <div class="nolongin" id="nolongin">
+            <div class="nolongin-wrap">
+                <h4>無法登入</h4>
+                <p>請確認輸入的資料及大小寫是否正確。若不是OPENTIX會員請前往註冊。</p>
+                <button class="btn">確認</button>
+            </div>
+
+        </div>
+    </section>
+
+    <script>
+        showBtn.onclick=function(){
+            var x = $('#showBtn').hasClass('bi-eye-slash-fill');
+            if(x){
+                $('#showBtn').removeClass('bi-eye-slash-fill').addClass('bi-eye-fill')
+                $('#password').attr("type", "text").css('width','80%');
+            }else{
+                $('#showBtn').removeClass('bi-eye-fill').addClass('bi-eye-slash-fill')
+                $('#password').attr("type", "password");
+            }
+        }
+
+        
+    </script>
+
+</body>
+
+</html>

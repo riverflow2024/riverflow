@@ -11,7 +11,18 @@ $side: #a839ff;
 $side2: #a839ff;
 
 .container {
-  // 左邊內容物
+  display: flex;
+  justify-content: space-between;
+  padding: 5rem 10rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  box-sizing: border-box;
+
+  @media (max-width: 768px) {
+    padding: 2rem;
+    flex-direction: column;
+  }
+
   .content-left {
     width: 60%;
     margin-top: 5rem;
@@ -187,11 +198,11 @@ $side2: #a839ff;
     .invoice-promo-code {
       width: 100%;
       display: flex;
-      gap: 30px;
-      margin-bottom: 2rem;
+      gap: 10px;
     }
 
     .total-amount {
+      margin-top: 2rem;
       border-top: 2px solid #fff;
       padding-top: 20px;
 
@@ -204,10 +215,13 @@ $side2: #a839ff;
       }
     }
 
+    // 公司行號輸入框
+
     // 送出按鈕
     .submit {
       border: 1px solid #fff;
       border-radius: 4px;
+
       margin-top: 20px;
       margin-bottom: 20px;
 

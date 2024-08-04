@@ -1,0 +1,327 @@
+@import url(basic.css);
+/*後台管理 CSS*/
+body {
+    --mainlighter: #F6FFE0;
+    --err: #FF7E55;
+    --cancel: #A8A7A7;
+    --gr0: #F5F5F5;
+
+    background-color: #fff;
+    color: #000;
+}
+
+input, select {
+    background-color: transparent;
+    color: var(--bk1);
+    font-family: 'Noto Sans TC', sans-serif;
+    font-size: 16px;
+}
+
+.btn, input[type="submit"] {
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 7px 15px;
+}
+input[type="text"] {
+    color: var(--bk2);
+    padding: 3px 5px;
+}
+input[type="datetime-local"] {
+    border: 0;
+    border-bottom: 1px solid;
+    padding: 3px 5px;
+}
+i.fa-solid {
+    font-size: 14px;
+    margin-right: 5px;
+}
+
+
+.admin-page {
+    position: relative;
+}
+
+/*---------------------------------------------*/
+/*              左側SideBar Start              */
+/*---------------------------------------------*/
+.sideBar {
+    background-color: #3B3B3B;
+    color: var(--gr1);
+    height: 100%;
+    max-width: 250px;
+    position: fixed;
+    top: 0;
+    width: 20%;
+}
+.greeting {
+    background-color: var(--bk1);
+    justify-content: space-between;
+    line-height: 160%;
+    padding: 20px;
+}
+.sideBar ul {
+    list-style: none;
+    padding: 0;
+}
+.sideBar li {
+    justify-content: space-between;
+}
+.sideMenu {
+    padding: 20px;
+}
+.sideMenuOpt {
+    margin-top: 40px;
+}
+.menuTitle {
+    font-size: 20px;
+    font-weight: 500;
+}
+.menuTitle i {
+    color: var(--main2);
+    font-size: 24px;
+    margin-right: 10px;
+}
+.sideBar .secMenu {
+    padding-left: 35%;
+}
+.secMenu li {
+    margin: 15px 0;
+}
+.menuPage {
+    color: var(--gr0); 
+    font-weight: 400;
+}
+.menuPage.thisPage, .menuPage:hover {
+    color: var(--main);
+    font-weight: bold;
+}
+
+
+/*---------------------------------------------*/
+/*              主要區塊Main Start              */
+/*---------------------------------------------*/
+.main {
+    margin: 0 30px 0 auto;
+    width: calc(100% - 310px);
+}
+.pageTitle {
+    font-size: 24px;
+    font-weight: bold;
+    line-height: 140%;
+    margin: 20px 0;
+}
+.divided {
+    border-right: 1px solid var(--cancel);
+    display: inline-block;
+    padding: 3px 7px;
+}
+input[type="text"].search {
+    border: 1px solid var(--cancel);
+    border-radius: 4px;
+    margin: 0 5px;
+}
+@media screen and (max-width: 1250px) {
+    .main {
+        width: calc(80% - 50px);
+    }
+}
+
+.listTable {
+    border-collapse: collapse;
+    border-spacing: 0;
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
+    margin: 30px 0;
+    width: 100%
+}
+
+thead {
+    background-color: var(--main);
+}
+td {
+    border: 0;
+    line-height: 120%;
+    padding: 10px 5px;
+    text-align: center;
+    width: auto;
+}
+.item {
+    border-bottom: 1px solid var(--cancel);
+}
+.item:last-of-type {
+    border-bottom: 0;
+}
+.prdImgPre {
+    aspect-ratio: 1/1;
+    border-radius: 5px;
+    height: auto;
+    object-fit: cover;
+    width: 80px;
+}
+.sort {
+    background-color: var(--main2);
+    border-radius: 30px;
+    color: var(--gr0);
+    display: inline-block;
+    margin: 2px 0;
+    padding: 5px 10px;
+}
+.blogSort .sort {
+    border-radius: 20px;
+    padding: 5px 25px
+}
+/* .prdPrice::before {
+    content: '$ ';
+} */
+.prdStock, .Status {
+    font-weight: bold;
+}
+.itemOpt .flex {
+    justify-content: center;
+}
+.itemOpr {
+    font-size: 14px;
+    justify-content: space-between;
+    margin: 3px;
+    width: 80px;
+}
+.itemOpr .fa-arrow-down {
+    font-size: 16px;
+}
+.btnList {
+    justify-content: center;
+}
+.btnList .btn {
+    margin: 0 5px;
+}
+
+
+/*---------------------------------------------*/
+/*              新增/編輯頁面Start              */
+/*---------------------------------------------*/
+
+.tabs {
+    margin: 30px 0;
+}
+.tabBtnList {
+    display: flex;
+    list-style: none;
+    margin: 0;
+}
+.tabBtnList li {
+    display: inline-block;
+}
+.tabBtn {
+    background-color: var(--gr1);
+    border: 0;
+    /* border: 1px solid; */
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    color: var(--bk1);
+    cursor: pointer;
+    display: inline-block;
+    padding: 8px 20px;
+    position: relative;
+    bottom: -1px;
+}
+.tabBtn.active {
+    background-color: var(--mainlighter);
+    border: 1px solid;
+    border-bottom: 0;
+}
+.tabContent {
+    background-color: var(--mainlighter);
+    border: 1px solid;
+    border-radius: 10px;
+    padding: 20px;
+}
+
+.infoItem {
+    display: flex;
+    margin: 20px 0;
+    align-items: center;
+}
+.infoItem.itemList {
+    display: block;
+}
+.descInfo, .specInfo {
+    display: block;
+    margin-left: 30px;
+}
+.descItem, .specItem {
+    display: block;
+    margin: 10px 0;
+}
+.tabContent input[type="text"] {
+    border: 0;
+    border-radius: 0;
+    border-bottom: 1px solid;
+    margin: 0;
+    margin-left: 5px;
+}
+.required {
+    color: var(--err);
+    /* display: none; */
+}
+/* input:invalid .required {
+    display: inline-block;
+} */
+.custUpload {
+    background-color: var(--main);
+    border: 0;
+    border-radius: 10px;
+    color: var(--bk1);
+    cursor: pointer;
+    display: inline-block;
+    padding: 10px;
+    text-align: center;
+}
+input[type="file"] {
+    border: 0;
+    clip: rect(0,0,0,0);
+    position: absolute;
+    width: 1px;
+    height: -0;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+}
+.tabContent select {
+    border-color: var(--bk1);
+    border-radius: 4px;
+}
+hr {
+    margin: 20px 0;
+}
+.specSum {
+    width: 100%;
+}
+.itemTitle {
+    line-height: 120%;
+}
+.specItemInfo {
+    position: relative;
+}
+input[type="number"] {
+    border: 0;
+    border-bottom: 1px solid;
+    padding: 3px 5px;
+    text-align: right;
+}
+.priceMark {
+    position: absolute;
+    top: 15px;
+}
+.priceMark.event {
+    top: 8px;
+}
+.itemflexList {
+    display: flex;
+}
+.itemflexList>div {
+    margin-right: 15px;
+}
+.itemPrice {
+    position: relative;
+}

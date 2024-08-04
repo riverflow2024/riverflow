@@ -3,20 +3,51 @@ const dbConnect = require('./dbConnect')
 // 取得所有產品
 exports.getAllProduct = () => {
   return new Promise((resolve, reject) => {
-    dbConnect.query('SELECT * FROM products', (err, products) => {
-      if (err) return reject(err)
-      resolve(products)
-    })
+    dbConnect.query(
+      `
+            SELECT 
+            products.productid, productName, productcategories.categoryid, categories.categoryName , productoptions.productPrice , productfavorite.userid
+            FROM 
+            products, productcategories ,categories, productoptions ,productfavorite, productimages
+            WHERE 
+            products.productid = productcategories.productid 
+            AND productcategories.categoryid = categories.categoryid    
+            AND products.productid =  productoptions.productid
+            AND products.productid = productfavorite.productid
+            AND products.productid = productimages.productid
+            `,
+      (err, products) => {
+        if (err) return reject(err)
+        resolve(products)
+      }
+    )
   })
 }
 
 // 取得單個產品
 exports.getProduct = (id) => {
   return new Promise((resolve, reject) => {
-    dbConnect.query('SELECT * FROM products WHERE productid = ?', [id], (err, product) => {
-      if (err) return reject(err)
-      resolve(product[0])
-    })
+    dbConnect.query(
+      `
+            SELECT 
+            *
+            FROM 
+            products, productcategories ,categories,productoptions ,productratings, productfavorite
+            WHERE 
+            products.productid = ? 
+            AND products.productid = productcategories.productid 
+            AND productcategories.categoryid = categories.categoryid 
+            AND products.productid =  productoptions.productid
+            AND products.productid = productratings.productid
+            AND products.productid = productfavorite.productid
+                        AND productfavorite.userid = 1
+            `,
+      [id],
+      (err, product) => {
+        if (err) return reject(err)
+        resolve(product)
+      }
+    )
   })
 }
 
@@ -49,44 +80,3 @@ exports.deleteProduct = (id) => {
     })
   })
 }
-
-// --------------------------------------------------------------------------------------------------------------------
-
-// 取得
-// exports.getProduct = (req,res) =>{
-//     dbConnect.query('SELECT * FROM products WHERE productid = ?',[req.params.id],(err, product) =>{
-//         if(err) throw err
-//         res.send(product)
-//     })
-// }
-
-// exports.getAllProduct = (req,res) =>{
-//     dbConnect.query('SELECT * FROM products',(err, products) =>{
-//         if(err) throw err
-//         res.send(products)
-//     })
-// }
-
-// //新增
-// exports.createProduct = (req,res) =>{
-//     dbConnect.query('INSERT INTO products SET?',req.body,(err, result) =>{
-//         if(err) throw err
-//         res.send({message: 'Product created', id: result.insertId})
-//     })
-// }
-
-// //更新
-// exports.updateProduct = (req,res) =>{
-//     dbConnect.query('UPDATE products SET? WHERE productid =?',[req.body, req.params.id],(err, result) =>{
-//         if(err) throw err
-//         res.send({message: 'Product updated', changed: result.changedRows})
-//     })
-// }
-
-// //刪除
-// exports.deleteProduct = (req,res) =>{
-//     dbConnect.query('DELETE FROM products WHERE productid =?',[req.params.id],(err, result) =>{
-//         if(err) throw err
-//         res.send({message: 'Product deleted', deleted: result.affectedRows})
-//     })
-// }
