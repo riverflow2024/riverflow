@@ -76,9 +76,9 @@ header {
   letter-spacing: 1px;
 }
 .login form span {
-  color: var(--gr2);
+  color: white;
   font-size: 15px;
-  font-weight: 300;
+  font-weight: 200;
   letter-spacing: 1px;
   text-align: center;
   margin-top: 10px;
@@ -227,7 +227,7 @@ header {
   letter-spacing: 1px;
 }
 .register .form span {
-  color: var(--gr2);
+  color: white;
   font-size: 15px;
   font-weight: 300;
   letter-spacing: 1px;
@@ -383,6 +383,12 @@ header {
   font-weight: 600;
   letter-spacing: 1px;
 }
+.password form .btn {
+  margin-top: 10px;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 1px;
+}
 
 /*------- 修改密碼-------- */
 .verify {
@@ -426,8 +432,8 @@ header {
   font-size: 16px;
   line-height: 160%;
 }
-.verify form input[type=submit] {
-  margin-top: 50px;
+.verify form .btn {
+  margin-top: 10px;
   font-size: 15px;
   font-weight: 600;
   letter-spacing: 1px;
