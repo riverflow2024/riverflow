@@ -146,7 +146,7 @@ html {
 }
 
 .content h2 {
-  font-size: 3rem;
+  font-size: 4rem;
   margin: 0;
   color: #baf13a;
   font-weight: bold;
@@ -159,6 +159,10 @@ html {
 }
 
 /* 底下介紹 */
+
+.bottom-content {
+  margin-bottom: 100px;
+}
 .bottom-content img {
   margin-bottom: 5rem;
   width: 100%;
@@ -178,8 +182,11 @@ html {
   color: #baf13a;
 }
 .bottom-content p {
+  margin: 0 auto;
+  width: 80ch;
+  font-size: 1.3rem;
   margin-top: 50px;
-  line-height: 25px;
+  line-height: 35px;
 }
 
 /* 這邊拿來調整position sticky效果 */

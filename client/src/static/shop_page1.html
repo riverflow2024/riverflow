@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
   </head>
-  <body>
+  <body class="scrollCust">
     <div class="container-f">
       <!-- 導覽列 -->
       <div class="header"><img src="../../src/assets/images/indexImg/nav.jpg" alt="" /></div>
@@ -107,6 +107,25 @@
             <li class="shop-filter-item"><a href="#" data-filter="新品">新品 New</a></li>
             <br />
             <li class="shop-filter-item"><a href="#" data-filter="優惠">優惠 On Sale</a></li>
+          </ul>
+        </aside>
+
+        <!-- 響應式左方搜尋篩選欄專用768px開始 -->
+        <aside class="RWD-shop-filter">
+          <ul id="categoryFilter">
+            <li class="shop-filter-item">
+              <a href="#" class="selected" data-filter="all">全部</a>
+            </li>
+            <br />
+            <li class="shop-filter-item"><a href="#" data-filter="DJ">刷碟 Disc Jockey (DJ)</a></li>
+            <li class="shop-filter-item"><a href="#" data-filter="街舞">街舞 Street Dance</a></li>
+            <br />
+            <li class="shop-filter-item"><a href="#" data-filter="饒舌">饒舌 Rap</a></li>
+            <br />
+            <li class="shop-filter-item"><a href="#" data-filter="塗鴉">塗鴉 Graffiti</a></li>
+            <br />
+            <li class="shop-filter-item"><a href="#" data-filter="滑板">滑板 Skate</a></li>
+            <br />
           </ul>
         </aside>
         <!-- 右方商品列表 -->

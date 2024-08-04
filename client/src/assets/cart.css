@@ -8,7 +8,6 @@
 }
 
 .container {
-  padding: 5rem 10rem;
   max-width: 1200px;
   margin: 0 auto;
   box-sizing: border-box;
@@ -21,7 +20,7 @@
 
 /* 頂部樣式 */
 .top {
-  margin-top: 5rem;
+  margin-top: 2.5rem;
 }
 .top h3 {
   color: #e9e9e9;
