@@ -1,64 +1,61 @@
-const dbConnect = require('./dbConnect')
-const bcrypt = require('bcryptjs')
+const db = require('./dbConnect')
 
-// 根據ID查詢用戶
-const getUser = async (id) => {
-  const [rows] = await dbConnect.query('SELECT * FROM users WHERE userid = ? AND valid = TRUE', [id])
-  return rows[0]
+// 建立帳號
+exports.create = async (email, password, firstName, lastName, sex, phone, birth, userImg, valid) => {
+  try {
+    const results = await db.query(
+      'INSERT INTO Users ( email, secret, firstName, lastName, sex, phone, birth, userImg, valid) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
+      [email, password, firstName, lastName, sex, phone, birth, userImg, valid]
+    )
+    return results[0]
+  } catch (error) {
+    console.error('創建用戶錯誤:', error)
+    throw error
+  }
 }
 
-// 新增用戶
-const createUser = async (userData) => {
-  const { email, password, firstName, lastName, sex, phone, valid } = userData
-  const hashedPassword = await bcrypt.hash(password, 12)
-  const [result] = await dbConnect.query(
-    'INSERT INTO Users (email, secret, firstName, lastName, sex, phone, valid) VALUES (?, ?, ?, ?, ?, ?, ?)',
-    [email, hashedPassword, firstName, lastName, sex, phone, valid]
-  )
-  return getUser(result.insertId)
+// Email確認
+exports.findByEmail = async (email) => {
+  return new Promise((resolve, reject) => {
+    db.query('SELECT * FROM Users WHERE email = ?', [email], (error, results) => {
+      if (error) {
+        console.error('查詢用戶錯誤:', error)
+        return reject(error)
+      }
+      resolve(results.length > 0 ? results[0] : null)
+    })
+  })
 }
 
-// 更新用戶
-const updateUserById = async (id, userData) => {
-  const fields = []
-  const values = []
+// 如果需要添加更多的用戶相關方法，可以繼續使用這種模式
+exports.findById = (userId) => {
+  return new Promise((resolve, reject) => {
+    if (!userId) {
+      reject(new Error('User ID is required'))
+      return
+    }
 
-  if (userData.name) {
-    fields.push('name = ?')
-    values.push(userData.name)
-  }
-
-  if (userData.email) {
-    fields.push('email = ?')
-    values.push(userData.email)
-  }
-
-  if (userData.photo) {
-    fields.push('photo = ?')
-    values.push(userData.photo)
-  }
-
-  if (userData.password) {
-    const hashedPassword = await bcrypt.hash(userData.password, 12)
-    fields.push('password = ?')
-    values.push(hashedPassword)
-  }
-
-  values.push(id)
-
-  const query = `UPDATE users SET ${fields.join(', ')} WHERE id = ? AND valid = TRUE`
-  await dbConnect.query(query, values)
-  return getUser(id)
+    db.query('SELECT * FROM Users WHERE userid = ?', [userId], (error, results) => {
+      if (error) {
+        reject(error)
+        return
+      }
+      if (results.length === 0) {
+        resolve(null)
+      } else {
+        resolve(results[0])
+      }
+    })
+  })
 }
 
-// 刪除用戶（軟刪除）
-const deleteUserById = async (id) => {
-  await dbConnect.query('UPDATE users SET valid = FALSE WHERE id = ?', [id])
-}
-
-module.exports = {
-  getUser,
-  createUser,
-  updateUserById,
-  deleteUserById
+// 示例：更新用戶信息的方法
+exports.updateUser = async (id, updateData) => {
+  try {
+    const [result] = await db.query('UPDATE users SET ? WHERE id = ?', [updateData, id])
+    return result.affectedRows > 0
+  } catch (error) {
+    console.error('更新用戶錯誤:', error)
+    throw error
+  }
 }

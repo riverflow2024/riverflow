@@ -1,12 +1,22 @@
 const express = require('express')
 const router = express.Router()
+const authController = require('../controllers/authController')
+const userController = require('../controllers/userController')
+// const { authenticateToken } = require('../middlewares/auth')
 
-const { registerUser, loginUser, getUser, updateUser, deleteUser } = require('../controllers/userController')
+// router.get('/', userController.getUserInfo)
+router.get(
+  '/',
+  (req, res, next) => {
+    console.log(req.header)
 
-router.post('/register', registerUser)
-router.post('/login', loginUser)
-router.get('/:id', getUser)
-router.put('/edit', updateUser)
-router.delete('/delete', deleteUser)
+    console.log('Entering /riverflow/user route, userId:', req.userId)
+    next()
+  },
+  userController.getUserInfo
+)
+router.post('/register', authController.register)
+// router.post('/login', authController.login)
+router.get('/protected', authController.protected)
 
 module.exports = router
