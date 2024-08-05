@@ -1,17 +1,21 @@
 const db = require('./dbConnect')
 
 // 建立帳號
-exports.create = async (email, password, firstName, lastName, valid) => {
-  try {
-    const results = await db.query(
-      'INSERT INTO Users ( email, secret, firstName, lastName, valid) VALUES (?, ?, ?, ?, ?)',
-      [email, password, firstName, lastName, valid]
+exports.create = async (email, hashedSecret, firstName, lastName, valid) => {
+  return new Promise((resolve, reject) => {
+    db.query(
+      'INSERT INTO Users (email, secret, firstName, lastName, valid) VALUES (?, ?, ?, ?, ?)',
+      [email, hashedSecret, firstName, lastName, valid],
+      (error, results) => {
+        if (error) {
+          console.error('創建用戶時發生數據庫錯誤:', error)
+          reject(error)
+        } else {
+          resolve(results.insertId)
+        }
+      }
     )
-    return results[0]
-  } catch (error) {
-    console.error('創建用戶錯誤:', error)
-    throw error
-  }
+  })
 }
 
 // Email確認
@@ -81,4 +85,19 @@ exports.updateUser = async (userId, updateData) => {
     console.error('更新用戶錯誤:', error)
     throw error
   }
+}
+
+// 刪除帳號（創建帳號失敗）
+exports.deleteUser = async (userId) => {
+  return new Promise((resolve, reject) => {
+    db.query('DELETE FROM Users WHERE userId = ?', [userId], (error, result) => {
+      if (error) {
+        console.error('帳號刪除失敗:', error)
+        reject(error)
+      } else {
+        console.log('刪除結果:', result)
+        resolve(result.affectedRows > 0)
+      }
+    })
+  })
 }
