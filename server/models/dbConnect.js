@@ -9,4 +9,12 @@ const dbConnect = mysql.createConnection({
   database: process.env.DB_NAME
 })
 
+dbConnect.connect((err) => {
+  if (err) {
+    console.error('Database connect failed:', err)
+  } else {
+    console.log('Database connection established')
+  }
+})
+
 module.exports = dbConnect

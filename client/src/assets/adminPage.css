@@ -16,6 +16,13 @@ input, select {
     font-family: 'Noto Sans TC', sans-serif;
     font-size: 16px;
 }
+textarea {
+    line-height: 140%;
+    margin-top: 5px;
+    min-height: 80px;
+    padding: 5px;
+    width: 100%;
+}
 
 .btn, input[type="submit"] {
     border-radius: 5px;
@@ -160,9 +167,9 @@ td {
     width: 80px;
 }
 .sort {
-    background-color: var(--main2);
+    background-color: var(--main);
     border-radius: 30px;
-    color: var(--gr0);
+    color: var(--bk2);
     display: inline-block;
     margin: 2px 0;
     padding: 5px 10px;
@@ -181,6 +188,7 @@ td {
     justify-content: center;
 }
 .itemOpr {
+    flex-wrap: nowrap;
     font-size: 14px;
     justify-content: space-between;
     margin: 3px;
@@ -324,4 +332,18 @@ input[type="number"] {
 }
 .itemPrice {
     position: relative;
+}
+.introItem {
+    margin: 20px 0;
+}
+
+
+/*---------------------------------------------*/
+/*               訂單詳細頁面Start              */
+/*---------------------------------------------*/
+.orderItem {
+    display: block;
+}
+.orderItem label {
+    display: block;
 }

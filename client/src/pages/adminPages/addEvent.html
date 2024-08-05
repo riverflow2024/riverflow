@@ -70,7 +70,7 @@
             <div class="tabs">
                 <ul class="tabBtnList">
                     <li><a href="#infoDesc" id="defaultOpen" class="tabBtn active">活動資訊</a></li>
-                    <li><a href="#infoSpec" class="tabBtn">活動說明與規則</a></li>
+                    <li><a href="#eventInfo" class="tabBtn">活動介紹</a></li>
                     <!-- <button class="tabBtn" href="#infoDesc" id="defaultOpen"></button>
                     <button class="tabBtn" href="#infoSpec">商品規格</button> -->
                 </ul>
@@ -83,7 +83,7 @@
                         <span class="required">※此欄位為必填</span>
                     </div>
                     <div class="infoItem">
-                        <label class="editTitle">活動圖片：</label>
+                        <label class="editTitle">主要圖片：</label>
                         <div class="picItem">
                             <label for="eventPic" class="custUpload"><i class="fa-solid fa-upload"></i> 上傳圖片</label>
                             <input id="eventPic" type="file" required accept="image/png, image/jpeg" />
@@ -125,58 +125,50 @@
                             <span class="required">※此欄位為必填</span>
                         </div>
                     </div>
-                    <div id="priceMulti" class="infoItem">
+                    <div id="priceMulti" class="infoList">
                         <label for="eventPrice_multi" class="editTitle">活動票價：</label>
-                        <div class="itemPrice">
-                            <span class="priceMark event">NT$</span>
-                            <input id="eventPrice_multi" type="number" required>
-                            <span class="required">※此欄位為必填</span>
+                        <div class="descInfo">
+                            <div class="descItem">
+                                <label for="priceSec1" class="editTitle">1F搖滾區：</label>
+                                <input id="priceSec1" type="number" required>
+                            </div>
+                            <div class="descItem">
+                                <label for="priceSec2" class="editTitle">2F坐席區：</label>
+                                <input id="priceSec2" type="number" required>
+                            </div>
+                            <div class="descItem">
+                                <label for="priceSec3" class="editTitle">2F站席區：</label>
+                                <input id="priceSec3" type="number" required>
+                            </div>
+                            <div class="descItem">
+                                <label for="priceSec4" class="editTitle">1F身障區：</label>
+                                <input id="priceSec4" type="number" required>
+                            </div>
                         </div>
                     </div>
                 </div>
 
                 <!-- tabContent 商品規格-->
-                <div id="infoSpec" class="tabContent">
-                    <div class="specEdit">
-                        <span class="editTitle">規格選項：</span>
-                        <div class="specInfo">
-                            <div class="specItem">
-                                <label for="prdSpec1">規格1名稱：</label>
-                                <input id="prdSpec1" class="specTitle" type="text" required>
-                            </div>
-                            <div class="specItem">
-                                <label for="prdSpec2" class="specTitle">規格2名稱：</label>
-                                <input id="prdSpec2" type="text">
-                            </div>
-                            <div class="specItem">
-                                <label for="prdSpec3" class="specTitle">規格3名稱：</label>
-                                <input id="prdSpec3" type="text">
-                            </div>
+                <div id="eventInfo" class="tabContent">
+                    <div class="infoItem">
+                        <label class="editTitle">活動圖片：</label>
+                        <div class="picItem">
+                            <label for="eventPic" class="custUpload"><i class="fa-solid fa-upload"></i> 上傳圖片</label>
+                            <input id="eventPic" type="file" required accept="image/png, image/jpeg" />
+                            <span id="fileChosen">未選擇任何檔案</span>
                         </div>
                     </div>
-                    <hr>
-                    <div>
-                        <table class="specSum">
-                            <thead>
-                                <tr>
-                                    <td>規格</td>
-                                    <td>價格</td>
-                                    <td>庫存</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr class="specItemInfo">
-                                    <td><span id="specName1" class="itemTitle"></span></td>
-                                    <td><span class="priceMark">NT$</span><input type="number" id="specPrice" class="specPriceEdit"></td>
-                                    <td><input type="number" name="" id=""></td>
-                                </tr>
-                                <tr class="specItemInfo">
-                                    <td>黑色M</td>
-                                    <td><span class="priceMark">NT$</span><input type="number" id="specPrice" class="specPriceEdit"></td>
-                                    <td><input type="number" name="" id=""></td>
-                                </tr>
-                            </tbody>
-                        </table>
+                    <div class="introItem">
+                        <label for="infoIntro" class="editTitle">活動介紹：</label>
+                        <div class="itemInfo">
+                            <textarea name="" id="infoIntro" placeholder="活動介紹"></textarea>
+                        </div>
+                    </div>
+                    <div class="introItem">
+                        <label for="infoAnn" class="editTitle">最新公告：</label>
+                        <div class="itemInfo">
+                            <textarea name="" id="infoAnn" placeholder="最新公告"></textarea>
+                        </div>
                     </div>
                 </div>
             </div>
