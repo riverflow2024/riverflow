@@ -123,6 +123,12 @@ header {
   color: #eee;
   font-weight: 200;
 }
+.Member .profile-box .wrap .tips {
+  padding: 5px 0px;
+  color: var(--side2);
+  font-size: 15px;
+  text-align: end;
+}
 .Member .profile-box .input-card {
   padding: 15px 0;
 }
@@ -261,7 +267,7 @@ header {
 }
 .OrderList .order-box .btn-box .tablink {
   background-color: var(--bk2);
-  color: var(--gr2);
+  color: var(--gr1);
   border: none;
   border-bottom: 3px solid var(--bk2);
   padding: 10px 0px;

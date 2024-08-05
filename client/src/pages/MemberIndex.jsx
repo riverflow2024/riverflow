@@ -33,7 +33,7 @@ class MemberIndex extends Component {
                                 </div>
                                 <div class="profile">
                                     <h3>Hey！{this.state.Users.lastName} </h3>
-                                    <a href="member.html">個人資料</a>
+                                    <a onClick={this.backMember}>個人資料</a>
                                 </div>
                             </div>
                             <div class="nav">
@@ -74,9 +74,9 @@ class MemberIndex extends Component {
                                 <span>{this.state.Users.sex}</span>
                             </div>
                             <div class="btn-box">
-                                <input type="button" onclick="location.href='memberEdit.html'" value="修改個人資料" />
-                                <input type="button" onclick="location.href='verify.html'" value="修改密碼" />
-                                <input type="button" value="儲存" />
+                                <input type="button" onclick="location.href='memberEdit.html'" value="修改個人資料" onClick={this.editClick} />
+                                <input type="button" onclick="location.href='verify.html'" value="修改密碼" onClick={this.verifyClick} />
+                               
                             </div>
 
 
@@ -96,6 +96,24 @@ class MemberIndex extends Component {
 
         );
     }
+
+    backMember= async () => {
+        // var id = this.props.match.params.id;
+        // await axios.delete(`http://localhost:8000/todo/delete/${id}`)
+        window.location ="/Member/Index";
+    }
+
+    editClick = async () => {
+        // var id = this.props.match.params.id;
+        // await axios.delete(`http://localhost:8000/todo/delete/${id}`)
+        window.location = "/Member/Edit";
+    }
+    verifyClick = async () => {
+        // var id = this.props.match.params.id;
+        // await axios.delete(`http://localhost:8000/todo/delete/${id}`)
+        window.location = "/Login/Verify";
+    }
+
 
 }
 export default MemberIndex;
