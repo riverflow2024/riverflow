@@ -6,10 +6,9 @@ exports.getAllEvents = () => {
   return new Promise((resolve, reject) => {
     dbConnect.query(
       `
-      SELECT 
-      *
-      FROM events, eventimages
-      WHERE events.eventid = eventimages.eventid
+      SELECT * 
+      FROM events,eventtickets,user 
+      WHERE events.eventid = eventtickets.eventid
       `, (err, events) => {
       if (err) return reject(err)
       resolve(events)
@@ -18,9 +17,9 @@ exports.getAllEvents = () => {
 }
 
 // 取得單個產品
-exports.getEvents = (id) => {
+exports.getEvents = (id, userId) => {
   return new Promise((resolve, reject) => {
-    dbConnect.query('SELECT * FROM events WHERE eventid = ?', [id], (err, event) => {
+    dbConnect.query('SELECT * FROM events, Users WHERE eventid = ? AND userid = ?', [id, userId], (err, event) => {
       if (err) return reject(err)
       resolve(event[0])
       // res.send(event)
@@ -30,8 +29,19 @@ exports.getEvents = (id) => {
 
 // 新增產品
 exports.createEvents = (eventData) => {
+  const payTime = new Date();
   return new Promise((resolve, reject) => {
-    dbConnect.query('INSERT INTO events SET ?', eventData, (err, result) => {
+    dbConnect.query(
+      `
+      INSERT INTO ticketdetails (userid, eventid, ticketType, quantity, tdStatus, price, payTime, receiptType, receiptInfo) 
+      SELECT *
+      FROM
+      events, Users ,ticketdetails
+      WHERE ticketdetails.userid = users.userid 
+      AND ticketdetails.eventid = events.eventid
+
+      `
+      , [], (err, result) => {
       if (err) return reject(err)
       resolve({ message: 'events created', id: result.insertId })
     })

@@ -6,15 +6,19 @@ exports.getAllProduct = () => {
     dbConnect.query(
       `
             SELECT 
-            products.productid, productName, productcategories.categoryid, categories.categoryName , productoptions.productPrice , productfavorite.userid
+            products.productid, productName, 
+            categories.categoryName , 
+            productoptions.productPrice , productfavorite.userid, 
+            users.firstName, users.lastName,
+            productimages.productImg
             FROM 
-            products, productcategories ,categories, productoptions ,productfavorite, productimages
+            products, productcategories ,categories, productoptions ,productfavorite, productimages, users
             WHERE 
-            products.productid = productcategories.productid 
-            AND productcategories.categoryid = categories.categoryid    
+            products.productid = productcategories.productid  
             AND products.productid =  productoptions.productid
             AND products.productid = productfavorite.productid
             AND products.productid = productimages.productid
+            AND productfavorite.userId = users.userId
             `,
       (err, products) => {
         if (err) return reject(err)
@@ -32,7 +36,7 @@ exports.getProduct = (id) => {
             SELECT 
             *
             FROM 
-            products, productcategories ,categories,productoptions ,productratings, productfavorite
+            products, productcategories ,categories,productoptions ,productratings, productfavorite, productimages
             WHERE 
             products.productid = ? 
             AND products.productid = productcategories.productid 
@@ -40,7 +44,7 @@ exports.getProduct = (id) => {
             AND products.productid =  productoptions.productid
             AND products.productid = productratings.productid
             AND products.productid = productfavorite.productid
-                        AND productfavorite.userid = 1
+            AND products.productid = productimages.productid
             `,
       [id],
       (err, product) => {

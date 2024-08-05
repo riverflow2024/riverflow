@@ -38,15 +38,15 @@ exports.login = async (req, res) => {
     }
 
     // 確保 user.id 存在
-    if (!user.userid) {
+    if (!user.userId) {
       return res.status(500).json({ message: '內部服務器錯誤' })
     }
 
     // 生成包含 userId 的 token
-    const newToken = jwt.sign({ userId: user.userid }, process.env.JWT_SECRET, { expiresIn: '7d' })
+    const newToken = jwt.sign({ userId: user.userId }, process.env.JWT_SECRET, { expiresIn: '7d' })
 
     // 記錄生成的 token
-    console.log('Generated token payload:', { userId: user.userid })
+    console.log('Generated token payload:', { userId: user.userId })
 
     res.cookie('token', newToken, {
       httpOnly: true,
@@ -54,7 +54,7 @@ exports.login = async (req, res) => {
       maxAge: 7 * 24 * 60 * 60 * 1000 // 7天
     })
 
-    res.json({ message: '登入成功', userId: user.userid })
+    res.json({ message: '登入成功', userId: user.userId })
   } catch (error) {
     console.error('登入錯誤:', error)
     res.status(500).json({ message: '登入失敗，請稍後再試' })
