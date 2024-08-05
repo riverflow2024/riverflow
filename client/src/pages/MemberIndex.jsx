@@ -4,17 +4,21 @@ import '../assets/member.css';
 
 class MemberIndex extends Component {
     state = {
-        profileList: [
-            //模擬的資料
-            { "todoTableid": 1, "title": "Job A", "isComplete": 0 },
-            { "todoTableid": 2, "title": "Job B", "isComplete": 1 },
-            { "todoTableid": 3, "title": "Job C", "isComplete": 1 }
-        ]
+        Users: {
+            "firstName": "林",
+            "lastName": "小美",
+            "phone": "0912-333-555",
+            "email": "abc12345@gmail.com",
+            "birth": "1995/10/10",
+            "sex": "女",
+        }
     }
     render() {
         return (
 
+
             <body class="w-bg scrollCust">
+                
                 <header>
                     <img src={require('../assets/images/indexImg/nav.jpg')} alt="" />
                 </header>
@@ -28,7 +32,7 @@ class MemberIndex extends Component {
                                     <img src={require('../assets/images/defaultphoto.jpg')} alt="" />
                                 </div>
                                 <div class="profile">
-                                    <h3>Hey！小明</h3>
+                                    <h3>Hey！{this.state.Users.lastName} </h3>
                                     <a href="member.html">個人資料</a>
                                 </div>
                             </div>
@@ -51,23 +55,23 @@ class MemberIndex extends Component {
                             </div>
                             <div class="input-card">
                                 <label>您的姓名</label><br />
-                                <span>王小明</span>
+                                <span>{this.state.Users.firstName}{this.state.Users.lastName}</span>
                             </div>
                             <div class="input-card">
                                 <label>聯絡電話</label><br />
-                                <span>0912-345-678</span>
+                                <span>{this.state.Users.phone}</span>
                             </div>
                             <div class="input-card">
                                 <label>您的帳號</label><br />
-                                <span>abc12345@gmail.com</span>
+                                <span>{this.state.Users.email}</span>
                             </div>
                             <div class="input-card">
                                 <label>您的生日</label><br />
-                                <span>1995/10/10</span>
+                                <span>{this.state.Users.birth}</span>
                             </div>
                             <div class="input-card">
                                 <label>您的性別</label><br />
-                                <span>男</span>
+                                <span>{this.state.Users.sex}</span>
                             </div>
                             <div class="btn-box">
                                 <input type="button" onclick="location.href='memberEdit.html'" value="修改個人資料" />

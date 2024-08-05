@@ -7,11 +7,11 @@
     <link rel="stylesheet" href="../src/assets/reset.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
     <link rel="stylesheet" href="../assets/basic.css" />
-    <link rel="stylesheet" href="../assets/shop/shop_page2.css" />
+    <link rel="stylesheet" href="../assets/shop_page2.css" />
     <link rel="stylesheet" href="../assets/shop/lightbox.min.css" />
   </head>
 
-  <body class="w-bg">
+  <body class="w-bg scrollCust">
     <div class="container-f">
       <div class="header"><img src="../../src/assets/images/indexImg/nav.jpg" alt=""></div>
 
@@ -175,7 +175,7 @@
               <h4>TsL滑板</h4>
               <div class="product-text">
                 <p>NT$3683</p>
-             <button class="add-to-cart">加入購物車</button>
+             <button class="add-to-cart">查看更多</button>
               </div>
             </div>
           </div>
@@ -198,7 +198,7 @@
               <h4>6ix9ine原裝CD專輯</h4>
               <div class="product-text">
                 <p>NT$550</p>
-             <button class="add-to-cart">加入購物車</button>
+             <button class="add-to-cart">查看更多</button>
               </div>
             </div>
           </div>
@@ -218,10 +218,10 @@
                   <!-- <span class="label new">新品</span> -->
                 </div>
                 <div class="product-info">
-                  <h4>復古手提箱造型 藍芽黑膠唱盤</h4>
+                  <h4>復古手提箱造型藍芽</h4>
                   <div class="product-text">
                     <p>NT$4980</p>
-                 <button class="add-to-cart">加入購物車</button>
+                 <button class="add-to-cart">查看更多</button>
                   </div>
                 </div>
               </div>
@@ -243,8 +243,8 @@
             <div class="product-info">
               <h4> Raw經典煙紙品牌滑板</h4>
               <div class="product-text">
-                <p>NT$2,880</p>
-             <button class="add-to-cart">加入購物車</button>
+                <p>NT$2880</p>
+             <button class="add-to-cart">查看更多</button>
               </div>
             </div>
           </div>
@@ -252,10 +252,7 @@
       
          </div>
      
-         <!-- 購物車加入提醒 -->
-    <div id="cart-notification" class="cart-notification">
-      已成功加入購物車
-    </div>
+       
     <!-- 彈跳視窗 -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="../assets/shop/lightbox-plus-jquery.min.js"></script>
@@ -267,6 +264,7 @@
   lightbox.option({
     resizeDuration: 200,
     wrapAround: true,
+  
   });
 
   // ----- 我的最愛標籤 -----
@@ -285,7 +283,7 @@
     // 添加
     $(this).addClass('selected');
     selectedSize = $(this).text();
-    console.log("選中的項目是: " + selectedSize);
+    // console.log("選中的項目是: " + selectedSize);
   });
 
   //----- 數量選擇 -----
@@ -320,7 +318,11 @@
   $('.add-to-cart').click(function() {
     let quantity = $('#quantity-input').val();
     if (selectedSize === '') {
-      alert('請選擇一個項目');
+      Swal.fire({
+  icon: "error",
+  title: "請選擇尺寸規格",
+  confirmButtonColor:'red'
+});
       return;
     }
     // 檢查有沒有成功加入
