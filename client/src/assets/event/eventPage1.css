@@ -66,9 +66,10 @@
 
 
 .eventFilter a {
-    padding: 0.7rem 1rem 0.9rem 1rem; 
+    padding: 10px 20px; 
     border-radius: 2rem;
     font-size: 1rem;
+    font-weight: bold;
 }
 
 .eventFilter a:hover {
@@ -92,7 +93,9 @@
 .eventProduct {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
+    justify-content: flex-start;
+    gap: 0.5rem;
+    padding-left: 2rem;
 }
 
 /* 卡片 */
@@ -166,10 +169,13 @@
     }
 }
 @media screen and (max-width: 885px){
+    .eventProduct{
+        justify-content: center;
+    }
+    
     .eventFilter{
         margin: auto;
     }
-    
 
     .eventCard{
         width: 60%;
