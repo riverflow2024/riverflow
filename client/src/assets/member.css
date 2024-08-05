@@ -1,6 +1,7 @@
 @charset "UTF-8";
 @import url("basic.css");
 @import url("https://fonts.googleapis.com/css2?family=Just+Another+Hand&display=swap");
+@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css");
 * {
   margin: 0;
   padding: 0;
@@ -122,12 +123,16 @@ header {
   color: #eee;
   font-weight: 200;
 }
+.Member .profile-box .wrap .tips {
+  padding: 5px 0px;
+  color: var(--side2);
+  font-size: 15px;
+  text-align: end;
+}
 .Member .profile-box .input-card {
-  width: 100%;
   padding: 15px 0;
 }
 .Member .profile-box .input-card input[type=text] {
-  width: 100%;
   margin-left: 0;
 }
 .Member .profile-box .input-card:has(input:focus-visible) {
@@ -145,8 +150,17 @@ header {
   font-size: 16px;
   line-height: 160%;
 }
+.Member .profile-box .input-date {
+  width: 30%;
+  padding: 15px 0;
+}
+.Member .profile-box .input-date:has(input:focus-visible) {
+  border-bottom: 1px solid var(--main);
+}
 .Member .profile-box input[type=date]::-webkit-calendar-picker-indicator {
   background-color: var(--main);
+  padding: 5px;
+  border-radius: 5px;
 }
 .Member .profile-box select {
   margin-top: 10px;
@@ -253,7 +267,7 @@ header {
 }
 .OrderList .order-box .btn-box .tablink {
   background-color: var(--bk2);
-  color: var(--gr2);
+  color: var(--gr1);
   border: none;
   border-bottom: 3px solid var(--bk2);
   padding: 10px 0px;

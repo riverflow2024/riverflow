@@ -29,11 +29,52 @@
     margin: 1.8rem 0rem;
 }
 
+/* 購買順序 */
+.order {
+    display: flex;
+    margin-bottom: 1.8rem;
+    justify-content: space-around;
+}
+
+.ticketOrder {
+    display: flex;
+}
+
+.ticketOrder div:nth-child(1) {
+    display: flex;
+    border: 1px solid var(--main);
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    justify-content: center;
+    align-items: center;
+    margin-right: 1rem;
+    color: var(--main);
+    font-size: 20px;
+}
+
+.ticketOrder span {
+    padding-bottom: 3px;
+    font-size: 1.2rem;
+}
+
+.ticketOrder div:nth-child(2) {
+    display: flex;
+    color: var(--main);
+    align-items: center;
+}
+
+.ticketOrder:nth-child(1) div:nth-child(1) {
+    background-color: var(--main);
+    color: black;
+}
+
 /* 選擇票種數量 */
 .ticketChoose {
     border: 0.75px solid var(--main);
     border-radius: 10px;
     background-color: var(--bk2);
+    font-size: 1.5rem;
 }
 
 .ticketText {
@@ -67,9 +108,14 @@
     /* display: inline-flex; */
     border: none;
     border-radius: 50px;
-    cursor: pointer; 
+    cursor: pointer;
     color: var(--gr1);
+    font-size: 1.2rem;
 
+}
+
+.ticketNumber button:hover{
+    color: var(--main);
 }
 
 .ticketMiddle p {
@@ -86,6 +132,7 @@
 .ticketBtn {
     margin-top: 4rem;
     text-align: right;
+    font-size: 1.5rem;
 }
 
 .ticketBtn a {
@@ -95,5 +142,17 @@
     background-color: var(--main);
     padding: 0.8rem 6rem;
     margin-right: 2rem;
-    
+
+}
+
+.link-disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* 可選：為禁用狀態添加視覺反饋 */
+.link-disabled:hover {
+    text-decoration: none;
+    color: #999;
+    /* 保持顏色不變 */
 }
