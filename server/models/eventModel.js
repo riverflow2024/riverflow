@@ -8,7 +8,7 @@ exports.getAllEvents = () => {
       `
       SELECT 
       *
-      FROM events, eventimages 
+      FROM events, eventimages
       WHERE events.eventid = eventimages.eventid
       `, (err, events) => {
       if (err) return reject(err)

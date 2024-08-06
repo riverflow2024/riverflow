@@ -5,73 +5,16 @@ const nodemailer = require('nodemailer')
 const dotenv = require('dotenv')
 dotenv.config({ path: '../config.env' })
 
-// email 傳輸器
-// const transporter = nodemailer.createTransport({
-//   service: 'gmail',
-//   auth: {
-//     user: process.env.EMAIL_USER,
-//     pass: process.env.GMAIL_APP_PASSWORD
-//   }
-// })
-// const transporter = nodemailer.createTransport({
-//   host: 'sandbox.smtp.mailtrap.io',
-//   port: 2525,
-//   auth: {
-//     user: 'a69c37440a5f65',
-//     pass: '09affb3496ad6d'
-//   }
-// })
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: process.env.GMAIL_USER,
+    pass: process.env.GMAIL_APP_PASSWORD
+  }
+})
 
-// 發送驗證郵件
-// const sendVerificationEmail = async (email, token) => {
-//   const verificationUrl = `${process.env.BASE_URL}/verify/${token}`
-
-//   const mailOptions = {
-//     from: process.env.EMAIL_USER,
-//     to: email,
-//     subject: 'riverFlow：驗證帳號',
-//     text: `親愛的用戶，您好：
-
-// 請複製並在瀏覽器中打開以下連結以驗證您的帳號:
-// ${verificationUrl}
-
-// 如果您沒有註冊 riverFlow 帳號，請忽略此郵件。
-
-// 祝您使用愉快！
-// riverFlow 團隊`,
-//     html: `
-//     <html>
-//       <head>
-//         <style>
-//           body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
-//           .button { background-color: #4CAF50; border: none; color: white; padding: 15px 32px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer; }
-//         </style>
-//       </head>
-//       <body>
-//         <h3>親愛的用戶，您好：</h3>
-//         <p>請點擊下方按鈕驗證您的帳號:</p>
-//         <a href="${verificationUrl}" class="button" style="color: white;">驗證帳號</a>
-//         <p>或複製並在瀏覽器中打開以下連結：</p>
-//         <p>${verificationUrl}</p>
-//         <p>如果您沒有註冊 riverFlow 帳號，請忽略此郵件。</p>
-//         <p>祝您使用愉快！<br>riverFlow 團隊</p>
-//       </body>
-//     </html>
-//     `
-//   }
-
-//   await transporter.sendMail(mailOptions)
-// }
-
+// 寄發驗證email
 const sendVerificationEmail = async (email, token) => {
-  const transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-      user: process.env.GMAIL_USER,
-      pass: process.env.GMAIL_APP_PASSWORD
-    }
-  })
-
   const verificationUrl = `${process.env.BASE_URL}/verify/${token}`
 
   const mailOptions = {
@@ -125,10 +68,10 @@ exports.register = async (req, res) => {
   let userCreated = false
 
   try {
-    // 檢查是否已存在相同郵箱的用戶
+    // 檢查是否已存在相同email的用戶
     const existingUser = await userModel.findByEmail(email)
     if (existingUser) {
-      return res.status(400).json({ message: '此郵箱已被註冊' })
+      return res.status(400).json({ message: '此email已被註冊' })
     }
 
     // 創建新用戶
@@ -143,7 +86,7 @@ exports.register = async (req, res) => {
     // 發送驗證郵件
     await sendVerificationEmail(email, verificationToken)
 
-    res.status(201).json({ message: `註冊成功：${firstName + lastName}，請檢查您的郵箱進行驗證` })
+    res.status(201).json({ message: `註冊成功：${firstName + lastName}，請檢查您的email進行驗證` })
   } catch (error) {
     if (userCreated && userId) {
       try {
@@ -159,7 +102,7 @@ exports.register = async (req, res) => {
     }
 
     if (error.code === 'ER_DUP_ENTRY') {
-      return res.status(400).json({ message: '此郵箱已被註冊' })
+      return res.status(400).json({ message: '此email已被註冊' })
     } else if (error.code === 'EAUTH') {
       return res.status(500).json({ message: '郵件發送失敗，請稍後再試。已刪除未驗證的帳號。' })
     }
@@ -179,7 +122,7 @@ exports.verifyEmail = async (req, res) => {
       return res.status(400).json({ message: '無效的驗證令牌' })
     }
     await userModel.updateValidStatus(user.userId, true)
-    res.json({ message: '郵箱驗證成功' })
+    res.json({ message: 'email驗證成功' })
   } catch (error) {
     console.error('驗證錯誤:', error)
     if (error.name === 'TokenExpiredError') {
@@ -197,7 +140,7 @@ exports.login = async (req, res) => {
     const user = await userModel.findByEmail(email)
 
     if (!user) {
-      return res.status(401).json({ message: '郵箱或密碼不正確' })
+      return res.status(401).json({ message: 'email或密碼不正確' })
     }
 
     if (!user.valid) {
@@ -206,7 +149,7 @@ exports.login = async (req, res) => {
 
     const isMatch = await bcrypt.compare(secret, user.secret)
     if (!isMatch) {
-      return res.status(401).json({ message: '郵箱或密碼不正確' })
+      return res.status(401).json({ message: 'email或密碼不正確' })
     }
 
     if (!user.userId) {
@@ -232,4 +175,108 @@ exports.login = async (req, res) => {
 exports.logout = (req, res) => {
   res.clearCookie('token')
   res.json({ message: '登出成功' })
+}
+
+// 修改密碼請求
+exports.requestPasswordReset = async (req, res) => {
+  const { email } = req.body
+  try {
+    const user = await userModel.findByEmail(email)
+
+    if (!user) {
+      return res.status(400).json({ message: '無效的email' })
+    }
+
+    if (!user.valid) {
+      return res.status(400).json({ message: '請先至信箱內進行驗證' })
+    }
+
+    const resetToken = jwt.sign({ userId: user.id, email: user.email }, process.env.JWT_SECRET, { expiresIn: '1h' })
+    const resetUrl = `${process.env.BASE_URL}/reset-password/${resetToken}`
+    const mailOptions = {
+      from: process.env.EMAIL_USER,
+      to: email,
+      subject: 'riverFlow：修改密碼',
+      text: `親愛的用戶，您好：
+  
+  請複製並在瀏覽器中打開以下連結以前往密碼修改頁面:
+  ${resetUrl}
+  如果您沒有請求重置密碼，請忽略此郵件，您的密碼將保持不變。此連結將在1小時後失效。
+  如果您沒有註冊 riverFlow 帳號，請忽略此郵件。
+  
+  祝您使用愉快！
+  riverFlow 團隊`,
+      html: `
+      <html>
+        <head>
+          <style>
+            body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+            .button { background-color: #4CAF50; border: none; color: white; padding: 15px 32px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer; }
+          </style>
+        </head>
+        <body>
+          <h3>親愛的用戶，您好：</h3>
+          <p>請點擊下方按鈕前往密碼修改頁面:</p>
+          <a href="${resetUrl}" class="button" style="color: white;">密碼修改</a>
+          <p>或複製並在瀏覽器中打開以下連結：</p>
+          <p>${resetUrl}</p>
+
+                  <p>如果您沒有請求重置密碼，請忽略此郵件，您的密碼將保持不變。</p>
+        <p>此連結將在1小時後失效。</p>
+          <p>如果您沒有註冊 riverFlow 帳號，請忽略此郵件。</p>
+          <p>祝您使用愉快！<br>riverFlow 團隊</p>
+        </body>
+      </html>
+      `
+    }
+
+    // 發送郵件
+    await transporter.sendMail(mailOptions)
+
+    res.json({ message: '密碼重置連結已發送到您的信箱' })
+  } catch (error) {
+    console.error('請求密碼重置錯誤:', error)
+    if (error.code === 'EAUTH') {
+      console.error('SMTP authentication error:', error.message)
+      return res.status(500).json({ message: '郵件發送失敗，請檢查郵件設置' })
+    }
+    if (error.code === 'ESOCKET') {
+      console.error('SMTP connection error:', error.message)
+      return res.status(500).json({ message: '郵件服務器連接失敗，請檢查網絡設置' })
+    }
+    res.status(500).json({ message: '發生錯誤，請稍後再試' })
+  }
+}
+
+// 密碼重設
+exports.resetPassword = async (req, res) => {
+  console.log('Received request body:', req.header) // 添加日誌
+  const { token } = req.params
+  const { newSecret } = req.body
+
+  try {
+    // 驗證 JWT
+    const decoded = jwt.verify(token, process.env.JWT_SECRET)
+    const user = await userModel.findByEmail(decoded.email)
+
+    if (!user) {
+      return res.status(400).json({ message: '無效的用戶' })
+    }
+
+    // 更新密碼
+    const hashedPassword = await bcrypt.hash(newSecret, 12)
+    await userModel.updatePassword(user.userId, hashedPassword)
+
+    res.json({ message: '密碼重置成功' })
+  } catch (error) {
+    console.error('重置密碼錯誤:', error)
+    if (error instanceof jwt.JsonWebTokenError) {
+      return res.status(400).json({ message: '無效或過期的重置令牌' })
+    }
+    res.status(500).json({ message: '密碼重置過程中發生錯誤，請稍後再試' })
+  }
+}
+
+exports.resetPasswordPage = function (req, res) {
+  res.redirect(req.password)
 }

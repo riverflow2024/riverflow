@@ -61,9 +61,6 @@ header {
 .login .form .input-text label {
   width: 40px;
 }
-.login .form input[type=text] {
-  letter-spacing: 1px;
-}
 .login .form input[type=password] {
   background: transparent;
   width: 80%;
