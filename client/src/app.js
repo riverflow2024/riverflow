@@ -9,6 +9,7 @@ import MemberTickets from './pages/MemberTickets'
 import MemberCollection from './pages/MemberCollection'
 import EventIndex from './pages/eventIndex'
 import EventDetail from './pages/eventDetail'
+import ProductAll from './pages/ProductAll'
 
 class App extends Component {
   render() {
@@ -24,6 +25,8 @@ class App extends Component {
             <Route path="/Member/Collection" component={MemberCollection} />
             <Route path="/Event/Index" component={EventIndex} />
             <Route path="/Event/Detail" component={EventDetail} />
+            <Route path="/Event/Detail" component={EventDetail} />
+            <Route path="/Product/All" component={ProductAll} />
           </Switch>
         </div>
       </BrowserRouter>
