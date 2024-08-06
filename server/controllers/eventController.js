@@ -1,5 +1,4 @@
 const eventsModel = require('../models/eventModel');
-// const eventsModel = require('../models/eventdetailModel');
 
 // 取得所有活動
 const getAllEvents = async (req, res) => {
@@ -27,6 +26,7 @@ const getEventsById = async (req, res) => {
 // 新增活動
 const createEvents = async (req, res) => {
     try {
+
         const newEvents = await eventsModel.createEvents(req.body);
         res.status(201).json(newEvents);
     } catch (error) {

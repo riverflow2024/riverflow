@@ -1,4 +1,6 @@
 const eventsModel = require('../models/eventTobuy');
+// const eventsModel = require('../models/eventTobuyModel');
+
 
 // 取得所有活動
 const getAllEvents = async (req, res) => {
@@ -40,7 +42,7 @@ const updateEvents = async (req, res) => {
     try {
         const updatedEvent = await eventsModel.updateEvents(req.params.id, req.body);
         if (!updatedEvent) {
-            return res.status(404).json({ message: 'Events not found3' });
+            return res.status(404).json({ message: 'Events not found' });
         }
         res.json(updatedEvent);
     } catch (error) {
@@ -53,7 +55,7 @@ const deleteEvents = async (req, res) => {
     try {
         const deletedEvent = await eventsModel.deleteEvents(req.params.id);
         if (!deletedEvent) {
-            return res.status(404).json({ message: 'Events not found4' });
+            return res.status(404).json({ message: 'Events not found' });
         }
         res.json({ message: 'Events deleted' });
     } catch (error) {
