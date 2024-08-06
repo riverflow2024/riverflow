@@ -156,6 +156,9 @@ header {
 .Member .profile-box .input-date:has(input:focus-visible) {
   border-bottom: 1px solid var(--main);
 }
+.Member .profile-box .input-date label {
+  color: var(--main);
+}
 .Member .profile-box input[type=date]::-webkit-calendar-picker-indicator {
   background-color: var(--main);
   padding: 5px;
@@ -461,6 +464,7 @@ header {
   font-size: 16px;
   font-weight: 200;
   letter-spacing: 1px;
+  color: var(--main);
 }
 .Order .order-box .tabcontent .order .wrap .orderbtn {
   border: none;
@@ -482,6 +486,7 @@ header {
   width: 100%;
   border-collapse: collapse;
   table-layout: fixed;
+  color: var(--main);
 }
 .Order .order-box .tabcontent .order table th,
 .Order .order-box .tabcontent .order table td {
@@ -503,7 +508,7 @@ header {
 }
 .Order .order-box .tabcontent .order .accordion {
   width: 100%;
-  color: #baf13a;
+  color: var(--main);
   font-size: 16px;
   font-weight: 300;
   transition: 0.5s;
@@ -916,6 +921,9 @@ header {
   }
   .order-box {
     width: 375px;
+  }
+  .btn-box {
+    flex-direction: column;
   }
 }
 @media screen and (max-width: 375px) {

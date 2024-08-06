@@ -142,11 +142,11 @@ class MemberCollection extends Component {
         document.getElementById("defaultOpen").click();
     }
 
-    // 選單按鈕
-    backMember = async () => {
+     // 選單按鈕
+     backMember = async () => {
         window.location = "/Member/Index";
     }
-    backOderList = async () => {
+    backOrderList = async () => {
         window.location = "/Member/OrderList";
     }
     backTickets = async () => {

@@ -61,7 +61,7 @@
                     <label>聯絡電話</label><br />
                     <input type="tel" id="phone" name="phone" pattern="^09[0-9]{2}-[0-9]{3}-[0-9]{3}" placeholder="0912-345-678" required/>
                 </div>
-                <span id="bee" ></span> <br></br>
+                <span class="tips" id="phoneTips"></span>
                 <div class="input-card">
                     <label>您的帳號</label><br>
                     <input type="email" name="" id="" placeholder="abc12345@gmail.com">
@@ -92,16 +92,18 @@
     </section>
 
     <script>
-        ok.onclick=function(){
+      
 
-        if(phone.validity.patternMismatch){
-            bee.innerText = '手機資料不符合規則'
-            // phone.reportValidity();
-        }else if (phone.validity.valueMissing){
-            bee.innerText = '請輸入手機號碼'
-        }
-
-        }
+        // 密碼輸入
+        phone.addEventListener('input', function () {
+            if (phone.validity.patternMismatch) {
+                phoneTips.innerHTML = `<i class="bi bi-asterisk"></i> 請輸入符合手機的格式：0912-345-678`;
+            } else if (phone.validity.valueMissing) {
+                phoneTips.innerHTML = `<i class="bi bi-asterisk"></i> 請輸入手機號碼`;
+            } else {
+                phoneTips.innerHTML = ``
+            }
+        });
     </script>
 
     
