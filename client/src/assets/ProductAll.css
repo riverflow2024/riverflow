@@ -121,7 +121,7 @@
 }
 .container .shop-filter ul li {
   font-size: 1.1rem;
-  font-weight: 500;
+  font-weight: bold;
   display: inline-block;
   margin-top: 1rem;
   margin-bottom: 0.5rem;
