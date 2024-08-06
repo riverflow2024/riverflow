@@ -18,7 +18,7 @@ class MemberIndex extends Component {
 
 
             <body class="w-bg scrollCust">
-                
+
                 <header>
                     <img src={require('../assets/images/indexImg/nav.jpg')} alt="" />
                 </header>
@@ -38,9 +38,9 @@ class MemberIndex extends Component {
                             </div>
                             <div class="nav">
                                 <ul>
-                                    <li><a href="memberOrderList.html"><i class="bi bi-clipboard"></i> 訂單查詢</a></li>
-                                    <li><a href="memberTickets.html"><i class="bi bi-ticket-perforated"></i> 活動票券</a></li>
-                                    <li><a href="memberCollection.html"><i class="bi bi-heart"></i> 我的最愛</a></li>
+                                    <li><a onClick={this.backOrderList}><i class="bi bi-clipboard"></i> 訂單查詢</a></li>
+                                    <li><a onClick={this.backTickets}><i class="bi bi-ticket-perforated"></i> 活動票券</a></li>
+                                    <li><a onClick={this.backCollection}><i class="bi bi-heart"></i> 我的最愛</a></li>
 
                                 </ul>
 
@@ -74,9 +74,9 @@ class MemberIndex extends Component {
                                 <span>{this.state.Users.sex}</span>
                             </div>
                             <div class="btn-box">
-                                <input type="button" onclick="location.href='memberEdit.html'" value="修改個人資料" onClick={this.editClick} />
-                                <input type="button" onclick="location.href='verify.html'" value="修改密碼" onClick={this.verifyClick} />
-                               
+                                <input type="button"  value="修改個人資料" onClick={this.editClick} />
+                                <input type="button"  value="修改密碼" onClick={this.verifyClick} />
+
                             </div>
 
 
@@ -97,11 +97,22 @@ class MemberIndex extends Component {
         );
     }
 
-    backMember= async () => {
-        // var id = this.props.match.params.id;
-        // await axios.delete(`http://localhost:8000/todo/delete/${id}`)
-        window.location ="/Member/Index";
+    // 選單按鈕
+    backMember = async () => {
+        window.location = "/Member/Index";
     }
+    backOrderList = async () => {
+        window.location = "/Member/OrderList";
+    }
+    backTickets = async () => {
+        window.location = "/Member/Tickets";
+    }
+    backCollection = async () => {
+        window.location = "/Member/Collection";
+    }
+    
+
+    
 
     editClick = async () => {
         // var id = this.props.match.params.id;

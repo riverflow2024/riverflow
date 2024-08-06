@@ -3,10 +3,11 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
  
 import MemberIndex from './pages/MemberIndex';
 import MemberEdit from './pages/MemberEdit';
-import MemberOderList from './pages/MemberOderList';
-import MemberOder from './pages/MemberOder';
+import MemberOrderList from './pages/MemberOrderList';
+import MemberOrder from './pages/MemberOrder';
 import MemberTickets from './pages/MemberTickets';
 import MemberCollection from './pages/MemberCollection';
+import Login from './pages/Login';
 
  
 class App extends Component {
@@ -17,10 +18,12 @@ class App extends Component {
             <Switch>
              <Route path="/Member/Index" component={MemberIndex} exact/>
              <Route path="/Member/Edit" component={MemberEdit} />
-             <Route path="/Member/OderList" component={MemberOderList} />
-             <Route path="/Member/Oder" component={MemberOder} />
-             <Route path="/Member/Ticket" component={MemberTickets} />
+             <Route path="/Member/OrderList" component={MemberOrderList} />
+             <Route path="/Member/Order" component={MemberOrder} />
+             <Route path="/Member/Tickets" component={MemberTickets} />
              <Route path="/Member/Collection" component={MemberCollection} />
+
+             <Route path="/Login" component={Login} />
              
            </Switch>
         </div> 

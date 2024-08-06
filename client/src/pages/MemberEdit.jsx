@@ -14,9 +14,10 @@ class MemberEdit extends Component {
             "sex": "女",
         }
     }
+
     render() {
         return (
-            <body class="w-bg scrollCust">
+            <div>
                 <header>
                     <img src={require('../assets/images/indexImg/nav.jpg')} alt="" />
                 </header>
@@ -86,8 +87,8 @@ class MemberEdit extends Component {
                                 </select>
                             </div>
                             <div class="btn-box">
-                                <input type="button" onclick="location.href='member.html'" value="查看個人資料" onClick={this.backMember} />
-                                <input type="button" onclick="location.href='verify.html'" value="修改密碼" onClick={this.verifyClick} />
+                                <input type="button" value="查看個人資料" onClick={this.backMember} />
+                                <input type="button" value="修改密碼" onClick={this.verifyClick} />
                                 <input type="button" value="儲存" onClick={this.updateClick}  />
                             </div>
                         </form>
@@ -104,7 +105,7 @@ class MemberEdit extends Component {
 
 
 
-            </body>
+            </div>
 
 
 
