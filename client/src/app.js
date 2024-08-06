@@ -7,7 +7,8 @@ import MemberOrderList from './pages/MemberOrderList';
 import MemberOrder from './pages/MemberOrder';
 import MemberTickets from './pages/MemberTickets';
 import MemberCollection from './pages/MemberCollection';
-import Login from './pages/Login';
+import EventIndex from './pages/eventIndex';
+import EventDetail from './pages/eventDetail';
 
  
 class App extends Component {
@@ -22,8 +23,8 @@ class App extends Component {
              <Route path="/Member/Order" component={MemberOrder} />
              <Route path="/Member/Tickets" component={MemberTickets} />
              <Route path="/Member/Collection" component={MemberCollection} />
-
-             <Route path="/Login" component={Login} />
+             <Route path="/Event/Index" component={EventIndex} />
+             <Route path="/Event/Detail" component={EventDetail} />
              
            </Switch>
         </div> 
