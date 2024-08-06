@@ -1,20 +1,22 @@
 .eventName {
-    display: flex;
+    display: grid;
+    align-items: center;
+    grid-template-columns: 1fr 2fr;
 }
 
 .eventImg {
-    border: 0.75px solid var(--main);
+
     border-radius: 10px;
     flex: 1;
 }
 
 .eventImg img {
+    border: 0.75px solid var(--main);
     border-radius: 10px;
 }
 
 .eventTitle {
     flex: 1;
-    padding-top: 3em;
     margin-left: 3em;
 }
 
@@ -114,7 +116,7 @@
 
 }
 
-.ticketNumber button:hover{
+.ticketNumber button:hover {
     color: var(--main);
 }
 
@@ -155,4 +157,35 @@
     text-decoration: none;
     color: #999;
     /* 保持顏色不變 */
+}
+
+@media screen and (min-width: 1440px) {
+    .wrap {
+        max-width: 1300px;
+        height: auto;
+    }
+}
+
+@media screen and (max-width: 1000px) {
+    .eventName {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media screen and (max-width: 850px) {
+    .eventName {
+        display: block;
+    }
+
+    .eventImg {
+        max-width: 100%;
+        padding: 1rem;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .wrap {
+        min-width: 560px;
+        height: auto;
+    }
 }
