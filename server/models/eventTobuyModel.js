@@ -18,17 +18,22 @@ exports.getAllEvents = () => {
 }
 
 // 取得單個產品
-exports.getEvents = (id) => {
+exports.getEvents = (id ,userId) => {
+
   return new Promise((resolve, reject) => {
+    console.log(userId)
     dbConnect.query(`
       SELECT
        * 
-      FROM events , eventimages, eventtickets
+      FROM events , eventimages, eventtickets , users , ticketdetails
       WHERE events.eventid = ? 
+      AND users.userid = ?
       AND events.eventid = eventimages.eventid
-      AND events.eventid =  eventtickets.eventid
+      AND events.eventid = eventtickets.eventid
+      AND events.eventid = ticketdetails.eventid 
 
-      `, [id], (err, event) => {
+
+      `, [id, userId], (err, event) => {
       if (err) return reject(err)
       resolve(event[0])
       // res.send(event)
@@ -65,4 +70,3 @@ exports.deleteEvents = (id) => {
     })
   })
 }
-

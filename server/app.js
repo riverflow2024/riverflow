@@ -11,6 +11,7 @@ app.use(bodyParser.json())
 const userRoutes = require('./routes/users')
 const productRoutes = require('./routes/products')
 const eventRoutes = require('./routes/events')
+const eventTobuyRoutes = require('./routes/eventTobuy')
 // const orderRoutes = require('./routes/orders')
 
 // Use routes
@@ -18,6 +19,7 @@ app.use('/riverflow', require('./routes/public'))
 app.use('/riverflow/user', authenticateToken, userRoutes)
 app.use('/riverflow/products', productRoutes)
 app.use('/riverflow/events', eventRoutes)
+app.use('/riverflow/events/tobuy',authenticateToken, eventTobuyRoutes)
 // app.use('/riverflow/orders', orderRoutes)
 
 module.exports = app

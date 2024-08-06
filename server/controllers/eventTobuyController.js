@@ -1,4 +1,4 @@
-const eventsModel = require('../models/eventModel');
+const eventsModel = require('../models/eventTobuyModel');
 
 
 // 取得所有活動
@@ -14,7 +14,8 @@ const getAllEvents = async (req, res) => {
 // 取得單個活動
 const getEventsById = async (req, res) => {
     try {
-        const events = await eventsModel.getEvents(req.params.id);
+        const events = await eventsModel.getEvents(req.params.id, req.userId);
+        console.log(req.userId)
         if (!events) {
             return res.status(404).json({ message: 'Events not found' });
         }
@@ -27,7 +28,6 @@ const getEventsById = async (req, res) => {
 // 新增活動
 const createEvents = async (req, res) => {
     try {
-
         const newEvents = await eventsModel.createEvents(req.body);
         res.status(201).json(newEvents);
     } catch (error) {
