@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
 
+import Footer from './components/footer'
 import MemberIndex from './pages/MemberIndex'
 import MemberEdit from './pages/MemberEdit'
 import MemberOrderList from './pages/MemberOrderList'
@@ -28,6 +29,7 @@ class App extends Component {
             <Route path="/Event/Detail" component={EventDetail} />
             <Route path="/Product/All" component={ProductAll} />
           </Switch>
+          <Footer />
         </div>
       </BrowserRouter>
     )

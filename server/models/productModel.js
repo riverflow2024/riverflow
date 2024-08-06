@@ -1,24 +1,37 @@
 const dbConnect = require('./dbConnect')
 
 // 取得所有產品
-exports.getAllProduct = () => {
+
+exports.getAllProductImg = () => {
+  return new Promise((resolve, reject) => {
+    dbConnect.query(
+      `
+        SELECT
+        products.productId,products.productName,productimages.productImg
+        FROM products, productimages
+        WHERE products.productId = productimages.productId
+      `,
+      (err, products) => {
+        if (err) return reject(err)
+        resolve(products)
+      }
+    )
+  })
+}
+
+exports.getAllProductFavorite = () => {
   return new Promise((resolve, reject) => {
     dbConnect.query(
       `
             SELECT 
-            products.productid, productName, 
-            categories.categoryName , 
-            productoptions.productPrice , productfavorite.userid, 
-            users.firstName, users.lastName,
-            productimages.productImg
+            products.productId,products.productName,
+            productfavorite.userId,users.firstName
             FROM 
-            products, productcategories ,categories, productoptions ,productfavorite, productimages, users
+            products, productfavorite, users
             WHERE 
-            products.productid = productcategories.productid  
-            AND products.productid =  productoptions.productid
-            AND products.productid = productfavorite.productid
-            AND products.productid = productimages.productid
+            products.productid = productfavorite.productid 
             AND productfavorite.userId = users.userId
+            ORDER BY products.productId,users.userId
             `,
       (err, products) => {
         if (err) return reject(err)
@@ -28,22 +41,44 @@ exports.getAllProduct = () => {
   })
 }
 
-// 取得單個產品
-exports.getProduct = (id) => {
+exports.getAllProductInfo = () => {
   return new Promise((resolve, reject) => {
     dbConnect.query(
       `
             SELECT 
-            *
+            products.productid, productName, 
+            categories.categoryName, productoptions.productPrice, productoptions.optName
             FROM 
-            products, productcategories ,categories,productoptions ,productratings, productfavorite, productimages
+            products, productcategories ,categories, productoptions
+            WHERE 
+            products.productid = productcategories.productid  
+            AND productcategories.categoryId = categories.categoryId
+            AND products.productid =  productoptions.productid
+
+            `,
+      (err, products) => {
+        if (err) return reject(err)
+        resolve(products)
+      }
+    )
+  })
+}
+
+
+// 選取單個產品
+//------------------------------------------------------------------------------------------------
+
+//產品圖
+exports.getProductImg = (id) => {
+  return new Promise((resolve, reject) => {
+    dbConnect.query(
+      `
+            SELECT 
+            products.productId, products.productName,productimages.productImg
+            FROM 
+            products, productimages
             WHERE 
             products.productid = ? 
-            AND products.productid = productcategories.productid 
-            AND productcategories.categoryid = categories.categoryid 
-            AND products.productid =  productoptions.productid
-            AND products.productid = productratings.productid
-            AND products.productid = productfavorite.productid
             AND products.productid = productimages.productid
             `,
       [id],
@@ -55,10 +90,62 @@ exports.getProduct = (id) => {
   })
 }
 
+
+// 產品收藏
+exports.getProductFavorite = (id) => {
+  return new Promise((resolve, reject) => {
+    dbConnect.query(
+      `
+            SELECT 
+            products.productId,products.productName,productfavorite.userId,users.firstName,users.lastName
+            FROM 
+            products, productfavorite,users
+            WHERE 
+            products.productid = ? 
+            AND products.productid = productfavorite.productid
+            AND users.userId = productfavorite.userId
+            `,
+      [id],
+      (err, product) => {
+        if (err) return reject(err)
+        resolve(product)
+      }
+    )
+  })
+}
+
+
+//產品資訊
+exports.getProductInfo = (id) => {
+  return new Promise((resolve, reject) => {
+    dbConnect.query(
+      `
+            SELECT 
+            *
+            FROM 
+            products, productcategories ,categories,productoptions ,productratings
+            WHERE 
+            products.productid = ? 
+            AND products.productid = productcategories.productid 
+            AND productcategories.categoryid = categories.categoryid 
+            AND products.productid =  productoptions.productid
+            AND products.productid = productratings.productid
+            `,
+      [id],
+      (err, product) => {
+        if (err) return reject(err)
+        resolve(product)
+      }
+    )
+  })
+}
+
+
+
 // 新增產品
 exports.createProduct = (productData) => {
   return new Promise((resolve, reject) => {
-    dbConnect.query('INSERT INTO products SET ?', productData, (err, result) => {
+    dbConnect.query('INSERT INTO products, proudctoption, categories, productcategories SET ?', productData, (err, result) => {
       if (err) return reject(err)
       resolve({ message: 'Product created', id: result.insertId })
     })
@@ -84,3 +171,58 @@ exports.deleteProduct = (id) => {
     })
   })
 }
+
+// 取得單個產品
+// exports.getProduct = (id) => {
+//   return new Promise((resolve, reject) => {
+//     dbConnect.query(
+//       `
+//             SELECT
+//             *
+//             FROM
+//             products, productcategories ,categories,productoptions ,productratings, productfavorite, productimages
+//             WHERE
+//             products.productid = ?
+//             AND products.productid = productcategories.productid
+//             AND productcategories.categoryid = categories.categoryid
+//             AND products.productid =  productoptions.productid
+//             AND products.productid = productratings.productid
+//             AND products.productid = productfavorite.productid
+//             AND products.productid = productimages.productid
+//             `,
+//       [id],
+//       (err, product) => {
+//         if (err) return reject(err)
+//         resolve(product)
+//       }
+//     )
+//   })
+// }
+
+
+// exports.getAllProduct = () => {
+//   return new Promise((resolve, reject) => {
+//     dbConnect.query(
+//       `
+//             SELECT
+//             products.productid, productName,
+//             categories.categoryName ,
+//             productoptions.productPrice , productfavorite.userid,
+//             users.firstName, users.lastName,
+//             productimages.productImg,productoptions.optName
+//             FROM
+//             products, productcategories ,categories, productoptions ,productfavorite, productimages, users
+//             WHERE
+//             products.productid = productcategories.productid
+//             AND products.productid =  productoptions.productid
+//             AND products.productid = productfavorite.productid
+//             AND products.productid = productimages.productid
+//             AND productfavorite.userId = users.userId
+//             `,
+//       (err, products) => {
+//         if (err) return reject(err)
+//         resolve(products)
+//       }
+//     )
+//   })
+// }
