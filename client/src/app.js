@@ -3,11 +3,12 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom'
 
 import MemberIndex from './pages/MemberIndex'
 import MemberEdit from './pages/MemberEdit'
-import MemberOderList from './pages/MemberOderList'
-import MemberOder from './pages/MemberOder'
+import MemberOrderList from './pages/MemberOrderList'
+import MemberOrder from './pages/MemberOrder'
 import MemberTickets from './pages/MemberTickets'
 import MemberCollection from './pages/MemberCollection'
-import ProductAll from './pages/ProductAll'
+import EventIndex from './pages/eventIndex'
+import EventDetail from './pages/eventDetail'
 
 class App extends Component {
   render() {
@@ -17,11 +18,12 @@ class App extends Component {
           <Switch>
             <Route path="/Member/Index" component={MemberIndex} exact />
             <Route path="/Member/Edit" component={MemberEdit} />
-            <Route path="/Member/OderList" component={MemberOderList} />
-            <Route path="/Member/Oder" component={MemberOder} />
-            <Route path="/Member/Ticket" component={MemberTickets} />
+            <Route path="/Member/OrderList" component={MemberOrderList} />
+            <Route path="/Member/Order" component={MemberOrder} />
+            <Route path="/Member/Tickets" component={MemberTickets} />
             <Route path="/Member/Collection" component={MemberCollection} />
-            <Route path="/Product/All" component={ProductAll} />
+            <Route path="/Event/Index" component={EventIndex} />
+            <Route path="/Event/Detail" component={EventDetail} />
           </Switch>
         </div>
       </BrowserRouter>
