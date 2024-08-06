@@ -16,25 +16,23 @@ import EventDetail from './pages/eventDetail';
  
 class App extends Component {
   render() {
-    return (      
-       <BrowserRouter>
+    return (
+      <BrowserRouter>
         <div>
-            <Switch>
-             <Route path="/Member/Index" component={MemberIndex} exact/>
-             <Route path="/Member/Edit" component={MemberEdit} />
-             <Route path="/Member/OrderList" component={MemberOrderList} />
-             <Route path="/Member/Order" component={MemberOrder} />
-             <Route path="/Member/Tickets" component={MemberTickets} />
-             <Route path="/Member/Collection" component={MemberCollection} />
-             <Route path="/Event/Index" component={EventIndex} />
-             <Route path="/Event/Detail" component={EventDetail} />
-             
-           </Switch>
-        </div> 
+          <Switch>
+            <Route path="/Member/Index" component={MemberIndex} exact />
+            <Route path="/Member/Edit" component={MemberEdit} />
+            <Route path="/Member/OrderList" component={MemberOrderList} />
+            <Route path="/Member/Order" component={MemberOrder} />
+            <Route path="/Member/Tickets" component={MemberTickets} />
+            <Route path="/Member/Collection" component={MemberCollection} />
+            <Route path="/Event/Index" component={EventIndex} />
+            <Route path="/Event/Detail" component={EventDetail} />
+          </Switch>
+        </div>
       </BrowserRouter>
-    );
+    )
   }
 }
- 
-export default App;
 
+export default App
