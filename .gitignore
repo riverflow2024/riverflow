@@ -9,3 +9,5 @@ node_modules
 # scss
 *.scss
 *.css.map
+# sql檔
+*.sql
