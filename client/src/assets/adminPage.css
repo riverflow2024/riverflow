@@ -194,6 +194,9 @@ td {
     margin: 3px;
     width: 80px;
 }
+.itemOpr.orderEdit {
+    width: auto;
+}
 .itemOpr .fa-arrow-down {
     font-size: 16px;
 }
@@ -247,7 +250,7 @@ td {
 
 .infoItem {
     display: flex;
-    margin: 20px 0;
+    margin-top: 20px;
     align-items: center;
 }
 .infoItem.itemList {
@@ -270,6 +273,7 @@ td {
 }
 .required {
     color: var(--err);
+    margin-left: 10px;
     /* display: none; */
 }
 /* input:invalid .required {
@@ -336,14 +340,66 @@ input[type="number"] {
 .introItem {
     margin: 20px 0;
 }
+.discountWay::placeholder {
+    text-align: left;
+}
 
 
 /*---------------------------------------------*/
 /*               訂單詳細頁面Start              */
 /*---------------------------------------------*/
+.orderInfoList {
+    align-items: start;
+    justify-content: space-between;
+}
+.details {
+    display: block;
+    flex: 1;
+    padding: 10px 15px 10px 5px;
+}
+.details:first-child {
+    border-right: 1px solid var(--gr2);
+}
+.details:last-child {
+    padding: 10px 5px 10px 15px;
+}
+.orderItemList {
+    justify-content: space-between;
+}
 .orderItem {
     display: block;
+    line-height: 120%;
+    margin-top: 15px;
+}
+.orderItem.half {
+    width: 48%;
 }
 .orderItem label {
     display: block;
+}
+.orderItemInfo {
+    background-color: #E9EEDE;
+    border: 1px solid;
+    border-radius: 5px;
+    margin-top: 10px;
+    padding: 5px 10px;
+}
+.eventArea {
+    margin-right: 5px;
+}
+.infoArea {
+    height: auto;
+    line-height: 140%;
+    min-height: 90px;
+}
+.note {
+    border-radius: 5px;
+    padding: 5px 10px;
+    max-width: 100%;
+    width: unset;
+}
+.statusEdit {
+    background-color: #fff;
+    margin-top: 10px;
+    width: 100%;
 }

@@ -14,45 +14,69 @@
     </header>
 
     <section class="verify">
-        <form >
+        <form>
             <h4>修改密碼</h4>
-            <div class="input-text">
+            <div class="input-text input-password">
                 <label>新密碼</label>
-                <input type="password" name="" id="newPassword" value="12345">
+                <input type="password" name="newPassword" id="newPassword" placeholder="Enter password"
+                    pattern="^(?=.*[a-zA-Z])(?=.*[0-9]).{6,}$" required />
                 <div><i id="newBtn" class="bi bi-eye-slash-fill"></i></div>
             </div>
-            <div class="input-text">
-                <label >確認密碼</label>
-                <input type="password" name="" id="checkPassword" value="12345">
+            <span class="tips" id="passwordTips">含英數至少六個字元</span> <br />
+
+            <div class="input-text input-password">
+                <label>確認密碼</label>
+                <input type="password" name="" id="checkPassword" placeholder="Enter password" />
                 <div><i id="checkBtn" class="bi bi-eye-slash-fill"></i></div>
             </div>
-            
-            <input type="submit" value="確認">
-            
+            <span class="tips" id="checkpassTips"></span> <br>
+
+            <input type="button" class="btn" onclick="location.href='login.html'" value="確認">
+
         </form>
     </section>
 
     <script>
-            newBtn.onclick=function(){
+        newBtn.onclick = function () {
             var x = $('#newBtn').hasClass('bi-eye-slash-fill');
-            if(x){
+            if (x) {
                 $('#newBtn').removeClass('bi-eye-slash-fill').addClass('bi-eye-fill')
-                $('#newPassword').attr("type", "text").css('width','80%');
-            }else{
+                $('#newPassword').attr("type", "text").css('width', '80%');
+            } else {
                 $('#newBtn').removeClass('bi-eye-fill').addClass('bi-eye-slash-fill')
                 $('#newPassword').attr("type", "password");
             }
         }
-            checkBtn.onclick=function(){
+        checkBtn.onclick = function () {
             var x = $('#checkBtn').hasClass('bi-eye-slash-fill');
-            if(x){
+            if (x) {
                 $('#checkBtn').removeClass('bi-eye-slash-fill').addClass('bi-eye-fill')
-                $('#checkPassword').attr("type", "text").css('width','80%');
-            }else{
+                $('#checkPassword').attr("type", "text").css('width', '80%');
+            } else {
                 $('#checkBtn').removeClass('bi-eye-fill').addClass('bi-eye-slash-fill')
                 $('#checkPassword').attr("type", "password");
             }
         }
+
+          // 密碼輸入
+          newPassword.addEventListener('input', function () {
+            if (newPassword.validity.patternMismatch) {
+                passwordTips.innerHTML = `<i class="bi bi-asterisk"></i> 請輸入正確的密碼格式:含英數至少六個字元`;
+            } else if (newPassword.validity.valueMissing) {
+                passwordTips.innerHTML = `<i class="bi bi-asterisk"></i> 請輸入密碼`;
+            } else {
+                passwordTips.innerHTML = ``
+            }
+        });
+        // 密碼確認
+        checkPassword.addEventListener('input', function () {
+            if (checkPassword.value !== newPassword.value) {
+                checkpassTips.innerHTML = `<i class="bi bi-asterisk"></i> 密碼不吻合`;
+            } else {
+                checkpassTips.innerHTML = `密碼吻合`;
+            }
+        });
+
     </script>
 
 </body>

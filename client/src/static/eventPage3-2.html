@@ -10,11 +10,11 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
   <link rel="stylesheet" href="../../src/assets/event/eventPage3-2.css">
   <style>
-    
+
   </style>
 </head>
 
-<body class="w-bg">
+<body class="w-bg scrollCust">
   <div class="wrap container">
     <div class="header"><img src="../../src/assets/images/indexImg/nav.jpg" alt=""></div>
 
@@ -195,7 +195,7 @@
     </div>
     <!-- 下一步按鍵 -->
     <div class="nextBtn">
-      <a href="./eventConfirm.html">下一步</a>
+      <a href="./eventConfirm.html" id="nextBtn">下一步</a>
     </div>
   </div>
 
@@ -213,13 +213,14 @@
         //綁定數量在剩餘數量
         var remaining = $(this).data('remaining');
         var remainingValue = parseInt($(remaining).text());
-        //綁定在按鍵中間的span
+        //綁定在按鍵中間的span(目前購買張數)
         var target = $(this).data('target');
         var quantityValue = parseInt($(target).text());
-        if (remainingValue > 0) {
+        if (remainingValue > 0 && quantityValue < 4) {
           $(target).text(quantityValue + 1);
           $(remaining).text(remainingValue - 1);
         }
+        buttonState();
       })
       //數量按鍵減少
       $('.decrement').on('click', function () {
@@ -231,9 +232,54 @@
           $(target).text(quantityValue - 1);
           $(remaining).text(remainingValue + 1);
         }
-        // console.log(value);
+        buttonState();
       })
 
+      // 如果購買當下票券，其他的票券數量歸零
+      $('.increment, .decrement').click(function () {
+        var remaining = $(this).data('remaining');
+        var remainingValue = parseInt($(remaining).text());
+        var target = $(this).data('target');
+        var quantityValue = parseInt($(target).text());
+        if (remainingValue > 0) {
+          $('.ticketBtn span[id^="quantity"]').not(target).each(function () {
+            var $otherQuantity = $(this);
+            var $otherRemaining = $('#' + $otherQuantity.siblings('button.increment').data('remaining').substr(1));
+            var otherCurrentValue = parseInt($otherQuantity.text());
+
+            if (otherCurrentValue > 0) {
+              $otherRemaining.text(parseInt($otherRemaining.text()) + otherCurrentValue);
+              $otherQuantity.text('0');
+            }
+          });
+        }
+        buttonState();
+      })
+      // 要有數量才能下一步
+      function buttonState() {
+
+        // 宣告全部票數累積
+        var totalQuantity = 0;
+        $('[id^="quantity"]').each(function () {
+          totalQuantity += parseInt($(this).text()) || 0;
+          // ||0 安全措施，怕返回的不是數值
+        });
+
+        var $button = $('#nextBtn');
+        if (totalQuantity === 0) {
+          $($button).addClass('link-disabled');
+        } else {
+          $($button).removeClass('link-disabled');
+        }
+      }
+      buttonState();
+
+      //如果有特定class屬性，取消連結的默認行為
+      $('#nextBtn').on('click', function (e) {
+        if ($(this).hasClass('link-disabled')) {
+          e.preventDefault();
+        }
+      });
     })
   </script>
 </body>

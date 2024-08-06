@@ -16,7 +16,7 @@
 
 </head>
 
-<body class="w-bg">
+<body class="w-bg ">
     <div class="wrap container">
         <div class="header"><img src="../../src/assets/images/indexImg/nav.jpg" alt=""></div>
 
@@ -71,7 +71,7 @@
             <div class="eventList">
                 <div class="eventProduct">
                     <div class="eventCard" dataCategory="DJ">
-                        <a href="">
+                        <a href="../static/eventPage2.html">
                             <img src="https://img.redbull.com/images/c_fill,g_auto,w_550,h_428/q_auto,f_auto/redbullcom/2023/12/26/d2dwugrazmfwjonyk7vh/redbullorbit"
                                 alt="圖片">
                             <p>Orbit的NBA全明星陣容</p>
@@ -191,7 +191,8 @@
         $(document).ready(function(){
 
             //  商品篩選功能
-            $(".titleSelect div a").on("click",function(){
+            $(".titleSelect div a").on("click",function(e){
+                e.preventDefault();
                 var filterValue = $(this).attr('dataFilter');
                 
                 if(filterValue == "all"){

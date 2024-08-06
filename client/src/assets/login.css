@@ -15,6 +15,20 @@ header {
   z-index: 99;
 }
 
+.tips {
+  color: var(--side2) !important;
+  font-size: 15px !important;
+  text-align: start !important;
+  margin-top: 10px;
+}
+
+.btn {
+  margin-top: 10px;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+
 /*------- 會員登入--------- */
 .login {
   width: 100%;
@@ -24,7 +38,7 @@ header {
   box-sizing: border-box;
   padding: 20vh 15px 0px 15px;
 }
-.login form {
+.login .form {
   width: 400px;
   height: 280px;
   padding: 5%;
@@ -35,22 +49,22 @@ header {
   border-radius: 10px;
   box-shadow: 0px 0px 30px 0px rgba(0, 0, 0, 0.25);
 }
-.login form h4 {
+.login .form h4 {
   color: var(--main);
   text-align: center;
   margin-bottom: 20px;
   letter-spacing: 1px;
 }
-.login form .input-text {
-  margin: 10px 0px;
+.login .form .input-text {
+  margin: 5px 0px;
 }
-.login form .input-text label {
+.login .form .input-text label {
   width: 40px;
 }
-.login form input[type=text] {
+.login .form input[type=text] {
   letter-spacing: 1px;
 }
-.login form input[type=password] {
+.login .form input[type=password] {
   background: transparent;
   width: 80%;
   border: 0;
@@ -59,7 +73,7 @@ header {
   line-height: 160%;
   margin-left: 10px;
 }
-.login form a {
+.login .form a {
   color: var(--main);
   font-family: "Noto Sans TC";
   font-size: 15px;
@@ -69,16 +83,16 @@ header {
   text-align: center;
   margin-top: 10px;
 }
-.login form input[type=submit] {
+.login .form input[type=submit] {
   margin-top: 10px;
   font-size: 15px;
   font-weight: 600;
   letter-spacing: 1px;
 }
-.login form span {
-  color: var(--gr2);
+.login .form span {
+  color: var(--gr1);
   font-size: 15px;
-  font-weight: 300;
+  font-weight: 200;
   letter-spacing: 1px;
   text-align: center;
   margin-top: 10px;
@@ -131,7 +145,7 @@ header {
 }
 .register .form {
   width: 400px;
-  height: 400px;
+  height: 500px;
   padding: 5%;
   margin-bottom: 100px;
   display: flex;
@@ -147,19 +161,23 @@ header {
   letter-spacing: 1px;
 }
 .register .form .input-text {
-  margin: 15px 0px;
+  margin: 5px 0px;
+  padding-right: 25px;
 }
-.register .form .input-text label {
-  width: 40px;
+.register .form .input-password {
+  justify-content: space-between;
 }
-.register .form input[type=password] {
+.register .form .input-password input[type=password] {
   background: transparent;
-  width: 80%;
+  width: 80% !important;
   border: 0;
   color: var(--main);
   font-size: 16px;
   line-height: 160%;
-  margin-left: 10px;
+  padding-left: 5px;
+}
+.register .form .input-password input[type=text] {
+  width: 80% !important;
 }
 .register .form .input-checkbox {
   padding: 5px 0px;
@@ -220,14 +238,8 @@ header {
   text-align: center;
   margin-top: 10px;
 }
-.register .form input[type=submit] {
-  margin-top: 10px;
-  font-size: 15px;
-  font-weight: 600;
-  letter-spacing: 1px;
-}
 .register .form span {
-  color: var(--gr2);
+  color: var(--gr1);
   font-size: 15px;
   font-weight: 300;
   letter-spacing: 1px;
@@ -383,6 +395,12 @@ header {
   font-weight: 600;
   letter-spacing: 1px;
 }
+.password form .btn {
+  margin-top: 10px;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 1px;
+}
 
 /*------- 修改密碼-------- */
 .verify {
@@ -411,26 +429,26 @@ header {
   letter-spacing: 1px;
 }
 .verify form .input-text {
-  margin: 15px 0px;
+  margin: 5px 0px;
   padding-right: 25px;
-  justify-content: space-between;
 }
 .verify form .input-text label {
   width: 70px;
 }
-.verify form input[type=password] {
+.verify form .input-password {
+  justify-content: space-between;
+}
+.verify form .input-password input[type=password] {
   background: transparent;
-  width: 75%;
+  width: 80% !important;
   border: 0;
   color: var(--main);
   font-size: 16px;
   line-height: 160%;
+  padding-left: 5px;
 }
-.verify form input[type=submit] {
-  margin-top: 50px;
-  font-size: 15px;
-  font-weight: 600;
-  letter-spacing: 1px;
+.verify form .input-password input[type=text] {
+  width: 80% !important;
 }
 
 @media screen and (max-width: 1000px) {
