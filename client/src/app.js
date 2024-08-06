@@ -7,6 +7,9 @@ import MemberOrderList from './pages/MemberOrderList';
 import MemberOrder from './pages/MemberOrder';
 import MemberTickets from './pages/MemberTickets';
 import MemberCollection from './pages/MemberCollection';
+
+import Login from './pages/Login';
+
 import EventIndex from './pages/eventIndex';
 import EventDetail from './pages/eventDetail';
 

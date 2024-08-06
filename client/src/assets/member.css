@@ -136,7 +136,10 @@ header {
 }
 .Member .profile-box .input-card div {
   padding: 5px 0px;
-  color: white;
+  color: var(--gr1);
+}
+.Member .profile-box .input-card label {
+  color: var(--main);
 }
 .Member .profile-box input {
   width: 100%;
@@ -285,6 +288,7 @@ header {
   border: 0.5px solid var(--main);
   border-radius: 20px;
   margin: 20px 0px;
+  color: var(--main);
 }
 .OrderList .order-box .tabcontent .order .wrap {
   display: flex;
