@@ -44,7 +44,7 @@ exports.updateValidStatus = (userId, status) => {
   })
 }
 
-// 如果需要添加更多的用戶相關方法，可以繼續使用這種模式
+// 透過id得到用戶資料
 exports.findById = (userId) => {
   return new Promise((resolve, reject) => {
     if (!userId) {
@@ -85,6 +85,20 @@ exports.updateUser = async (userId, updateData) => {
     console.error('更新用戶錯誤:', error)
     throw error
   }
+}
+
+// 更新密碼
+exports.updatePassword = async (userId, hashedPassword) => {
+  return new Promise((resolve, reject) => {
+    db.query('UPDATE Users SET secret =? WHERE userId =?', [hashedPassword, userId], (error, result) => {
+      if (error) {
+        console.error('密碼更新失敗:', error)
+        reject(error)
+      } else {
+        resolve(result.affectedRows > 0)
+      }
+    })
+  })
 }
 
 // 刪除帳號（創建帳號失敗）
