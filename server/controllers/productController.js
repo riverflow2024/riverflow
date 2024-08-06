@@ -3,17 +3,39 @@ const productModel = require('../models/productModel')
 // 取得所有產品
 const getAllProducts = async(req, res) => {
   try {
-    const products = await productModel.getAllProduct()
+    // const { productid , userid } = req.body;
+    // const createCart = await getProduct(pro)
+
+    const getAllProductImg = await productModel.getAllProductImg()
+    const getAllProductFavorite = await productModel.getAllProductFavorite()
+    const getAllProductInfo = await productModel.getAllProductInfo()
+    
+    const products = {
+      getAllProductInfo,
+      getAllProductImg,
+      getAllProductFavorite
+
+    }
     res.json(products)
   } catch (error) {
-    res.status(500).json({ message: error.message + 'this' })
+    res.status(500).json({ message: error.message + 'aaa' })
   }
 }
 
 // 取得單個產品
 const getProductById = async(req, res) => {
   try {
-    const product = await productModel.getProduct(req.params.id)
+
+    const productImg = await productModel.getProductImg(req.params.id)
+    const productFavorite = await productModel.getProductFavorite(req.params.id)
+    const productInfo = await productModel.getProductInfo(req.params.id)
+
+    const product = {
+      productImg,
+      productFavorite,
+      productInfo
+    }
+
     if (!product) {
       return res.status(404).json({ message: 'Product not found' })
     }
