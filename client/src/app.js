@@ -10,6 +10,7 @@ import MemberTickets from './pages/MemberTickets'
 import MemberCollection from './pages/MemberCollection'
 import EventIndex from './pages/eventIndex'
 import EventDetail from './pages/eventDetail'
+import ProductAll from './pages/ProductAll'
 import EventConfirmSeat from './pages/eventConfirmSeat'
 
 class App extends Component {
@@ -29,6 +30,8 @@ class App extends Component {
             <Route path="/Event/ConfirmSeat" component={EventConfirmSeat} />
             
 
+            <Route path="/Event/Detail" component={EventDetail} />
+            <Route path="/Product/All" component={ProductAll} />
           </Switch>
           <Footer />
         </div>

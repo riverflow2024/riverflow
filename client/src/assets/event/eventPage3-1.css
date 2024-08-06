@@ -24,6 +24,9 @@
     display: inline-block;
     white-space: nowrap;
 }
+.eventTitle p{
+    font-size: 1.2rem;
+  }
 
 /* 中間的線 */
 .middleLine {
@@ -76,7 +79,7 @@
     border: 0.75px solid var(--main);
     border-radius: 10px;
     background-color: var(--bk2);
-    font-size: 1.5rem;
+    
 }
 
 .ticketText {
@@ -90,7 +93,7 @@
     padding: 1rem 0rem;
     margin-left: 2rem;
     margin-right: 2rem;
-
+    font-size: 1.3rem;
 }
 
 .ticketMan,
@@ -99,6 +102,10 @@
     display: grid;
     grid-template-columns: 2fr 1fr 1fr;
     text-align: center;
+}
+.ticketMan p,
+.ticketSpec p{
+    font-size: 1.3rem;
 }
 
 .ticketNumber {
