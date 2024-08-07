@@ -9,52 +9,35 @@ class Login extends Component {
             "firstName": "林",
             "lastName": "小美",
             "phone": "0912-333-555",
-            "email": "abc12345@gmail.com",
+            "email": "ko",
             "birth": "1995/10/10",
             "sex": "女",
         },
         isPasswordVisible: false,
-        email: '',
-        emailError: '',
+        
     }
 
-    handlePasswordToggle = () => {
-        this.setState(prevState => ({
-            isPasswordVisible: !prevState.isPasswordVisible
-        }));
-    }
-
-    handleEmailInput = (event) => {
-        const email = event.target.value;
-        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        let emailError = '';
-    
-        if (!email.match(emailPattern)) {
-          emailError = `<i class="bi bi-asterisk"></i> 不符合email規則，請確認是否包含[@]`;
-        }
-    
-        this.setState({ email, emailError });
-      };
-
-
+   
 
     render() {
         const { isPasswordVisible } = this.state;
+       
+        
         return (
-            <div class="w-bg scrollCust">
-                <header>
-                    <img src={require('../assets/images/indexImg/nav.jpg')} alt="" />
-                </header>
+            <div class="loginPage">
 
                 <section class="login" >
                     <div class="form" >
                         <h4>會員登入</h4>
                         <div class="input-text">
                             <label>帳號</label>
-                            <input type="text" id="email" name="email" placeholder="Enter email"
-                                pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$" required /><br />
+                            <input type="text" id="email" name="email"
+                                value={this.state.Users.email} 
+                                placeholder="Enter email"
+                                onChange={this.handleEmailInput} /><br />
                         </div>
-                        <span class="tips" id="emailTips"></span> <br />
+
+                        <span className="tips" id="" dangerouslySetInnerHTML={{ __html: this.state.emailError }}></span>
 
                         <div class="input-text">
                             <label>密碼</label>
@@ -95,6 +78,30 @@ class Login extends Component {
 
     }
 
+    handlePasswordToggle = () => {
+        this.setState(prevState => ({
+            isPasswordVisible: !prevState.isPasswordVisible
+        }));
+    }
+    
+    handleEmailInput = (event) => {
+        const email = event.target.value;
+        const emailPattern = /^[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$/i; 
+        let emailError = '';
+      
+        if (!email.match(emailPattern)) {
+          emailError = `<i class="bi bi-asterisk"></i> 不符合email規則，請確認是否包含[@]`;
+        }
+      
+        this.setState((prevState) => ({
+            Users: {
+              ...prevState.Users,
+              email,
+            },
+            emailError,
+          }));
+      };
+      
 
 
 
