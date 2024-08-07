@@ -1,23 +1,23 @@
 import React, { Component } from 'react'
-import '../assets/event/eventPage2.css'
+import styles from '../assets/event/eventPage2.module.css';
 import '../utils/eventDetail.js'
 
 class EventDetail extends Component {
   state = {}
   render() {
     return (
-      <div class="w-bg scrollCust">
-        <div class="container wrap">
-          <div class="header">
+      <div className={styles.scrollCust}>
+        <div className={styles.container+''+ styles.wrap}>
+          <div className="header">
             <img src="../../src/assets/images/indexImg/nav.jpg" alt="" />
           </div>
 
           {/* <!-- 活動詳細頁面-首圖 --> */}
-          <div class="headerImage">
+          <div className={styles.headerImage}>
             <img src="https://res.cloudinary.com/shotgun/image/upload/ar_16:9,c_limit,f_auto,fl_lossy,q_auto,w_854/v1686313186/production/artworks/DJ_CONTEST_FINALE_1920x1080_zhvrs4" />
           </div>
           {/* <!-- 活動詳細頁面-標題 --> */}
-          <div class="eventTitle">
+          <div className={styles.eventTitle}>
             <h1>星空下的電音狂歡</h1>
             <p>[最新公告]</p>
             <p>
@@ -27,7 +27,7 @@ class EventDetail extends Component {
             </p>
           </div>
           {/* <!-- 活動詳細頁面-選單 --> */}
-          <div class="eventBar">
+          <div className={styles.eventBar}>
             <div>
               <a href="#buyNow">立即購買</a>
             </div>
@@ -48,31 +48,31 @@ class EventDetail extends Component {
             </div>
           </div>
           {/* <!-- 選單-立即購買 --> */}
-          <div class="buyNow" id="buyNow">
+          <div className={styles.buyNow} id="buyNow">
             <p>立即購買</p>
             <div>
-              <div class="buyTitle">
+              <div className={styles.buyTitle}>
                 <div>場次名稱</div>
                 <div>場次日期</div>
                 <div>場次時間</div>
                 <div>場次地點</div>
                 <div>售票狀態</div>
               </div>
-              <div class="buyItem">
+              <div className={styles.buyItem}>
                 <div>星空下的電音狂歡(頂尖DJ戶派對外)</div>
                 <div>2024-07-25(四)</div>
                 <div>20:00</div>
                 <div>大佳河濱公園</div>
                 <div>
-                  <button class="buyNowBtn">立即購買</button>
+                  <button className={styles.buyNowBtn}>立即購買</button>
                 </div>
               </div>
             </div>
           </div>
           {/* <!-- 選單-活動介紹 --> */}
-          <div class="eventIntroduce" id="eventIntroduce">
+          <div className={styles.eventIntroduce} id="eventIntroduce">
             <p>活動介紹</p>
-            <div class="introduceImage">
+            <div className={styles.introduceImage}>
               <img
                 src="https://res.cloudinary.com/shotgun/image/upload/ar_16:9,c_limit,f_auto,fl_lossy,q_auto,w_854/v1686313186/production/artworks/DJ_CONTEST_FINALE_1920x1080_zhvrs4"
                 alt="活動介紹"
@@ -88,8 +88,8 @@ class EventDetail extends Component {
             </p>
           </div>
           {/* <!-- 選單-注意事項 --> */}
-          <div class="eventCaution" id="eventCaution">
-            <p class="eventCautionTitle">注意事項</p>
+          <div className={styles.eventCaution} id="eventCaution">
+            <p className={styles.eventCautionTitle}>注意事項</p>
             <ol>
               <li>
                 <p>
@@ -141,8 +141,8 @@ class EventDetail extends Component {
             </ol>
           </div>
           {/* <!-- 選單-購買提醒 --> */}
-          <div class="eventRemind" id="eventRemind">
-            <p class="remindTitle">購買提醒</p>
+          <div className={styles.eventRemind} id="eventRemind">
+            <p className={styles.remindTitle}>購買提醒</p>
             <ol>
               <li>
                 <p>
@@ -174,8 +174,8 @@ class EventDetail extends Component {
             </ol>
           </div>
           {/* <!-- 選單-取票方式 --> */}
-          <div class="eventTicket" id="eventTicket">
-            <p class="ticketTitle">取票方式</p>
+          <div className="eventTicket" id="eventTicket">
+            <p className="ticketTitle">取票方式</p>
             <ol>
               <li>
                 <p>取票方式：ibon機台取票(手續費每筆$30/4張為限，於7-11超商門市付款時以現金方式支付。)</p>
@@ -189,8 +189,8 @@ class EventDetail extends Component {
             </ol>
           </div>
           {/* <!-- 選單-退票規定 --> */}
-          <div class="eventRefund" id="eventRefund">
-            <p class="refundTitle">退票規定</p>
+          <div className="eventRefund" id="eventRefund">
+            <p className="refundTitle">退票規定</p>
             <ol>
               <li>
                 <p>

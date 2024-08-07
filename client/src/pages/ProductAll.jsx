@@ -4,18 +4,12 @@ import 'swiper/css/navigation'
 import 'swiper/css/pagination'
 import Swiper from 'swiper/bundle'
 import 'swiper/css/bundle'
-
+import resetStyles from '../assets/reset.module.css'
 import '../assets/basic.css'
 import '../assets/ProductAll.css'
 import '@fortawesome/fontawesome-free/css/all.min.css'
 import $ from 'jquery'
 import '../utils/ProductAll.js'
-
-const Header = () => (
-  <div className="header">
-    <img src="../../src/assets/images/indexImg/nav.jpg" alt="Nav" />
-  </div>
-)
 
 const Banner = () => {
   useEffect(() => {
@@ -304,13 +298,12 @@ const ProductAll = () => {
 
   return (
     <>
-      <section className="wrap-f">
+      <section className={`wrap-f ${resetStyles.reset}`}>
         <div className="container-f">
-          <Header />
           <Banner />
         </div>
       </section>
-      <section className="wrap">
+      <section className={`wrap  ${resetStyles.reset}`}>
         <div className="container">
           <Filter />
           <RwdFilter />

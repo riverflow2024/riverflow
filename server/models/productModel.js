@@ -79,7 +79,7 @@ exports.getProductImg = (id) => {
             products, productimages
             WHERE 
             products.productid = ? 
-            AND products.productid = productimages.productid
+
             `,
       [id],
       (err, product) => {
@@ -145,7 +145,7 @@ exports.getProductInfo = (id) => {
 // 新增產品
 exports.createProduct = (productData) => {
   return new Promise((resolve, reject) => {
-    dbConnect.query('INSERT INTO products, proudctoption, categories, productcategories SET ?', productData, (err, result) => {
+    dbConnect.query('INSERT INTO products SET ?', productData, (err, result) => {
       if (err) return reject(err)
       resolve({ message: 'Product created', id: result.insertId })
     })

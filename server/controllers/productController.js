@@ -3,8 +3,7 @@ const productModel = require('../models/productModel')
 // 取得所有產品
 const getAllProducts = async(req, res) => {
   try {
-    // const { productid , userid } = req.body;
-    // const createCart = await getProduct(pro)
+
 
     const getAllProductImg = await productModel.getAllProductImg()
     const getAllProductFavorite = await productModel.getAllProductFavorite()
@@ -88,3 +87,5 @@ module.exports = {
   updateProduct,
   deleteProduct
 }
+    // const { productid , userid } = req.body;
+    // const createCart = await getProduct(pro)
