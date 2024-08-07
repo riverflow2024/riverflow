@@ -35,12 +35,16 @@ img {
 /*----- header -----*/
 header {
   background-color: var(--bk1);
-  padding: 10px 20px;
+  padding: 10px 0;
   position: relative;
+  width: 100%;
+  z-index: 99;
 }
 header .container {
   flex-wrap: nowrap;
   justify-content: space-between;
+  max-width: 90%;
+  margin: 0 auto;
 }
 header .headerLink {
   border: 1px solid var(--main);
@@ -54,7 +58,7 @@ header .headerLink a {
   display: inline-block;
   padding: 10px 20px;
 }
-header .headerLink a:hover {
+header .headerLink a:hover, header .headerLink .active {
   background-color: var(--main);
   border-radius: 30px;
   color: var(--bk1);
@@ -73,6 +77,9 @@ header .cultureListName {
 }
 header .headerLink>li:last-child {
   margin-right: 0;
+}
+.dropdownToggle {
+  cursor: pointer;
 }
 header .cultureList.flex {
   /* display: none; */
@@ -236,10 +243,15 @@ i.bi-ticket-perforated::before {
 @media screen and (max-width: 900px) {
   header .container {
     max-width: 100%;
-    padding: 0;
+    padding: 0 20px;
   }
   header .headerLink a {
     padding: 10px 15px;
+  }
+}
+@media screen and (min-width: 768px) {
+  header .headerLink {
+    max-height: 36px;
   }
 }
 @media screen and (max-width: 768px) {
@@ -268,6 +280,7 @@ i.bi-ticket-perforated::before {
 /*----- Footer -----*/
 footer {
     background-color: var(--bk1);
+    margin-top: 40px;
     padding: 60px 0;
     position: relative;
 }
@@ -283,7 +296,8 @@ footer::before {
     top: -14px;
 }
 footer .container {
-    justify-content: space-between;
+  justify-content: space-between;
+  margin-top: 0;
 }
 footer .logo {
   max-width: 160px;

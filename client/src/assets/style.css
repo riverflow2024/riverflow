@@ -1,9 +1,10 @@
-@import url(basic.css);
+/* @import url(basic.css); */
 
 /*---------------------------------------------*/
 /*              關於我們頁面 Start              */
 /*---------------------------------------------*/
 .aboutPage section.container {
+    display: block;
     max-width: 1200px;
 }
 /*大標*/

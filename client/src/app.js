@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
 
+import Header from './components/header'
 import Footer from './components/footer'
 import MemberIndex from './pages/MemberIndex'
 import MemberEdit from './pages/MemberEdit'
@@ -12,12 +13,14 @@ import EventIndex from './pages/eventIndex'
 import EventDetail from './pages/eventDetail'
 import ProductAll from './pages/ProductAll'
 import EventConfirmSeat from './pages/eventConfirmSeat'
+import AboutUs from './pages/about'
 
 class App extends Component {
   render() {
     return (
       <BrowserRouter>
         <div>
+          <Header />
           <Switch>
             <Route path="/Member/Index" component={MemberIndex} exact />
             <Route path="/Member/Edit" component={MemberEdit} />
@@ -32,6 +35,8 @@ class App extends Component {
 
             <Route path="/Event/Detail" component={EventDetail} />
             <Route path="/Product/All" component={ProductAll} />
+
+            <Route path="/AboutUs" component={AboutUs} />
           </Switch>
           <Footer />
         </div>
