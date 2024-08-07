@@ -1,19 +1,16 @@
-import React, { Component } from 'react';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
- 
-import MemberIndex from './pages/MemberIndex';
-import MemberEdit from './pages/MemberEdit';
-import MemberOrderList from './pages/MemberOrderList';
-import MemberOrder from './pages/MemberOrder';
-import MemberTickets from './pages/MemberTickets';
-import MemberCollection from './pages/MemberCollection';
+import React, { Component } from 'react'
+import { BrowserRouter, Route, Switch } from 'react-router-dom'
 
-import Login from './pages/Login';
+import Footer from './components/footer'
+import MemberIndex from './pages/MemberIndex'
+import MemberEdit from './pages/MemberEdit'
+import MemberOrderList from './pages/MemberOrderList'
+import MemberOrder from './pages/MemberOrder'
+import MemberTickets from './pages/MemberTickets'
+import MemberCollection from './pages/MemberCollection'
+import EventIndex from './pages/eventIndex'
+import EventDetail from './pages/eventDetail'
 
-import EventIndex from './pages/eventIndex';
-import EventDetail from './pages/eventDetail';
-
- 
 class App extends Component {
   render() {
     return (
@@ -29,6 +26,7 @@ class App extends Component {
             <Route path="/Event/Index" component={EventIndex} />
             <Route path="/Event/Detail" component={EventDetail} />
           </Switch>
+          <Footer />
         </div>
       </BrowserRouter>
     )
