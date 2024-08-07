@@ -68,9 +68,7 @@ class MemberEdit extends Component {
 
         return (
             <div>
-                <header>
-                    <img src={require('../assets/images/indexImg/nav.jpg')} alt="" />
-                </header>
+                
 
                 <section className="Member">
                     <div className="nav-box" flex="1">
