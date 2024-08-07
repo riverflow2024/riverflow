@@ -1,17 +1,19 @@
 import React, { useState, useEffect } from 'react'
-import axios from 'axios'
 import 'swiper/css'
 import 'swiper/css/navigation'
 import 'swiper/css/pagination'
-import Swiper, { Navigation, Pagination } from 'swiper'
+import Swiper from 'swiper/bundle'
+import 'swiper/css/bundle'
 import '../assets/reset.css'
-
+import '../assets/basic.css'
 import '../assets/ProductAll.css'
-import '../assets/index.css'
+import '@fortawesome/fontawesome-free/css/all.min.css'
+import $ from 'jquery'
+import '../utils/ProductAll.js'
 
 const Header = () => (
   <div className="header">
-    <img src="../../assets/images/indexImg/nav.jpg" alt="Nav" />
+    <img src="../../src/assets/images/indexImg/nav.jpg" alt="Nav" />
   </div>
 )
 
@@ -53,6 +55,40 @@ const Banner = () => {
             </p>
           </div>
         </section>
+        <section className="swiper-slide">
+          <img src="https://web.cheers.com.tw/event/2019fwf/assets/img/article/009.jpg" alt="DJ" />
+          <div className="swiper-text">
+            <h1>唱片騎師</h1>
+            <p>
+              DJ，即唱片騎師，是派對和音樂節的靈魂。他們掌握著音樂的節奏，創造獨特的聽覺體驗，點燃現場的每一個角落。無論是在夜店、音樂節還是私人派對，DJ通過精湛的混音技術和敏銳的音樂品味，將不同風格的音樂無縫結合，製造出令人沉醉的音樂流。
+            </p>
+          </div>
+        </section>
+        <section className="swiper-slide">
+          <img
+            src="https://media.gq.com.tw/photos/5dbcbd532551d400086a9647/master/w_1600%2Cc_limit/2015052266764869.jpg"
+            alt="RAP"
+          />
+          <div className="swiper-text">
+            <h1>Beans & Beats Records</h1>
+            <p>
+              身為嘻哈音樂廠牌的顏社，當然無法忘記音樂初衷，在實體唱片逐漸沒落情況下，還放膽在咖啡店樓下成立一間唱片行「Beans
+              & Beats Records」，以嘻哈音樂為主，要讓這間唱片行成為台北市的Hip hop音樂聚落。
+            </p>
+          </div>
+        </section>
+        <section className="swiper-slide">
+          <img
+            src="https://d1j71ui15yt4f9.cloudfront.net/wp-content/uploads/2023/07/18203055/71004a-20230718141533714-0.jpg"
+            alt="Street Dance"
+          />
+          <div className="swiper-text">
+            <h1>街舞</h1>
+            <p>
+              街舞是一種充滿能量和創意的舞蹈形式，起源於嘻哈文化。街舞舞者通過動感的動作和音樂，表達自己的情感和個性。街舞包括多種風格，如Breaking、Popping、Locking等，每一種風格都有其獨特的魅力和技巧。街舞不僅是一種表演藝術，更是一種文化象徵，代表了年輕人的自由和活力。
+            </p>
+          </div>
+        </section>
       </div>
       <div className="swiper-scrollbar"></div>
     </div>
@@ -71,6 +107,7 @@ const Filter = () => (
           全部類別
         </a>
       </li>
+      <br />
       <li className="shop-filter-item">
         <a href="#" data-filter="DJ">
           DJ | Disc Jockey{' '}
@@ -81,26 +118,31 @@ const Filter = () => (
           街舞 | Street Dance
         </a>
       </li>
+      <br />
       <li className="shop-filter-item">
         <a href="#" data-filter="饒舌">
           饒舌 | Rap
         </a>
       </li>
+      <br />
       <li className="shop-filter-item">
         <a href="#" data-filter="塗鴉">
           塗鴉 | Graffiti
         </a>
       </li>
+      <br />
       <li className="shop-filter-item">
         <a href="#" data-filter="滑板">
           滑板 | Skate
         </a>
       </li>
+      <br />
       <li className="shop-filter-item">
         <a href="#" data-filter="新品">
           新品 | New
         </a>
       </li>
+      <br />
       <li className="shop-filter-item">
         <a href="#" data-filter="優惠">
           優惠 | On Sale
@@ -110,22 +152,73 @@ const Filter = () => (
   </aside>
 )
 
+const RwdFilter = () => (
+  <aside className="RWD-shop-filter">
+    <ul id="categoryFilter">
+      <li className="shop-filter-item">
+        <a href="#" className="selected" data-filter="all">
+          全部
+        </a>
+      </li>
+      <br />
+      <li className="shop-filter-item">
+        <a href="#" data-filter="DJ">
+          刷碟 Disc Jockey (DJ)
+        </a>
+      </li>
+      <li className="shop-filter-item">
+        <a href="#" data-filter="街舞">
+          街舞 Street Dance
+        </a>
+      </li>
+      <br />
+      <li className="shop-filter-item">
+        <a href="#" data-filter="饒舌">
+          饒舌 Rap
+        </a>
+      </li>
+      <br />
+      <li className="shop-filter-item">
+        <a href="#" data-filter="塗鴉">
+          塗鴉 Graffiti
+        </a>
+      </li>
+      <br />
+      <li className="shop-filter-item">
+        <a href="#" data-filter="滑板">
+          滑板 Skate
+        </a>
+      </li>
+      <br />
+    </ul>
+  </aside>
+)
+
 const ProductItem = ({ product }) => (
-  <div className="product-item" data-category={`${product.category} ${product.label}`}>
+  <div
+    className={`product-item ${product.isSoldOut ? 'sold-out-card' : ''}`}
+    data-category={`${product.category} ${product.label}`}
+  >
     <div className="product-img">
       <img src={product.image} alt={product.alt} />
       <a href="#" className="favorite">
         <i className="fa-regular fa-heart"></i>
       </a>
+      {product.isSoldOut && <div className="sold-out">SOLD OUT</div>}
     </div>
     <div className="labels">
       <span className="label">{product.category}</span>
-      <span className="label">{product.label}</span>
+      {product.label !== 'normal' && (
+        <span className={`label ${product.label === '新品' ? 'new' : ''} ${product.label === '優惠' ? 'sale' : ''}`}>
+          {product.label}
+        </span>
+      )}
     </div>
     <div className="product-info">
       <h4>{product.title}</h4>
       <div className="product-text">
-        <p>{product.price}</p>
+        {product.oldPrice && <p style={{ textDecoration: 'line-through' }}>{product.oldPrice}</p>}
+        {product.oldPrice ? <p className="discount-price">{product.price}</p> : <p>{product.price}</p>}
         <a href="./ProductDetail.html" className="look-btn">
           查看商品
         </a>
@@ -134,37 +227,89 @@ const ProductItem = ({ product }) => (
   </div>
 )
 
+// 數據先安捏寫
 const ProductList = () => {
-  const [products, setProducts] = useState([])
-
-  useEffect(() => {
-    // 使用 axios 獲取產品數據
-    axios
-      .get('/api/products')
-      .then((response) => {
-        setProducts(response.data)
-      })
-      .catch((error) => {
-        console.error('Error fetching products:', error)
-      })
-  }, [])
+  const [products, setProducts] = useState([
+    {
+      image:
+        'https://images.goodsmile.info/cgm/images/product/20220502/12665/98719/large/d870c31d5f264155ac6e3e359b7d34bc.jpg',
+      alt: '滑板編號1',
+      category: '滑板',
+      label: '新品',
+      title: '美式拼貼滑板',
+      price: 'NT$3683',
+      isSoldOut: false
+    },
+    {
+      image: 'https://cdn2.ettoday.net/images/7509/e7509491.jpg',
+      alt: 'DJ編號1',
+      category: 'DJ',
+      label: '優惠',
+      title: 'DJ Soda夜店狂歡',
+      oldPrice: 'NT$1899',
+      price: 'NT$1599',
+      isSoldOut: false
+    },
+    {
+      image: 'https://i.pinimg.com/564x/a6/e7/eb/a6e7ebd5010ca995d3ae6eba145ad6e6.jpg',
+      alt: '噴漆編號1',
+      category: '塗鴉',
+      label: 'normal',
+      title: 'Lexel噴漆',
+      price: 'NT$363',
+      isSoldOut: false
+    },
+    {
+      image: 'https://i.pinimg.com/564x/2f/e0/b4/2fe0b40030f71606eed42d826fa850cd.jpg',
+      alt: '噴漆編號4',
+      category: '噴漆',
+      label: '新品',
+      title: '雷神噴漆',
+      price: 'NT$599',
+      isSoldOut: false
+    },
+    {
+      image: 'https://i.pinimg.com/564x/e0/c5/eb/e0c5eb508528548a8ee104fe60579f77.jpg',
+      alt: '饒舌編號2',
+      category: '饒舌',
+      label: 'normal',
+      title: 'RapperLai',
+      oldPrice: 'NT$1199',
+      price: 'NT$1099',
+      isSoldOut: true
+    },
+    {
+      image: 'https://i.pinimg.com/564x/7e/75/24/7e75244c7427c041237f60c1e18308a6.jpg',
+      alt: '街舞編號1',
+      category: '街舞',
+      label: 'normal',
+      title: '台大街舞Battle盃',
+      price: 'NT$200',
+      isSoldOut: true
+    }
+  ])
 
   return (
     <main className="product-list">
-      {products.map((product) => (
-        <ProductItem key={product.id} product={product} />
+      {products.map((product, index) => (
+        <ProductItem key={index} product={product} />
       ))}
     </main>
   )
 }
 
 const ProductAll = () => {
+  useEffect(() => {
+    // '../utils/ProductAll.js' 用不到
+  }, [])
+
   return (
     <div className="container-f">
       <Header />
       <Banner />
       <section className="container">
         <Filter />
+        <RwdFilter />
         <ProductList />
       </section>
     </div>

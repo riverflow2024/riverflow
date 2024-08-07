@@ -75,24 +75,41 @@ header .headerLink>li:last-child {
   margin-right: 0;
 }
 header .cultureList.flex {
-    display: none;
-    background: var(--bk2);
-    border-radius: 10px;
-    flex-direction: column;
-    text-align: center;
-    padding: 10px;
-    position: absolute;
-    top: 50px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: max-content;
+  /* display: none; */
+  background: var(--bk2);
+  border-radius: 10px;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  height: 0;
+  justify-content: center;
+  text-align: center;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  top: 50px;
+  left: 50%;
+  transform: translateX(-50%);
+  transition: height .3s ease-in-out;
+  width: 110px;
 }
 header .cultureList i {
   margin-right: 5px;
 }
-/* header .cultureListName:hover .cultureList {
+.bi-caret-down-fill {
+  margin-left: 5px;
+}
+.bi-caret-down-fill::before {
+  transition: transform .3s ease-in-out;
+}
+.bi-caret-down-fill.rotate::before,
+.bi-caret-down-fill_mob.rotate::before {
+  transform: rotate(180deg);
+}
+header .cultureList.expand {
   display: flex;
-} */
+  height: 260px;
+  /* padding: 10px; */
+}
 header .cultureList .cultureOpt {
   color: var(--main2);
   display: flex;
@@ -203,11 +220,12 @@ i.bi-ticket-perforated::before {
   right: 0;
   top: 72px;
   width: 90%;
+  z-index: 20;
 }
 .headerLink.mob.expand {
   /* border: 1px solid var(--main); */
   max-height: fit-content;
-  transition: max-height .2s ease-out;
+  transition: max-height .3s ease-in-out;
   padding: 10px 20px;
 }
 .headerLink.mob>li {
@@ -231,6 +249,17 @@ i.bi-ticket-perforated::before {
   .headerLink.mob {
     display: flex;
     flex-direction: column;
+  }
+
+  header .cultureList_mob.flex {
+    /* height: auto; */
+    padding-left: 30px;
+    position: static;
+    transform: none;
+    width: auto;
+  }
+  header .cultureList .cultureOpt {
+    color: var(--gr1);
   }
 }
 

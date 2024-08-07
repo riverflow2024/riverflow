@@ -30,7 +30,6 @@
     background-color: var(--bk2);
     border: 0.75px solid var(--main);
     border-radius: 10px;
-    color: white;
   }
 
   .eventTitle h1 {
