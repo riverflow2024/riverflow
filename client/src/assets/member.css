@@ -342,8 +342,7 @@
   width: 100%;
   box-sizing: border-box;
   gap: 20px;
-  padding-top: 140px;
-  padding-bottom: 50px;
+  padding: 5vh 10vw 50px 10vw;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -524,7 +523,7 @@
   transform: translateY(-50%);
 }
 .Order .order-box .tabcontent .order .accordion .container.active .content {
-  height: 120px;
+  height: 150px;
 }
 .Order .order-box .tabcontent .order .accordion .container.active .label::before {
   content: "-";
@@ -838,14 +837,15 @@
   padding: 20px;
 }
 .Collection .order-box .tabcontent .order .container .wrap .closebtn {
-  width: 30px;
+  height: auto;
   border: none;
   background: transparent;
   border: 0.5px solid var(--main);
   border-radius: 5px;
   color: var(--main);
-  font-size: 25px;
-  font-weight: 200;
+  font-size: 20px;
+  font-weight: bold;
+  line-height: 30px;
   letter-spacing: 1px;
   text-align: center;
 }
