@@ -1,11 +1,14 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const cookieParser = require('cookie-parser')
+const cors = require('cors')
 const app = express()
 const { authenticateToken } = require('./middlewares/auth')
 
 app.use(cookieParser())
 app.use(bodyParser.json())
+app.use(express.urlencoded({ extended: true }))
+app.use(cors())
 
 // Routers
 const userRoutes = require('./routes/users')
@@ -23,7 +26,7 @@ app.use('/riverflow/products', productRoutes)
 app.use('/riverflow/events', eventRoutes)
 app.use('/riverflow/events/details', eventDetailRoutes)
 
-app.use('/riverflow/events/Tobuy',authenticateToken, eventTobuyRoutes)
+app.use('/riverflow/events/Tobuy', authenticateToken, eventTobuyRoutes)
 // app.use('/riverflow/orders', orderRoutes)
 
 module.exports = app

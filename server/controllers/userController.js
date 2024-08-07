@@ -2,7 +2,6 @@ const userModel = require('../models/userModel')
 
 // 會員中心首頁：顯示會員資料
 exports.getUserInfo = async (req, res) => {
-  console.log('req.userId in getUserInfo:', req.userId)
   try {
     // req.userId 已經由認證中間件設置
     const user = await userModel.findById(req.userId)
@@ -31,5 +30,69 @@ exports.updateUserInfo = async (req, res) => {
   } catch (error) {
     console.error('更新失敗:', error)
     res.status(500).json({ message: '更新失敗', error: error.message })
+  }
+}
+
+// 會員商品訂單
+exports.getAllOrders = async (req, res) => {
+  try {
+    const allOrder = await userModel.findAllOrders(req.userId)
+    res.json(allOrder)
+  } catch (err) {
+    console.error('獲取商品訂單失敗：', err)
+    res.status(500).json({ message: err.message })
+  }
+}
+
+// 會員商品訂單明細
+exports.getOneOrder = async (req, res) => {
+  try {
+    console.log('req.userId:', req.userId, 'req.params:', req.params)
+
+    const oneOrder = await userModel.findOneOrder(req.userId, req.params.orderId)
+    res.json(oneOrder)
+  } catch (err) {
+    console.error('獲取商品訂單失敗：', err)
+    res.status(500).json({ message: err.message })
+  }
+}
+
+// 會員購票訂單
+exports.getUserEvent = async (req, res) => {
+  try {
+    const allEvents = await userModel.findUserEvents(req.userId)
+    res.json(allEvents)
+  } catch (err) {
+    console.error('獲取購票訂單失敗：', err)
+    res.status(500).json({ message: err.message })
+  }
+}
+
+// 會員最愛商品
+exports.getFavorites = async (req, res) => {
+  try {
+    const favorites = await userModel.findFavorites(req.userId)
+    console.log(favorites)
+
+    const processData = (data) => {
+      return data.map((data) => {
+        const productOpt = JSON.parse(data.productOpt)
+
+        const firstOption = productOpt[0]
+
+        return {
+          productName: data.productName,
+          productOpt: firstOption.name,
+          price: firstOption.price
+        }
+      })
+    }
+    const favoriteData = processData(favorites)
+    console.log(favoriteData)
+
+    res.json(favoriteData)
+  } catch (err) {
+    console.error('獲取最愛商品失敗：', err)
+    res.status(500).json({ message: err.message })
   }
 }

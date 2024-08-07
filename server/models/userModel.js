@@ -115,3 +115,76 @@ exports.deleteUser = async (userId) => {
     })
   })
 }
+
+// 會員商品訂單
+exports.findAllOrders = async (userId) => {
+  return new Promise((resolve, reject) => {
+    db.query(
+      'SELECT o.orderId, o.totalPrice, o.orderStatus, o.payMethod, o.createdAt FROM Users AS u, `Order` AS o WHERE u.userId = o.userId AND u.userId = ?',
+      [userId],
+      (error, results) => {
+        if (error) {
+          console.error('查詢商品失敗:', error)
+          reject(error)
+        } else {
+          resolve(results)
+        }
+      }
+    )
+  })
+}
+
+// 會員商品訂單明細
+exports.findOneOrder = async (userId, orderId) => {
+  return new Promise((resolve, reject) => {
+    db.query(
+      'SELECT o.orderId, o.totalPrice, o.orderStatus, o.payMethod, o.createdAt, o.rcptName, o.rcptPhone, o.rcptAddr, o.shipMethod, o.convAddr, oi.productName, oi.productOpt, oi.quantity, oi.quantity FROM Users AS u, `Order` AS o, OrderItem AS oi WHERE u.userId = o.userId AND u.userId = ? AND o.orderId = oi.orderId AND o.orderId = ?',
+      [userId, orderId],
+      (error, results) => {
+        if (error) {
+          console.error('查詢商品失敗:', error)
+          reject(error)
+        } else {
+          resolve(results)
+        }
+      }
+    )
+  })
+}
+
+// 會員購票訂單
+exports.findUserEvents = async (userId) => {
+  return new Promise((resolve, reject) => {
+    db.query(
+      'SELECT td.tdId, td.ticketType, td.quantity, td.tdStatus, td.tdPrice, td.randNum, e.eventName, e.eventDate FROM Users AS u, TicketDetails AS td, Events AS e WHERE u.userId = td.userId AND u.userId = ? AND td.eventId = e.eventId',
+      [userId],
+      (error, results) => {
+        if (error) {
+          console.error('查詢購票訂單失敗:', error)
+          reject(error)
+        } else {
+          resolve(results)
+        }
+      }
+    )
+  })
+}
+// 'SELECT e.eventId, e.eventName, e.eventDate, e.eventTime, e.eventPrice, e.eventDesc, COUNT(t.ticketId) AS soldQuantity, e.maxTickets - COUNT(t.ticketId) AS remainingQuantity FROM Events AS e LEFT JOIN Tickets AS t ON e.eventId = t.eventId WHERE e.eventDate >= CURDATE() GROUP BY e.eventId'
+
+// 會員最愛商品
+exports.findFavorites = async (userId) => {
+  return new Promise((resolve, reject) => {
+    db.query(
+      'SELECT p.productName, p.productOpt FROM Users AS u, ProductFavorite AS pf, Products AS p WHERE u.userId = ? AND u.userId = pf.userId AND pf.productId = p.productId',
+      [userId],
+      (error, results) => {
+        if (error) {
+          console.error('查詢最愛商品失敗:', error)
+          reject(error)
+        } else {
+          resolve(results)
+        }
+      }
+    )
+  })
+}
