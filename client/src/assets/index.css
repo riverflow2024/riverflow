@@ -256,7 +256,7 @@ body {
   background: var(--main);
   border-radius: 50px;
   opacity: 0.1;
-  animation: pulse 5s ease both infinite;
+  animation: mypulse 5s ease both infinite;
 }
 .logoSection .scollbtn-wrap .circle-wrapper .circle2 {
   width: 70px;
@@ -264,8 +264,30 @@ body {
   background: var(--main);
   border-radius: 50px;
   opacity: 0.1;
-  animation: pulse 5s ease both infinite;
+  animation: mypulse 5s ease both infinite;
   animation-delay: 200ms;
+}
+@keyframes mypulse {
+  0% {
+    transform: scale(0.5);
+    opacity: 0;
+  }
+  20% {
+    transform: scale(1);
+    opacity: 0.3;
+  }
+  50% {
+    transform: scale(0.5);
+    opacity: 0;
+  }
+  70% {
+    transform: scale(1);
+    opacity: 0.3;
+  }
+  100% {
+    transform: scale(0.5);
+    opacity: 0;
+  }
 }
 .logoSection .scollbtn-wrap .scollbtn {
   position: absolute;
@@ -287,28 +309,6 @@ body {
   letter-spacing: normal;
   word-wrap: normal;
   white-space: nowrap;
-}
-@keyframes pulse {
-  0% {
-    transform: scale(0.5);
-    opacity: 0;
-  }
-  20% {
-    transform: scale(1);
-    opacity: 0.3;
-  }
-  50% {
-    transform: scale(0.5);
-    opacity: 0;
-  }
-  70% {
-    transform: scale(1);
-    opacity: 0.3;
-  }
-  100% {
-    transform: scale(0.5);
-    opacity: 0;
-  }
 }
 
 .introSection {
@@ -526,6 +526,7 @@ body {
 .djSection .item .wrap {
   flex: 1;
   position: relative;
+  box-sizing: border-box;
 }
 .djSection .item .wrap .twdj-box {
   position: absolute;
@@ -669,6 +670,7 @@ body {
   flex: 1;
   position: relative;
   padding: 100px 10vw 0px 5vw;
+  box-sizing: border-box;
 }
 .rapSection .item .wrap:nth-of-type(2) {
   padding: 100px 0px 0px 10vw;
@@ -787,6 +789,7 @@ body {
   flex: 1;
   position: relative;
   padding: 100px 20px 0px 6vw;
+  box-sizing: border-box;
 }
 .GraffitiSection .item .wrap h2 {
   height: 113px;
@@ -853,6 +856,7 @@ body {
   flex: 1;
   position: relative;
   padding: 250px 2vw 0px 2vw;
+  box-sizing: border-box;
 }
 .SkateSection .item .wrap h2 {
   height: 113px;
@@ -911,7 +915,7 @@ body {
 
 .ontop {
   position: fixed;
-  bottom: 80px;
+  bottom: 150px;
   right: -30px;
   z-index: 99;
 }
