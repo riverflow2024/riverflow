@@ -1,6 +1,5 @@
 @charset "UTF-8";
 @import url("basic.css");
-@import url("reset.css");
 /* 變量設置 */
 .wrap-f .container-f .swiper {
   width: 100%;
@@ -102,6 +101,7 @@
 }
 
 .wrap .container {
+  margin: auto;
   margin-top: 8rem;
   display: flex;
 }
