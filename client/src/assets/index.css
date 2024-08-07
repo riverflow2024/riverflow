@@ -915,7 +915,7 @@ body {
 
 .ontop {
   position: fixed;
-  bottom: 80px;
+  bottom: 150px;
   right: -30px;
   z-index: 99;
 }
