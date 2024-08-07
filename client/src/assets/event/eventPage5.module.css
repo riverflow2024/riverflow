@@ -25,6 +25,10 @@
     white-space: nowrap;
 }
 
+.eventTitle p {
+    font-size: 1.2rem;
+}
+
 /* 中間的線 */
 .middleLine {
     border-bottom: 0.75px solid var(--main);
@@ -57,6 +61,7 @@
 
 .ticketOrder span {
     padding-bottom: 3px;
+    font-size: 1.2rem;
 }
 
 .ticketOrder div:nth-child(2) {
@@ -114,6 +119,7 @@
     width: 60%;
     padding-left: 1.5rem;
     margin: 1rem 0rem 2rem 0rem;
+    font-size: 1.2rem;
 }
 
 .takeTitle label {
@@ -155,6 +161,10 @@
     padding: 1rem 0rem;
     margin-left: 2rem;
     margin-right: 2rem;
+    font-size: 1.3rem;
+}
+.contact label,.contact input{
+    font-size: 1.2rem;
 }
 
 /* 購票內容 */
@@ -244,7 +254,7 @@
         padding: 1rem;
     }
 
-    .cost{
+    .cost {
         font-size: 24px;
     }
 }
