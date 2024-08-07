@@ -47,10 +47,8 @@ class App extends Component {
             <Route path="/Event/Detail" component={EventDetail} />
             <Route path="/Event/ConfirmSeat" component={EventConfirmSeat} />
 
-            <Route path="/Event/Detail" component={EventDetail} />
             <Route path="/Product/All" component={ProductAll} />
             <Route path="/Product/Detail" component={ProductDetail} />
-            <Route path="/Event/Detail" component={ProductAll} />
 
             <Route path="/AboutUs" component={AboutUs} />
           </Switch>
