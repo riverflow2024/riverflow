@@ -4,7 +4,7 @@ import 'swiper/css/navigation'
 import 'swiper/css/pagination'
 import Swiper from 'swiper/bundle'
 import 'swiper/css/bundle'
-import '../assets/reset.css'
+
 import '../assets/basic.css'
 import '../assets/ProductAll.css'
 import '@fortawesome/fontawesome-free/css/all.min.css'
@@ -218,7 +218,7 @@ const ProductItem = ({ product }) => (
       <h4>{product.title}</h4>
       <div className="product-text">
         {product.oldPrice && <p style={{ textDecoration: 'line-through' }}>{product.oldPrice}</p>}
-        {product.oldPrice ? <p className="discount-price">{product.price}</p> : <p>{product.price}</p>}
+        <p className={product.oldPrice ? 'discount-price' : ''}>{product.price}</p>
         <a href="./ProductDetail.html" className="look-btn">
           查看商品
         </a>
@@ -274,8 +274,7 @@ const ProductList = () => {
       category: '饒舌',
       label: 'normal',
       title: 'RapperLai',
-      oldPrice: 'NT$1199',
-      price: 'NT$1099',
+      price: 'NT$1199',
       isSoldOut: true
     },
     {
@@ -304,15 +303,21 @@ const ProductAll = () => {
   }, [])
 
   return (
-    <div className="container-f">
-      <Header />
-      <Banner />
-      <section className="container">
-        <Filter />
-        <RwdFilter />
-        <ProductList />
+    <>
+      <section className="wrap-f">
+        <div className="container-f">
+          <Header />
+          <Banner />
+        </div>
       </section>
-    </div>
+      <section className="wrap">
+        <div className="container">
+          <Filter />
+          <RwdFilter />
+          <ProductList />
+        </div>
+      </section>
+    </>
   )
 }
 
