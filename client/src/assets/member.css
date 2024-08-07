@@ -110,7 +110,7 @@
   padding: 10px 0px;
   color: var(--side2);
   font-size: 15px;
-  text-align: end;
+  text-align: start;
 }
 .Member .profile-box .input-card {
   padding: 15px 0;
