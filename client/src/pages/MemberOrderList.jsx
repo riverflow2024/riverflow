@@ -54,7 +54,7 @@ class MemberOrderList extends Component {
         const displayedrecentnotYetCompletedOrders = this.state.showAdditionalOrders ? recentnotYetCompletedOrders  :  notYetCompletedOrders.slice(0, 2);
 
         return (
-            <div>
+            <div >
                 <header>
                     <img src={require('../assets/images/indexImg/nav.jpg')} alt="" />
                 </header>
@@ -216,7 +216,7 @@ class MemberOrderList extends Component {
                                 </div>
                             )}
                              <button className="btn" onClick={this.toggleAdditionalOrders}>
-                                { notYetCompletedOrders.showAdditionalOrders ? '收起近一個月的訂單' : '近一個月的訂單'}
+                                { recentnotYetCompletedOrders.showAdditionalOrders ? '收起近一個月的訂單' : '近一個月的訂單'}
                             </button>
                         </div>
                     </div>

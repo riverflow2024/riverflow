@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
 
 import Footer from './components/footer'
+import Login from './pages/Login'
+
 import MemberIndex from './pages/MemberIndex'
 import MemberEdit from './pages/MemberEdit'
 import MemberOrderList from './pages/MemberOrderList'
@@ -17,7 +19,8 @@ class App extends Component {
       <BrowserRouter>
         <div>
           <Switch>
-            <Route path="/Member/Index" component={MemberIndex} exact />
+            <Route path="/Login" component={Login}  />
+            <Route path="/Member/Index" component={MemberIndex}  />
             <Route path="/Member/Edit" component={MemberEdit} />
             <Route path="/Member/OrderList" component={MemberOrderList} />
             <Route path="/Member/Order" component={MemberOrder} />
@@ -26,7 +29,7 @@ class App extends Component {
             <Route path="/Event/Index" component={EventIndex} />
             <Route path="/Event/Detail" component={EventDetail} />
           </Switch>
-          <Footer />
+        <Footer />
         </div>
       </BrowserRouter>
     )

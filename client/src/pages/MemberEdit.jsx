@@ -123,7 +123,7 @@ class MemberEdit extends Component {
                                     required
                                 />
                             </div>
-                            <span className="tips" id="phoneTips" dangerouslySetInnerHTML={{ __html: this.state.phoneError }}></span>
+                            <span className="tips" id="" dangerouslySetInnerHTML={{ __html: this.state.phoneError }}></span>
                             <div className="input-card">
                                 <label>您的帳號</label><br />
                                 <input type="email" name="" id="" placeholder={Users.email} disabled />

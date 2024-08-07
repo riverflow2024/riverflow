@@ -12,7 +12,9 @@ class MemberOrder extends Component {
             "sex": "女",
         },
         OrderDetail: [
-            { "odid": "C123456789", "createdAt": "2024/08/10", "payMethod": "信用卡", "price": "$2500", "orderStatus": "待出貨" },
+            { "odid": "C123456789","createdAt": "2024/08/10", "payMethod": "信用卡", "price": 2500,"quantity":1, "orderStatus": "待出貨" },
+
+
             { "odid": "B123456789", "createdAt": "2024/08/08", "payMethod": "信用卡", "price": "$800", "orderStatus": "未付款" },
             { "odid": "A123456789", "createdAt": "2024/08/03", "payMethod": "信用卡", "price": "$1400", "orderStatus": "未付款" },
             { "odid": "E123456789", "createdAt": "2024/08/05", "payMethod": "信用卡", "price": "$1400", "orderStatus": "已完成" },
@@ -25,6 +27,13 @@ class MemberOrder extends Component {
             { "odid": "X123456789", "createdAt": "2024/07/11", "payMethod": "信用卡", "price": "$1800", "orderStatus": "未完成" },
             { "odid": "Z123456789", "createdAt": "2024/07/07", "payMethod": "信用卡", "price": "$200", "orderStatus": "未完成" },
         ],
+        Products:[
+            {"productName":"商品1","price":980,},
+            {"productName":"商品2","price":1080,},
+            {"productName":"商品3","price":880,},
+            {"productName":"商品4","price":680,},
+        ],
+        
 
         showAdditionalOrders: false,
         activeAccordion: null // 用于跟踪哪个折叠面板是活动的
@@ -106,7 +115,7 @@ class MemberOrder extends Component {
                                         <tbody>
                                             <tr>
                                                 <td>{OrderItem.createdAt}</td>
-                                                <td>{OrderItem.price}</td>
+                                                <td>${OrderItem.price + 60 }</td>
                                                 <td>{OrderItem.payMethod}</td>
                                                 <td>{OrderItem.orderStatus}</td>
                                             </tr>
@@ -114,10 +123,10 @@ class MemberOrder extends Component {
                                     </table>
 
                                     <div className="accordion">
-                                        <div className="container">
+                                        <div className={`container ${this.state.activeAccordion === index ? 'active' : ''}`}>
                                             <div className="label" onClick={() => this.toggleAccordion(index)}>收件人資訊</div>
 
-                                            <div className={`content ${this.state.activeAccordion === index ? 'show' : ''}`}>
+                                            <div className="content">
                                                 <span>收件人：{this.state.Users.firstName}{this.state.Users.lastName}</span><br />
                                                 <span>聯絡電話：{this.state.Users.phone}</span><br />
                                                 <span>收件地址：宅配</span><br />
@@ -133,18 +142,16 @@ class MemberOrder extends Component {
                                                 </tr>
                                             </thead>
                                             <tbody>
+                                                {this.state.Products.map(productItem=>
                                                 <tr>
-                                                    <td colspan="2">商品名稱：到底是什麼商品</td>
-                                                    <td>1</td>
-                                                    <td></td>
-                                                    <td>$880</td>
-                                                </tr>
-                                                <tr>
-                                                    <td colspan="2">商品名稱：到底是什麼商品</td>
-                                                    <td>1</td>
-                                                    <td></td>
-                                                    <td>$880</td>
-                                                </tr>
+                                                <td colspan="2">{productItem.productName}</td>
+                                                <td>1</td>
+                                                <td></td>
+                                                <td>{productItem.productPrice}</td>
+                                            </tr>
+                                                    
+                                                )}
+                                                
                                                 <tr style={{ borderBottom: '0.5px solid var(--main)' }}>
                                                     <td colspan="2">運費</td>
                                                     <td>1</td>
@@ -153,10 +160,10 @@ class MemberOrder extends Component {
                                                 </tr>
 
                                                 <tr>
-                                                    <td colspan="2">應付金額</td>
-                                                    <td>1</td>
+                                                    <td colspan="2" style={{fontWeight:"bold"}}>應付金額</td>
                                                     <td></td>
-                                                    <td>$2090</td>
+                                                    <td></td>
+                                                    <td style={{fontWeight:"bold"}}>${OrderItem.price + 60 }</td>
                                                 </tr>
                                             </tbody>
                                         </table>
