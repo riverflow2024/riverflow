@@ -45,183 +45,181 @@ class MemberOrderList extends Component {
 
         // 篩選近一個月的訂單 已完成 ＆ 未完成
         const recentCompletedOrders = completedOrders.filter(order => new Date(order.createdAt) >= oneMonthAgo);
-        const recentnotYetCompletedOrders =  notYetCompletedOrders.filter(order => new Date(order.createdAt) >= oneMonthAgo);
+        const recentnotYetCompletedOrders = notYetCompletedOrders.filter(order => new Date(order.createdAt) >= oneMonthAgo);
 
 
 
         // 根據 showAdditionalOrders 狀態來顯示訂單
-        const displayedCompletedOrders = this.state.showAdditionalOrders ? recentCompletedOrders  : completedOrders.slice(0, 2);
-        const displayedrecentnotYetCompletedOrders = this.state.showAdditionalOrders ? recentnotYetCompletedOrders  :  notYetCompletedOrders.slice(0, 2);
+        const displayedCompletedOrders = this.state.showAdditionalOrders ? recentCompletedOrders : completedOrders.slice(0, 2);
+        const displayedrecentnotYetCompletedOrders = this.state.showAdditionalOrders ? recentnotYetCompletedOrders : notYetCompletedOrders.slice(0, 2);
 
         return (
-            <div>
-                <header>
-                    <img src={require('../assets/images/indexImg/nav.jpg')} alt="" />
-                </header>
 
-                <section className="OrderList">
-                    <div className="nav-box" flex="1">
-                        <div className="wrap">
-                            <div className="member">
-                                <div>
-                                    <img className="member-img" src={require('../assets/images/defaultphoto.jpg')} alt="" />
-                                </div>
-                                <div className="profile">
-                                    <h3>Hey！{this.state.Users.lastName} </h3>
-                                    <a onClick={this.backMember}>個人資料</a>
-                                </div>
+
+
+            <div className="OrderList">
+                <div className="nav-box" flex="1">
+                    <div className="wrap">
+                        <div className="member">
+                            <div>
+                                <img className="member-img" src={require('../assets/images/defaultphoto.jpg')} alt="" />
                             </div>
-                            <div className="nav">
-                                <ul>
-                                    <li><a onClick={this.backOrderList}><i className="bi bi-clipboard"></i> 訂單查詢</a></li>
-                                    <li><a onClick={this.backTickets}><i className="bi bi-ticket-perforated"></i> 活動票券</a></li>
-                                    <li><a onClick={this.backCollection}><i className="bi bi-heart"></i> 我的最愛</a></li>
-                                </ul>
+                            <div className="profile">
+                                <h3>Hey！{this.state.Users.lastName} </h3>
+                                <a onClick={this.backMember}>個人資料</a>
                             </div>
+                        </div>
+                        <div className="nav">
+                            <ul>
+                                <li><a onClick={this.backOrderList}><i className="bi bi-clipboard"></i> 訂單查詢</a></li>
+                                <li><a onClick={this.backTickets}><i className="bi bi-ticket-perforated"></i> 活動票券</a></li>
+                                <li><a onClick={this.backCollection}><i className="bi bi-heart"></i> 我的最愛</a></li>
+                            </ul>
                         </div>
                     </div>
-                    <div className="order-box" flex="2">
-                        <h3>訂單查詢</h3>
-                        <div className="btn-box">
-                            <button className="tablink" onClick={(e) => this.openPage('Unpaid', e.currentTarget, '3px solid var(--main)')} id="defaultOpen">待出貨</button>
-                            <button className="tablink" onClick={(e) => this.openPage('Payment', e.currentTarget, '3px solid var(--main)')}>未付款</button>
-                            <button className="tablink" onClick={(e) => this.openPage('Completed', e.currentTarget, '3px solid var(--main)')}>已完成</button>
-                            <button className="tablink" onClick={(e) => this.openPage('NotYetCompleted', e.currentTarget, '3px solid var(--main)')}>未完成</button>
-                        </div>
+                </div>
+                <div className="order-box" flex="2">
+                    <h3>訂單查詢</h3>
+                    <div className="btn-box">
+                        <button className="tablink" onClick={(e) => this.openPage('Unpaid', e.currentTarget, '3px solid var(--main)')} id="defaultOpen">待出貨</button>
+                        <button className="tablink" onClick={(e) => this.openPage('Payment', e.currentTarget, '3px solid var(--main)')}>未付款</button>
+                        <button className="tablink" onClick={(e) => this.openPage('Completed', e.currentTarget, '3px solid var(--main)')}>已完成</button>
+                        <button className="tablink" onClick={(e) => this.openPage('NotYetCompleted', e.currentTarget, '3px solid var(--main)')}>未完成</button>
+                    </div>
 
-                        <div id="Unpaid" className="tabcontent">
-                            {unpaidOrders.map(OrderItem =>
-                                <div className="order" key={OrderItem.odid}>
-                                    <div className="wrap">
-                                        <span>訂單編號：{OrderItem.odid}</span>
-                                        <a onClick={this.goOrder}>
-                                            <button className="orderbtn">訂單明細</button>
-                                        </a>
-                                    </div>
-                                    <table>
-                                        <thead>
-                                            <tr>
-                                                <th>日期</th>
-                                                <th>總金額</th>
-                                                <th>付款方式</th>
-                                                <th>狀態</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>{OrderItem.createdAt}</td>
-                                                <td>{OrderItem.price}</td>
-                                                <td>{OrderItem.payMethod}</td>
-                                                <td>{OrderItem.orderStatus}</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
+                    <div id="Unpaid" className="tabcontent">
+                        {unpaidOrders.map(OrderItem =>
+                            <div className="order" key={OrderItem.odid}>
+                                <div className="wrap">
+                                    <span>訂單編號：{OrderItem.odid}</span>
+                                    <a onClick={this.goOrder}>
+                                        <button className="orderbtn">訂單明細</button>
+                                    </a>
                                 </div>
-                            )}
-                        </div>
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>日期</th>
+                                            <th>總金額</th>
+                                            <th>付款方式</th>
+                                            <th>狀態</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>{OrderItem.createdAt}</td>
+                                            <td>{OrderItem.price}</td>
+                                            <td>{OrderItem.payMethod}</td>
+                                            <td>{OrderItem.orderStatus}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        )}
+                    </div>
 
-                        <div id="Payment" className="tabcontent">
-                            {paymentOrders.map(OrderItem =>
-                                <div className="order" key={OrderItem.odid}>
-                                    <div className="wrap">
-                                        <span>訂單編號：{OrderItem.odid}</span>
-                                        <a href="memberOrder.html">
-                                            <button className="orderbtn">訂單明細</button>
-                                        </a>
-                                    </div>
-                                    <table>
-                                        <thead>
-                                            <tr>
-                                                <th>日期</th>
-                                                <th>總金額</th>
-                                                <th>付款方式</th>
-                                                <th>狀態</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>{OrderItem.createdAt}</td>
-                                                <td>{OrderItem.price}</td>
-                                                <td>{OrderItem.payMethod}</td>
-                                                <td>{OrderItem.orderStatus}</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
+                    <div id="Payment" className="tabcontent">
+                        {paymentOrders.map(OrderItem =>
+                            <div className="order" key={OrderItem.odid}>
+                                <div className="wrap">
+                                    <span>訂單編號：{OrderItem.odid}</span>
+                                    <a href="memberOrder.html">
+                                        <button className="orderbtn">訂單明細</button>
+                                    </a>
                                 </div>
-                            )}
-                        </div>
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>日期</th>
+                                            <th>總金額</th>
+                                            <th>付款方式</th>
+                                            <th>狀態</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>{OrderItem.createdAt}</td>
+                                            <td>{OrderItem.price}</td>
+                                            <td>{OrderItem.payMethod}</td>
+                                            <td>{OrderItem.orderStatus}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        )}
+                    </div>
 
 
-                        <div id="Completed" className="tabcontent">
-                            {displayedCompletedOrders.map(OrderItem =>
-                                <div className="order" key={OrderItem.odid}>
-                                    <div className="wrap">
-                                        <span>訂單編號：{OrderItem.odid}</span>
-                                        <a href="memberOrder.html">
-                                            <button className="orderbtn">訂單明細</button>
-                                        </a>
-                                    </div>
-                                    <table>
-                                        <thead>
-                                            <tr>
-                                                <th>日期</th>
-                                                <th>總金額</th>
-                                                <th>付款方式</th>
-                                                <th>狀態</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>{OrderItem.createdAt}</td>
-                                                <td>{OrderItem.price}</td>
-                                                <td>{OrderItem.payMethod}</td>
-                                                <td>{OrderItem.orderStatus}</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
+                    <div id="Completed" className="tabcontent">
+                        {displayedCompletedOrders.map(OrderItem =>
+                            <div className="order" key={OrderItem.odid}>
+                                <div className="wrap">
+                                    <span>訂單編號：{OrderItem.odid}</span>
+                                    <a href="memberOrder.html">
+                                        <button className="orderbtn">訂單明細</button>
+                                    </a>
                                 </div>
-                            )}
-                            <button className="btn" onClick={this.toggleAdditionalOrders}>
-                                {completedOrders.showAdditionalOrders ? '收起近一個月的訂單' : '近一個月的訂單'}
-                            </button>
-                        </div>
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>日期</th>
+                                            <th>總金額</th>
+                                            <th>付款方式</th>
+                                            <th>狀態</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>{OrderItem.createdAt}</td>
+                                            <td>{OrderItem.price}</td>
+                                            <td>{OrderItem.payMethod}</td>
+                                            <td>{OrderItem.orderStatus}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        )}
+                        <button className="btn" onClick={this.toggleAdditionalOrders}>
+                            {completedOrders.showAdditionalOrders ? '收起近一個月的訂單' : '近一個月的訂單'}
+                        </button>
+                    </div>
 
-                        <div id="NotYetCompleted" className="tabcontent">
+                    <div id="NotYetCompleted" className="tabcontent">
                         {displayedrecentnotYetCompletedOrders.map(OrderItem =>
-                                <div className="order" key={OrderItem.odid}>
-                                    <div className="wrap">
-                                        <span>訂單編號：{OrderItem.odid}</span>
-                                        <a href="memberOrder.html">
-                                            <button className="orderbtn">訂單明細</button>
-                                        </a>
-                                    </div>
-                                    <table>
-                                        <thead>
-                                            <tr>
-                                                <th>日期</th>
-                                                <th>總金額</th>
-                                                <th>付款方式</th>
-                                                <th>狀態</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>{OrderItem.createdAt}</td>
-                                                <td>{OrderItem.price}</td>
-                                                <td>{OrderItem.payMethod}</td>
-                                                <td>{OrderItem.orderStatus}</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
+                            <div className="order" key={OrderItem.odid}>
+                                <div className="wrap">
+                                    <span>訂單編號：{OrderItem.odid}</span>
+                                    <a href="memberOrder.html">
+                                        <button className="orderbtn">訂單明細</button>
+                                    </a>
                                 </div>
-                            )}
-                             <button className="btn" onClick={this.toggleAdditionalOrders}>
-                                { notYetCompletedOrders.showAdditionalOrders ? '收起近一個月的訂單' : '近一個月的訂單'}
-                            </button>
-                        </div>
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>日期</th>
+                                            <th>總金額</th>
+                                            <th>付款方式</th>
+                                            <th>狀態</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>{OrderItem.createdAt}</td>
+                                            <td>{OrderItem.price}</td>
+                                            <td>{OrderItem.payMethod}</td>
+                                            <td>{OrderItem.orderStatus}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        )}
+                        <button className="btn" onClick={this.toggleAdditionalOrders}>
+                            {recentnotYetCompletedOrders.showAdditionalOrders ? '收起近一個月的訂單' : '近一個月的訂單'}
+                        </button>
                     </div>
-                </section>
+                </div>
             </div>
+
         );
     }
 

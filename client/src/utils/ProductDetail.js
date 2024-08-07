@@ -5,7 +5,7 @@ import '../utils/ProductDetail.js'
 const ProductDetail = () => {
   const [selectedSize, setSelectedSize] = useState('')
   const [quantity, setQuantity] = useState(1)
-  const unitPrice = 100 // 假设价格为100，可以根据实际情况动态获取
+  const unitPrice = 100
 
   const updateTotalPrice = () => {
     const price = parseInt(product.price.replace('NT$', '').replace(',', ''))

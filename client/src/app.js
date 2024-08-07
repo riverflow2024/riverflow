@@ -3,6 +3,13 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom'
 
 import Header from './components/header'
 import Footer from './components/footer'
+
+import Index from './pages/Index'
+
+import Login from './pages/Login'
+import LoginVerify from './pages/LoginVerify'
+import LoginRegister from './pages/LoginRegister'
+
 import MemberIndex from './pages/MemberIndex'
 import MemberEdit from './pages/MemberEdit'
 import MemberOrderList from './pages/MemberOrderList'
@@ -23,12 +30,21 @@ class App extends Component {
         <div>
           <Header />
           <Switch>
-            <Route path="/Member/Index" component={MemberIndex} exact />
+
+            <Route path="/Index" component={Index}  />
+            
+            <Route path="/Login/Index" component={Login}  />
+            <Route path="/Login/Verify" component={LoginVerify}  />
+            <Route path="/Login/Register" component={LoginRegister}  />
+
+
+            <Route path="/Member/Index" component={MemberIndex}  />
             <Route path="/Member/Edit" component={MemberEdit} />
             <Route path="/Member/OrderList" component={MemberOrderList} />
             <Route path="/Member/Order" component={MemberOrder} />
             <Route path="/Member/Tickets" component={MemberTickets} />
             <Route path="/Member/Collection" component={MemberCollection} />
+
             <Route path="/Event/Index" component={EventIndex} />
             <Route path="/Event/Detail" component={EventDetail} />
             <Route path="/Event/ConfirmSeat" component={EventConfirmSeat} />
@@ -39,7 +55,7 @@ class App extends Component {
 
             <Route path="/AboutUs" component={AboutUs} />
           </Switch>
-          <Footer />
+        <Footer />
         </div>
       </BrowserRouter>
     )

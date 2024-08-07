@@ -2,9 +2,9 @@ const userModel = require('../models/userModel')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const nodemailer = require('nodemailer')
-const dotenv = require('dotenv')
-dotenv.config({ path: '../config.env' })
+require('dotenv').config({ path: '../config.env' })
 
+// 發送email設定
 const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
@@ -13,7 +13,7 @@ const transporter = nodemailer.createTransport({
   }
 })
 
-// 寄發驗證email
+// 發送驗證email
 const sendVerificationEmail = async (email, token) => {
   const verificationUrl = `${process.env.BASE_URL}/verify/${token}`
 
@@ -81,7 +81,7 @@ exports.register = async (req, res) => {
     console.log('用戶創建成功，ID:', userId)
 
     // 生成驗證 token
-    const verificationToken = jwt.sign({ userId: userId, email: email }, process.env.JWT_SECRET, { expiresIn: '1d' })
+    const verificationToken = jwt.sign({ userId, email }, process.env.JWT_SECRET, { expiresIn: '1d' })
 
     // 發送驗證郵件
     await sendVerificationEmail(email, verificationToken)
@@ -136,6 +136,7 @@ exports.verifyEmail = async (req, res) => {
 // 會員登入
 exports.login = async (req, res) => {
   const { email, secret } = req.body
+
   try {
     const user = await userModel.findByEmail(email)
 
@@ -248,9 +249,8 @@ exports.requestPasswordReset = async (req, res) => {
   }
 }
 
-// 密碼重設
+// 重設密碼
 exports.resetPassword = async (req, res) => {
-  console.log('Received request body:', req.header) // 添加日誌
   const { token } = req.params
   const { newSecret } = req.body
 
@@ -277,6 +277,12 @@ exports.resetPassword = async (req, res) => {
   }
 }
 
+// 暫用：輸入帳號的頁面
 exports.resetPasswordPage = function (req, res) {
-  res.redirect(req.password)
+  res.json({ 輸入帳號: '請輸入帳號' })
+}
+
+// 暫用：輸入新密碼的頁面
+exports.setNewPasswordPage = function (req, res) {
+  res.json({ 輸入新密碼: '請輸入新密碼' })
 }
