@@ -30,15 +30,13 @@ class App extends Component {
         <div>
           <Header />
           <Switch>
+            <Route path="/Index" component={Index} />
 
-            <Route path="/Index" component={Index}  />
-            
-            <Route path="/Login/Index" component={Login}  />
-            <Route path="/Login/Verify" component={LoginVerify}  />
-            <Route path="/Login/Register" component={LoginRegister}  />
+            <Route path="/Login/Index" component={Login} />
+            <Route path="/Login/Verify" component={LoginVerify} />
+            <Route path="/Login/Register" component={LoginRegister} />
 
-
-            <Route path="/Member/Index" component={MemberIndex}  />
+            <Route path="/Member/Index" component={MemberIndex} />
             <Route path="/Member/Edit" component={MemberEdit} />
             <Route path="/Member/OrderList" component={MemberOrderList} />
             <Route path="/Member/Order" component={MemberOrder} />
@@ -51,11 +49,12 @@ class App extends Component {
 
             <Route path="/Event/Detail" component={EventDetail} />
             <Route path="/Product/All" component={ProductAll} />
+            <Route path="/Product/Detail" component={ProductDetail} />
             <Route path="/Event/Detail" component={ProductAll} />
 
             <Route path="/AboutUs" component={AboutUs} />
           </Switch>
-        <Footer />
+          <Footer />
         </div>
       </BrowserRouter>
     )
