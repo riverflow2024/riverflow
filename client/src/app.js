@@ -25,6 +25,7 @@ import ProductAll from './pages/ProductAll'
 import EventConfirmSeat from './pages/eventConfirmSeat'
 
 import AboutUs from './pages/about'
+import ProductDetail from './pages/ProductDetail'
 
 class App extends Component {
   render() {
@@ -43,7 +44,7 @@ class App extends Component {
             <Route path="/Login/Password" component={LoginPassword}  />
 
 
-            <Route path="/Member/Index" component={MemberIndex}  />
+            <Route path="/Member/Index" component={MemberIndex} />
             <Route path="/Member/Edit" component={MemberEdit} />
             <Route path="/Member/OrderList" component={MemberOrderList} />
             <Route path="/Member/Order" component={MemberOrder} />
@@ -53,14 +54,13 @@ class App extends Component {
             <Route path="/Event/Index" component={EventIndex} />
             <Route path="/Event/Detail" component={EventDetail} />
             <Route path="/Event/ConfirmSeat" component={EventConfirmSeat} />
-            
 
-            <Route path="/Event/Detail" component={EventDetail} />
             <Route path="/Product/All" component={ProductAll} />
+            <Route path="/Product/Detail" component={ProductDetail} />
 
             <Route path="/AboutUs" component={AboutUs} />
           </Switch>
-        <Footer />
+          <Footer />
         </div>
       </BrowserRouter>
     )

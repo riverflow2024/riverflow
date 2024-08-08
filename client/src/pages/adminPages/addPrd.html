@@ -79,7 +79,7 @@
                 <div id="infoDesc" class="tabContent">
                     <div class="infoItem">
                         <label for="prdName" class="editTitle">商品名稱：</label>
-                        <input id="prdName" type="text" required>
+                        <input id="prdName" type="text" value="王以太聯名短袖T恤" required>
                         <span class="required">※此欄位為必填</span>
                     </div>
                     <div class="infoItem">
@@ -107,17 +107,19 @@
                         <div class="descInfo">
                             <div class="descItem">
                                 <label for="prdDesc" class="editTitle">說明：</label>
-                                <input id="prdDesc" type="text" required
+                                <!-- <input id="prdDesc" type="text" required
                                     value="王以太主理品牌 LML 全台獨家代理"
-                                >
+                                > -->
+                                <textarea name="" id="prdDesc">這款T恤融合了王以太獨特的設計風格與高品質材質，完美展現了音樂與街頭時尚的碰撞，這款T恤都能讓你時尚又舒適！
+                                </textarea>
                             </div>
                             <div class="descItem">
                                 <label for="prdSpec1" class="editTitle">適用：</label>
-                                <input id="prdSpec1" type="text" required>
+                                <input id="prdSpec1" type="text" required value="饒舌音樂愛好者、街頭文化愛好者">
                             </div>
                             <div class="descItem">
                                 <label for="prdSpec2" class="editTitle">材質：</label>
-                                <input id="prdSpec2" type="text" required>
+                                <input id="prdSpec2" type="text" required value="100%純棉，透氣舒適，柔軟耐用">
                             </div>
                         </div>
                     </div>
@@ -130,15 +132,27 @@
                         <div class="specInfo">
                             <div class="specItem">
                                 <label for="prdSpec1">規格1名稱：</label>
-                                <input id="prdSpec1" class="specTitle" type="text" required>
+                                <input id="prdSpec1" class="specTitle" type="text" required value="黑/S">
                             </div>
                             <div class="specItem">
                                 <label for="prdSpec2" class="specTitle">規格2名稱：</label>
-                                <input id="prdSpec2" type="text">
+                                <input id="prdSpec2" type="text" value="黑/M">
                             </div>
                             <div class="specItem">
                                 <label for="prdSpec3" class="specTitle">規格3名稱：</label>
-                                <input id="prdSpec3" type="text">
+                                <input id="prdSpec3" type="text" value="黑/L">
+                            </div>
+                            <div class="specItem">
+                                <label for="prdSpec4" class="specTitle">規格4名稱：</label>
+                                <input id="prdSpec4" type="text" value="深綠/S">
+                            </div>
+                            <div class="specItem">
+                                <label for="prdSpec5" class="specTitle">規格5名稱：</label>
+                                <input id="prdSpec5" type="text" value="深綠/M">
+                            </div>
+                            <div class="specItem">
+                                <label for="prdSpec6" class="specTitle">規格6名稱：</label>
+                                <input id="prdSpec6" type="text" value="深綠/L">
                             </div>
                         </div>
                     </div>
@@ -154,14 +168,34 @@
                             </thead>
                             <tbody>
                                 <tr class="specItemInfo">
-                                    <td><span id="specName1" class="itemTitle"></span></td>
-                                    <td><span class="priceMark">NT$</span><input type="number" id="specPrice" class="specPriceEdit"></td>
-                                    <td><input type="number" name="" id=""></td>
+                                    <td><span id="specName1" class="itemTitle">黑/S</span></td>
+                                    <td><span class="priceMark">NT$</span><input type="number" id="specPrice" class="specPriceEdit" value="1480"></td>
+                                    <td><input type="number" name="" id="" value="10"></td>
+                                </tr>
+                                <tr class="specItemInfo">
+                                    <td>黑/M</td>
+                                    <td><span class="priceMark">NT$</span><input type="number" id="specPrice" class="specPriceEdit" value="1480"></td>
+                                    <td><input type="number" name="" id="" value="10"></td>
+                                </tr>
+                                <tr class="specItemInfo">
+                                    <td>黑/L</td>
+                                    <td><span class="priceMark">NT$</span><input type="number" id="specPrice" class="specPriceEdit" value="1480"></td>
+                                    <td><input type="number" name="" id="" value="10"></td>
+                                </tr>
+                                <tr class="specItemInfo">
+                                    <td>深綠/M</td>
+                                    <td><span class="priceMark">NT$</span><input type="number" id="specPrice" class="specPriceEdit" value="1480"></td>
+                                    <td><input type="number" name="" id="" value="10"></td>
+                                </tr>
+                                <tr class="specItemInfo">
+                                    <td>深綠/L</td>
+                                    <td><span class="priceMark">NT$</span><input type="number" id="specPrice" class="specPriceEdit" value="1480"></td>
+                                    <td><input type="number" name="" id="" value="10"></td>
                                 </tr>
                                 <tr class="specItemInfo">
                                     <td>黑色M</td>
-                                    <td><span class="priceMark">NT$</span><input type="number" id="specPrice" class="specPriceEdit"></td>
-                                    <td><input type="number" name="" id=""></td>
+                                    <td><span class="priceMark">NT$</span><input type="number" id="specPrice" class="specPriceEdit" value="1480"></td>
+                                    <td><input type="number" name="" id="" value="10"></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -189,10 +223,10 @@
         })
 
         // 規格測試
-        $('.specTitle').on('input', function() {
-            // console.log($(this).val())
-            $('#specName1').text($(this).val())
-        })
+        // $('.specTitle').on('input', function() {
+        //     // console.log($(this).val())
+        //     $('#specName1').text($(this).val())
+        // })
         
     </script>
 </body>

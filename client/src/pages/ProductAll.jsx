@@ -269,7 +269,7 @@ const ProductList = () => {
       label: 'normal',
       title: 'RapperLai',
       price: 'NT$1199',
-      isSoldOut: true
+      isSoldOut: false
     },
     {
       image: 'https://i.pinimg.com/564x/7e/75/24/7e75244c7427c041237f60c1e18308a6.jpg',
@@ -293,7 +293,7 @@ const ProductList = () => {
 
 const ProductAll = () => {
   useEffect(() => {
-    // '../utils/ProductAll.js' 用不到
+    '../utils/ProductAll.js'
   }, [])
 
   return (

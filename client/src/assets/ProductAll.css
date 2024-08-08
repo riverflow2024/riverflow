@@ -149,6 +149,42 @@
   background-color: #baf13a;
   color: #1d1d1d;
 }
+.wrap .container .RWD-shop-filter {
+  position: absolute;
+  margin-right: 50px;
+  bottom: 35%;
+  padding: 10px 20px;
+  width: 85%;
+  height: 5%;
+  border: 0.75px solid var(--main2);
+  border-radius: 20px;
+  white-space: nowrap;
+  display: none;
+}
+.wrap .container .RWD-shop-filter #categoryFilter {
+  gap: 10px;
+  display: flex;
+}
+.wrap .container .RWD-shop-filter ul li {
+  font-size: 0.7rem;
+  font-weight: 500;
+  display: inline-block;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+.wrap .container .RWD-shop-filter ul li a {
+  display: inline-block;
+  padding: 5px;
+  border-radius: 20px;
+}
+.wrap .container .RWD-shop-filter ul li a:hover {
+  background-color: #baf13a;
+  color: #333;
+}
+.wrap .container .RWD-shop-filter ul li a.selected {
+  background-color: #baf13a;
+  color: #1d1d1d;
+}
 @media (max-width: 768px) {
   .wrap .container .shop-filter {
     display: none;
@@ -390,13 +426,13 @@
     padding-top: 40px;
   }
   .wrap .container .product-list .product-text p {
-    font-size: 1.3rem;
+    font-size: 1.2rem;
     font-weight: bold;
   }
   .wrap .container .product-list .product-text .discount-price {
     position: absolute;
     bottom: 30px;
-    font-size: 1rem;
+    font-size: 1.4rem;
     color: #ff0000;
     font-weight: bold;
   }
@@ -420,41 +456,4 @@
     padding: 10px;
     border-radius: 20px;
   }
-}
-
-.RWD-shop-filter {
-  position: absolute;
-  margin-right: 50px;
-  bottom: 36%;
-  padding: 10px 20px;
-  width: 85%;
-  height: 5%;
-  border: 0.75px solid var(--main2);
-  border-radius: 20px;
-  display: none !important;
-  white-space: nowrap;
-}
-.RWD-shop-filter #categoryFilter {
-  gap: 10px;
-  display: flex;
-}
-.RWD-shop-filter ul li {
-  font-size: 0.7rem;
-  font-weight: 500;
-  display: inline-block;
-  margin-top: 0.5rem;
-  margin-bottom: 0.5rem;
-}
-.RWD-shop-filter ul li a {
-  display: inline-block;
-  padding: 5px;
-  border-radius: 20px;
-}
-.RWD-shop-filter ul li a:hover {
-  background-color: #baf13a;
-  color: #333;
-}
-.RWD-shop-filter ul li a.selected {
-  background-color: #baf13a;
-  color: #1d1d1d;
 }/*# sourceMappingURL=ProductAll.css.map */
