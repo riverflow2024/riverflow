@@ -82,7 +82,14 @@
             <div class="form-group dropdown">
               <label for="delivery-method">運送方式</label>
               <br />
-              <input class="text-border" type="text" id="delivery-method" placeholder="請選擇運送方式" readonly />
+              <input
+                class="text-border"
+                value="7-ELEVEN"
+                type="text"
+                id="delivery-method"
+                placeholder="請選擇運送方式"
+                readonly
+              />
               <span id="delivery-address" class="address-display"></span>
               <div class="dropdown-content">
                 <div data-type="store">7-ELEVEN</div>
@@ -183,7 +190,7 @@
             <div class="total-amount">
               <p>商品金額: <span id="item-total">$4060</span></p>
               <p>運費金額: <span id="shipping-fee">$60</span></p>
-              <p>付款總金額: <span id="final-total">$4100</span></p>
+              <p>付款總金額: <span id="final-total">$4120</span></p>
             </div>
 
             <!-- 訂單確認 這邊用a代替 -->
@@ -228,7 +235,7 @@
           } else {
             $('#store-address-group').hide()
             $('#home-address-group').hide()
-            $('#shipping-fee').text('$0')
+            $('#shipping-fee').text('$60')
             updateFinalTotal()
           }
 
@@ -312,8 +319,12 @@
             text: '謝謝您的購買!',
             icon: 'success',
             confirmButtonColor: '#98d900',
-            timer: 3000,
-            timerProgressBar: true
+            timer: 6000,
+            timerProgressBar: true,
+            // 跳轉頁面
+            willClose: () => {
+              window.location.href = './memberOrder.html'
+            }
           })
         })
       })

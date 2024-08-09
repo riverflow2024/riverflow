@@ -14,7 +14,7 @@ class Index extends Component {
 
 
         return (
-            <div class="scrollCust">
+            <div class="scrollCust IndexPage">
 
                 {/* 星星背景 */}
                 <div class="starbg">

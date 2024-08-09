@@ -42,7 +42,7 @@ const ProductDetail = () => {
   }
 
   useEffect(() => {
-    const lightbox = window.lightbox // 确保 lightbox 从 window 对象中获取
+    const lightbox = window.lightbox
     if (lightbox) {
       lightbox.option({
         resizeDuration: 200,

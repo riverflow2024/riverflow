@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>支付找綠界</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #2c3e50;
+        }
+        .info-item {
+            margin-bottom: 10px;
+        }
+        .info-item strong {
+            display: inline-block;
+            width: 120px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>支付找綠界 - 買賣無國界</h1>
+        <p>綠界科技提供SSL安全加密金流</p>
+        
+        <h2>訂單資訊</h2>
+        <div class="info-item">
+            <strong>訂單編號:</strong> {{ orderNumber }}
+        </div>
+        <div class="info-item">
+            <strong>商店名稱:</strong> {{ storeName }}
+        </div>
+        <div class="info-item">
+            <strong>單位:</strong> 新台幣 NTD
+        </div>
+        
+        <h2>商品明細</h2>
+        <div class="info-item">
+            <strong>小計:</strong> NT$ {{ itemTotal }}
+        </div>
+        <div class="info-item">
+            <strong>實際付款金額:</strong> NT$ {{ actualPaymentAmount }}
+        </div>
+        
+        <h2>付款方式</h2>
+        <div class="info-item">
+            <strong>付款方式:</strong> {{ paymentMethod }}
+        </div>
+    </div>
+</body>
+</html>

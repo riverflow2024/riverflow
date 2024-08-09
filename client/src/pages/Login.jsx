@@ -9,7 +9,7 @@ class Login extends Component {
             "firstName": "林",
             "lastName": "小美",
             "phone": "0912-333-555",
-            "email": "ko",
+            "email": "",
             "secret": "",
             "birth": "1995/10/10",
             "sex": "女",
@@ -25,7 +25,7 @@ class Login extends Component {
 
 
         return (
-            <div class="loginPage">
+            <div class="">
 
                 <section class="login" >
                     <div class="form" >
@@ -35,7 +35,9 @@ class Login extends Component {
                             <input type="text" id="email" name="email"
                                 value={this.state.Users.email}
                                 placeholder="Enter email"
-                                onChange={this.EmailChange} /><br />
+                                // autoComplete='off' // 關閉自動填入
+                                onChange={this.EmailChange}
+                                /><br />
                         </div>
 
                         <span className="tips" id="" dangerouslySetInnerHTML={{ __html: this.state.emailError }}></span>
@@ -50,11 +52,11 @@ class Login extends Component {
                                 onChange={this.PasswordChange} />
                             <div><i id="showBtn" class={`bi ${isPasswordVisible ? 'bi-eye-fill' : 'bi-eye-slash-fill'}`} onClick={this.handlePasswordToggle}></i></div>
                         </div>
-                        <a href="password.html">忘記密碼？</a>
+                        <a onClick={this.goPassword }>忘記密碼？</a>
                         <input type="submit" value="Login" />
                         <span>
                             沒有River Flow帳號嗎？
-                            <a href="register.html">前往註冊</a>
+                            <a onClick={this.goRegister}>前往註冊</a>
 
                         </span>
                     </div>
@@ -81,6 +83,13 @@ class Login extends Component {
         );
 
 
+    }
+
+    goRegister = () => {
+        window.location = "/Login/Register";
+    }
+    goPassword = () => {
+        window.location = "/Login/Password";
     }
 
     handlePasswordToggle = () => {
