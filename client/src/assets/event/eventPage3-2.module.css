@@ -133,6 +133,7 @@
 .seatName div div span {
   font-size: 16px;
   color: red;
+  font-weight: bold;
 }
 
 /* 加減數量 */
@@ -176,7 +177,7 @@
   margin-top: 3rem;
   text-align: right;
   margin-bottom: 300px;
-  font-size: 1.5rem;
+  font-size: 1.3rem;
 }
 
 .nextBtn a {

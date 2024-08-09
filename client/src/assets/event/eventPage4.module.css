@@ -5,7 +5,7 @@
 }
 
 .eventImg {
-    
+
     border-radius: 10px;
     flex: 1;
 }
@@ -23,6 +23,10 @@
 .eventTitle h1 {
     display: inline-block;
     white-space: nowrap;
+}
+
+.eventTitle p {
+    font-size: 1.2rem;
 }
 
 /* 中間的線 */
@@ -57,6 +61,7 @@
 
 .ticketOrder span {
     padding-bottom: 3px;
+    font-size: 1.2rem;
 }
 
 .ticketOrder div:nth-child(2) {
@@ -89,6 +94,7 @@
     padding: 1rem 0rem;
     margin-left: 2rem;
     margin-right: 2rem;
+    font-size: 1.3rem;
 }
 
 /* 購票內容 */
@@ -137,6 +143,7 @@
     text-align: right;
     margin-bottom: 300px;
     cursor: pointer;
+    font-size: 1.3rem;
 }
 
 .nextBtn a:hover {
