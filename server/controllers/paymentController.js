@@ -14,7 +14,7 @@ const PaymentController = {
 
   handleCallback(req, res) {
     const data = req.body;
-    console.log(data);
+    // console.log(data);
     if (PaymentService.verifyCallback(data)) {
       // Payment successful, update your database here
       console.log('Payment successful:', data);
