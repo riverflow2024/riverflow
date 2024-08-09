@@ -75,13 +75,15 @@
                     <div>
                         <label for="contactEmail">電子信箱</label>
                         <br>
-                        <input type="text" id="contactEmail" name="contactEmail" placeholder="請輸入電子信箱" value="abc12345@gmail.com">
+                        <input type="text" id="contactEmail" name="contactEmail" placeholder="請輸入電子信箱"
+                            value="abc12345@gmail.com">
                     </div>
                     <!-- 電話號碼 -->
                     <div>
                         <label for="contactPhone">電話號碼</label>
                         <br>
-                        <input type="text" id="contactPhone" name="contactPhone" placeholder="請輸入電話號碼" value="0912333555">
+                        <input type="text" id="contactPhone" name="contactPhone" placeholder="請輸入電話號碼"
+                            value="0912333555">
                     </div>
                 </div>
                 <div></div>
@@ -205,10 +207,11 @@
         </div>
         <!-- 下一步按鍵 -->
         <div class="nextBtn">
-            <button class="nextStep" disabled>下一步</button>
+            <a href="../static/memberTickets.html"><button class="nextStep" id="nextStep" disabled>下一步</button></a>
         </div>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         $(document).ready(function () {
@@ -224,6 +227,22 @@
                 } else {
                     $('.nextStep').prop('disabled', true);
                 }
+            })
+            $('#nextStep').click(function (e) {
+                e.preventDefault()
+
+                Swal.fire({
+                    title: '訂單完成',
+                    text: '謝謝您的購買!',
+                    icon: 'success',
+                    confirmButtonColor: '#98d900',
+                    timer: 6000,
+                    timerProgressBar: true,
+                    // 跳轉頁面
+                    willClose: () => {
+                        window.location.href = '../static/memberTickets.html'
+                    }
+                })
             })
         })
     </script>

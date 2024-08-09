@@ -1,3 +1,9 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+
 .eventName {
   display: grid;
   align-items: center;
@@ -22,9 +28,12 @@
 .eventTitle h1 {
   display: inline-block;
   white-space: nowrap;
+  margin-top: 1rem;
 }
-.eventTitle p{
+
+.eventTitle p {
   font-size: 1.2rem;
+  margin-top: 1rem;
 }
 
 /* 中間的線 */
@@ -79,10 +88,13 @@
   border: 0.75px solid var(--main);
   border-radius: 10px;
   background-color: var(--bk2);
+  padding-bottom: 1rem;
 }
 
 .ticketText {
   text-align: center;
+  margin-top: 1.3rem;
+  margin-bottom: 1.3rem;
 }
 
 .ticketText h3 {
@@ -146,13 +158,16 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0rem 1.5rem 1rem 2rem;
+  padding: 0rem 2rem 1rem 2rem;
 }
 
 
 .ticketBtn {
   display: flex;
   /* align-items: center; */
+}
+.ticketBtn span{
+  margin: 0rem 0.8rem;
 }
 
 .ticketBtn button {
@@ -220,43 +235,43 @@
 
 }
 
-  @media screen and (max-width: 1000px) {
-    .eventName {
-      grid-template-columns: 1fr 1fr;
-    }
-
-    .ticketSeat {
-      display: block;
-    }
-
-    .seatImage {
-      width: 100%;
-      text-align: center;
-    }
-
-    .seatImage img {
-      width: 80%;
-    }
-
-    .seat {
-      margin-bottom: 1.8rem;
-    }
+@media screen and (max-width: 1000px) {
+  .eventName {
+    grid-template-columns: 1fr 1fr;
   }
 
-  @media screen and (max-width: 850px) {
-    .eventName {
-      display: block;
-    }
-
-    .eventImg {
-      max-width: 100%;
-      padding: 1rem;
-    }
+  .ticketSeat {
+    display: block;
   }
 
-  @media screen and (max-width: 600px) {
-    .wrap {
-      min-width: 560px;
-      height: auto;
-    }
+  .seatImage {
+    width: 100%;
+    text-align: center;
   }
+
+  .seatImage img {
+    width: 80%;
+  }
+
+  .seat {
+    margin-bottom: 1.8rem;
+  }
+}
+
+@media screen and (max-width: 850px) {
+  .eventName {
+    display: block;
+  }
+
+  .eventImg {
+    max-width: 100%;
+    padding: 1rem;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .wrap {
+    min-width: 560px;
+    height: auto;
+  }
+}
