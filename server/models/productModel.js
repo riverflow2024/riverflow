@@ -25,13 +25,12 @@ exports.getAllProductFavorite = () => {
       `
             SELECT 
             products.productId,products.productName,
-            productfavorite.userId,users.firstName
+            productfavorite.userId,users.firstName,users.lastName
             FROM 
-            products, productfavorite, users
-            WHERE 
-            products.productid = productfavorite.productid 
+            products , productfavorite ,users
+            WHERE products.productId = productfavorite.productId
             AND productfavorite.userId = users.userId
-            ORDER BY products.productId,users.userId
+            ORDER BY products.productId, users.userId
             `,
       (err, products) => {
         if (err) return reject(err)
@@ -45,15 +44,11 @@ exports.getAllProductInfo = () => {
   return new Promise((resolve, reject) => {
     dbConnect.query(
       `
-            SELECT 
-            products.productid, productName, 
-            categories.categoryName, productoptions.productPrice, productoptions.optName
-            FROM 
-            products, productcategories ,categories, productoptions
-            WHERE 
-            products.productid = productcategories.productid  
-            AND productcategories.categoryId = categories.categoryId
-            AND products.productid =  productoptions.productid
+SELECT * 
+FROM 
+products , productcategories,categories
+WHERE products.productId = productcategories.productId
+AND productcategories.categoryId = categories.categoryId
 
             `,
       (err, products) => {
@@ -124,13 +119,11 @@ exports.getProductInfo = (id) => {
             SELECT 
             *
             FROM 
-            products, productcategories ,categories,productoptions ,productratings
+            products, productcategories ,categories 
             WHERE 
-            products.productid = ? 
+            products.productid = 1 
             AND products.productid = productcategories.productid 
             AND productcategories.categoryid = categories.categoryid 
-            AND products.productid =  productoptions.productid
-            AND products.productid = productratings.productid
             `,
       [id],
       (err, product) => {
