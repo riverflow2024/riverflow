@@ -156,7 +156,7 @@ exports.findOneOrder = async (userId, orderId) => {
 exports.findUserEvents = async (userId) => {
   return new Promise((resolve, reject) => {
     db.query(
-      'SELECT td.tdId, td.ticketType, td.quantity, td.tdStatus, td.tdPrice, td.randNum, e.eventName, e.eventDate FROM Users AS u, TicketDetails AS td, Events AS e WHERE u.userId = td.userId AND u.userId = ? AND td.eventId = e.eventId',
+      'SELECT td.tdId, td.ticketType, td.quantity, td.tdStatus, td.tdPrice, td.randNum, e.eventName, e.eventDate FROM Users AS u, TicketDetails AS td, Events AS e WHERE u.userId = td.userId AND u.userId = ? Order BY e.eventId',
       [userId],
       (error, results) => {
         if (error) {
@@ -175,7 +175,13 @@ exports.findUserEvents = async (userId) => {
 exports.findFavorites = async (userId) => {
   return new Promise((resolve, reject) => {
     db.query(
-      'SELECT p.productName, p.productOpt FROM Users AS u, ProductFavorite AS pf, Products AS p WHERE u.userId = ? AND u.userId = pf.userId AND pf.productId = p.productId',
+      `SELECT p.productName, p.productDesc, p.productPrice, pi.productImg FROM Users AS u 
+      JOIN ProductFavorite AS pf ON u.userId = pf.userId 
+      JOIN Products AS p ON pf.productId = p.productId
+      LEFT JOIN (
+        SELECT productId, MIN(productImg) as productImg FROM ProductImages GROUP BY productId
+      ) pi ON p.productId = pi.productId
+      WHERE u.userId = ?`,
       [userId],
       (error, results) => {
         if (error) {
@@ -188,3 +194,5 @@ exports.findFavorites = async (userId) => {
     )
   })
 }
+
+exports.findFavoritesImg = async (userId) => {}

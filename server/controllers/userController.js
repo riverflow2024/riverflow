@@ -58,7 +58,7 @@ exports.getOneOrder = async (req, res) => {
 }
 
 // 會員購票訂單
-exports.getUserEvent = async (req, res) => {
+exports.getUserEvents = async (req, res) => {
   try {
     const allEvents = await userModel.findUserEvents(req.userId)
     res.json(allEvents)
@@ -74,23 +74,24 @@ exports.getFavorites = async (req, res) => {
     const favorites = await userModel.findFavorites(req.userId)
     console.log(favorites)
 
-    const processData = (data) => {
-      return data.map((data) => {
-        const productOpt = JSON.parse(data.productOpt)
+    // const processData = (data) => {
+    //   return data.map((data) => {
+    //     const productOpt = JSON.parse(data.productOpt)
 
-        const firstOption = productOpt[0]
+    //     const firstOption = productOpt[0]
 
-        return {
-          productName: data.productName,
-          productOpt: firstOption.name,
-          price: firstOption.price
-        }
-      })
-    }
-    const favoriteData = processData(favorites)
-    console.log(favoriteData)
+    //     return {
+    //       productName: data.productName,
+    //       productOpt: firstOption.name,
+    //       price: firstOption.price,
+    //       productImg: data.productImg || null
+    //     }
+    //   })
+    // }
+    // const favoriteData = processData(favorites)
+    // console.log(favoriteData)
 
-    res.json(favoriteData)
+    res.json(favorites)
   } catch (err) {
     console.error('獲取最愛商品失敗：', err)
     res.status(500).json({ message: err.message })
