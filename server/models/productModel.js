@@ -79,6 +79,7 @@ exports.getProductImg = (id) => {
             products, productimages
             WHERE 
             products.productid = ? 
+            AND products.productId = productimages.productId
 
             `,
       [id],
