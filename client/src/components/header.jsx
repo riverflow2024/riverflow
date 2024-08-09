@@ -2,9 +2,9 @@ import { Link } from 'react-router-dom/cjs/react-router-dom.min'
 import { NavLink } from 'react-router-dom/cjs/react-router-dom.min'
 import HeaderLogo from '../assets/images/riverflow_logo.png'
 
-export default function Header() {
-    window.onload = function() {
-        
+export default function Header () {
+    window.onload = function () {
+
         let dropdown = document.querySelector('.dropdown')
         dropdown.addEventListener('click', dropDown)
 

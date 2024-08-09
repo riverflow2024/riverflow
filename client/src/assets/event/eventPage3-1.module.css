@@ -1,5 +1,10 @@
 @import url("../basic.css");
 
+
+* {
+    margin: 0;
+    padding: 0;
+  }
 .wrap{
     max-width: 90%;
     margin: auto;
@@ -31,9 +36,11 @@
 .eventTitle h1 {
     display: inline-block;
     white-space: nowrap;
+    margin-top: 1rem;
 }
 .eventTitle p{
     font-size: 1.2rem;
+    margin-top: 1rem;
   }
 
 /* 中間的線 */
@@ -87,11 +94,13 @@
     border: 0.75px solid var(--main);
     border-radius: 10px;
     background-color: var(--bk2);
-    
+    padding-bottom: 1rem;
 }
 
 .ticketText {
     text-align: center;
+    margin-top: 1.3rem;
+    margin-bottom: 1.3rem;
 }
 
 .ticketText h3 {
@@ -110,6 +119,7 @@
     display: grid;
     grid-template-columns: 2fr 1fr 1fr;
     text-align: center;
+    margin: 1.5rem 0rem;
 }
 .ticketMan p,
 .ticketSpec p{
@@ -130,6 +140,9 @@
     font-size: 1.2rem;
 
 }
+.ticketNumber p{
+    margin: 0rem 0.8rem;
+}
 
 .ticketNumber button:hover {
     color: var(--main);
@@ -147,9 +160,9 @@
 
 /* 下一步按鍵 */
 .ticketBtn {
-    margin-top: 4rem;
+    margin-top: 3rem;
     text-align: right;
-    font-size: 1.5rem;
+    font-size: 1.3rem;
     margin-bottom: 10rem;
 }
 

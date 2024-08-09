@@ -23,7 +23,7 @@ import EventIndex from './pages/eventIndex'
 import EventDetail from './pages/eventDetail'
 import ProductAll from './pages/ProductAll'
 import EventConfirmSeat from './pages/eventConfirmSeat'
-
+import EventConfirmNoseat from './pages/eventConfirmNoseat'
 import AboutUs from './pages/about'
 import ProductDetail from './pages/ProductDetail'
 
@@ -54,6 +54,7 @@ class App extends Component {
             <Route path="/Event/Index" component={EventIndex} />
             <Route path="/Event/Detail" component={EventDetail} />
             <Route path="/Event/ConfirmSeat" component={EventConfirmSeat} />
+            <Route path="/Event/ConfirmNoseat" component={EventConfirmNoseat} />
 
             <Route path="/Product/All" component={ProductAll} />
             <Route path="/Product/Detail" component={ProductDetail} />

@@ -1,3 +1,8 @@
+* {
+    margin: 0;
+    padding: 0;
+  }
+
 .eventName {
     display: grid;
     align-items: center;
@@ -23,10 +28,12 @@
 .eventTitle h1 {
     display: inline-block;
     white-space: nowrap;
+    margin-top: 1rem;
 }
 
 .eventTitle p {
     font-size: 1.2rem;
+    margin-top: 1rem;
 }
 
 /* 中間的線 */
@@ -125,6 +132,7 @@
 .takeTitle label {
     display: flex;
     cursor: pointer;
+    padding: 1.8rem 0rem;
 }
 
 .takeTitle div {
@@ -147,11 +155,13 @@
     border: 0.75px solid var(--main);
     border-radius: 10px;
     background-color: var(--bk2);
-    margin-bottom: 1.5rem;
+    margin-bottom: 1.8rem;
 }
 
 .ticketText {
     text-align: center;
+    margin-top: 1.3rem;
+  margin-bottom: 1.3rem;
 }
 
 .ticketText h3 {
@@ -209,9 +219,10 @@
 
 /* 下一步按鍵 */
 .nextBtn {
-    margin-top: 3rem;
+    margin-top: 2.2rem;
     text-align: right;
     margin-bottom: 300px;
+    font-size: 1.3rem;
 }
 
 .nextBtn button {
@@ -219,7 +230,7 @@
     border-radius: 10px;
     color: var(--bk1);
     background-color: var(--gr2);
-    padding: 0.6rem 5rem;
+    padding: 0.8rem 6rem;
     margin-right: 2rem;
     font-size: 20px;
     cursor: not-allowed;
