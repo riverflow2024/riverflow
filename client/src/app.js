@@ -5,11 +5,13 @@ import Header from './components/header'
 import Footer from './components/footer'
 
 import Index from './pages/Index'
+
 import Skate from './pages/skate'
 
 import Login from './pages/Login'
 import LoginVerify from './pages/LoginVerify'
 import LoginRegister from './pages/LoginRegister'
+import LoginPassword from './pages/LoginPassword'
 
 import MemberIndex from './pages/MemberIndex'
 import MemberEdit from './pages/MemberEdit'
@@ -17,10 +19,12 @@ import MemberOrderList from './pages/MemberOrderList'
 import MemberOrder from './pages/MemberOrder'
 import MemberTickets from './pages/MemberTickets'
 import MemberCollection from './pages/MemberCollection'
+
 import EventIndex from './pages/eventIndex'
 import EventDetail from './pages/eventDetail'
 import ProductAll from './pages/ProductAll'
 import EventConfirmSeat from './pages/eventConfirmSeat'
+import EventConfirmNoseat from './pages/eventConfirmNoseat'
 import AboutUs from './pages/about'
 import ProductDetail from './pages/ProductDetail'
 import Cart from './pages/cart'
@@ -32,6 +36,13 @@ class App extends Component {
         <div>
           <Header />
           <Switch>
+            <Route path="/Index" component={Index} />
+
+            <Route path="/Login/Index" component={Login} />
+            <Route path="/Login/Verify" component={LoginVerify} />
+            <Route path="/Login/Register" component={LoginRegister} />
+            <Route path="/Login/Password" component={LoginPassword} />
+
             <Route path="/RiverFlow/Index" component={Index} />
             <Route path="/HipHop/Skate" component={Skate} />
 
@@ -49,6 +60,7 @@ class App extends Component {
             <Route path="/Event/Index" component={EventIndex} />
             <Route path="/Event/Detail" component={EventDetail} />
             <Route path="/Event/ConfirmSeat" component={EventConfirmSeat} />
+            <Route path="/Event/ConfirmNoseat" component={EventConfirmNoseat} />
 
             <Route path="/Product/All" component={ProductAll} />
             <Route path="/Product/Detail" component={ProductDetail} />

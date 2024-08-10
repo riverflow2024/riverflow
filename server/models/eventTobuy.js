@@ -7,8 +7,9 @@ exports.getAllEvents = () => {
     dbConnect.query(
       `
       SELECT * 
-      FROM events,eventtickets,user 
-      WHERE events.eventid = eventtickets.eventid
+      FROM events,ticketdetails,user 
+      WHERE events.eventid = ticketdetails.eventid
+      AND events.userid = user.userid
       `, (err, events) => {
       if (err) return reject(err)
       resolve(events)

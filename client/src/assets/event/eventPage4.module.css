@@ -1,3 +1,8 @@
+* {
+    margin: 0;
+    padding: 0;
+  }
+
 .eventName {
     display: grid;
     align-items: center;
@@ -23,10 +28,12 @@
 .eventTitle h1 {
     display: inline-block;
     white-space: nowrap;
+    margin-top: 1rem;
 }
 
 .eventTitle p {
     font-size: 1.2rem;
+    margin-top: 1rem;
 }
 
 /* 中間的線 */
@@ -81,10 +88,13 @@
     border: 0.75px solid var(--main);
     border-radius: 10px;
     background-color: var(--bk2);
+    padding-bottom: 1rem;
 }
 
 .ticketText {
     text-align: center;
+    margin-top: 1.3rem;
+  margin-bottom: 1.3rem;
 }
 
 .ticketText h3 {

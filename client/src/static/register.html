@@ -263,7 +263,7 @@
         // email輸入
         email.addEventListener('input', function () {
             if (email.validity.patternMismatch) {
-                emailTips.innerHTML = `<i class="bi bi-asterisk"></i> 不符合email規則，請確認是否包含[@]`;
+                emailTips.innerHTML = `<i class="bi bi-asterisk"></i> 請輸入email，並確認是否包含[@]，符合email規則`;
             }else {
                 emailTips.innerHTML = ``
             }

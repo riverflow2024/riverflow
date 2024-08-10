@@ -6,7 +6,7 @@ class Index extends Component {
 
   render() {
     return (
-      <div class="scrollCust">
+      <div class="scrollCust IndexPage">
         {/* 星星背景 */}
         <div class="starbg">
           <div id="stars"></div>

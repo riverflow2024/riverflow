@@ -21,25 +21,25 @@ const dbConnect = require('./dbConnect')
 exports.getEvents = (id ,userId) => {
 
   return new Promise((resolve, reject) => {
-    console.log(userId)
+    // console.log(userId)
     dbConnect.query(`
       SELECT
        * 
-      FROM events , eventimages, eventtickets , users , ticketdetails
+      FROM events , eventimages , users , ticketdetails
       WHERE events.eventid = ? 
-      AND userid = ?
       AND events.eventid = eventimages.eventid
-      AND events.eventid = eventtickets.eventid
       AND events.eventid = ticketdetails.eventid 
 
 
       `, [id, userId], (err, event) => {
       if (err) return reject(err)
-      resolve(event[0])
+      resolve(event)
       // res.send(event)
     })
   })
 }
+// AND userid = ?
+
 
 // 新增產品
 exports.createEvents = (eventData) => {
