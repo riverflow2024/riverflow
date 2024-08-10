@@ -5,6 +5,7 @@ import Header from './components/header'
 import Footer from './components/footer'
 
 import Index from './pages/Index'
+import Skate from './pages/skate'
 
 import Login from './pages/Login'
 import LoginVerify from './pages/LoginVerify'
@@ -22,6 +23,7 @@ import ProductAll from './pages/ProductAll'
 import EventConfirmSeat from './pages/eventConfirmSeat'
 import AboutUs from './pages/about'
 import ProductDetail from './pages/ProductDetail'
+import Cart from './pages/cart'
 
 class App extends Component {
   render() {
@@ -30,7 +32,8 @@ class App extends Component {
         <div>
           <Header />
           <Switch>
-            <Route path="/Index" component={Index} />
+            <Route path="/RiverFlow/Index" component={Index} />
+            <Route path="/HipHop/Skate" component={Skate} />
 
             <Route path="/Login/Index" component={Login} />
             <Route path="/Login/Verify" component={LoginVerify} />
@@ -49,6 +52,8 @@ class App extends Component {
 
             <Route path="/Product/All" component={ProductAll} />
             <Route path="/Product/Detail" component={ProductDetail} />
+
+            <Route path="/Order/Cart" component={Cart} />
 
             <Route path="/AboutUs" component={AboutUs} />
           </Switch>

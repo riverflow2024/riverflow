@@ -10,94 +10,99 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
   </head>
   <body class="w-bg scrollCust">
-    <div class="container-f">
-      <div class="header"><img src="../../src/assets/images/indexImg/nav.jpg" alt="" /></div>
-      <div class="container">
-        <div class="top">
-          <h3>River Flow | 購物車</h3>
-        </div>
-        <div class="cart-border">
-          <table class="cart-table">
-            <thead>
-              <tr>
-                <div class="shop-push"><th>商品</th></div>
-                <th>單價</th>
-                <th>數量</th>
-                <th>總金額</th>
-                <th>刪除</th>
-              </tr>
-            </thead>
-          </table>
-        </div>
-        <div class="cart-border-inner">
-          <table class="cart-table">
-            <tbody id="cart-items">
-              <tr class="cart-item">
-                <td>
-                  <div class="cart-item-left-content">
-                    <img
-                      src="https://cdn.store-assets.com/s/1250387/i/65057861.jpeg?width=1024&format=webp"
-                      alt="image"
-                    />
-                    <div class="cart-item-content">
-                      <h4>王以太聯名外套</h4>
-                      <h5>黑/L</h5>
-                    </div>
-                  </div>
-                </td>
+    <div class="cart-wrap-f">
+      <div class="container-f">
+        <div class="header"><img src="../../src/assets/images/indexImg/nav.jpg" alt="" /></div>
+        <div class="cart-wrap">
+          <div class="container">
+            <div class="top">
+              <h3>River Flow | 購物車</h3>
+            </div>
+            <div class="cart-border">
+              <table class="cart-table">
+                <thead>
+                  <tr>
+                    <div class="shop-push"><th>商品</th></div>
+                    <th>單價</th>
+                    <th>數量</th>
+                    <th>總金額</th>
+                    <th>刪除</th>
+                  </tr>
+                </thead>
+              </table>
+            </div>
+            <div class="cart-border-inner">
+              <table class="cart-table">
+                <tbody id="cart-items">
+                  <tr class="cart-item">
+                    <td>
+                      <div class="cart-item-left-content">
+                        <img
+                          src="https://cdn.store-assets.com/s/1250387/i/65057861.jpeg?width=1024&format=webp"
+                          alt="image"
+                        />
+                        <div class="cart-item-content">
+                          <h4>王以太聯名外套</h4>
+                          <h5>黑/L</h5>
+                        </div>
+                      </div>
+                    </td>
 
-                <td class="price">NT$2580</td>
-                <td>
-                  <div class="quantity-plus-minus">
-                    <a href="#" class="quantity-minus"><i class="fa-solid fa-circle-minus"></i></a>
-                    <p class="quantity">1</p>
-                    <a href="#" class="quantity-plus"><i class="fa-solid fa-circle-plus"></i></a>
-                  </div>
-                </td>
-                <td class="total">NT$2580</td>
-                <td>
-                  <a href="#" class="delete"><i class="fa-regular fa-trash-can"></i></a>
-                </td>
-              </tr>
-              <tr class="cart-item">
-                <td>
-                  <div class="cart-item-left-content">
-                    <img
-                      src="https://cdn.store-assets.com/s/1250387/i/74027074.jpeg?width=1024&format=webp"
-                      alt="image"
-                    />
-                    <div class="cart-item-content">
-                      <h4>王以太聯名短袖</h4>
-                      <h5>深綠/L</h5>
-                    </div>
-                  </div>
-                </td>
+                    <td class="price">NT$2580</td>
+                    <td>
+                      <div class="quantity-plus-minus">
+                        <a href="#" class="quantity-minus"><i class="fa-solid fa-circle-minus"></i></a>
+                        <p class="quantity">1</p>
+                        <a href="#" class="quantity-plus"><i class="fa-solid fa-circle-plus"></i></a>
+                      </div>
+                    </td>
+                    <td class="total">NT$2580</td>
+                    <td>
+                      <a href="#" class="delete"><i class="fa-regular fa-trash-can"></i></a>
+                    </td>
+                  </tr>
+                  <tr class="cart-item">
+                    <td>
+                      <div class="cart-item-left-content">
+                        <img
+                          src="https://cdn.store-assets.com/s/1250387/i/74027074.jpeg?width=1024&format=webp"
+                          alt="image"
+                        />
+                        <div class="cart-item-content">
+                          <h4>王以太聯名短袖</h4>
+                          <h5>深綠/L</h5>
+                        </div>
+                      </div>
+                    </td>
 
-                <td class="price">NT$1480</td>
-                <td>
-                  <div class="quantity-plus-minus">
-                    <a href="#" class="quantity-minus"><i class="fa-solid fa-circle-minus"></i></a>
-                    <p class="quantity">1</p>
-                    <a href="#" class="quantity-plus"><i class="fa-solid fa-circle-plus"></i></a>
-                  </div>
-                </td>
-                <td class="total">NT$1480</td>
-                <td>
-                  <a href="#" class="delete"><i class="fa-regular fa-trash-can"></i></a>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <div class="checkButton">
-          <p>已選購 <span id="item-count">0</span> 項商品</p>
-          <div class="rightCheckButton">
-            總金額: $<span id="total-amount">0</span>
-            <a href="./cart_chechkout.html">前往買單-></a>
+                    <td class="price">NT$1480</td>
+                    <td>
+                      <div class="quantity-plus-minus">
+                        <a href="#" class="quantity-minus"><i class="fa-solid fa-circle-minus"></i></a>
+                        <p class="quantity">1</p>
+                        <a href="#" class="quantity-plus"><i class="fa-solid fa-circle-plus"></i></a>
+                      </div>
+                    </td>
+                    <td class="total">NT$1480</td>
+                    <td>
+                      <a href="#" class="delete"><i class="fa-regular fa-trash-can"></i></a>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="checkButton">
+              <p>已選購 <span id="item-count">0</span> 項商品</p>
+              <div class="rightCheckButton">
+                總金額: $<span id="total-amount">0</span>
+                <a href="./cart_chechkout.html">前往買單-></a>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
+
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
       $(document).ready(function () {
