@@ -1,8 +1,8 @@
 const express = require('express')
-const bodyParser = require('body-parser')
 const cookieParser = require('cookie-parser')
-const path = require('path');
 const cors = require('cors')
+const bodyParser = require('body-parser')
+const path = require('path');
 const app = express()
 
 
@@ -11,7 +11,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(cookieParser())
 app.use(bodyParser.json())
 app.use(express.urlencoded({ extended: true }))
-app.use(cors())
+app.use(cors({ origin: "http://localhost:5500"}))
 
 // Routers
 
@@ -20,6 +20,7 @@ const productRoutes = require('./routes/products')
 const eventRoutes = require('./routes/events')
 const eventTobuyRoutes = require('./routes/eventTobuy')
 const paymentRoutes = require('./routes/paymentRoutes');
+const stripeRoutes = require('./routes/stripe')
 // const cartRoutes = require('./routes/cart')
 // const orderRoutes = require('./routes/orders')
 
@@ -32,6 +33,7 @@ app.use('/riverflow/user', authenticateToken, userRoutes)
 app.use('/riverflow/products', productRoutes)
 app.use('/riverflow/events', eventRoutes)
 app.use('/riverflow/ecpay',paymentRoutes)
+app.use('/riverflow/pay',stripeRoutes)
 // app.use('/riverflow/cart', cartRoutes)
 
 
