@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>支付成功</title>
+</head>
+<body>
+    <h1>支付成功！</h1>
+    <p>您的訂單已成功處理。</p>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const sessionId = urlParams.get('session_id');
+
+            if (sessionId) {
+                fetch(`http://localhost:3000/riverflow/pay/payment-success?session_id=${sessionId}`)
+                    .then(response => response.text())
+                    .then(data => {
+                        console.log(data);
+                        // 如果需要，你可以在這裡更新頁面
+                    })
+                    .catch(error => {
+                        console.error('錯誤:', error);
+                    });
+            }
+        });
+    </script>
+</body>
+</html>
