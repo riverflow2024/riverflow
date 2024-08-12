@@ -9,6 +9,23 @@ const createCheckoutSession = async (req, res) => {
     }
 }
 
+const handleSuccessfulPayment = async (req, res) => {
+    const sessionId = req.query.session_id;
+
+    try {
+        const result = await stripeModel.saveOrderDetails(sessionId);
+        if (result.success) {
+            res.send(result.message);
+        } else {
+            res.status(500).send(result.message);
+        }
+    } catch (error) {
+        console.error('處理成功支付時發生錯誤:', error);
+        res.status(500).send('處理您的訂單時發生錯誤。');
+    }
+}
+
 module.exports = {
-    createCheckoutSession
+    createCheckoutSession,
+    handleSuccessfulPayment
 }

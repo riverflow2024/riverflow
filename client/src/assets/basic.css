@@ -124,6 +124,13 @@ header .cultureList .cultureOpt {
   margin: 5px 0;
   padding: 7px 15px;
 }
+
+header.sticky-navbar {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
 /*嘻哈五元素Icons*/
 .cultureList li .cultureOpt::before {
   content: '';

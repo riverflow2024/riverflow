@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import axios from 'axios'; 
 import '../assets/login.css';
 
 
@@ -16,6 +17,23 @@ class Login extends Component {
         },
         isPasswordVisible: false,
 
+    }
+
+    Login = async() =>{
+        let dataToserver = {
+            email: this.state.Users.email,
+            secret:this.state.Users.secret
+        }; 
+        var reasult = await axios.post('http://localhost:3002/riverflow/user/login',
+            JSON.stringify(dataToserver),
+            {
+                headers:{
+                    "Content-Type":"application/json"
+                }
+            }
+        )
+        
+        //  window.location = "/Todo/Index";
     }
 
 
@@ -53,7 +71,7 @@ class Login extends Component {
                             <div><i id="showBtn" class={`bi ${isPasswordVisible ? 'bi-eye-fill' : 'bi-eye-slash-fill'}`} onClick={this.handlePasswordToggle}></i></div>
                         </div>
                         <a onClick={this.goPassword }>忘記密碼？</a>
-                        <input type="submit" value="Login" />
+                        <input type="button" class="btn" value="Login" onClick={this.Login} />
                         <span>
                             沒有River Flow帳號嗎？
                             <a onClick={this.goRegister}>前往註冊</a>

@@ -1,31 +1,30 @@
-const PaymentService = require('../services/paymentService');
+const stripeModel = require('../models/stripeModel');
+const orderModel = require('../models/orderModel');
 
-const PaymentController = {
-  async createPayment(req, res) {
-    try {
-      const { totalAmount, itemName } = req.body;
-      const result = await PaymentService.createOrder({ totalAmount, itemName });
-
-      res.setHeader('Content-Type', 'text/html');
-      console.log(result);
-      res.send(result);
-    } catch (error) {
-      res.status(500).json({ error: error.message });
-    }
-  },
-
-  handleCallback(req, res) {
-    const data = req.body;
-    // console.log(data);
-    if (PaymentService.verifyCallback(data)) {
-      // Payment successful, update your database here
-      console.log('Payment successful:', data);
-      res.send('OK');
-    } else {
-      console.error('Invalid callback data');
-      res.status(400).send('Fail Request');
-    }
+exports.createCheckoutSession = async (req, res) => {
+  try {
+    const session = await stripeModel.createCheckoutSession(req.body.items);
+    res.json({ url: session.url });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
   }
 };
 
-module.exports = PaymentController;
+exports.handleSuccessfulPayment = async (req, res) => {
+  const sessionId = req.query.session_id;
+  try {
+    const sessionDetails = await stripeModel.saveOrderDetails(sessionId);
+    const orderDetails = JSON.parse(sessionDetails.metadata.order_details);
+    
+    // 儲存訂單資訊
+    const orderId = await orderModel.createOrder(sessionId, orderDetails);
+    
+    // 清空購物車
+    await orderModel.clearCart(orderDetails[0].userId);
+    
+    res.send('訂單已成功處理並保存');
+  } catch (error) {
+    console.error('處理成功支付時發生錯誤:', error);
+    res.status(500).send('處理您的訂單時發生錯誤。');
+  }
+};
