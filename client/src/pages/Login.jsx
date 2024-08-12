@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import axios from 'axios'; 
+import axios from 'axios';
 import '../assets/login.css';
+import Header from '../components/header'
 
 
 
@@ -24,17 +25,44 @@ class Login extends Component {
             email: this.state.Users.email,
             secret:this.state.Users.secret
         }; 
-        var reasult = await axios.post('http://localhost:3002/riverflow/user/login',
+        var reasult = await axios.post('http://localhost:3000/riverflow/user/login',
             JSON.stringify(dataToserver),
             {
                 headers:{
-                    "Content-Type":"application/json"
+                    "Content-Type":"application/json",
+                    //   "Authorization": `Bearer ${token}`
                 }
             }
         )
         
-        //  window.location = "/Todo/Index";
+         window.location = "/Index";
     }
+
+
+
+    // Login = async () => {
+    //     try {
+    //         let dataToserver = {
+    //             email: this.state.Users.email,
+    //             secret: this.state.Users.secret
+    //         };
+
+    //         var result = await axios.post('http://localhost:3000/riverflow/user/login', dataToserver, {
+    //             headers: {
+    //                 "Content-Type": "application/json",
+    //                 "Authorization": `Bearer ${token}`
+    //             }
+    //         });
+
+    //         // 登录成功后重定向
+    //         window.location = "/Index";
+    //     } catch (error) {
+    //         // 捕获错误并更新 error 状态
+    //         this.setState({ error: error.response ? error.response.data.message : 'Unknown error' });
+
+    //     }
+    // }
+
 
 
 
@@ -43,24 +71,25 @@ class Login extends Component {
 
 
         return (
-            <div class="">
+            <div className="">
+                <Header />
 
-                <section class="login" >
-                    <div class="form" >
+                <section className="login" >
+                    <div className="form" >
                         <h4>會員登入</h4>
-                        <div class="input-text">
+                        <div className="input-text">
                             <label>帳號</label>
                             <input type="text" id="email" name="email"
                                 value={this.state.Users.email}
                                 placeholder="Enter email"
                                 // autoComplete='off' // 關閉自動填入
                                 onChange={this.EmailChange}
-                                /><br />
+                            /><br />
                         </div>
 
                         <span className="tips" id="" dangerouslySetInnerHTML={{ __html: this.state.emailError }}></span>
 
-                        <div class="input-text">
+                        <div className="input-text">
                             <label>密碼</label>
                             <input type={isPasswordVisible ? 'text' : 'password'}
                                 style={{ width: '80%' }} name="password" id="password"
@@ -68,10 +97,10 @@ class Login extends Component {
                                 placeholder="Enter password"
                                 pattern="^(?=.*[a-zA-Z])(?=.*[0-9]).{6,}$" required
                                 onChange={this.PasswordChange} />
-                            <div><i id="showBtn" class={`bi ${isPasswordVisible ? 'bi-eye-fill' : 'bi-eye-slash-fill'}`} onClick={this.handlePasswordToggle}></i></div>
+                            <div><i id="showBtn" className={`bi ${isPasswordVisible ? 'bi-eye-fill' : 'bi-eye-slash-fill'}`} onClick={this.handlePasswordToggle}></i></div>
                         </div>
-                        <a onClick={this.goPassword }>忘記密碼？</a>
-                        <input type="button" class="btn" value="Login" onClick={this.Login} />
+                        <a onClick={this.goPassword}>忘記密碼？</a>
+                        <input type="button" className="btn" value="Login" onClick={this.Login} />
                         <span>
                             沒有River Flow帳號嗎？
                             <a onClick={this.goRegister}>前往註冊</a>
@@ -81,14 +110,15 @@ class Login extends Component {
 
                     {/* 無法登入 彈跳視窗 */}
 
-                    <div class="nolongin" id="nolongin">
-                        <div class="nolongin-wrap">
-                            <h4>無法登入</h4>
-                            <p>請確認輸入的資料及大小寫是否正確。若不是OPENTIX會員請前往註冊。</p>
-                            <button class="btn">確認</button>
+                    {this.state.error && (
+                        <div className="nolongin" id="nolongin">
+                            <div className="nolongin-wrap">
+                                <h4>無法登入</h4>
+                                <p>請確認輸入的資料及大小寫是否正確。若不是 RiverFlow 會員請前往註冊。</p>
+                                <button className="btn" onClick={() => this.setState({ error: false })}>確認</button>
+                            </div>
                         </div>
-
-                    </div>
+                    )}
                 </section>
 
 
@@ -126,7 +156,7 @@ class Login extends Component {
         let emailError = '';
 
         if (!email.match(emailPattern)) {
-            emailError = `<i class="bi bi-asterisk"></i> 不符合email規則，請確認是否包含[@]`;
+            emailError = `<i className="bi bi-asterisk"></i> 不符合email規則，請確認是否包含[@]`;
         }
 
         this.setState((prevState) => ({

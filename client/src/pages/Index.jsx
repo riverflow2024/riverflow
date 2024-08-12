@@ -1,12 +1,55 @@
 import React, { Component } from 'react';
-import Header from '../components/header'
+import axios from 'axios';
 import '../assets/index.css';
+import Header from '../components/header'
 
 class Index extends Component {
     state = {
+        isLoading: true
 
 
     }
+
+    componentDidMount() {
+        const token = localStorage.getItem('token');
+        console.log('Token from localStorage:', token); // 检查 token
+    
+        if (!token) {
+            console.log('No token found, redirecting to login.');
+            window.location = "/Login/Index";
+            return;
+        }
+    
+        axios.get('http://localhost:3000/riverflow/user', {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
+        .then(response => {
+            console.log('Token validation response:', response); // 检查 API 响应
+            if (response.status === 200) {
+                // 假设响应状态码 200 表示成功
+                this.setState({ isLoading: false });
+            } else {
+                // 响应状态码不是 200，可能表示问题
+                console.log('Unexpected response status:', response.status);
+                window.location = "/Login/Index";
+            }
+        })
+        .catch(error => {
+            console.error('Token validation failed:', error.response ? error.response.data : error.message); // 详细错误信息
+            // 根据错误信息来确定是否需要重定向
+            if (error.response && error.response.status === 401) {
+                console.log('Unauthorized access, redirecting to login.');
+                window.location = "/Login/Index";
+            } else {
+                console.log('Error while validating token:', error.message);
+                this.setState({ isLoading: false, error: true });
+            }
+        });
+    }
+    
+
 
 
 

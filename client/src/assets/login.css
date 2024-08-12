@@ -24,6 +24,7 @@ input:-webkit-autofill {
   justify-content: center;
   box-sizing: border-box;
   padding: 10vh 15px 0px 15px;
+  /* 新增 */
 }
 .login .btn {
   margin-top: 10px;
@@ -92,12 +93,11 @@ input:-webkit-autofill {
   display: flex;
   justify-content: center;
   align-items: center;
-  visibility: hidden;
 }
 .login .nolongin .nolongin-wrap {
-  width: 20%;
-  height: 30vh;
-  padding: 40px;
+  width: 300px;
+  height: 250px;
+  padding: 20px;
   box-sizing: border-box;
   background: var(--bk2);
   box-shadow: 0 0.125rem 0.5rem rgba(0, 0, 0, 0.33);
@@ -344,7 +344,7 @@ input:-webkit-autofill {
 /*------- 忘記密碼--------- */
 .password {
   width: 100%;
-  height: 720PX;
+  height: 720px;
   display: flex;
   justify-content: center;
   box-sizing: border-box;

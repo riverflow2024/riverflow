@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import '../assets/member.css';
+import Header from '../components/header'
 
 class MemberEdit extends Component {
     state = {
@@ -68,6 +69,7 @@ class MemberEdit extends Component {
 
         return (
             <div>
+                <Header />
                 
 
                 <section className="Member">

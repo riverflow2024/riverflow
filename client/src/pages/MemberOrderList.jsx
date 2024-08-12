@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import '../assets/member.css';
+import Header from '../components/header'
 
 class MemberOrderList extends Component {
     state = {
@@ -54,10 +55,11 @@ class MemberOrderList extends Component {
         const displayedrecentnotYetCompletedOrders = this.state.showAdditionalOrders ? recentnotYetCompletedOrders : notYetCompletedOrders.slice(0, 2);
 
         return (
+<div>
+<Header />
 
-
-
-            <div className="OrderList">
+<div className="OrderList">
+                
                 <div className="nav-box" flex="1">
                     <div className="wrap">
                         <div className="member">
@@ -219,6 +221,9 @@ class MemberOrderList extends Component {
                     </div>
                 </div>
             </div>
+</div>
+
+
 
         );
     }

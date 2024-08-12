@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import '../assets/member.css';
+import Header from '../components/header'
 
 
 class MemberTickets extends Component {
@@ -32,7 +33,10 @@ class MemberTickets extends Component {
 
         return (
 
-            <div class="Tickets">
+            <div>
+                <Header />
+                <div class="Tickets">
+                
 
                 <div class="nav-box" flex="1">
                     <div class="wrap">
@@ -165,6 +169,8 @@ class MemberTickets extends Component {
 
 
             </div>
+            </div>
+           
 
         );
     }

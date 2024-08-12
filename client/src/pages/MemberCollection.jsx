@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import '../assets/member.css';
+import Header from '../components/header'
 
 
 class MemberCollection extends Component {
@@ -22,73 +23,79 @@ class MemberCollection extends Component {
     }
     render() {
         return (
+            <div>
+                 <Header />
+                 <div class="Collection">
+               
 
-            <div class="Collection">
+               <div class="nav-box" flex="1">
+                   <div class="wrap">
+                       <div class="member">
+                           <div>
+                               <img class="member-img" src={require('../assets/images/defaultphoto.jpg')} alt="" />
+                           </div>
+                           <div class="profile">
+                               <h3>Hey！{this.state.Users.lastName} </h3>
+                               <a onClick={this.backMember}>個人資料</a>
+                           </div>
+                       </div>
+                       <div class="nav">
+                           <ul>
+                               <li><a onClick={this.backOrderList}><i class="bi bi-clipboard"></i> 訂單查詢</a></li>
+                               <li><a onClick={this.backTickets}><i class="bi bi-ticket-perforated"></i> 活動票券</a></li>
+                               <li><a onClick={this.backCollection}><i class="bi bi-heart"></i> 我的最愛</a></li>
 
-                <div class="nav-box" flex="1">
-                    <div class="wrap">
-                        <div class="member">
-                            <div>
-                                <img class="member-img" src={require('../assets/images/defaultphoto.jpg')} alt="" />
-                            </div>
-                            <div class="profile">
-                                <h3>Hey！{this.state.Users.lastName} </h3>
-                                <a onClick={this.backMember}>個人資料</a>
-                            </div>
-                        </div>
-                        <div class="nav">
-                            <ul>
-                                <li><a onClick={this.backOrderList}><i class="bi bi-clipboard"></i> 訂單查詢</a></li>
-                                <li><a onClick={this.backTickets}><i class="bi bi-ticket-perforated"></i> 活動票券</a></li>
-                                <li><a onClick={this.backCollection}><i class="bi bi-heart"></i> 我的最愛</a></li>
+                           </ul>
 
-                            </ul>
+                       </div>
+                   </div>
 
-                        </div>
-                    </div>
+               </div>
+               <div class="order-box" flex="2">
 
-                </div>
-                <div class="order-box" flex="2">
+                   <h3>我的最愛</h3>
+                   <div class="btn-box">
+                       <button class="tablink" onClick={(e) => this.openPage('Collection', e.currentTarget, '3px solid var(--main)')} id="defaultOpen">商品</button>
 
-                    <h3>我的最愛</h3>
-                    <div class="btn-box">
-                        <button class="tablink" onClick={(e) => this.openPage('Collection', e.currentTarget, '3px solid var(--main)')} id="defaultOpen">商品</button>
+                   </div>
 
-                    </div>
+                   <div id="Collection" class="tabcontent">
+                   {this.state.ProductFavorite.map (productItem =>
+                       <div class="order">
 
-                    <div id="Collection" class="tabcontent">
-                    {this.state.ProductFavorite.map (productItem =>
-                        <div class="order">
+                           <div class="Img-box">
+                               <img src={require("../assets/images/memberCollection.png")} alt="" />
+                           </div>
+                           <div class="container">
+                               <div class="wrap">
+                                   <h3>{productItem.productName}</h3>
+                                   <button class="closebtn"><i class="bi bi-x"></i></button>
+                               </div>
+                               <div class="wrap">
+                                   <p>{productItem.productDesc}</p>
+                               </div>
+                               <div class="wrap">
+                                   <span>金額  NT. $880</span>
+                                   <button class="orderbtn">加入購物車</button>
+                               </div>
+                           </div>
 
-                            <div class="Img-box">
-                                <img src={require("../assets/images/memberCollection.png")} alt="" />
-                            </div>
-                            <div class="container">
-                                <div class="wrap">
-                                    <h3>{productItem.productName}</h3>
-                                    <button class="closebtn"><i class="bi bi-x"></i></button>
-                                </div>
-                                <div class="wrap">
-                                    <p>{productItem.productDesc}</p>
-                                </div>
-                                <div class="wrap">
-                                    <span>金額  NT. $880</span>
-                                    <button class="orderbtn">加入購物車</button>
-                                </div>
-                            </div>
+                       </div>
 
-                        </div>
-
-                    )}
-                    </div>
+                   )}
+                   </div>
 
 
 
 
-                </div>
+               </div>
+
+           </div>
+
 
             </div>
 
+        
 
 
         );
