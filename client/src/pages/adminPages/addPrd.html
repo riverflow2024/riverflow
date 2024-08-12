@@ -33,9 +33,6 @@
                             <li>
                                 <a href="prdOrder.html" class="menuPage">商品訂單</a>
                             </li>
-                            <li>
-                                <a href="discount.html" class="menuPage">優惠活動</a>
-                            </li>
                         </ul>
                     </li>
                     <li class="sideMenuOpt">
@@ -73,6 +70,7 @@
                     <ul class="tabBtnList">
                         <li><a href="#infoDesc" id="defaultOpen" class="tabBtn active">商品基本資訊</a></li>
                         <li><a href="#infoSpec" class="tabBtn">商品規格</a></li>
+                        <li><a href="#prdDiscount" class="tabBtn">商品優惠</a></li>
                         <!-- <button class="tabBtn" href="#infoDesc" id="defaultOpen"></button>
                     <button class="tabBtn" href="#infoSpec">商品規格</button> -->
                     </ul>
@@ -95,13 +93,13 @@
                         <div class="infoItem">
                             <label for="prdSort" class="editTitle">商品分類：</label>
                             <select name="sort" id="prdSort">
-                                <option value="">刷碟 Disc Jockey</option>
-                                <option value="">塗鴉 Graffiti</option>
-                                <option value="">饒舌 Rap</option>
-                                <option value="">街舞 Street Dance</option>
-                                <option value="">滑板 Skate</option>
-                                <option value="">新上市 New</option>
-                                <option value="">優惠 Discount</option>
+                                <option value="dj">刷碟 Disc Jockey</option>
+                                <option value="graffiti">塗鴉 Graffiti</option>
+                                <option value="rap">饒舌 Rap</option>
+                                <option value="streetDance">街舞 Street Dance</option>
+                                <option value="skate">滑板 Skate</option>
+                                <option value="new">新上市 New</option>
+                                <option value="discount">優惠 Discount</option>
                             </select>
                         </div>
                         <div class="infoItem itemList">
@@ -153,9 +151,35 @@
                             </table>
                         </div>
                     </div>
+
+                    <!-- tabContent 商品優惠-->
+                    <div id="prdDiscount" class="tabContent">
+                        <div class="infoItem">
+                            <span>商品優惠：</span>
+                            <input type="checkbox" name="disCheck" id="disCheck" class="prdDisCheck">
+                            <label for="disCheck" class="checkmark"></label>
+                        </div>
+                        <div class="ifHasDis hidden">
+                            <div class="infoItem itemflexList">
+                                <div>
+                                    <label for="discountStart" class="editTitle">優惠開始時間：</label>
+                                    <input id="discountStart" type="datetime-local" name="discountStart">
+                                </div>
+                                <div>
+                                    <label for="discountEnd" class="editTitle">優惠結束時間：</label>
+                                    <input id="discountEnd" type="datetime-local" name="discountEnd">
+                                </div>
+                            </div>
+                            <div class="infoItem">
+                                <label for="discountRate" class="editTitle">優惠方式：</label>
+                                <input id="discountRate" name="discountRate" class="discountWay" type="number" min="0" max="1" step="0.01"
+                                     placeholder="輸入0～1之間的數字">
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="btnList flex">
-                    <a href="prdList.html"><button class="btn"><i class="fa-solid fa-angle-left"></i> 返回</button></a>
+                    <a><button class="btn" onclick="history.back()"><i class="fa-solid fa-angle-left"></i> 返回</button></a>
                     <button class="btn" type="submit"><i class="fa-solid fa-floppy-disk"></i> 儲存</button>
                 </div>
             </form>
@@ -176,20 +200,24 @@
         })
 
         // 規格輸入
-        $('.specTitle').on('input', function () {
-            // console.log($(this).val())
-            $('#specName1').text($(this).val())
+        // $('.specTitle').on('input', function () {
+        //     // console.log($(this).val())
+        //     $('#specName1').text($(this).val())
+        // })
+        $(document).on('input', '.specTitle', function () {
+            $itemId = $(this).parent('.specItem').attr('spec-id')
+            $(`#specName${$itemId}`).text($(this).val())
         })
 
 
         // 規格新增
         $(document).on('click', '.addItem', function () {
-            $itemNum = $('.specItem').length
+            $itemId = $('.specItem').length
             // console.log(this)
             $(this).parents('.specInfo').append(`
-                <div class="specItem" spec-id="${$itemNum + 1}">
-                    <label for="prdSpec${$itemNum + 1}">規格${$itemNum + 1}名稱：</label>
-                    <input id="prdSpec${$itemNum + 1}" class="specTitle" type="text" required>
+                <div class="specItem" spec-id="${$itemId + 1}">
+                    <label for="prdSpec${$itemId + 1}">規格${$itemId + 1}名稱：</label>
+                    <input id="prdSpec${$itemId + 1}" class="specTitle" type="text" required>
                     <button class="addItem"><i class="bi bi-plus-circle"></i></button>
                     <button class="delItem"><i class="bi bi-dash-circle"></i></button>
                 </div>
@@ -197,9 +225,9 @@
 
             // $specNum = $('.specItemInfo').length
             $('.specSum tbody').append(`
-                <tr class="specItemInfo" spec-id="${$itemNum + 1}">
-                    <td><span id="specName${$itemNum + 1}" class="itemTitle"></span></td>
-                    <td><input type="number" name="" id="specStock${$itemNum + 1}" min="0" step="1"></td>
+                <tr class="specItemInfo" spec-id="${$itemId + 1}">
+                    <td><span id="specName${$itemId + 1}" class="itemTitle"></span></td>
+                    <td><input type="number" name="specStock${$itemId + 1}" id="specStock${$itemId + 1}" min="0" step="1"></td>
                 </tr>
             `)
         })
@@ -210,6 +238,11 @@
             // console.log($itemId)
             $(this).parent('.specItem').remove()
             $(`.specItemInfo[spec-id="${$itemId}"]`).remove()
+        })
+
+        // 優惠勾選切換
+        $('#disCheck').on('change', function() {
+            $('.ifHasDis').toggleClass('hidden')
         })
 
         // 表單測試
