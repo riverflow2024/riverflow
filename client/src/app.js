@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 // import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
+
 import Header from './components/header'
 import Footer from './components/footer'
 
@@ -29,6 +30,7 @@ import EventConfirmSeat from './pages/eventConfirmSeat'
 import EventConfirmNoseat from './pages/eventConfirmNoseat'
 import AboutUs from './pages/about'
 import ProductDetail from './pages/ProductDetail'
+
 
 
 class App extends Component {
@@ -64,6 +66,7 @@ class App extends Component {
 
             <Route path="/Product/All" component={ProductAll} />
             <Route path="/Product/Detail" component={ProductDetail} />
+
 
             <Route path="/AboutUs" component={AboutUs} />
           </Switch>

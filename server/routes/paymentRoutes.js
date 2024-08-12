@@ -1,9 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const PaymentController = require('../controllers/paymentController');
+const paymentController = require('../controllers/paymentController');
 
-router.post('/create-payment', PaymentController.createPayment);
-router.post('/payment-callback', PaymentController.handleCallback);
-
+router.post('/create-checkout-session', paymentController.createCheckoutSession);
+router.get('/success', paymentController.handleSuccessfulPayment);
 
 module.exports = router;
