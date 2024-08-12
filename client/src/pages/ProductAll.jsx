@@ -8,8 +8,7 @@ import resetStyles from '../assets/reset.module.css'
 import '../assets/basic.css'
 import '../assets/ProductAll.css'
 import '@fortawesome/fontawesome-free/css/all.min.css'
-import $ from 'jquery'
-import '../utils/ProductAll.js'
+import axios from 'axios'
 
 const Banner = () => {
   useEffect(() => {
@@ -49,96 +48,119 @@ const Banner = () => {
             </p>
           </div>
         </section>
-        <section className="swiper-slide">
-          <img src="https://web.cheers.com.tw/event/2019fwf/assets/img/article/009.jpg" alt="DJ" />
-          <div className="swiper-text">
-            <h1>唱片騎師</h1>
-            <p>
-              DJ，即唱片騎師，是派對和音樂節的靈魂。他們掌握著音樂的節奏，創造獨特的聽覺體驗，點燃現場的每一個角落。無論是在夜店、音樂節還是私人派對，DJ通過精湛的混音技術和敏銳的音樂品味，將不同風格的音樂無縫結合，製造出令人沉醉的音樂流。
-            </p>
-          </div>
-        </section>
-        <section className="swiper-slide">
-          <img
-            src="https://media.gq.com.tw/photos/5dbcbd532551d400086a9647/master/w_1600%2Cc_limit/2015052266764869.jpg"
-            alt="RAP"
-          />
-          <div className="swiper-text">
-            <h1>Beans & Beats Records</h1>
-            <p>
-              身為嘻哈音樂廠牌的顏社，當然無法忘記音樂初衷，在實體唱片逐漸沒落情況下，還放膽在咖啡店樓下成立一間唱片行「Beans
-              & Beats Records」，以嘻哈音樂為主，要讓這間唱片行成為台北市的Hip hop音樂聚落。
-            </p>
-          </div>
-        </section>
-        <section className="swiper-slide">
-          <img
-            src="https://d1j71ui15yt4f9.cloudfront.net/wp-content/uploads/2023/07/18203055/71004a-20230718141533714-0.jpg"
-            alt="Street Dance"
-          />
-          <div className="swiper-text">
-            <h1>街舞</h1>
-            <p>
-              街舞是一種充滿能量和創意的舞蹈形式，起源於嘻哈文化。街舞舞者通過動感的動作和音樂，表達自己的情感和個性。街舞包括多種風格，如Breaking、Popping、Locking等，每一種風格都有其獨特的魅力和技巧。街舞不僅是一種表演藝術，更是一種文化象徵，代表了年輕人的自由和活力。
-            </p>
-          </div>
-        </section>
+        {/* 其他 Banner 內容 */}
       </div>
       <div className="swiper-scrollbar"></div>
     </div>
   )
 }
 
-const Filter = () => (
+const Filter = ({ onFilterChange, selectedCategory }) => (
   <aside className="shop-filter">
     <div className="filter-text">
       <h3>商品搜尋欄</h3>
-      <input type="text" id="searchInput" placeholder="請輸入商品名稱" />
+      <input
+        type="text"
+        id="searchInput"
+        placeholder="請輸入商品名稱"
+        onChange={(e) => onFilterChange(e.target.value)}
+      />
     </div>
     <ul id="categoryFilter">
       <li className="shop-filter-item">
-        <a href="#" className="selected" data-filter="all">
+        <a
+          href="#"
+          onClick={(e) => {
+            e.preventDefault()
+            onFilterChange('all')
+          }}
+          className={selectedCategory === 'all' ? 'selected' : ''}
+        >
           全部類別
         </a>
       </li>
-      <br />
       <li className="shop-filter-item">
-        <a href="#" data-filter="DJ">
-          DJ | Disc Jockey{' '}
+        <a
+          href="#"
+          onClick={(e) => {
+            e.preventDefault()
+            onFilterChange('dj')
+          }}
+          className={selectedCategory === 'dj' ? 'selected' : ''}
+        >
+          DJ | Disc Jockey
         </a>
       </li>
       <li className="shop-filter-item">
-        <a href="#" data-filter="街舞">
+        <a
+          href="#"
+          onClick={(e) => {
+            e.preventDefault()
+            onFilterChange('streetDance')
+          }}
+          className={selectedCategory === 'streetDance' ? 'selected' : ''}
+        >
           街舞 | Street Dance
         </a>
       </li>
-      <br />
       <li className="shop-filter-item">
-        <a href="#" data-filter="饒舌">
+        <a
+          href="#"
+          onClick={(e) => {
+            e.preventDefault()
+            onFilterChange('rap')
+          }}
+          className={selectedCategory === 'rap' ? 'selected' : ''}
+        >
           饒舌 | Rap
         </a>
       </li>
-      <br />
       <li className="shop-filter-item">
-        <a href="#" data-filter="塗鴉">
+        <a
+          href="#"
+          onClick={(e) => {
+            e.preventDefault()
+            onFilterChange('graffiti')
+          }}
+          className={selectedCategory === 'graffiti' ? 'selected' : ''}
+        >
           塗鴉 | Graffiti
         </a>
       </li>
-      <br />
       <li className="shop-filter-item">
-        <a href="#" data-filter="滑板">
+        <a
+          href="#"
+          onClick={(e) => {
+            e.preventDefault()
+            onFilterChange('skate')
+          }}
+          className={selectedCategory === 'skate' ? 'selected' : ''}
+        >
           滑板 | Skate
         </a>
       </li>
       <br />
       <li className="shop-filter-item">
-        <a href="#" data-filter="新品">
+        <a
+          href="#"
+          onClick={(e) => {
+            e.preventDefault()
+            onFilterChange('new')
+          }}
+          className={selectedCategory === 'new' ? 'selected' : ''}
+        >
           新品 | New
         </a>
       </li>
-      <br />
       <li className="shop-filter-item">
-        <a href="#" data-filter="優惠">
+        <a
+          href="#"
+          onClick={(e) => {
+            e.preventDefault()
+            onFilterChange('sale')
+          }}
+          className={selectedCategory === 'sale' ? 'selected' : ''}
+        >
           優惠 | On Sale
         </a>
       </li>
@@ -146,56 +168,97 @@ const Filter = () => (
   </aside>
 )
 
-const RwdFilter = () => (
+const RwdFilter = ({ onFilterChange, selectedCategory }) => (
   <aside className="RWD-shop-filter">
     <ul id="categoryFilter">
       <li className="shop-filter-item">
-        <a href="#" className="selected" data-filter="all">
+        <a
+          href="#"
+          onClick={(e) => {
+            e.preventDefault()
+            onFilterChange('all')
+          }}
+          className={selectedCategory === 'all' ? 'selected' : ''}
+        >
           全部
         </a>
       </li>
-      <br />
       <li className="shop-filter-item">
-        <a href="#" data-filter="DJ">
+        <a
+          href="#"
+          onClick={(e) => {
+            e.preventDefault()
+            onFilterChange('dj')
+          }}
+          className={selectedCategory === 'dj' ? 'selected' : ''}
+        >
           刷碟 Disc Jockey (DJ)
         </a>
       </li>
       <li className="shop-filter-item">
-        <a href="#" data-filter="街舞">
+        <a
+          href="#"
+          onClick={(e) => {
+            e.preventDefault()
+            onFilterChange('streetDance')
+          }}
+          className={selectedCategory === 'streetDance' ? 'selected' : ''}
+        >
           街舞 Street Dance
         </a>
       </li>
-      <br />
       <li className="shop-filter-item">
-        <a href="#" data-filter="饒舌">
+        <a
+          href="#"
+          onClick={(e) => {
+            e.preventDefault()
+            onFilterChange('rap')
+          }}
+          className={selectedCategory === 'rap' ? 'selected' : ''}
+        >
           饒舌 Rap
         </a>
       </li>
-      <br />
       <li className="shop-filter-item">
-        <a href="#" data-filter="塗鴉">
+        <a
+          href="#"
+          onClick={(e) => {
+            e.preventDefault()
+            onFilterChange('graffiti')
+          }}
+          className={selectedCategory === 'graffiti' ? 'selected' : ''}
+        >
           塗鴉 Graffiti
         </a>
       </li>
-      <br />
       <li className="shop-filter-item">
-        <a href="#" data-filter="滑板">
+        <a
+          href="#"
+          onClick={(e) => {
+            e.preventDefault()
+            onFilterChange('skate')
+          }}
+          className={selectedCategory === 'skate' ? 'selected' : ''}
+        >
           滑板 Skate
         </a>
       </li>
-      <br />
     </ul>
   </aside>
 )
 
-const ProductItem = ({ product }) => (
-  <div
-    className={`product-item ${product.isSoldOut ? 'sold-out-card' : ''}`}
-    data-category={`${product.category} ${product.label}`}
-  >
+const ProductItem = ({ product, toggleFavorite }) => (
+  <div className={`product-item ${product.isSoldOut ? 'sold-out-card' : ''}`} data-category={`${product.category}`}>
     <div className="product-img">
       <img src={product.image} alt={product.alt} />
-      <a href="#" className="favorite">
+      <a
+        href="#"
+        className={`favorite ${product.isFavorited ? 'selected' : ''}`}
+        onClick={(e) => {
+          e.preventDefault()
+          toggleFavorite(product)
+        }}
+      >
         <i className="fa-regular fa-heart"></i>
       </a>
       {product.isSoldOut && <div className="sold-out">SOLD OUT</div>}
@@ -221,80 +284,57 @@ const ProductItem = ({ product }) => (
   </div>
 )
 
-// 數據先安捏寫
-const ProductList = () => {
-  const [products, setProducts] = useState([
-    {
-      image:
-        'https://images.goodsmile.info/cgm/images/product/20220502/12665/98719/large/d870c31d5f264155ac6e3e359b7d34bc.jpg',
-      alt: '滑板編號1',
-      category: '滑板',
-      label: '新品',
-      title: '美式拼貼滑板',
-      price: 'NT$3683',
-      isSoldOut: false
-    },
-    {
-      image: 'https://cdn2.ettoday.net/images/7509/e7509491.jpg',
-      alt: 'DJ編號1',
-      category: 'DJ',
-      label: '優惠',
-      title: 'DJ Soda夜店狂歡',
-      oldPrice: 'NT$1899',
-      price: 'NT$1599',
-      isSoldOut: false
-    },
-    {
-      image: 'https://i.pinimg.com/564x/a6/e7/eb/a6e7ebd5010ca995d3ae6eba145ad6e6.jpg',
-      alt: '噴漆編號1',
-      category: '塗鴉',
-      label: 'normal',
-      title: 'Lexel噴漆',
-      price: 'NT$363',
-      isSoldOut: false
-    },
-    {
-      image: 'https://i.pinimg.com/564x/2f/e0/b4/2fe0b40030f71606eed42d826fa850cd.jpg',
-      alt: '噴漆編號4',
-      category: '噴漆',
-      label: '新品',
-      title: '雷神噴漆',
-      price: 'NT$599',
-      isSoldOut: false
-    },
-    {
-      image: 'https://i.pinimg.com/564x/e0/c5/eb/e0c5eb508528548a8ee104fe60579f77.jpg',
-      alt: '饒舌編號2',
-      category: '饒舌',
-      label: 'normal',
-      title: 'RapperLai',
-      price: 'NT$1199',
-      isSoldOut: false
-    },
-    {
-      image: 'https://i.pinimg.com/564x/7e/75/24/7e75244c7427c041237f60c1e18308a6.jpg',
-      alt: '街舞編號1',
-      category: '街舞',
-      label: 'normal',
-      title: '台大街舞Battle盃',
-      price: 'NT$200',
-      isSoldOut: true
-    }
-  ])
+const ProductList = ({ filterCategory }) => {
+  const [products, setProducts] = useState([])
+
+  useEffect(() => {
+    axios
+      .get('http://localhost:3000/riverflow/products')
+      .then((response) => {
+        const allProducts = response.data.getAllProductInfo.map((product) => {
+          const productImages = response.data.getAllProductImg.filter((img) => img.productId === product.productId)
+          const isFavorited = response.data.getAllProductFavorite.some((fav) => fav.productId === product.productId)
+          return {
+            image: productImages.length > 0 ? productImages[0].productImg : '',
+            alt: product.productName,
+            category: product.categoryName,
+            label: product.discount > 0 ? '優惠' : product.productStatus === 'Available' ? '新品' : 'normal',
+            title: product.productName,
+            price: `NT$${product.productPrice}`,
+            oldPrice: product.discount > 0 ? `NT$${product.productPrice * (1 + product.discountRate)}` : '',
+            isSoldOut: product.productStatus === 'Out of Stock',
+            isFavorited
+          }
+        })
+        setProducts(allProducts)
+      })
+      .catch((error) => {
+        console.error('Error fetching product data:', error)
+      })
+  }, [])
+
+  const toggleFavorite = (product) => {
+    setProducts((prevProducts) =>
+      prevProducts.map((p) => (p.title === product.title ? { ...p, isFavorited: !p.isFavorited } : p))
+    )
+  }
+
+  const filteredProducts = products.filter((product) => {
+    if (filterCategory === 'all') return true
+    return product.category === filterCategory
+  })
 
   return (
     <main className="product-list">
-      {products.map((product, index) => (
-        <ProductItem key={index} product={product} />
+      {filteredProducts.map((product, index) => (
+        <ProductItem key={index} product={product} toggleFavorite={toggleFavorite} />
       ))}
     </main>
   )
 }
 
 const ProductAll = () => {
-  useEffect(() => {
-    '../utils/ProductAll.js'
-  }, [])
+  const [filterCategory, setFilterCategory] = useState('all')
 
   return (
     <>
@@ -303,11 +343,11 @@ const ProductAll = () => {
           <Banner />
         </div>
       </section>
-      <section className={`wrap  ${resetStyles.reset}`}>
+      <section className={`wrap ${resetStyles.reset}`}>
         <div className="container">
-          <Filter />
-          <RwdFilter />
-          <ProductList />
+          <Filter onFilterChange={setFilterCategory} selectedCategory={filterCategory} />
+          <RwdFilter onFilterChange={setFilterCategory} selectedCategory={filterCategory} />
+          <ProductList filterCategory={filterCategory} />
         </div>
       </section>
     </>

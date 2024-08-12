@@ -1,5 +1,6 @@
 @charset "UTF-8";
-@import url('basic.css');
+@import url("basic.css");
+@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css");
 /* 變量設置 */
 .container-f .wrap {
   padding-top: 50px;
@@ -21,7 +22,7 @@
   width: 75%;
   height: 100%;
   -o-object-fit: cover;
-  object-fit: cover;
+     object-fit: cover;
   border-radius: 20px;
 }
 .container-f .wrap .product-images .product-images-big .fa-regular {
@@ -58,7 +59,7 @@
   width: 4rem;
   height: 8vh;
   -o-object-fit: cover;
-  object-fit: cover;
+     object-fit: cover;
 }
 @media (max-width: 768px) {
   .container-f .wrap {
@@ -361,7 +362,6 @@
   flex-wrap: wrap;
   cursor: pointer;
   width: 21%;
-  height: 50vh;
   margin: 2%;
   background-color: #fff;
   border-radius: 0 0 10px 10px;
@@ -386,7 +386,7 @@
 .container-f .recommendations .product-item-container .product-item .product-img img {
   height: 200px;
   -o-object-fit: cover;
-  object-fit: cover;
+     object-fit: cover;
 }
 @media (max-width: 576px) {
   .container-f .recommendations .product-item-container .product-item .product-img {
@@ -449,10 +449,9 @@
   position: relative;
   display: flex;
   justify-content: space-between;
-
   align-items: center;
   margin-right: 15px;
-  padding-top: 70px;
+  padding-top: 5px;
 }
 .container-f .recommendations .product-item-container .product-item .product-info .product-text p {
   color: #1d1d1d;
@@ -483,4 +482,4 @@
   .container-f .recommendations .product-item-container .product-item .product-info .product-text .add-to-cart {
     font-size: 0.5rem;
   }
-} /*# sourceMappingURL=shop_page2.css.map */
+}/*# sourceMappingURL=ProductDetail.css.map */

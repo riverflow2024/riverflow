@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom/cjs/react-router-dom.min'
 // import '../assets/basic.css'
 import FooterLogo from '../assets/images/riverflow_logo_f.png'
 
-export default function Footer () {
+export default function Footer() {
   return (
     <footer>
       <div class="flex container">
