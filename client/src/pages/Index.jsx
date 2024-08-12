@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Header from '../components/header'
 import '../assets/index.css';
 
 class Index extends Component {
@@ -97,9 +98,7 @@ class Index extends Component {
                 {/* logo 結束  */}
 
                 {/* sticky 的 header */}
-                <header id="navbar">
-                    <img src={require("../assets/images/indexImg/nav.jpg")} alt="" />
-                </header>
+                <Header />
 
 
 

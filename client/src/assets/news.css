@@ -10,15 +10,6 @@ body {
   overflow-x: hidden;
 }
 
-header {
-  width: 100%;
-  position: fixed;
-  top: 0;
-  background: var(--bk1);
-  z-index: 99;
-  padding: 0 !important;
-}
-
 .multiline-ellipsis {
   white-space: wrap;
   overflow: hidden;

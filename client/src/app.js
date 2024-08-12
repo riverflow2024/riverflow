@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import { BrowserRouter, Route, Switch } from 'react-router-dom'
+// import { BrowserRouter, Route, Switch } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 import Header from './components/header'
 import Footer from './components/footer'
@@ -33,9 +34,9 @@ import ProductDetail from './pages/ProductDetail'
 class App extends Component {
   render() {
     return (
-      <BrowserRouter>
+      <Router>
         <div>
-          <Header />
+         
           <Switch>
 
             <Route path="/Index" component={Index}  />
@@ -68,7 +69,7 @@ class App extends Component {
           </Switch>
           <Footer />
         </div>
-      </BrowserRouter>
+      </Router>
     )
   }
 }
