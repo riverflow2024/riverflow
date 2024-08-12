@@ -23,14 +23,13 @@ exports.getEvents = (id) => {
     dbConnect.query(`
       SELECT
        * 
-      FROM events , eventimages, eventtickets
-      WHERE events.eventid = ? 
-      AND events.eventid = eventimages.eventid
-      AND events.eventid =  eventtickets.eventid
+      FROM events
+      JOIN eventimages ON events.eventId = eventimages.eventId
+      WHERE events.eventId = ?
 
       `, [id], (err, event) => {
       if (err) return reject(err)
-      resolve(event[0])
+      resolve(event)
       // res.send(event)
     })
   })

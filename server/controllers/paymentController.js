@@ -7,7 +7,7 @@ const PaymentController = {
       const result = await PaymentService.createOrder({ totalAmount, itemName });
 
       res.setHeader('Content-Type', 'text/html');
-      // console.log(result);
+      console.log(result);
       res.send(result);
     } catch (error) {
       res.status(500).json({ error: error.message });
