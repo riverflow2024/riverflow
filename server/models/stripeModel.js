@@ -38,50 +38,6 @@ const createCheckoutSession = async (items) => {
     return session
 }
 
-
-// const saveOrderDetails = async (sessionId) => {
-//     try {
-//         const session = await stripe.checkout.sessions.retrieve(sessionId);
-//         const orderDetails = JSON.parse(session.metadata.order_details);
-
-//         // 开始数据库事务
-//         await dbconnect.query('START TRANSACTION');
-
-//         // 生成唯一的订单ID并插入order表
-//         const [orderResult] = await dbconnect.query(
-//             'INSERT INTO `order` (userId, totalPrice, orderStatus, shipMethod, convAddr, rcptName, rcptPhone, rcptAddr, payMethod, payTime, receiptType, receiptInfo, orderRemark) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
-//             [12, session.amount_total / 100, 'processing', '7-11', null, 'user13', '0911111111', null, 'card', new Date(), 'dupInvoice', 'Z123456', null]
-//         );
-
-//         const orderId = orderResult.insertId;
-
-//         // 将商品详情插入orderitem表
-//         for (const item of orderDetails) {
-//             await dbconnect.query(
-//                 'INSERT INTO orderitem (orderId, productId, sessionId, productName, productOpt, quantity, price) VALUES (?, ?, ?, ?, ?, ?, ?)',
-//                 [orderId, null, sessionId, item.name, item.size, item.quantity, item.price]
-//             );
-//         }
-
-//         // 提交事务
-//         await dbconnect.query('COMMIT');
-
-//         return { success: true, message: '订单已成功处理并保存', orderId };
-//     } catch (error) {
-//         // 如果出错，回滚事务
-//         await dbconnect.query('ROLLBACK');
-//         console.error('保存订单详情时发生错误:', error);
-//         return { success: false, message: '保存订单详情时发生错误' };
-//     }
-// }
-
-
-
-
-
-
-
-
 const saveOrderDetails = async (sessionId) => {
     try {
         const session = await stripe.checkout.sessions.retrieve(sessionId);

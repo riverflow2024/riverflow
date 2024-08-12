@@ -15,7 +15,8 @@ body .parallax-window {
 body .header-nav img {
   width: 100vw;
   height: 10vh;
-  object-fit: cover;
+  -o-object-fit: cover;
+     object-fit: cover;
 }
 body .intro {
   width: 100%;
@@ -93,7 +94,8 @@ body .sectionTwo .imageHalf {
 body .sectionTwo .imageHalf img {
   width: 50%;
   height: 70dvh;
-  object-fit: cover;
+  -o-object-fit: cover;
+     object-fit: cover;
 }
 body .sectionTwo .sectionTwoDetails {
   width: 50%;
@@ -121,7 +123,8 @@ body .sectionTwo .cuteImg {
   transform: rotate(25deg);
   width: 500px;
   height: 500px;
-  object-fit: cover;
+  -o-object-fit: cover;
+     object-fit: cover;
 }
 @media (max-width: 1200px) {
   body .sectionTwo .sectionTwoDetails {
@@ -150,7 +153,8 @@ body .sectionTwo .cuteImg {
     transform: rotate(25deg);
     width: 400px;
     height: 400px;
-    object-fit: cover;
+    -o-object-fit: cover;
+       object-fit: cover;
   }
 }
 @media (max-width: 767px) {
@@ -185,7 +189,8 @@ body .sectionTwo .cuteImg {
     transform: rotate(25deg);
     width: 250px;
     height: 250px;
-    object-fit: cover;
+    -o-object-fit: cover;
+       object-fit: cover;
   }
 }
 @media (max-width: 480px) {
@@ -218,7 +223,8 @@ body .sectionTwo .cuteImg {
     transform: rotate(25deg);
     width: 200px;
     height: 200px;
-    object-fit: cover;
+    -o-object-fit: cover;
+       object-fit: cover;
   }
 }
 body .marquee-text {
@@ -415,7 +421,8 @@ body .sustain-right .parallax-window {
   width: 30dvw;
   height: 20dvh;
   margin-right: 10rem;
-  object-position: center;
+  -o-object-position: center;
+     object-position: center;
 }
 body .sustain-right .sustain-right-text {
   position: absolute;
@@ -446,7 +453,8 @@ body .sustain-right .lightning {
     width: 30dvw;
     height: 25dvh;
     margin-right: 5rem;
-    object-position: center;
+    -o-object-position: center;
+       object-position: center;
   }
   body .sustain-right .sustain-right-text {
     position: absolute;
@@ -478,7 +486,8 @@ body .sustain-right .lightning {
     width: 30dvw;
     height: 25dvh;
     margin-right: 5rem;
-    object-position: center;
+    -o-object-position: center;
+       object-position: center;
   }
   body .sustain-right .sustain-right-text {
     position: absolute;
@@ -548,7 +557,8 @@ body .sustain-left .parallax-window {
   width: 30dvw;
   height: 20dvh;
   position: relative;
-  object-position: center;
+  -o-object-position: center;
+     object-position: center;
 }
 body .sustain-left .sustain-left-text {
   position: absolute;
@@ -585,7 +595,8 @@ body .sustain-left .star {
     z-index: 100;
     width: 30dvw;
     height: 25dvh;
-    object-position: center;
+    -o-object-position: center;
+       object-position: center;
   }
   body .sustain-left .sustain-left-text {
     position: absolute;
@@ -799,6 +810,4 @@ body .end img {
     top: -40%;
     transform: rotate(10deg);
   }
-}
-
-/*# sourceMappingURL=skate.css.map */
+}/*# sourceMappingURL=skate.css.map */
