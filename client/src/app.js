@@ -5,6 +5,8 @@ import Header from './components/header'
 import Footer from './components/footer'
 
 import Index from './pages/Index'
+import News from './pages/News'
+import NewsArticle from './pages/NewsArticle'
 
 
 import Login from './pages/Login'
@@ -27,6 +29,7 @@ import EventConfirmNoseat from './pages/eventConfirmNoseat'
 import AboutUs from './pages/about'
 import ProductDetail from './pages/ProductDetail'
 
+
 class App extends Component {
   render() {
     return (
@@ -36,6 +39,8 @@ class App extends Component {
           <Switch>
 
             <Route path="/Index" component={Index}  />
+            <Route path="/News/Index" component={News}  />
+            <Route path="/News/Article" component={NewsArticle}  />
             
             
             <Route path="/Login/Index" component={Login}  />
