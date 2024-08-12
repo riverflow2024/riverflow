@@ -27,7 +27,10 @@ import EventConfirmSeat from './pages/eventConfirmSeat'
 import EventConfirmNoseat from './pages/eventConfirmNoseat'
 import AboutUs from './pages/about'
 import ProductDetail from './pages/ProductDetail'
+
 import Cart from './pages/cart'
+import cartCheckOut from './pages/cartCheckOut'
+import cartConfirmation from './pages/cartConfirmation'
 
 class App extends Component {
   render() {
@@ -66,6 +69,8 @@ class App extends Component {
             <Route path="/Product/Detail" component={ProductDetail} />
 
             <Route path="/Order/Cart" component={Cart} />
+            <Route path="/Order/cartCheckOut" component={cartCheckOut} />
+            <Route path="/Order/cartConfirmation" component={cartConfirmation} />
 
             <Route path="/AboutUs" component={AboutUs} />
           </Switch>
