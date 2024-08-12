@@ -1,5 +1,6 @@
-import React, { Component } from 'react'
-import '../assets/index.css'
+import React, { Component } from 'react';
+import Header from '../components/header'
+import '../assets/index.css';
 
 class Index extends Component {
   state = {}
@@ -107,10 +108,12 @@ class Index extends Component {
         </section>
         {/* logo 結束  */}
 
-        {/* sticky 的 header */}
-        <header id="navbar">
-          <img src={require('../assets/images/indexImg/nav.jpg')} alt="" />
-        </header>
+                {/* sticky 的 header */}
+                <header id="navbar">
+                    <img src={require("../assets/images/indexImg/nav.jpg")} alt="" />
+                </header>
+
+
 
         <div class="sticky-content">
           {/* intro 開始 */}

@@ -3,6 +3,7 @@ import { NavLink } from 'react-router-dom/cjs/react-router-dom.min'
 import HeaderLogo from '../assets/images/riverflow_logo.png'
 
 export default function Header () {
+    const isHomePage = location.pathname === '/Index';
     window.onload = function () {
 
         let dropdown = document.querySelector('.dropdown')
@@ -37,7 +38,7 @@ export default function Header () {
     }
     
     return(
-        <header>
+        <header class={`${isHomePage ? 'sticky-navbar' : ''}`} >
             <div class="flex container ">
                 <a href="#">
                     <img class="logo" src={HeaderLogo} alt="logo" />

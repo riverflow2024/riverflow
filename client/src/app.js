@@ -1,10 +1,13 @@
 import React, { Component } from 'react'
-import { BrowserRouter, Route, Switch } from 'react-router-dom'
+// import { BrowserRouter, Route, Switch } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 
 import Header from './components/header'
 import Footer from './components/footer'
 
 import Index from './pages/Index'
+import News from './pages/News'
+import NewsArticle from './pages/NewsArticle'
 
 import Skate from './pages/skate'
 
@@ -35,9 +38,8 @@ import cartConfirmation from './pages/cartConfirmation'
 class App extends Component {
   render() {
     return (
-      <BrowserRouter>
+      <Router>
         <div>
-          <Header />
           <Switch>
             <Route path="/Index" component={Index} />
 
@@ -45,13 +47,6 @@ class App extends Component {
             <Route path="/Login/Verify" component={LoginVerify} />
             <Route path="/Login/Register" component={LoginRegister} />
             <Route path="/Login/Password" component={LoginPassword} />
-
-            <Route path="/RiverFlow/Index" component={Index} />
-            <Route path="/HipHop/Skate" component={Skate} />
-
-            <Route path="/Login/Index" component={Login} />
-            <Route path="/Login/Verify" component={LoginVerify} />
-            <Route path="/Login/Register" component={LoginRegister} />
 
             <Route path="/Member/Index" component={MemberIndex} />
             <Route path="/Member/Edit" component={MemberEdit} />
@@ -76,7 +71,7 @@ class App extends Component {
           </Switch>
           <Footer />
         </div>
-      </BrowserRouter>
+      </Router>
     )
   }
 }

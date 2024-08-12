@@ -12,31 +12,24 @@ class MemberTickets extends Component {
             "birth": "1995/10/10",
             "sex": "女",
         },
-        OrderDetail: [
-            {
-                "odid": "A123456789",
-                "createdAt": "2024/08/03",
-                "payMethod": "信用卡",
-                "price": "$1400",
-                "orderStatus": "未出貨",
-            },
-            {
-                "odid": "B123456789",
-                "createdAt": "2024/08/03",
-                "payMethod": "信用卡",
-                "price": "$1400",
-                "orderStatus": "未出貨",
-            },
-            {
-                "odid": "C123456789",
-                "createdAt": "2024/08/03",
-                "payMethod": "信用卡",
-                "price": "$1400",
-                "orderStatus": "未出貨",
-            },
+        TicketsDetails: [
+            { "tdid": "A234567890", "createdAt": "2024/09/1", "eventName": "王以太_Love Me Later_台北站", "quantity": 2, "ticketType": "一般票", "tdStatus": "活動中", "tdPrice": "5600", "randNum": "b1kig0d80a" },
+            { "tdid": "A234567890", "createdAt": "2024/09/1", "eventName": "《大嘻哈哈哈》-烏拉拉", "quantity": 2, "ticketType": "一般票", "tdStatus": "未付款", "tdPrice": "5600", "randNum": "k1kif0d12c" },
+
+            { "tdid": "B1234567890", "createdAt": "2024/07/03", "eventName": "《大嘻哈哈哈》-烏拉拉", "quantity": 1, "ticketType": "一般票", "tdStatus": "已結束", "tdPrice": "600", "randNum": "x1kig0d12c" },
+            { "tdid": "F1234567890", "createdAt": "2024/02/01", "eventName": "音樂戰艦Leo王｜演唱會｜台北國際會議中心", "quantity": 2, "ticketType": "一般票", "tdStatus": "已結束", "tdPrice": "2900", "randNum": "g2kig0d12c" },
+
         ]
     }
+
+
     render() {
+
+        // 根據訂單篩選，用filter過濾
+        const Ticket = this.state.TicketsDetails.filter(ticket => ticket.tdStatus === '活動中');
+        const Unpaid = this.state.TicketsDetails.filter(ticket => ticket.tdStatus === '未付款');
+        const OrderDone = this.state.TicketsDetails.filter(ticket => ticket.tdStatus === '已結束');
+
         return (
 
             <div class="Tickets">
@@ -70,95 +63,100 @@ class MemberTickets extends Component {
                     <div class="btn-box">
                         <button class="tablink" onClick={(e) => this.openPage('Ticket', e.currentTarget, '3px solid var(--main)')} id="defaultOpen">活動中</button>
                         <button class="tablink" onClick={(e) => this.openPage('Unpaid', e.currentTarget, '3px solid var(--main)')}>未付款</button>
-                        <button class="tablink" onClick={(e) => this.openPage('OrderDone', e.currentTarget, '3px solid var(--main)')}>已完成</button>
+                        <button class="tablink" onClick={(e) => this.openPage('OrderDone', e.currentTarget, '3px solid var(--main)')}>已結束</button>
                     </div>
 
                     <div id="Ticket" class="tabcontent">
-                        <div class="order">
-                            <div class="wrap">
-                                <span>訂單編號：1234567890</span>
-                                <button class="orderbtn">訂單明細</button>
+                        {Ticket.map(OrderItem =>
+                            <div class="order">
+                                <div class="wrap">
+                                    <span>訂單編號：{OrderItem.tdid}</span>
+                                    <span>取票號：{OrderItem.randNum}</span>
+                                </div>
+                                <table>
+                                    <thead>
+                                        <th>日期</th>
+                                        <th colspan="2">活動名稱</th>
+                                        <th>數量</th>
+                                        <th>總金額</th>
+                                        <th>付款方式</th>
+                                        <th>狀態</th>
+                                    </thead>
+
+                                    <tbody>
+                                        <td>{OrderItem.createdAt}</td>
+                                        <td colspan="2">{OrderItem.eventName}</td>
+                                        <td>{OrderItem.quantity}</td>
+                                        <td>NT${OrderItem.tdPrice}</td>
+                                        <td>{OrderItem.ticketType}</td>
+                                        <td>{OrderItem.tdStatus}</td>
+                                    </tbody>
+                                </table>
                             </div>
-                            <table>
-                                <thead>
-                                    <th>日期</th>
-                                    <th colspan="2">活動名稱</th>
-                                    <th>數量</th>
-                                    <th>總金額</th>
-                                    <th>付款方式</th>
-                                    <th>狀態</th>
-                                </thead>
-
-                                <tbody>
-                                    <td>2024/07/03</td>
-                                    <td colspan="2">《大嘻哈哈哈》-烏拉拉</td>
-                                    <td>2</td>
-                                    <td>$1450</td>
-                                    <td>信用卡</td>
-                                    <td>活動中</td>
-                                </tbody>
-                            </table>
-                        </div>
-
+                        )}
 
                     </div>
                     <div id="Unpaid" class="tabcontent">
-                        <div class="order">
-                            <div class="wrap">
-                                <span>訂單編號：1234567890</span>
-                                <button class="orderbtn">訂單明細</button>
-                            </div>
-                            <table>
-                                <thead>
-                                    <th>日期</th>
-                                    <th colspan="2">活動名稱</th>
-                                    <th>數量</th>
-                                    <th>總金額</th>
-                                    <th>付款方式</th>
-                                    <th>狀態</th>
-                                </thead>
+                        {Unpaid.map(OrderItem =>
+                            <div class="order">
+                                <div class="wrap">
+                                    <span>訂單編號：{OrderItem.tdid}</span>
+                                    <span>取票號：{OrderItem.randNum}</span>
 
-                                <tbody>
-                                    <td>2024/07/03</td>
-                                    <td colspan="2">《大嘻哈哈哈》-烏拉拉</td>
-                                    <td>2</td>
-                                    <td>$1450</td>
-                                    <td>信用卡</td>
-                                    <td>未付款</td>
-                                </tbody>
-                            </table>
-                        </div>
+                                </div>
+                                <table>
+                                    <thead>
+                                        <th>日期</th>
+                                        <th colspan="2">活動名稱</th>
+                                        <th>數量</th>
+                                        <th>總金額</th>
+                                        <th>票種</th>
+                                        <th>狀態</th>
+                                    </thead>
+
+                                    <tbody>
+                                        <td>{OrderItem.createdAt}</td>
+                                        <td colspan="2">{OrderItem.eventName}</td>
+                                        <td>{OrderItem.quantity}</td>
+                                        <td>NT${OrderItem.tdPrice}</td>
+                                        <td>{OrderItem.ticketType}</td>
+                                        <td>{OrderItem.tdStatus}</td>
+                                    </tbody>
+                                </table>
+                            </div>
+                        )}
 
 
                     </div>
                     <div id="OrderDone" class="tabcontent">
-                        <div class="order">
-                            <div class="wrap">
-                                <span>訂單編號：1234567890</span>
-                                <button class="orderbtn">訂單明細</button>
+                        {OrderDone.map(OrderItem =>
+                            <div class="order">
+                                <div class="wrap">
+                                    <span>訂單編號：{OrderItem.tdid}</span>
+                                    <span>取票號：{OrderItem.randNum}</span>
+                                </div>
+                                <table>
+                                    <thead>
+                                        <th>日期</th>
+                                        <th colspan="2">活動名稱</th>
+                                        <th>數量</th>
+                                        <th>總金額</th>
+                                        <th>票種</th>
+                                        <th>狀態</th>
+                                    </thead>
+
+                                    <tbody>
+                                        <td>{OrderItem.createdAt}</td>
+                                        <td colspan="2">{OrderItem.eventName}</td>
+                                        <td>{OrderItem.quantity}</td>
+                                        <td>NT${OrderItem.tdPrice}</td>
+                                        <td>{OrderItem.ticketType}</td>
+                                        <td>{OrderItem.tdStatus}</td>
+                                    </tbody>
+                                </table>
                             </div>
-                            <table>
-                                <thead>
-                                    <th>日期</th>
-                                    <th colspan="2">活動名稱</th>
-                                    <th>數量</th>
-                                    <th>總金額</th>
-                                    <th>付款方式</th>
-                                    <th>狀態</th>
-                                </thead>
 
-                                <tbody>
-                                    <td>2024/07/03</td>
-                                    <td colspan="2">《大嘻哈哈哈》-烏拉拉</td>
-                                    <td>2</td>
-                                    <td>$1450</td>
-                                    <td>信用卡</td>
-                                    <td>已完成</td>
-                                </tbody>
-                            </table>
-                        </div>
-
-
+                        )}
                     </div>
 
 
