@@ -48,7 +48,7 @@
 }
 
 /* 購買順序 */
-.order {
+.framWrap .order {
   display: flex;
   margin-bottom: 1.8rem;
   justify-content: space-around;
