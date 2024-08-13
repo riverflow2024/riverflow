@@ -12,28 +12,12 @@ class MemberCollection extends Component {
             "birth": "1995/10/10",
             "sex": "女",
         },
-        OrderDetail: [
-            {
-                "odid": "A123456789",
-                "createdAt": "2024/08/03",
-                "payMethod": "信用卡",
-                "price": "$1400",
-                "orderStatus": "未出貨",
-            },
-            {
-                "odid": "B123456789",
-                "createdAt": "2024/08/03",
-                "payMethod": "信用卡",
-                "price": "$1400",
-                "orderStatus": "未出貨",
-            },
-            {
-                "odid": "C123456789",
-                "createdAt": "2024/08/03",
-                "payMethod": "信用卡",
-                "price": "$1400",
-                "orderStatus": "未出貨",
-            },
+        ProductFavorite: [
+          {
+            "productName":"王以太 演說家 幸存者 專輯",
+            "productDesc":"演說家不用多說封神專輯 裡面的歌幾本都很頂，每天都還是會聽阿斯匹林，內涵CD+超長拉頁拼圖"
+
+          },
         ]
     }
     render() {
@@ -73,18 +57,19 @@ class MemberCollection extends Component {
                     </div>
 
                     <div id="Collection" class="tabcontent">
+                    {this.state.ProductFavorite.map (productItem =>
                         <div class="order">
 
                             <div class="Img-box">
-                                <img src={require("../assets/images/Bootstrap_logo.svg.png")} alt="" />
+                                <img src={require("../assets/images/memberCollection.png")} alt="" />
                             </div>
                             <div class="container">
                                 <div class="wrap">
-                                    <span> 商品名稱：商品名稱商品名稱商品名稱商品名稱商品名稱</span>
+                                    <h3>{productItem.productName}</h3>
                                     <button class="closebtn"><i class="bi bi-x"></i></button>
                                 </div>
                                 <div class="wrap">
-                                    <span>尺寸：Ｍ&nbsp;&nbsp;&nbsp;數量：1</span>
+                                    <p>{productItem.productDesc}</p>
                                 </div>
                                 <div class="wrap">
                                     <span>金額  NT. $880</span>
@@ -94,7 +79,7 @@ class MemberCollection extends Component {
 
                         </div>
 
-
+                    )}
                     </div>
 
 

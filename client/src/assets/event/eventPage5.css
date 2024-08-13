@@ -86,16 +86,16 @@
 .contact {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
-    padding-bottom: 1.5rem;
+    padding-bottom: 1rem;
 }
 
-.contact label {
+.contact div label {
     padding-bottom: 4rem;
     margin-bottom: 3rem;
     padding-left: 1rem;
 }
 
-.contact input {
+.contact div input {
     border: 0;
     background: transparent;
     color: var(--gr1);

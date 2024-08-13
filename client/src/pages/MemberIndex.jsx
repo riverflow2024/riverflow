@@ -1,24 +1,35 @@
 import React, { Component } from 'react';
+import axios from 'axios'; 
 import '../assets/member.css';
 
 
 class MemberIndex extends Component {
     state = {
         Users: {
-            "firstName": "林",
-            "lastName": "小美",
-            "phone": "0912-333-555",
-            "email": "abc12345@gmail.com",
-            "birth": "1995/10/10",
-            "sex": "女",
+            "firstName": "",
+            "lastName": "",
+            "phone": "",
+            "email": "",
+            "birth": "",
+            "sex": "",
         }
+        // Users: null // 初始狀態設為 null，當用戶數據加載完成後會更新
     }
+
+    componentDidMount= async() =>{
+        var reasult = await axios.get('/riverflow/user'); // 向後端發送請求
+        var newState = {...this.state} ;
+        newState.Users = reasult.data;
+        this.setState(newState);
+    }
+
     render() {
+        // const { Users } = this.state;
+
+        // if (!Users) {
+        //     return <p>載入中...</p>; // 顯示載入狀態
+        // }
         return (
-
-
-
-
 
 
             <div class="Member" >
