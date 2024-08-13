@@ -1,3 +1,10 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+
+
 .framWrap {
     margin: 0 auto;
     width: 100%;
@@ -36,11 +43,12 @@
     border-bottom: 0.75px solid var(--main);
     margin: 1.5rem;
     padding: 0.5rem;
-    padding-bottom: 1.3rem;
+    padding-bottom: 2rem;
   }
 
   .eventTitle p {
     margin: 1.8rem;
+    line-height: 1.7rem;
   }
 
   /* 活動詳細頁面-選單 */
@@ -90,7 +98,7 @@
 
   .buyNow p {
     border-bottom: 0.75px solid var(--main);
-    padding: 0.5rem;
+    padding: 1rem;
   }
 
   .buyTitle,
@@ -98,10 +106,11 @@
     display: grid;
     grid-template-columns: 1.5fr 1fr 1fr 1fr 1fr;
     align-items: center;
+    
   }
 
   .buyTitle {
-    padding-bottom: 1rem;
+    padding: 1rem 0rem;
     margin-bottom: 2rem;
     border-bottom: 0.75px solid var(--main);
   }
@@ -132,11 +141,14 @@
     margin-bottom: 1.8rem;
     scroll-margin-top: 5rem;
   }
+  .eventIntroduce p{
+    line-height: 1.7rem;
+  }
 
   .eventIntroduce p:nth-child(1) {
     text-align: center;
     border-bottom: 0.75px solid var(--main);
-    padding: 0.5rem;
+    padding: 1rem;
   }
 
   .introduceImage {
@@ -146,6 +158,9 @@
   .eventIntroduce img {
     width: 95%;
     margin: 1rem 0rem;
+  }
+  .eventIntroduce p:last-child{
+    margin-bottom: 2.5rem;
   }
 
   /* 選單-注意事項、購買提醒、取票方式、退票規定 */
@@ -167,7 +182,22 @@
   .refundTitle {
     text-align: center;
     border-bottom: 0.75px solid var(--main);
-    padding: 0.5rem;
+    padding: 1rem;
+  }
+
+  .eventCautionTitle+ol,
+  .remindTitle+ol,
+  .ticketTitle+ol,
+  .refundTitle+ol{
+    margin-top: 1rem;
+    margin-bottom: 2.5rem;
+    line-height: 3;
+  }
+  .eventCautionTitle+ol p,
+  .remindTitle+ol p,
+  .ticketTitle+ol p,
+  .refundTitle+ol p{
+    line-height: 1.6;
   }
 
   html {

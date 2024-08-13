@@ -11,7 +11,7 @@ class MemberOrder extends Component {
             "birth": "1995/10/10",
             "sex": "女",
         },
-        OrderDetail: [
+        Order: [
             { "odid": "C123456789", "createdAt": "2024/08/10", "payMethod": "信用卡", "price": 2500, "quantity": 1, "orderStatus": "待出貨" },
 
 
@@ -27,11 +27,11 @@ class MemberOrder extends Component {
             { "odid": "X123456789", "createdAt": "2024/07/11", "payMethod": "信用卡", "price": "$1800", "orderStatus": "未完成" },
             { "odid": "Z123456789", "createdAt": "2024/07/07", "payMethod": "信用卡", "price": "$200", "orderStatus": "未完成" },
         ],
-        Products: [
-            { "productName": "商品1", "price": 980, },
-            { "productName": "商品2", "price": 1080, },
-            { "productName": "商品3", "price": 880, },
-            { "productName": "商品4", "price": 680, },
+        OrderItem: [
+            { "productName": "商品1", "priceOpt": 980, },
+            { "productName": "商品2", "priceOpt": 1080, },
+            { "productName": "商品3", "priceOpt": 880, },
+            { "productName": "商品4", "priceOpt": 680, },
         ],
 
 
@@ -45,10 +45,10 @@ class MemberOrder extends Component {
         oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
 
         // 根據訂單篩選，用filter過濾
-        const unpaidOrders = this.state.OrderDetail.filter(order => order.orderStatus === '待出貨');
-        const paymentOrders = this.state.OrderDetail.filter(order => order.orderStatus === '未付款');
-        const completedOrders = this.state.OrderDetail.filter(order => order.orderStatus === '已完成');
-        const notYetCompletedOrders = this.state.OrderDetail.filter(order => order.orderStatus === '未完成');
+        const unpaidOrders = this.state.Order.filter(order => order.orderStatus === '待出貨');
+        const paymentOrders = this.state.Order.filter(order => order.orderStatus === '未付款');
+        const completedOrders = this.state.Order.filter(order => order.orderStatus === '已完成');
+        const notYetCompletedOrders = this.state.Order.filter(order => order.orderStatus === '未完成');
 
         // 篩選近一個月的訂單 已完成 ＆ 未完成
         const recentCompletedOrders = completedOrders.filter(order => new Date(order.createdAt) >= oneMonthAgo);
@@ -138,12 +138,12 @@ class MemberOrder extends Component {
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {this.state.Products.map(productItem =>
+                                            {this.state.OrderItem.map(productItem =>
                                                 <tr>
                                                     <td colspan="2">{productItem.productName}</td>
                                                     <td>1</td>
                                                     <td></td>
-                                                    <td>{productItem.productPrice}</td>
+                                                    <td>{productItem.priceOpt}</td>
                                                 </tr>
 
                                             )}

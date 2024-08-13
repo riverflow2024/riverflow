@@ -1,5 +1,6 @@
 const crypto = require('crypto')
 const axios = require('axios')
+const querystring = require('querystring')
 
 const ECPayService = {
   merchantID: '3002599',
@@ -14,6 +15,7 @@ const ECPayService = {
         date.getMinutes()
       )}:${pad(date.getSeconds())}`
     }
+
     const data = {
       MerchantID: this.merchantID,
       MerchantTradeNo: `TEST${new Date().getTime()}`,
@@ -24,16 +26,16 @@ const ECPayService = {
       ItemName: itemName,
       ReturnURL: 'http://localhost:3000/riverflow/ecpay/payment-callback',
       ChoosePayment: 'ALL',
-      EncryptType: 1
+      EncryptType: 1,
+      ClientBackURL: 'http://localhost:3000/riverflow/test'
     }
     data.CheckMacValue = this.generateCheckMacValue(data)
-    // console.log(data.CheckMacValue)
+    console.log('Order Data:', data)
 
     try {
       const response = await axios.post(this.ecpayApiUrl, this.objectToFormData(data), {
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
       })
-      console.log(response.data.checkMacValue)
       return response.data
     } catch (error) {
       console.error('ECPay API Error:', error)
@@ -42,42 +44,52 @@ const ECPayService = {
   },
 
   generateCheckMacValue: function (data) {
-    const sortedKeys = Object.keys(data).sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase()))
-    let checkString = `HashKey=${this.hashKey}`
-    sortedKeys.forEach((key) => {
-      checkString += `&${key}=${data[key]}`
-    })
-    checkString += `&HashIV=${this.hashIV}`
+    // 移除 HashKey 和 HashIV
+    const filteredData = Object.keys(data).reduce((acc, key) => {
+      if (key !== 'HashKey' && key !== 'HashIV') {
+        acc[key] = data[key]
+      }
+      return acc
+    }, {})
 
+    // 按照規則排序並組合字符串
+    const sortedKeys = Object.keys(filteredData).sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase()))
+    let checkString = sortedKeys.map((key) => `${key}=${filteredData[key]}`).join('&')
+    checkString = `HashKey=${this.hashKey}&${checkString}&HashIV=${this.hashIV}`
+
+    // URL 編碼
     checkString = encodeURIComponent(checkString).toLowerCase()
+
+    // 替換特定字符
     checkString = checkString
       .replace(/%20/g, '+')
-      .replace(/%2d/g, '-')
-      .replace(/%5f/g, '_')
-      .replace(/%2e/g, '.')
       .replace(/%21/g, '!')
       .replace(/%2a/g, '*')
       .replace(/%28/g, '(')
       .replace(/%29/g, ')')
-    const cryptoHash = crypto.createHash('sha256').update(checkString).digest('hex').toUpperCase()
-    // console.log(cryptoHash)
-    return cryptoHash
+      .replace(/%2d/g, '-')
+      .replace(/%5f/g, '_')
+      .replace(/%2e/g, '.')
+
+    // SHA256 加密
+    const sha256 = crypto.createHash('sha256').update(checkString).digest('hex')
+    return sha256.toUpperCase()
   },
 
   objectToFormData: function (obj) {
-    return Object.keys(obj)
-      .map((key) => `${encodeURIComponent(key)}=${encodeURIComponent(obj[key])}`)
-      .join('&')
+    return querystring.stringify(obj)
   },
 
   verifyCallback: function (data) {
-    // console.log(data.CheckMacValue)
-    const checkMacValue = data.CheckMacValue
-    delete data.CheckMacValue
-    const calculatedCheckMacValue = this.generateCheckMacValue(data)
+    const receivedCheckMacValue = data.CheckMacValue
+    const dataForVerification = { ...data }
+    delete dataForVerification.CheckMacValue
 
-    // console.log(checkMacValue);
-    return checkMacValue === calculatedCheckMacValue
+    const calculatedCheckMacValue = this.generateCheckMacValue(dataForVerification)
+    console.log('Received CheckMacValue:', receivedCheckMacValue)
+    console.log('Calculated CheckMacValue:', calculatedCheckMacValue)
+
+    return receivedCheckMacValue === calculatedCheckMacValue
   }
 }
 

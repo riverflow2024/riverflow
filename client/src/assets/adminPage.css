@@ -343,6 +343,22 @@ input[type="number"] {
 .discountWay::placeholder {
     text-align: left;
 }
+button.addItem, button.delItem {
+    background: transparent;
+    border: 0;
+    cursor: pointer;
+}
+.addItem i, .delItem i {
+    font-size: 18px;
+}
+.specSum td {
+    padding: 10px;
+    width: 50%;
+}
+.specSum td input {
+    width: -webkit-fill-available;
+}
+
 
 
 /*---------------------------------------------*/

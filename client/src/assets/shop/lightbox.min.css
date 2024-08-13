@@ -58,7 +58,7 @@ body.lb-disable-scrolling {
   width: 32px;
   height: 32px;
   margin: 0 auto;
-  background: url(/riverflow/client/src/assets/images/shop/loading.gif) no-repeat;
+  background: url('../images/shop/loading.gif') no-repeat;
 }
 .lb-nav {
   position: absolute;
@@ -85,7 +85,7 @@ body.lb-disable-scrolling {
   width: 34%;
   left: 0;
   float: left;
-  background: url(/riverflow/client/src/assets/images/shop/prev.png) left 48% no-repeat;
+  background: url('../images/shop/prev.png') left 48% no-repeat;
   filter: alpha(Opacity=0);
   opacity: 0;
   -webkit-transition: opacity 0.6s;
@@ -101,7 +101,7 @@ body.lb-disable-scrolling {
   width: 64%;
   right: 0;
   float: right;
-  background: url(/riverflow/client/src/assets/images/shop/next.png) right 48% no-repeat;
+  background: url('../images/shop/next.png') right 48% no-repeat;
   filter: alpha(Opacity=0);
   opacity: 0;
   -webkit-transition: opacity 0.6s;
@@ -155,7 +155,7 @@ body.lb-disable-scrolling {
   float: right;
   width: 30px;
   height: 30px;
-  background: url(/riverflow/client/src/assets/images/shop/close.png) top right no-repeat;
+  background: url('../images/shop/close.png') top right no-repeat;
   text-align: right;
   outline: 0;
   filter: alpha(Opacity=70);
