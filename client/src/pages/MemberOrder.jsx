@@ -5,42 +5,75 @@ import Header from '../components/header'
 class MemberOrder extends Component {
     state = {
         Users: {
-            "firstName": "林",
-            "lastName": "小美",
-            "phone": "0912-333-555",
-            "email": "abc12345@gmail.com",
-            "birth": "1995/10/10",
-            "sex": "女",
+            // "firstName": "林",
+            // "lastName": "小美",
+            // "phone": "0912-333-555",
+            // "email": "abc12345@gmail.com",
+            // "birth": "1995/10/10",
+            // "sex": "女",
         },
         Order: [
-            { "odid": "C123456789", "createdAt": "2024/08/10", "payMethod": "信用卡", "price": 2500, "quantity": 1, "orderStatus": "待出貨" },
+            // { "odid": "C123456789", "createdAt": "2024/08/10", "payMethod": "信用卡", "price": 2500, "quantity": 1, "orderStatus": "待出貨" },
 
 
-            { "odid": "B123456789", "createdAt": "2024/08/08", "payMethod": "信用卡", "price": "$800", "orderStatus": "未付款" },
-            { "odid": "A123456789", "createdAt": "2024/08/03", "payMethod": "信用卡", "price": "$1400", "orderStatus": "未付款" },
-            { "odid": "E123456789", "createdAt": "2024/08/05", "payMethod": "信用卡", "price": "$1400", "orderStatus": "已完成" },
-            { "odid": "D123456789", "createdAt": "2024/08/03", "payMethod": "信用卡", "price": "$1400", "orderStatus": "已完成" },
-            { "odid": "I123456789", "createdAt": "2024/07/29", "payMethod": "信用卡", "price": "$400", "orderStatus": "已完成" },
-            { "odid": "J123456789", "createdAt": "2024/07/15", "payMethod": "信用卡", "price": "$1400", "orderStatus": "已完成" },
-            { "odid": "K123456789", "createdAt": "2024/07/03", "payMethod": "信用卡", "price": "$1400", "orderStatus": "已完成" },
-            { "odid": "L123456789", "createdAt": "2024/06/03", "payMethod": "信用卡", "price": "$1400", "orderStatus": "已完成" },
-            { "odid": "K123456789", "createdAt": "2024/08/03", "payMethod": "信用卡", "price": "$1000", "orderStatus": "未完成" },
-            { "odid": "X123456789", "createdAt": "2024/07/11", "payMethod": "信用卡", "price": "$1800", "orderStatus": "未完成" },
-            { "odid": "Z123456789", "createdAt": "2024/07/07", "payMethod": "信用卡", "price": "$200", "orderStatus": "未完成" },
+            // { "odid": "B123456789", "createdAt": "2024/08/08", "payMethod": "信用卡", "price": "$800", "orderStatus": "未付款" },
+            // { "odid": "A123456789", "createdAt": "2024/08/03", "payMethod": "信用卡", "price": "$1400", "orderStatus": "未付款" },
+            // { "odid": "E123456789", "createdAt": "2024/08/05", "payMethod": "信用卡", "price": "$1400", "orderStatus": "已完成" },
+            // { "odid": "D123456789", "createdAt": "2024/08/03", "payMethod": "信用卡", "price": "$1400", "orderStatus": "已完成" },
+            // { "odid": "I123456789", "createdAt": "2024/07/29", "payMethod": "信用卡", "price": "$400", "orderStatus": "已完成" },
+            // { "odid": "J123456789", "createdAt": "2024/07/15", "payMethod": "信用卡", "price": "$1400", "orderStatus": "已完成" },
+            // { "odid": "K123456789", "createdAt": "2024/07/03", "payMethod": "信用卡", "price": "$1400", "orderStatus": "已完成" },
+            // { "odid": "L123456789", "createdAt": "2024/06/03", "payMethod": "信用卡", "price": "$1400", "orderStatus": "已完成" },
+            // { "odid": "K123456789", "createdAt": "2024/08/03", "payMethod": "信用卡", "price": "$1000", "orderStatus": "未完成" },
+            // { "odid": "X123456789", "createdAt": "2024/07/11", "payMethod": "信用卡", "price": "$1800", "orderStatus": "未完成" },
+            // { "odid": "Z123456789", "createdAt": "2024/07/07", "payMethod": "信用卡", "price": "$200", "orderStatus": "未完成" },
         ],
         OrderItem: [
-            { "productName": "商品1", "priceOpt": 980, },
-            { "productName": "商品2", "priceOpt": 1080, },
-            { "productName": "商品3", "priceOpt": 880, },
-            { "productName": "商品4", "priceOpt": 680, },
+            // { "productName": "商品1", "priceOpt": 980, },
+            // { "productName": "商品2", "priceOpt": 1080, },
+            // { "productName": "商品3", "priceOpt": 880, },
+            // { "productName": "商品4", "priceOpt": 680, },
         ],
+        Users: null,       // 用户数据
+        isLoading: true,      // 加载状态
+        error: null,        // 错误信息
 
 
         showAdditionalOrders: false,
         activeAccordion: null // 用于跟踪哪个折叠面板是活动的
     }
+    componentDidMount() {
+       
+        this.fetchUserData();
+        const defaultOpenElement = document.getElementById("defaultOpen");
+        if (defaultOpenElement) {
+            defaultOpenElement.click();
+        }
+    }
+    
+    fetchUserData = async () => {
+        try {
+            const response = await axios.get('http://localhost:3000/riverflow/user', {
+                withCredentials: true // 确保请求带上 Cookie
+            });
+    
+            // 更新状态以显示用户数据
+            this.setState({
+                Users: response.data, // 使用 Users 状态
+                isLoading: false
+            });
+        } catch (error) {
+            // 清除本地存储中的 Token（如果你仍然在使用本地存储）
+            localStorage.removeItem('token');
+            this.setState({
+                isLoading: false,
+                error: 'Failed to fetch user data. Please log in again.'
+            });
+        }
+    };
 
     render() {
+        
         // 當前日期一個月前的日期
         const oneMonthAgo = new Date();
         oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
@@ -59,7 +92,23 @@ class MemberOrder extends Component {
         const displayedCompletedOrders = this.state.showAdditionalOrders ? recentCompletedOrders : completedOrders.slice(0, 2);
         const displayedrecentnotYetCompletedOrders = this.state.showAdditionalOrders ? recentnotYetCompletedOrders : notYetCompletedOrders.slice(0, 2);
 
+        const { Users, isLoading, error } = this.state;
+
+    if (isLoading) {
+        return <div>Loading...</div>;
+    }
+
+    if (error) {
+        return <div>{error}</div>;
+    }
+
+    if (!Users) {
+        return <div>No user data available.</div>;
+    }
+
+        
         return (
+            
 
             <div>
                 <Header />
@@ -303,9 +352,9 @@ class MemberOrder extends Component {
         elmnt.style.borderBottom = border;
     }
 
-    componentDidMount() {
-        document.getElementById("defaultOpen").click();
-    }
+    // componentDidMount() {
+    //     document.getElementById("defaultOpen").click();
+    // }
 
     // 選單按鈕
     backMember = async () => {

@@ -6,12 +6,12 @@ import Header from '../components/header'
 class MemberTickets extends Component {
     state = {
         Users: {
-            "firstName": "林",
-            "lastName": "小美",
-            "phone": "0912-333-555",
-            "email": "abc12345@gmail.com",
-            "birth": "1995/10/10",
-            "sex": "女",
+            "firstName": "",
+            "lastName": "",
+            "phone": "",
+            "email": "",
+            "birth": "",
+            "sex": "",
         },
         TicketsDetails: [
             { "tdid": "A234567890", "createdAt": "2024/09/1", "eventName": "王以太_Love Me Later_台北站", "quantity": 2, "ticketType": "一般票", "tdStatus": "活動中", "tdPrice": "5600", "randNum": "b1kig0d80a" },
@@ -20,8 +20,36 @@ class MemberTickets extends Component {
             { "tdid": "B1234567890", "createdAt": "2024/07/03", "eventName": "《大嘻哈哈哈》-烏拉拉", "quantity": 1, "ticketType": "一般票", "tdStatus": "已結束", "tdPrice": "600", "randNum": "x1kig0d12c" },
             { "tdid": "F1234567890", "createdAt": "2024/02/01", "eventName": "音樂戰艦Leo王｜演唱會｜台北國際會議中心", "quantity": 2, "ticketType": "一般票", "tdStatus": "已結束", "tdPrice": "2900", "randNum": "g2kig0d12c" },
 
-        ]
+        ],
+        Users: null,       // 用户数据
+        isLoading: true,      // 加载状态
+        error: null           // 错误信息
+
     }
+    componentDidMount() {
+        this.fetchUserData();
+    }
+    
+    fetchUserData = async () => {
+        try {
+            const response = await axios.get('http://localhost:3000/riverflow/user', {
+                withCredentials: true // 确保请求带上 Cookie
+            });
+    
+            // 更新状态以显示用户数据
+            this.setState({
+                Users: response.data, // 使用 Users 状态
+                isLoading: false
+            });
+        } catch (error) {
+            // 清除本地存储中的 Token（如果你仍然在使用本地存储）
+            localStorage.removeItem('token');
+            this.setState({
+                isLoading: false,
+                error: 'Failed to fetch user data. Please log in again.'
+            });
+        }
+    };
 
 
     render() {

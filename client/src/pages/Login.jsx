@@ -62,16 +62,16 @@ class Login extends Component {
                     headers: {
                         "Content-Type": "application/json",
                     },
-                    withCredentials: true // 确保发送请求时包括 Cookie
+                    withCredentials: true // 發送請求包含 Cookie
                 }
             );
     
-            // 打印响应以检查
+            // 檢查
             console.log('Login response:', result);
     
-            // 检查是否成功登录
+            // 檢查是否登入成功
             if (result.data.message === '登入成功') {
-                // 登录成功后重定向
+                
                 window.location = "/Index";
             } else {
                 console.error('Login failed:', result.data.message);

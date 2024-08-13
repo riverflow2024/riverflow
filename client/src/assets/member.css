@@ -238,6 +238,13 @@
 .OrderList .nav-box .nav li:hover a {
   color: var(--main);
 }
+.OrderList .nav-box .btn {
+  margin-top: 50px;
+  width: 100%;
+  font-size: 16px;
+  letter-spacing: 1px;
+  font-weight: 500;
+}
 .OrderList .order-box {
   max-width: 900px;
   flex: 1;

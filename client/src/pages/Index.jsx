@@ -5,8 +5,8 @@ import Header from '../components/header'
 
 class Index extends Component {
   state = {
-    isLoggedIn: false,  // 用于表示用户是否已登录
-    userData: null      // 用于存储用户数据
+    isLoggedIn: false,  
+    Users: null     
   };
 
   componentDidMount() {
@@ -15,21 +15,21 @@ class Index extends Component {
 
 checkLoginStatus = async () => {
     try {
-        // 使用 Cookie 中的 Token 向服务器请求用户数据
+        // 使用 Cookie 中的 Token 向服務端請求
         const response = await axios.get('http://localhost:3000/riverflow/user', {
-            withCredentials: true // 确保带上 Cookie
+            withCredentials: true // 連接 Cookie
         });
 
-        // 如果请求成功，更新状态以表示用户已登录
+        // 如果請求成功，更新狀態以表示用戶已經登入
         this.setState({
             isLoggedIn: true,
-            userData: response.data
+            Users: response.data
         });
     } catch (error) {
-        // 如果请求失败（例如 Token 无效或未登录），更新状态
+        // 如果請求失敗（例如 Token 無效或未登入），更新狀態
         this.setState({
             isLoggedIn: false,
-            userData: null
+            Users: null
         });
     }
 };

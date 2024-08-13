@@ -14,7 +14,7 @@ class MemberIndex extends Component {
             "birth": "",
             "sex": "",
         },
-        userData: null,       // 用户数据
+        Users: null,       // 用户数据
         isLoading: true,      // 加载状态
         error: null           // 错误信息
     };

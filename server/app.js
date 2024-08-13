@@ -4,14 +4,15 @@ const cookieParser = require('cookie-parser')
 const path = require('path');
 const cors = require('cors')
 const app = express()
+require('dotenv').config({ path: '../config.env' })
 
 const { authenticateToken } = require('./middlewares/auth')
 app.use(express.static(path.join(__dirname, 'public')))
 app.use(cookieParser())
 app.use(bodyParser.json())
 app.use(express.urlencoded({ extended: true }))
-app.use(cors({ origin: 'http://localhost:3001',
-    credentials: true // 允许带凭证的请求
+app.use(cors({ origin:`http://localhost:${process.env.CLIENT_PORT}`,
+    credentials: true // 带憑證的请求
  }))
 
 // Routers
