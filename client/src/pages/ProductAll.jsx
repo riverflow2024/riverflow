@@ -7,7 +7,7 @@ import 'swiper/css/bundle'
 import resetStyles from '../assets/reset.module.css'
 import '../assets/basic.css'
 import '../assets/ProductAll.css'
-import '@fortawesome/fontawesome-free/css/all.min.css'
+// import '@fortawesome/fontawesome-free/css/all.min.css'
 import axios from 'axios'
 
 const Banner = () => {
