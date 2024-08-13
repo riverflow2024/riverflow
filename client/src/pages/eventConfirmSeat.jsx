@@ -1,149 +1,208 @@
 import React, { Component } from 'react'
-import styles from '../assets/event/eventPage3-1.module.css'
-// import '../utils/eventConfirmSeat.js'
+import '../assets/event/eventPage3-2.css'
+import { Link } from 'react-router-dom';
+import yitaiImg from '../assets/images/events/event-yitai.jpg'
+import seatImg from '../assets/images/ticketSeat.png'
+import $ from 'jquery'
+
 
 class EventConfirmSeat extends Component {
   state = {
-    quantities: { quantity1: 0, quantity2: 0 },
-    isNextButtonDisabled: true
+    tickets: [
+      { id: 'first', name: '1F搖滾區', price: 2800, remaining:2, quantity: 0 },
+      { id: 'second', name: '2F座席區', price: 2000, remaining: 20, quantity: 0 },
+      { id: 'third', name: '2F站席區', price: 1500, remaining: 20, quantity: 0 },
+      { id: 'forth', name: '1F身障區', price: 1000, remaining: 20, quantity: 0 }
+    ],
+    openTicketId: null
+  };
+  toggleTicket = (ticketId) => {
+    this.setState(prevState => ({
+      openTicketId: prevState.openTicketId === ticketId ? null : ticketId
+    }));
   }
 
-  handleIncrement = (target) => {
-    this.setState((prevState) => {
-      const newQuantities = { ...prevState.quantities }
-      newQuantities[target] = newQuantities[target] < 4 ? newQuantities[target] + 1 : newQuantities[target]
-      return { quantities: newQuantities }
-    }, this.updateButtonState)
+
+  //  購買票數上限為4張
+  handleQuantityChange = (ticketId, change) => {
+    this.setState(prevState => {
+      // 更新指定票券的數量與剩餘數量
+      const updatedTickets = prevState.tickets.map(ticket => {
+        if (ticket.id === ticketId) {
+          const maxAllowedPurchase = Math.min(4, ticket.remaining);
+          const newQuantity = Math.max(0, Math.min(maxAllowedPurchase, ticket.quantity + change));
+          const actualChange = newQuantity - ticket.quantity;
+          return {
+            ...ticket,
+            quantity: newQuantity,
+            remaining: ticket.remaining - actualChange
+          };
+        }
+        return ticket;
+      });
+  
+      // 如果購買的數量大於 0，將其他票券的數量重置為 0
+      const selectedTicket = updatedTickets.find(ticket => ticket.id === ticketId);
+      if (selectedTicket.quantity > 0) {
+        updatedTickets.forEach(ticket => {
+          if (ticket.id !== ticketId) {
+            ticket.quantity = 0;
+          }
+        });
+      }
+  
+      return { tickets: updatedTickets };
+    });
   }
 
-  handleDecrement = (target) => {
-    this.setState((prevState) => {
-      const newQuantities = { ...prevState.quantities }
-      newQuantities[target] = newQuantities[target] > 0 ? newQuantities[target] - 1 : newQuantities[target]
-      return { quantities: newQuantities }
-    }, this.updateButtonState)
-  }
-
-  updateButtonState = () => {
-    const totalQuantity = Object.values(this.state.quantities).reduce((a, b) => a + b, 0)
-    this.setState({ isNextButtonDisabled: totalQuantity === 0 })
-  }
-
-  componentDidMount() {
-    this.updateButtonState()
-  }
   render() {
     return (
-      <div className={styles.wrap}>
-        <div className="header">
-          <img src="../../src/assets/images/indexImg/nav.jpg" alt="" />
-        </div>
-
-        {/* 活動明細 */}
-        <div className={styles.eventName}>
-          <div className={styles.eventImg}>
-            <img
-              src="https://res.cloudinary.com/shotgun/image/upload/ar_16:9,c_limit,f_auto,fl_lossy,q_auto,w_854/v1686313186/production/artworks/DJ_CONTEST_FINALE_1920x1080_zhvrs4"
-              alt=""
-            />
-          </div>
-          <div className={styles.eventTitle}>
-            <h1>星空下的電音狂歡 (DJ戶外派對)</h1>
-            <p>日期：8/3</p>
-            <p>時間： 20:00</p>
-            <p>場次地點：大佳河濱公園 台北市中山區濱江街5號</p>
-          </div>
-        </div>
-
-        {/* 中間的線 */}
-        <div className={styles.middleLine}>
-          <p></p>
-        </div>
-
-        <div className={styles.order}>
-          <div className={styles.ticketOrder}>
-            <div>
-              <span>1</span>
+      <div className="w-bg scrollCust">
+        <div className="framWrap">
+          {/* 活動明細 */}
+          <div className="eventName">
+            <div className="eventImg">
+              <img src={yitaiImg} alt="" />
             </div>
-            <div>
-              <span>選擇票區</span>
+            <div className="eventTitle">
+              <h1>王以太 《Love Me Later》 台北站</h1>
+              <p>日期：2024-09-14</p>
+              <p>時間： 19:30</p>
+              <p>場次地點：Legacy Max 台北市信義區松壽路11號6樓</p>
             </div>
+          </div>
+
+          {/* 中間的線 */}
+          <div className="middleLine">
             <p></p>
           </div>
 
-          <div className={styles.ticketOrder}>
-            <div>
-              <span>2</span>
+          {/* 購買順序 */}
+          <div className="order">
+            <div className="ticketOrder">
+              <div>
+                <span>1</span>
+              </div>
+              <div>
+                <span>選擇票區</span>
+              </div>
+              <p></p>
             </div>
-            <div>
-              <span>確認明細</span>
+
+            <div className="ticketOrder">
+              <div>
+                <span>2</span>
+              </div>
+              <div>
+                <span>確認明細</span>
+              </div>
+              <p></p>
             </div>
-            <p></p>
+
+            <div className="ticketOrder">
+              <div>
+                <span>3</span>
+              </div>
+              <div>
+                <span>確認資料</span>
+              </div>
+              <p></p>
+            </div>
           </div>
 
-          <div className={styles.ticketOrder}>
-            <div>
-              <span>3</span>
+          {/* 選擇票種數量 */}
+          <div className="ticketChoose">
+            <div className="ticketText">
+              <h3>票區一覽</h3>
             </div>
-            <div>
-              <span>確認資料</span>
-            </div>
-            <p></p>
-          </div>
-        </div>
+            {/* 選擇票種 */}
+            <div className="ticketSeat">
+              <div className="seatImage">
+                <img src={seatImg} alt="" />
+              </div>
 
-        {/* 選擇票種數量 */}
-        <div className={styles.ticketChoose}>
-          <div className={styles.ticketText}>
-            <h3>選擇票種</h3>
+
+
+              <div className="seat">
+        {this.state.tickets.map((ticket) => (
+          <div key={ticket.id} className={`${ticket.id}Floor`}>
+            <div className="seatName" onClick={() => this.toggleTicket(ticket.id)}>
+              <div>
+                <span>{ticket.name}</span>
+                <div>
+                  <span>剩餘</span>
+                  <span id={`remaining${ticket.id}`}>{ticket.remaining}</span>
+                </div>
+              </div>
+              <div>
+                <span>NT${ticket.price}</span>
+              </div>
+            </div>
+            <div className={`ticketName ${this.state.openTicketId === ticket.id ? 'active' : ''}`}>
+              <div className="ticketCotent">
+                <div>
+                  <span>一般票</span>
+                </div>
+                <div className="ticketBtn">
+                  <button 
+                    className="decrement" 
+                    onClick={() => this.handleQuantityChange(ticket.id, -1)}
+                    data-target={`#quantity${ticket.id}`} 
+                    data-remaining={`#remaining${ticket.id}`}
+                  >
+                    <i className="fa-solid fa-circle-minus"></i>
+                  </button>
+                  <span id={`quantity${ticket.id}`}>{ticket.quantity}</span>
+                  <button 
+                    className="increment" 
+                    onClick={() => this.handleQuantityChange(ticket.id, 1)}
+                    data-target={`#quantity${ticket.id}`} 
+                    data-remaining={`#remaining${ticket.id}`}
+                  >
+                    <i className="fa-solid fa-circle-plus"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
-          <div className={styles.ticketMan}>
-            <div>
-              <p>全票</p>
-            </div>
-            <div>
-              <p>NT.300</p>
-            </div>
-            <div className={styles.ticketNumber}>
-              <button className={styles.decrement} onClick={() => this.handleDecrement('quantity1')}>
-                <i className="fa-solid fa-circle-minus"></i>
-              </button>
-              <p>{this.state.quantities.quantity1}</p>
-              <button className={styles.increment} onClick={() => this.handleIncrement('quantity1')}>
-                <i className="fa-solid fa-circle-plus"></i>
-              </button>
+        ))}
+      </div>
+
+
+
+
+
             </div>
           </div>
-          <div className={styles.ticketMiddle}>
-            <p></p>
+          {/* 下一步按鍵 */}
+          <div className="nextBtn">
+          <Link to={`/Event/ConfirmInfo`}>
+              下一步
+            </Link>
           </div>
-          <div className={styles.ticketSpec}>
-            <div>
-              <p>身心障礙票</p>
-            </div>
-            <div>
-              <p>NT.200</p>
-            </div>
-            <div className={styles.ticketNumber}>
-              <button className={styles.decrement} onClick={() => this.handleDecrement('quantity2')}>
-                <i className="fa-solid fa-circle-minus"></i>
-              </button>
-              <p>{this.state.quantities.quantity2}</p>
-              <button className={styles.increment} onClick={() => this.handleIncrement('quantity2')}>
-                <i className="fa-solid fa-circle-plus"></i>
-              </button>
-            </div>
-          </div>
-        </div>
-        {/* 下一步按鍵 */}
-        <div className={styles.ticketBtn}>
-          <a href="#" id="nextBtn" className={this.state.isNextButtonDisabled ? styles['link-disabled'] : ''}>
-            下一步
-          </a>
         </div>
       </div>
     )
   }
+
+  componentDidMount() {
+    this.setupJQuery()
+  }
+
+  setupJQuery = () => {
+    $('.seatName')
+      .off('click')
+      .on('click', function (e) {
+        const $clickedTicketName = $(this).next('.ticketName')
+        // off移除元素上之前綁定的所有點擊事件處理器
+        $clickedTicketName.slideToggle()
+        $('.ticketName').not($clickedTicketName).slideUp()
+      })
+  }
+
+
+
+  
 }
 
 export default EventConfirmSeat

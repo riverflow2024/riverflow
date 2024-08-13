@@ -3,6 +3,12 @@
     padding: 0;
   }
 
+  .framWrap {
+    max-width: 90%;
+    margin: auto;
+    padding: 0 20px;
+  }
+
 .eventName {
     display: grid;
     align-items: center;
@@ -27,7 +33,7 @@
 
 .eventTitle h1 {
     display: inline-block;
-    white-space: nowrap;
+    white-space: noframWrap;
     margin-top: 1rem;
 }
 
@@ -108,10 +114,10 @@
 }
 
 /* 購票內容 */
-.ticketCotent div:nth-child(1) p,
-.ticketCotent div:nth-child(3) p,
-.ticketCotent div:nth-child(5) p,
-.ticketCotent div:nth-child(7) p {
+.ticketDetail div:nth-child(1) p,
+.ticketDetail div:nth-child(3) p,
+.ticketDetail div:nth-child(5) p,
+.ticketDetail div:nth-child(7) p {
     border-bottom: 0.75px solid var(--main);
     margin: 0rem 2rem;
 }
@@ -170,7 +176,7 @@
 }
 
 @media screen and (min-width: 1440px) {
-    .wrap {
+    .framWrap {
         max-width: 1300px;
         height: auto;
     }
@@ -194,7 +200,7 @@
 }
 
 @media screen and (max-width: 600px) {
-    .wrap {
+    .framWrap {
         min-width: 560px;
         height: auto;
     }

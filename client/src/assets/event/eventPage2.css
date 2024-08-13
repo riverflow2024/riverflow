@@ -33,20 +33,20 @@
   }
 
   /* 活動詳細頁面-標題 */
-  .eventTitle {
+  .detailEventTitle {
     background-color: var(--bk2);
     border: 0.75px solid var(--main);
     border-radius: 10px;
   }
 
-  .eventTitle h1 {
+  .detailEventTitle h1 {
     border-bottom: 0.75px solid var(--main);
     margin: 1.5rem;
     padding: 0.5rem;
     padding-bottom: 2rem;
   }
 
-  .eventTitle p {
+  .detailEventTitle p {
     margin: 1.8rem;
     line-height: 1.7rem;
   }
