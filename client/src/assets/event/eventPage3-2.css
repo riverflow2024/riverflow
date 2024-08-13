@@ -82,7 +82,7 @@
   align-items: center;
 }
 
-.ticketOrder:nth-child(1) div:nth-child(1) {
+.ticketOrder:nth-child(1) .ticketOrder1 {
   background-color: var(--main);
   color: black;
 }

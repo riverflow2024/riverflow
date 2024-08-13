@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import '../assets/event/eventPage2.css'
 import '../utils/eventDetail.js'
@@ -21,33 +22,13 @@ class EventDetail extends Component {
       launchDate: "2024-07-25T12:00:00.000Z",
       launchStatus: 1,
       saleDate: "2024-08-07T07:00:00.000Z",
-      eventImg: "/images/event-yitai.jpg",
+      eventImg: "/images/events/event-yitai.jpg",
       latestAnnouncement: "若信用卡刷卡付款失敗，會將刷卡失敗的訂單，陸續轉為【ATM虛擬帳號付款】，屆時請依的訂單顯示之「銀行帳號」、「銀行代碼」於「匯款期限」內完成付款，系統將以款項實際入帳時間為準，請於繳費後一小時至我的訂單確認，若訂單付款狀態顯示為「待繳費」，須等待銀行回傳付款狀態；若逾期未付款，系統收到銀行回傳付款狀態後將自動取消該筆訂單並顯示「付款失敗」，各家銀行轉帳入帳時間不同，請盡早繳款以保障您的權益。"
-    },
-    loading: true
-  }
-
-  componentDidMount() {
-    const eventId = this.props.match.params.id;
-    this.fetchEventDetails(eventId);
-  }
-
-  fetchEventDetails = async (eventId) => {
-    try {
-      const response = await axios.get(`http://localhost:3000/riverflow/events/${eventId}`);
-      this.setState({ event: response.data, loading: false });
-    } catch (error) {
-      console.error('獲取活動詳情時出錯：', error);
-      // 如果獲取失敗，保持使用假資料
-      this.setState({ loading: false });
     }
   }
-
+  
   render() {
-    const {event, loading} = this.state;
-    if (loading) {
-      return <div>載入中...</div>;
-    }
+    const {event} = this.state;
     return (
       <div class="w-bg scrollCust">
         <div class="container framWrap">
