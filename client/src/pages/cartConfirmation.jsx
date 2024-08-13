@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import '../assets/cartConfirmation.css'
 import '../assets/reset.css'
 import '../assets/basic.css'
-import Swal from 'sweetalert2'
+// import Swal from 'sweetalert2'
 
 const CartConfirmation = () => {
   const [customerName, setCustomerName] = useState('林小美')

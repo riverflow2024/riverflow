@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import '../assets/basic.css'
-import '@fortawesome/fontawesome-free/css/all.min.css'
+// import '@fortawesome/fontawesome-free/css/all.min.css'
 import '../assets/ProductDetail.css'
 import 'lightbox2/dist/css/lightbox.min.css'
 import lightbox from 'lightbox2'
-import Swal from 'sweetalert2'
+// import Swal from 'sweetalert2'
 
 // 圖片組件
 const ProductImages = ({ images }) => (

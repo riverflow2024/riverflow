@@ -9,7 +9,7 @@
     <script src="https://code.jquery.com/jquery-3.7.1.js"
         integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/ui/1.13.3/jquery-ui.js"></script>
-    <title>購票訂單詳細</title>
+    <title>商品訂單詳細</title>
 </head>
 
 <body>
@@ -30,7 +30,7 @@
                                 <a href="prdList.html" class="menuPage">商品列表</a>
                             </li>
                             <li>
-                                <a href="prdOrder.html" class="menuPage">商品訂單</a>
+                                <a href="prdOrder.html" class="menuPage thisPage">商品訂單</a>
                             </li>
                         </ul>
                     </li>
@@ -53,7 +53,7 @@
                                 <a href="eventList.html" class="menuPage">活動列表</a>
                             </li>
                             <li>
-                                <a href="eventOrder.html" class="menuPage thisPage">活動訂單</a>
+                                <a href="eventOrder.html" class="menuPage">活動訂單</a>
                             </li>
                         </ul>
                     </li>
@@ -62,14 +62,11 @@
         </div>
         <div class="main">
             <div class="pageTitle">
-                購票訂單詳細
+                購物訂單詳細
             </div>
             <div class="tabs">
                 <ul class="tabBtnList">
                     <li><a href="#orderDetail" id="defaultOpen" class="tabBtn active">訂單詳細資訊</a></li>
-                    <!-- <li><a href="#infoSpec" class="tabBtn">商品規格</a></li> -->
-                    <!-- <button class="tabBtn" href="#infoDesc" id="defaultOpen"></button>
-                    <button class="tabBtn" href="#infoSpec">商品規格</button> -->
                 </ul>
 
                 <!-- tabContent 商品資訊-->
@@ -103,6 +100,20 @@
                                     <div id="orderUserPhone" class="orderItemInfo">0900-100100</div>
                                 </div>
                                 <div class="orderItem">
+                                    <div>購買票券：</div>
+                                    <div class="orderItemInfo flex">
+                                        <div id="orderPrdName">藝術家聯名T恤【白】</div>
+                                        <div>x <span id="orderPrdNum">1</span></div>
+                                    </div>
+                                </div>
+                                <div class="orderItem">
+                                    <div>訂單金額：</div>
+                                    <div class="orderItemInfo flex">
+                                        <span>NT$</span>
+                                        <span id="orderSumPrice">2260</span>
+                                    </div>
+                                </div>
+                                <div class="orderItem">
                                     <div>付款方式：</div>
                                     <div id="orderPayment" class="orderItemInfo">線上付款</div>
                                 </div>
@@ -113,56 +124,46 @@
                                 <div class="orderItem">
                                     <div>電子發票：</div>
                                     <div id="orderReceipt" class="orderItemInfo">手機載具</div>
+                                    <div id="carrier" class="orderItemInfo">/SVSVSVS</div>
                                 </div>
                             </div>
                             <div class="details">
                                 <div class="orderItem">
-                                    <div>購買場次：</div>
-                                    <div id="orderEventName" class="orderItemInfo">第八屆【台北盃街舞大賽】</div>
-                                    <!-- <div class="orderItemInfo flex">
-                                        <div id="orderPrdName">藝術家聯名T恤【白】</div>
-                                        <div>x <span id="orderPrdNum">1</span></div>
-                                    </div> -->
+                                    <div>收件人姓名</div>
+                                    <div id="orderRecipient" class="orderItemInfo">王小明</div>
                                 </div>
                                 <div class="orderItem">
-                                    <div>購買票數</div>
-                                    <div id="orderTicketNum" class="orderItemInfo">4</div>
+                                    <div>收件人手機</div>
+                                    <div id="orderRecipientPhone" class="orderItemInfo">0900-100101</div>
+                                </div>
+                                <div class="orderItemList flex">
+                                    <div class="orderItem half">
+                                        <div>收件人取貨方式：</div>
+                                        <div id="orderShipment" class="orderItemInfo">7-11取貨</div>                                    </div>
+                                    <div class="orderItem half">
+                                        <div>收件人取貨店鋪：</div>
+                                        <div id="orderShipmentShop" class="orderItemInfo">273813/昌進門市</div>                                    </div>
                                 </div>
                                 <div class="orderItem">
-                                    <div>購買座位：</div>
-                                    <div class="orderItemInfo">
-                                        <div class="areaItem flex">
-                                            <div id="orderEventArea" class="eventArea">1F搖滾區</div>
-                                            <div id="eventAreaSeat">10排20號</div>
-                                        </div>
-                                        <div class="areaItem flex">
-                                            <div id="orderEventArea" class="eventArea">1F搖滾區</div>
-                                            <div id="eventAreaSeat">10排21號</div>
-                                        </div>
-                                        <div class="areaItem flex">
-                                            <div id="orderEventArea" class="eventArea">1F搖滾區</div>
-                                            <div id="eventAreaSeat">10排22號</div>
-                                        </div>
-                                        <div class="areaItem flex">
-                                            <div id="orderEventArea" class="eventArea">1F搖滾區</div>
-                                            <div id="eventAreaSeat">10排23號</div>
-                                        </div>
-                                    </div>
+                                    <div>收件人手機</div>
+                                    <div id="orderShipmentAddress" class="orderItemInfo">台中市南屯區大進街387號1樓</div>
                                 </div>
                                 <div class="orderItem">
-                                    <div>訂單金額：</div>
-                                    <div class="orderItemInfo flex">
-                                        <span>NT$</span>
-                                        <span id="orderSumPrice">4720</span>
-                                    </div>
+                                    <div>訂單備註</div>
+                                    <div id="orderUserNote" class="orderItemInfo infoArea">我想要那ㄍ酷東西謝謝:）））</div>
                                 </div>
                                 <div class="orderItem">
-                                    <label for="orderStatus">訂單狀態：</label>
-                                    <select name="" id="orderStatus" class="statusEdit">
-                                        <option value="">處理中</option>
-                                        <option value="">已完成</option>
-                                        <option value="">已取消</option>
-                                        <option value="">已退款</option>
+                                    <label for="orderSellerNote">賣家備註：</label>
+                                    <textarea name="orderSellerNote" id="orderSellerNote" class="note"></textarea>
+                                </div>
+                                <div class="orderItem">
+                                    <label for="prdOrderStatus">訂單狀態：</label>
+                                    <select name="prdOrderStatus" id="prdOrderStatus" class="statusEdit">
+                                        <option value="processing">處理中</option>
+                                        <option value="shipped">已出貨</option>
+                                        <option value=completed">已完成</option>
+                                        <option value="cancelled">已取消</option>
+                                        <option value="refunded">已退款</option>
                                     </select>
                                 </div>
                             </div>
