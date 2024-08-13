@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 // import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 
-
 import Header from './components/header'
 import Footer from './components/footer'
 
@@ -36,7 +35,6 @@ import Cart from './pages/cart'
 import cartCheckOut from './pages/cartCheckOut'
 import cartConfirmation from './pages/cartConfirmation'
 
-
 class App extends Component {
   render() {
     return (
@@ -63,7 +61,7 @@ class App extends Component {
             <Route path="/Event/ConfirmNoseat" component={EventConfirmNoseat} />
 
             <Route path="/Product/All" component={ProductAll} />
-            <Route path="/Product/Detail" component={ProductDetail} />
+            <Route path="/Product/Detail/:productId" component={ProductDetail} />
 
             <Route path="/Order/Cart" component={Cart} />
             <Route path="/Order/cartCheckOut" component={cartCheckOut} />

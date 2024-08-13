@@ -280,9 +280,8 @@
   transition: 1s;
 }
 .wrap .container .product-list .fa-regular.selected {
-  background-color: crimson;
-  color: #fff;
-  padding: 5px;
+  background-color: crimson; /* 點擊後背景變為紅色 */
+  color: #fff; /* 愛心內部變為白色 */
 }
 .wrap .container .product-list .fa-regular:hover {
   background-color: crimson;

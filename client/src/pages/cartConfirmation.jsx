@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import '../assets/cartConfirmation.css'
 import '../assets/reset.css'
 import '../assets/basic.css'
+import Header from '../components/header'
 import Swal from 'sweetalert2'
 
 const CartConfirmation = () => {
@@ -17,6 +18,7 @@ const CartConfirmation = () => {
   const [companyInfo, setCompanyInfo] = useState('')
   const [mobileInfo, setMobileInfo] = useState('')
   const [shippingFee] = useState(60)
+
   // 這邊只是假設商品
   const itemTotal = 4060
 
@@ -38,6 +40,7 @@ const CartConfirmation = () => {
 
   return (
     <div className="cartConfirmation-container ">
+      <Header />
       <div className="container">
         <div className="content-left">
           <div className="order-steps">
