@@ -7,6 +7,7 @@ import defaultImg from '../assets/images/defaultphoto.jpg'; // 静态导入图�
 class MemberOrderList extends Component {
     state = {
         Users: {
+            // 去看資料庫怎麼寫!
             "firstName": "",
             "lastName": "",
             "phone": "",
@@ -17,22 +18,8 @@ class MemberOrderList extends Component {
 
         },
         Order: [
+             // 去看資料庫怎麼寫!
             { "orderId": "", "createdAt": "", "payMethod": "", "totalPrice": "", "orderStatus": "" },
-            // { "orderId": "C123456789", "createdAt": "2024/08/10", "payMethod": "信用卡", "totalPrice": "$2500", "orderStatus": "待出貨" },
-            // { "orderId": "B123456789", "createdAt": "2024/08/08", "payMethod": "信用卡", "totalPrice": "$800", "orderStatus": "未付款" },
-            // { "orderId": "A123456789", "createdAt": "2024/08/03", "payMethod": "信用卡", "totalPrice": "$1400", "orderStatus": "未付款" },
-
-            // { "orderId": "E123456789", "createdAt": "2024/08/05", "payMethod": "信用卡", "totalPrice": "$1400", "orderStatus": "已完成" },
-            // { "orderId": "D123456789", "createdAt": "2024/08/03", "payMethod": "信用卡", "totalPrice": "$1400", "orderStatus": "已完成" },
-
-            // { "orderId": "I123456789", "createdAt": "2024/07/29", "payMethod": "信用卡", "totalPrice": "$400", "orderStatus": "已完成" },
-            // { "orderId": "J123456789", "createdAt": "2024/07/15", "payMethod": "信用卡", "totalPrice": "$1400", "orderStatus": "已完成" },
-            // { "orderId": "K123456789", "createdAt": "2024/07/03", "payMethod": "信用卡", "totalPrice": "$1400", "orderStatus": "已完成" },
-            // { "orderId": "L123456789", "createdAt": "2024/06/03", "payMethod": "信用卡", "totalPrice": "$1400", "orderStatus": "已完成" },
-
-            // { "orderId": "K123456789", "createdAt": "2024/08/03", "payMethod": "信用卡", "totalPrice": "$1000", "orderStatus": "未完成" },
-            // { "orderId": "X123456789", "createdAt": "2024/07/11", "payMethod": "信用卡", "totalPrice": "$1800", "orderStatus": "未完成" },
-            // { "orderId": "Z123456789", "createdAt": "2024/07/07", "payMethod": "信用卡", "totalPrice": "$200", "orderStatus": "未完成" },
         ],
 
         showAdditionalOrders: false,
