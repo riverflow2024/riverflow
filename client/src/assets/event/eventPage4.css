@@ -49,7 +49,7 @@
 }
 
 /* 購買順序 */
-.order {
+.framWrap .order {
     display: flex;
     margin-bottom: 1.8rem;
     justify-content: space-around;
@@ -83,7 +83,7 @@
     align-items: center;
 }
 
-.ticketOrder:nth-child(2) div:nth-child(1) {
+.ticketOrder:nth-child(2) .ticketOrder2 {
     background-color: var(--main);
     color: black;
 }

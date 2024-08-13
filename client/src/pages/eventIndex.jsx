@@ -156,7 +156,7 @@ const EventIndex = () => {
             <div className="eventProduct">
               {filteredEvents.map(event => (
                 <div key={event.id || event.eventId} className="eventCard" data-category={event.category || event.eventType}>
-                  <Link to={`/Event/Detail/${event.id || event.eventId}`}>
+                  <Link to={`/Event/Detail/${event.eventId}`}>
                     <img src={event.image || event.eventImg} alt={event.title || event.eventName} />
                     <p>{event.title || event.eventName}</p>
                     <p>{event.date || new Date(event.eventDate).toLocaleDateString()}</p>

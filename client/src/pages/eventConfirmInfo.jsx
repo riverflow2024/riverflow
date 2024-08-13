@@ -62,7 +62,7 @@ const EventConfirmInfo = () => {
                 <p></p>
               </div>
               <div className="ticketOrder">
-                <div><span>2</span></div>
+                <div className="ticketOrder2"><span>2</span></div>
                 <div><span>確認明細</span></div>
                 <p></p>
               </div>

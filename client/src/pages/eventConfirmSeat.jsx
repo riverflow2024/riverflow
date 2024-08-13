@@ -80,7 +80,7 @@ class EventConfirmSeat extends Component {
           {/* 購買順序 */}
           <div className="order">
             <div className="ticketOrder">
-              <div>
+              <div className="ticketOrder1">
                 <span>1</span>
               </div>
               <div>
@@ -89,7 +89,7 @@ class EventConfirmSeat extends Component {
               <p></p>
             </div>
 
-            <div className="ticketOrder">
+            <div class="ticketOrder">
               <div>
                 <span>2</span>
               </div>
