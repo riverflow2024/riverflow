@@ -44,6 +44,7 @@ class LoginVerify extends Component {
                                 id="newPassword"
                                 value={newPassword}
                                 placeholder="Enter new password"
+                                autocomplete="new-password"
                                 required
                                 onChange={this.NewPassword}
                             />
@@ -64,7 +65,8 @@ class LoginVerify extends Component {
                                 name="confirmPassword"
                                 id="checkPassword"
                                 value={confirmPassword}
-                                placeholder="Enter confirm password"
+                                placeholder="Enter password"
+                                autocomplete="new-password"
                                 onChange={this.handleConfirmPasswordChange}
                             />
                             <div>
@@ -103,9 +105,9 @@ class LoginVerify extends Component {
         let passwordError = '';
 
         if (!newPassword.match(passwordPattern)) {
-            passwordError = '<i class="bi bi-asterisk"></i> 請輸入正確的密碼格式: 含英數至少六個字元';
+            passwordError = '<i className="bi bi-asterisk"></i> 請輸入正確的密碼格式: 含英數至少六個字元';
         } else if (!newPassword) {
-            passwordError = '<i class="bi bi-asterisk"></i> 請輸入密碼';
+            passwordError = '<i className="bi bi-asterisk"></i> 請輸入密碼';
         } else {
             passwordError = '';
         }
@@ -122,7 +124,7 @@ class LoginVerify extends Component {
         let checkPasswordError = '';
 
         if (confirmPassword && newPassword !== confirmPassword) {
-            checkPasswordError = '<i class="bi bi-asterisk"></i> 密碼不吻合';
+            checkPasswordError = '<i className="bi bi-asterisk"></i> 密碼不吻合';
         } else if (confirmPassword && newPassword === confirmPassword) {
             checkPasswordError = '密碼吻合';
         } else {

@@ -20,26 +20,6 @@ class Login extends Component {
 
     }
 
-    Login = async() =>{
-        let dataToserver = {
-            email: this.state.Users.email,
-            secret:this.state.Users.secret
-        }; 
-        var reasult = await axios.post('http://localhost:3000/riverflow/user/login',
-            JSON.stringify(dataToserver),
-            {
-                headers:{
-                    "Content-Type":"application/json",
-                    //   "Authorization": `Bearer ${token}`
-                }
-            }
-        )
-        
-         window.location = "/Index";
-    }
-
-
-
     // Login = async () => {
     //     try {
     //         let dataToserver = {
@@ -47,22 +27,64 @@ class Login extends Component {
     //             secret: this.state.Users.secret
     //         };
 
-    //         var result = await axios.post('http://localhost:3000/riverflow/user/login', dataToserver, {
-    //             headers: {
-    //                 "Content-Type": "application/json",
-    //                 "Authorization": `Bearer ${token}`
+    //         var result = await axios.post('http://localhost:3000/riverflow/user/login',
+    //             JSON.stringify(dataToserver),
+    //             {
+    //                 headers: {
+    //                     "Content-Type": "application/json",
+    //                 }
     //             }
-    //         });
+    //         );
+    //         // 存储 Token
+    //         localStorage.setItem('token', result.data.token);
+
+
 
     //         // 登录成功后重定向
     //         window.location = "/Index";
     //     } catch (error) {
     //         // 捕获错误并更新 error 状态
-    //         this.setState({ error: error.response ? error.response.data.message : 'Unknown error' });
-
+    //         this.setState({ error: true });
     //     }
     // }
 
+
+    Login = async () => {
+        try {
+            let dataToserver = {
+                email: this.state.Users.email,
+                secret: this.state.Users.secret
+            };
+    
+            const result = await axios.post('http://localhost:3000/riverflow/user/login',
+                JSON.stringify(dataToserver),
+                {
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    withCredentials: true // 确保发送请求时包括 Cookie
+                }
+            );
+    
+            // 打印响应以检查
+            console.log('Login response:', result);
+    
+            // 检查是否成功登录
+            if (result.data.message === '登入成功') {
+                // 登录成功后重定向
+                window.location = "/Index";
+            } else {
+                console.error('Login failed:', result.data.message);
+            }
+        } catch (error) {
+            console.error('Login error:', error);
+            this.setState({ error: true });
+        }
+    }
+    
+    
+
+    
 
 
 

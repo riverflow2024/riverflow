@@ -4,10 +4,47 @@ import '../assets/index.css';
 import Header from '../components/header'
 
 class Index extends Component {
-  state = {}
+  state = {
+    isLoggedIn: false,  // 用于表示用户是否已登录
+    userData: null      // 用于存储用户数据
+  };
+
+  componentDidMount() {
+    this.checkLoginStatus();
+}
+
+checkLoginStatus = async () => {
+    try {
+        // 使用 Cookie 中的 Token 向服务器请求用户数据
+        const response = await axios.get('http://localhost:3000/riverflow/user', {
+            withCredentials: true // 确保带上 Cookie
+        });
+
+        // 如果请求成功，更新状态以表示用户已登录
+        this.setState({
+            isLoggedIn: true,
+            userData: response.data
+        });
+    } catch (error) {
+        // 如果请求失败（例如 Token 无效或未登录），更新状态
+        this.setState({
+            isLoggedIn: false,
+            userData: null
+        });
+    }
+};
+
 
   render() {
+    const { isLoggedIn, userData } = this.state;
+
+    if (!isLoggedIn) {
+        return <div>Please log in to access this page.</div>;
+    }
+
+    
     return (
+    
       <div class="scrollCust IndexPage">
         {/* 星星背景 */}
         <div class="starbg">
@@ -110,9 +147,7 @@ class Index extends Component {
         {/* logo 結束  */}
 
                 {/* sticky 的 header */}
-                <header id="navbar">
-                    <img src={require("../assets/images/indexImg/nav.jpg")} alt="" />
-                </header>
+                <Header/>
 
 
 

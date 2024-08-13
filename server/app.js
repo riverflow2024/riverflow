@@ -10,7 +10,9 @@ app.use(express.static(path.join(__dirname, 'public')))
 app.use(cookieParser())
 app.use(bodyParser.json())
 app.use(express.urlencoded({ extended: true }))
-app.use(cors({ origin: 'http://localhost:5500' }))
+app.use(cors({ origin: 'http://localhost:3001',
+    credentials: true // 允许带凭证的请求
+ }))
 
 // Routers
 

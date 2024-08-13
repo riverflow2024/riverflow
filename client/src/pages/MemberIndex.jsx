@@ -14,46 +14,47 @@ class MemberIndex extends Component {
             "birth": "",
             "sex": "",
         },
-        isLoading: true, // 添加一个加载状态
-        error: false,    // 添加一个错误状态
+        userData: null,       // 用户数据
+        isLoading: true,      // 加载状态
+        error: null           // 错误信息
     };
-        async componentDidMount() {
-        const token = localStorage.getItem('token');
-
-        if (!token) {
-            // 如果没有 token，重定向到登录页面
-            window.location = "/Login/Index";
-            return;
-        }
-
+    componentDidMount() {
+        this.fetchUserData();
+    }
+    
+    fetchUserData = async () => {
         try {
             const response = await axios.get('http://localhost:3000/riverflow/user', {
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
+                withCredentials: true // 确保请求带上 Cookie
             });
-
+    
+            // 更新状态以显示用户数据
             this.setState({
-                Users: response.data,
+                Users: response.data, // 使用 Users 状态
                 isLoading: false
             });
         } catch (error) {
-            console.error('Error fetching user data:', error);
-            this.setState({ 
+            // 清除本地存储中的 Token（如果你仍然在使用本地存储）
+            localStorage.removeItem('token');
+            this.setState({
                 isLoading: false,
-                error: true
+                error: 'Failed to fetch user data. Please log in again.'
             });
-            window.location = "/Login/Index";
         }
-    }
+    };
+    
+    
 
-   
     render() {
-        // const { Users } = this.state;
+        const { Users, isLoading, error } = this.state;
 
-        // if (!Users) {
-        //     return <p>載入中...</p>; // 顯示載入狀態
-        // }
+        if (isLoading) {
+            return <div>Loading...</div>;
+        }
+
+        if (error) {
+            return <div>{error}</div>;
+        }
         return (
 
             <div>
