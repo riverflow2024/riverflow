@@ -64,7 +64,7 @@
             <div class="pageTitle">
                 新增活動
             </div>
-            <form action="">
+            <form action="" id="eventForm">
                 <div class="tabs">
                     <ul class="tabBtnList">
                         <li><a href="#eventIntro" id="defaultOpen" class="tabBtn active">活動資訊</a></li>
@@ -97,6 +97,10 @@
                                 <option value="skate">滑板 Skate</option>
                             </select>
                         </div>
+                        <div class="infoItem">
+                            <label for="launchDate" class="editTitle">活動上架時間：</label>
+                            <input id="launchDate" name="launchDate" type="datetime-local" required>
+                        </div>
                         <div class="infoItem itemflexList">
                             <div>
                                 <label for="eventSell" class="editTitle">活動開賣時間：</label>
@@ -114,33 +118,38 @@
                                 <option value="0">戶外-自由座</option>
                             </select>
                         </div>
-                        <!-- <div id="priceSingle" class="infoItem">
-                            <label for="eventPrice_single" class="editTitle">活動票價：</label>
-                            <div class="itemPrice">
-                                <span class="priceMark event">NT$</span>
-                                <input id="eventPrice_single" type="number" required>
-                                <span class="required">※此欄位為必填</span>
-                            </div>
-                        </div> -->
-                        <div class="flex multiSect">
-                            <div id="priceMulti" class="infoList">
+                        <div id="priceMulti" class="flex multiSect">
+                            <div class="infoList">
                                 <label for="eventPrice_multi" class="editTitle">活動票價：</label>
                                 <div class="descInfo">
                                     <div class="descItem">
                                         <label for="sec1Price" class="editTitle">1F搖滾區：</label>
-                                        <input id="sec1Price" name="sec1Price" type="number" min="0" step="1" required>
+                                        <div class="itemPrice">
+                                            <span class="priceMark event">NT$</span>
+                                            <input id="sec1Price" name="sec1Price" type="number" min="0" step="1"
+                                                required>
+                                        </div>
                                     </div>
                                     <div class="descItem">
                                         <label for="sec2Price" class="editTitle">2F坐席區：</label>
-                                        <input id="sec2Price" name="sec2Price" type="number" min="0" required>
+                                        <div class="itemPrice">
+                                            <span class="priceMark event">NT$</span>
+                                            <input id="sec2Price" name="sec2Price" type="number" min="0" required>
+                                        </div>
                                     </div>
                                     <div class="descItem">
                                         <label for="sec3Price" class="editTitle">2F站席區：</label>
-                                        <input id="sec3Price" type="number" min="0" required>
+                                        <div class="itemPrice">
+                                            <span class="priceMark event">NT$</span>
+                                            <input id="sec3Price" type="number" min="0" required>
+                                        </div>
                                     </div>
                                     <div class="descItem">
                                         <label for="sec4Price" class="editTitle">1F身障區：</label>
-                                        <input id="sec4Price" type="number" min="0" required>
+                                        <div class="itemPrice">
+                                            <span class="priceMark event">NT$</span>
+                                            <input id="sec4Price" type="number" min="0" required>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -166,6 +175,20 @@
                                 </div>
                             </div>
                         </div>
+                        <div id="priceSingle">
+                            <div class="infoItem">
+                                <label for="eventPrice_single" class="editTitle">活動票價：</label>
+                                <div class="itemPrice">
+                                    <span class="priceMark event">NT$</span>
+                                    <input id="eventPrice_single" type="number" min="0" required>
+                                </div>
+                            </div>
+                            <div class="infoItem">
+                                <label for="eventSingleStock" class="editTitle">票券庫存：</label>
+                                <input id="secSingleStock" name="secSingleStock" type="number" min="0" step="1"
+                                    required>
+                            </div>
+                        </div>
                     </div>
 
                     <!-- tabContent 活動介紹-->
@@ -175,7 +198,7 @@
                             <div class="picItem">
                                 <label for="eventInfoPic" class="custUpload"><i class="fa-solid fa-upload"></i>
                                     上傳圖片</label>
-                                <input id="eventInfoPic" name="eventInfoPic" class="fileInput" type="file" required
+                                <input id="eventInfoPic" name="eventInfoPic" class="fileInput" type="file"
                                     accept="image/png, image/jpeg" />
                                 <span id="infoPicsChosen" class="fileChosen">未選擇任何檔案</span>
                             </div>
@@ -183,7 +206,7 @@
                         <div class="introItem">
                             <label for="eventDesc" class="editTitle">活動介紹：</label>
                             <div class="itemInfo">
-                                <textarea name="eventDesc" id="eventDesc" placeholder="活動介紹"></textarea>
+                                <textarea name="eventDesc" id="eventDesc" placeholder="活動介紹" required></textarea>
                             </div>
                         </div>
                         <div class="introItem">
@@ -215,11 +238,30 @@
             $('#fileChosen').text($(this).prop('files')[0].name)
         })
 
-        // 規格
-        $('.specTitle').on('input', function () {
-            // console.log($(this).val())
-            $('#specName1').text($(this).val())
+        // 場地選擇
+        // console.log(($('#eventPlace').val() == 1))
+        $('#priceSingle').css('display', 'none')        // 預設
+        $('#eventPlace').on('change', function () {
+            if ($('#eventPlace').val() == 1) {
+                // console.log('ok')
+                $('#priceSingle').css('display', 'none')
+                $('#priceMulti').css('display', 'flex')
+            } else {
+                $('#priceSingle').css('display', 'block')
+                $('#priceMulti').css('display', 'none')
+            }
         })
+
+        // 表單測試
+        document.getElementById('eventForm').addEventListener('submit', function (event) {
+            event.preventDefault(); // 防止表單提交
+            const formData = new FormData(event.target);
+
+            // 將表單資料列印到 console
+            formData.forEach((value, key) => {
+                console.log(`${key}: ${value}`);
+            });
+        });
 
     </script>
 </body>

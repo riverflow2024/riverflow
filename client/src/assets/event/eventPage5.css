@@ -16,8 +16,8 @@
 }
 
 .eventImg img {
-    border: 0.75px solid var(--main);
     border-radius: 10px;
+    border: 0.75px solid var(--main);
 }
 
 .eventTitle {
@@ -43,7 +43,7 @@
 }
 
 /* 購買順序 */
-.order {
+.framWrap .order {
     display: flex;
     margin-bottom: 1.8rem;
     justify-content: space-around;
@@ -77,18 +77,85 @@
     align-items: center;
 }
 
-.ticketOrder:nth-child(2) div:nth-child(1) {
+.ticketOrder:nth-child(3) .ticketOrder3 {
     background-color: var(--main);
     color: black;
 }
 
+/* 聯絡人資訊 */
+.contact {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    padding-bottom: 1rem;
+}
+
+.contact div label {
+    padding-bottom: 4rem;
+    margin-bottom: 3rem;
+    padding-left: 1rem;
+}
+
+.contact div input {
+    border: 0;
+    background: transparent;
+    color: var(--gr1);
+    cursor: pointer;
+    padding: 0;
+    font-size: 16px;
+    border: 0.75px solid var(--main);
+    padding: 0.2rem 10rem 0.2rem 1rem;
+    border-radius: 10px;
+    margin-top: 0.3rem;
+}
+
+.contact>div:nth-child(2) div {
+    margin-bottom: 1rem;
+}
+
+/* 取票方式 */
+.ticketTake {
+    display: flex;
+    justify-content: center;
+
+}
+
+.takeTitle {
+    border: 0.75px solid var(--gr2);
+    color: var(--gr2);
+    border-radius: 10px;
+    width: 60%;
+    padding-left: 1.5rem;
+    margin: 1rem 0rem 2rem 0rem;
+    font-size: 1.2rem;
+}
+
+.takeTitle label {
+    display: flex;
+    cursor: pointer;
+    padding: 1.8rem 0rem;
+}
+
+.takeTitle div {
+    padding-left: 1.5rem;
+}
+
+.ticketTake input {
+    transform: scale(1.5);
+    accent-color: var(--main);
+}
+
+.takeTitle:has(#fee:checked),
+.takeTitle:has(#credit:checked) {
+    border: 0.75px solid var(--main);
+    color: white;
+}
 
 /* 購票明細 */
 .ticketChoose {
     border: 0.75px solid var(--main);
     border-radius: 10px;
     background-color: var(--bk2);
-    padding-bottom: 1rem;
+    margin-bottom: 1.8rem;
 }
 
 .ticketText {
@@ -105,6 +172,9 @@
     margin-left: 2rem;
     margin-right: 2rem;
     font-size: 1.3rem;
+}
+.contact label,.contact input{
+    font-size: 1.2rem;
 }
 
 /* 購票內容 */
@@ -149,28 +219,31 @@
 
 /* 下一步按鍵 */
 .nextBtn {
-    margin-top: 3rem;
+    margin-top: 2.2rem;
     text-align: right;
     margin-bottom: 300px;
-    cursor: pointer;
     font-size: 1.3rem;
 }
 
-.nextBtn a:hover {
-    background-color: var(--main2);
-}
-
-.nextBtn a {
-    border: 0.75px solid var(--main);
+.nextBtn button {
+    border: 0.75px solid var(--gr2);
     border-radius: 10px;
     color: var(--bk1);
-    background-color: var(--main);
+    background-color: var(--gr2);
     padding: 0.8rem 6rem;
     margin-right: 2rem;
+    font-size: 20px;
+    cursor: not-allowed;
+}
+
+.nextBtn button:enabled {
+    border: 0.75px solid var(--main);
+    background-color: var(--main);
+    cursor: pointer;
 }
 
 @media screen and (min-width: 1440px) {
-    .wrap {
+    .framWrap {
         max-width: 1300px;
         height: auto;
     }
@@ -191,11 +264,15 @@
         max-width: 100%;
         padding: 1rem;
     }
+
+    .cost {
+        font-size: 24px;
+    }
 }
 
-@media screen and (max-width: 600px) {
-    .wrap {
-        min-width: 560px;
+@media screen and (max-width: 576px) {
+    .framWrap {
+        min-width: 540px;
         height: auto;
     }
 }
