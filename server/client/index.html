@@ -1,72 +1,90 @@
 <!DOCTYPE html>
-<html lang="zh-TW">
+<html lang="zh-Hant">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>測試模擬結帳</title>
-    <script src="script.js" defer></script>
+    <title>購物車結帳</title>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-    
-    <h1>測試模擬結帳</h1>
-    <form id="checkoutForm">
-        <div id="itemInputs">
-            <div class="item-input">
-                <input type="text" name="name" placeholder="商品名稱" value="Product1" required>
-                <input type="number" name="quantity" placeholder="數量" min="1" value="2" required>
-                <input type="number" name="price" placeholder="價格 (以分為單位)" min="1" value="1500" required>
-                <input type="text" name="size" placeholder="尺寸" value="白色M" required>
-            </div>
-        </div>
-        <button type="button" id="addItem">新增商品</button>
-        <button type="submit">結帳</button>
-    </form>
+<body class="bg-gray-100 p-8">
+    <div class="max-w-2xl mx-auto bg-white p-8 rounded shadow-md">
+        <h1 class="text-2xl font-bold mb-6">購物車結帳</h1>
+        <div id="cartItems" class="mb-6"></div>
+        <form id="checkoutForm">
+            <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">進行結帳</button>
+        </form>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const cartItems = document.getElementById('cartItems');
+            const checkoutForm = document.getElementById('checkoutForm');
+            let items = [];
+
+            // 從 URL 中提取用戶 ID
+            const urlParams = new URLSearchParams(window.location.search);
+            const userId = urlParams.get('userId');
+
+            if (userId) {
+                try {
+                    // 獲取購物車資料（這裡是模擬的）
+                    const response = await fetch(`http://localhost:3000/riverflow/cart/${userId}`);
+                    items = await response.json();
+
+                    // 顯示購物車商品
+                    items.forEach(item => {
+                        const itemElement = document.createElement('div');
+                        itemElement.className = 'mb-4 p-4 border rounded';
+                        itemElement.innerHTML = `
+                            <p><strong>${item.productName}</strong> (${item.productOpt})</p>
+                            <p>商品 ID：${item.productId}</p>
+                            <p>數量：${item.quantity}</p>
+                            <p>價格：NT$${(item.price / 100).toFixed(2)}</p>
+                        `;
+                        cartItems.appendChild(itemElement);
+                    });
+                } catch (error) {
+                    console.error('載入購物車資料時發生錯誤：', error);
+                    cartItems.innerHTML = '<p class="text-red-500">載入購物車資料時發生錯誤</p>';
+                }
+            } else {
+                cartItems.innerHTML = '<p class="text-red-500">未提供用戶 ID</p>';
+            }
+
+            checkoutForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+
+                const checkoutItems = items.map(item => ({
+                    id: item.cid,
+                    productId: item.productId,
+                    name: item.productName,
+                    quantity: item.quantity,
+                    price: item.price,
+                    size: item.productOpt
+                }));
+
+                try {
+                    const response = await fetch("http://localhost:3000/riverflow/pay/create-checkout-session", {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ items: checkoutItems })
+                    });
+
+                    if (response.ok) {
+                        const { url } = await response.json();
+                        window.location = url;
+                    } else {
+                        const errorData = await response.json();
+                        throw new Error(errorData.error);
+                    }
+                } catch (error) {
+                    console.error('錯誤：', error.message);
+                    alert('結帳過程中發生錯誤。請稍後再試。');
+                }
+            });
+        });
+    </script>
 </body>
 </html>
-
-
-
-
-<!-- <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-  <script src="script.js" defer></script>
-</head>
-<body>
-  <button>Checkout</button>
-</body>
-</html> -->
-
-
-<!-- <!DOCTYPE html>
-<html lang="zh-TW">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>動態結帳</title>
-    <script src="script.js" defer></script>
-</head>
-<body>
-    <h1>動態結帳</h1>
-    <form id="checkoutForm">
-        <div id="itemInputs">
-            <div class="item-input">
-                <input type="text" name="name" placeholder="商品名稱" required>
-                <input type="number" name="quantity" placeholder="數量" min="1" required>
-                <input type="number" name="price" placeholder="價格 (以分為單位)" min="1" required>
-            </div>
-        </div>
-        <button type="button" id="addItem">新增商品</button>
-        <button type="submit">結帳</button>
-    </form>
-</body>
-</html> -->
-
-
-

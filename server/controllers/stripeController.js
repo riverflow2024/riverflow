@@ -2,6 +2,9 @@ const stripeModel = require('../models/stripeModel')
 
 const createCheckoutSession = async (req, res) => {
     try {
+        const productId = req.body.items.productId
+        console.log(items)
+        console.log('productid: ',productId)
         const session = await stripeModel.createCheckoutSession(req.body.items)
         res.json({ url: session.url })
     } catch (e) {

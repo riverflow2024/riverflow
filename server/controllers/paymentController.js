@@ -3,7 +3,7 @@ const orderModel = require('../models/orderModel');
 
 exports.createCheckoutSession = async (req, res) => {
   try {
-    const session = await stripeModel.createCheckoutSession(req.body.items);
+    const session = await stripeModel.createCheckoutSession(req.body);
     res.json({ url: session.url });
   } catch (error) {
     res.status(500).json({ error: error.message });

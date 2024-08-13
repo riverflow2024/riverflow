@@ -124,7 +124,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         try {
-            const response = await fetch("http://localhost:3000/riverflow/payment/create-checkout-session", {
+            const response = await fetch("http://localhost:3000/riverflow/pay/create-checkout-session", {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
