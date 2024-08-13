@@ -45,8 +45,8 @@ const saveOrderDetails = async (sessionId) => {
 
         for (const item of orderDetails) {
             await dbconnect.query(
-                'INSERT INTO orderitem (orderId, productId, sessionId, productName, productOpt, quantity, price) VALUES (?, ?, ?, ?, ?, ?, ?)',
-                [1, 1, sessionId, item.name, item.size, item.quantity, item.price]
+                'INSERT INTO orderitem (orderId, productId, productName, productOpt, quantity, price) VALUES (?, ?, ?, ?, ?, ?, ?)',
+                [1, 1,  item.name, item.size, item.quantity, item.price]
             );
         }
 

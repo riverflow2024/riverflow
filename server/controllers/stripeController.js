@@ -15,6 +15,7 @@ const handleSuccessfulPayment = async (req, res) => {
     try {
         const result = await stripeModel.saveOrderDetails(sessionId);
         if (result.success) {
+            console.log(result.message)
             res.send(result.message);
         } else {
             res.status(500).send(result.message);
