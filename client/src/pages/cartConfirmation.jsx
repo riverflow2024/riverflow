@@ -4,6 +4,7 @@ import '../assets/reset.css'
 import '../assets/basic.css'
 import Header from '../components/header'
 import Swal from 'sweetalert2'
+// import Swal from 'sweetalert2'
 
 const CartConfirmation = () => {
   const [customerName, setCustomerName] = useState('林小美')

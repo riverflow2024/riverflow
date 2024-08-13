@@ -1,30 +1,50 @@
 import React, { Component } from 'react'
+import { Link } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
+import axios from 'axios';
 import '../assets/event/eventPage2.css'
 import '../utils/eventDetail.js'
 
 class EventDetail extends Component {
-  state = {}
+  state = {
+    event: {
+      eventId: 1,
+      eventType: "DJ",
+      eventName: "星空下的電音狂歡 <頂尖DJ戶外派對>",
+      eventDesc: "準備好迎接一個難忘的夜晚吧！熱血派對夜將帶給你一場無與倫比的DJ戶外音樂盛宴。這次活動將在台北市市民廣場盛大舉行，這裡擁有開闊的空間和絕佳的音響效果，讓你在星空下盡情舞動，感受音樂的無限魅力。\n現場將設有一個巨型舞台，配備最先進的音響設備和炫酷的燈光效果，確保每一位參加者都能享受到頂級的音樂體驗。我們精心挑選了多位頂尖DJ，他們將帶來一系列高能量的電子音樂，從節奏強烈的電音到充滿律動感的混音，讓你在音樂的海洋中徹底釋放自我。\n除了音樂之外，活動現場還設有多個主題區域，包括美食區、飲品區和互動遊戲區。你可以在這裡品嚐到來自各地的美食，享受各種精選飲品，並參加趣味橫生的互動遊戲，贏取豐富獎品。\n現場還將設有專業的攝影團隊，捕捉每一個精彩瞬間，讓你留下最美好的回憶。我們還準備了多種派對小道具，如螢光棒、面具和飾品，讓你可以自由搭配，打造屬於自己的獨特造型。\n這次活動不僅是一場音樂派對，更是一個交友的平台。你將有機會結識來自不同地方、擁有共同興趣的朋友，一起分享對音樂的熱愛，共同創造美好的回憶。",
+      eventDate: "2024-08-14T11:30:00.000Z",
+      location: "台北市中山區濱江街5號",
+      seat: 0,
+      ticketType: [
+        { "type": "一般票", "price": 3000, "stock": 500 },
+        { "type": "愛心票", "price": 1500, "stock": 100 }
+      ],
+      launchDate: "2024-07-25T12:00:00.000Z",
+      launchStatus: 1,
+      saleDate: "2024-08-07T07:00:00.000Z",
+      eventImg: "/images/events/event-yitai.jpg",
+      latestAnnouncement: "若信用卡刷卡付款失敗，會將刷卡失敗的訂單，陸續轉為【ATM虛擬帳號付款】，屆時請依的訂單顯示之「銀行帳號」、「銀行代碼」於「匯款期限」內完成付款，系統將以款項實際入帳時間為準，請於繳費後一小時至我的訂單確認，若訂單付款狀態顯示為「待繳費」，須等待銀行回傳付款狀態；若逾期未付款，系統收到銀行回傳付款狀態後將自動取消該筆訂單並顯示「付款失敗」，各家銀行轉帳入帳時間不同，請盡早繳款以保障您的權益。"
+    }
+  }
+  
   render() {
+    const {event} = this.state;
     return (
       <div class="w-bg scrollCust">
         <div class="container framWrap">
           <div class="header">
-            <img src="../../src/assets/images/indexImg/nav.jpg" alt="" />
+            <img src=""alt="" />
           </div>
 
           {/* <!-- 活動詳細頁面-首圖 --> */}
           <div class="headerImage">
-            <img src="https://res.cloudinary.com/shotgun/image/upload/ar_16:9,c_limit,f_auto,fl_lossy,q_auto,w_854/v1686313186/production/artworks/DJ_CONTEST_FINALE_1920x1080_zhvrs4" />
+            <img src={event.eventImg} alt={event.eventName} />
           </div>
           {/* <!-- 活動詳細頁面-標題 --> */}
-          <div class="eventTitle">
-            <h1>星空下的電音狂歡</h1>
+          <div class="detailEventTitle">
+            <h1>{event.eventName}</h1>
             <p>[最新公告]</p>
-            <p>
-              若信用卡刷卡付款失敗，會將刷卡失敗的訂單，陸續轉為【ATM虛擬帳號付款】，屆時請依的訂單“顯示之「銀行帳號」、「銀行代碼」於「匯款期限」內完
-              成付款，系統將以款項實際入帳時間為準，請於繳費後一小時至"我的訂單"確認，若訂單付款狀態顯示為「待繳費」，須等待銀行回傳付款狀態；若逾期未付款，
-              系統收到銀行回傳付款狀態後將自動取消該筆訂單並顯示「付款失敗」，各家銀行轉帳入帳時間不同，請盡早繳款以保障您的權益。
-            </p>
+            <p>{event.latestAnnouncement}</p>
           </div>
           {/* <!-- 活動詳細頁面-選單 --> */}
           <div class="eventBar">
@@ -59,12 +79,12 @@ class EventDetail extends Component {
                 <div>售票狀態</div>
               </div>
               <div class="buyItem">
-                <div>星空下的電音狂歡(頂尖DJ戶派對外)</div>
-                <div>2024-07-25(四)</div>
-                <div>20:00</div>
-                <div>大佳河濱公園</div>
+                <div>{event.eventName}</div>
+                <div>{new Date(event.eventDate).toLocaleDateString()}</div>
+                <div>{new Date(event.eventDate).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
+                <div>{event.location}</div>
                 <div>
-                  <button class="buyNowBtn">立即購買</button>
+                <Link to={`/Event/ConfirmSeat/${event.eventId}`}><button class="buyNowBtn">立即購買</button></Link>
                 </div>
               </div>
             </div>
@@ -74,18 +94,12 @@ class EventDetail extends Component {
             <p>活動介紹</p>
             <div class="introduceImage">
               <img
-                src="https://res.cloudinary.com/shotgun/image/upload/ar_16:9,c_limit,f_auto,fl_lossy,q_auto,w_854/v1686313186/production/artworks/DJ_CONTEST_FINALE_1920x1080_zhvrs4"
-                alt="活動介紹"
+                src={event.eventImg}
+                alt={event.eventName}
               />
             </div>
             <p>活動簡介</p>
-            <p>
-              準備好迎接一個難忘的夜晚吧！熱血派對夜將帶給你一場無與倫比的DJ戶外音樂盛宴。這次活動將在台北市市民廣場盛大舉行，這裡擁有開闊的空間和絕佳的音響效果，讓你在星空下盡情舞動，感受音樂的無限魅力。
-              現場將設有一個巨型舞台，配備最先進的音響設備和炫酷的燈光效果，確保每一位參加者都能享受到頂級的音樂體驗。我們精心挑選了多位頂尖DJ，他們將帶來一系列高能量的電子音樂，從節奏強烈的電音到充滿律動感的混音，讓你在音樂的海洋中徹底釋放自我。
-              除了音樂之外，活動現場還設有多個主題區域，包括美食區、飲品區和互動遊戲區。你可以在這裡品嚐到來自各地的美食，享受各種精選飲品，並參加趣味橫生的互動遊戲，贏取豐富獎品。
-              現場還將設有專業的攝影團隊，捕捉每一個精彩瞬間，讓你留下最美好的回憶。我們還準備了多種派對小道具，如螢光棒、面具和飾品，讓你可以自由搭配，打造屬於自己的獨特造型。
-              這次活動不僅是一場音樂派對，更是一個交友的平台。你將有機會結識來自不同地方、擁有共同興趣的朋友，一起分享對音樂的熱愛，共同創造美好的回憶。
-            </p>
+            <p>{event.eventDesc}</p>
           </div>
           {/* <!-- 選單-注意事項 --> */}
           <div class="eventCaution" id="eventCaution">

@@ -1,69 +1,177 @@
-import React, { Component } from 'react'
-import '../utils/EventIndex.js'
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import '../utils/EventIndex.js';
+import '../assets/event/eventPage1.css';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Pagination, Autoplay, Navigation, EffectCoverflow } from 'swiper/modules';
+import 'swiper/css/bundle'
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
+import 'swiper/css/scrollbar';
 
-import { Swiper, SwiperSlide } from 'swiper/react'
-import { Pagination, Autoplay, Scrollbar, A11y, Navigation } from 'swiper/modules'
+import axios from 'axios';
 
-import 'swiper/css'
-import 'swiper/css/navigation'
+import yitaiImg from '../assets/images/events/event-yitai.jpg'
+import galiImg from '../assets/images/events/event-gali.jpg'
+import yeemaoImg from '../assets/images/events/event-yeemao.png'
+import lunarfaceImg from '../assets/images/events/event-LUNARFACE.jpg'
 
-class EventIndex extends Component {
-  state = {}
-  render() {
-    return (
-      <Swiper
-        modules={[Navigation, Pagination, Scrollbar, A11y, Autoplay]}
-        spaceBetween={50}
-        slidesPerView={1.5}
-        navigation
-        pagination={{ clickable: true }}
-        scrollbar={{ draggable: true }}
-        autoplay={{ delay: 3000, disableOnInteraction: false }}
-        onSwiper={(swiper) => console.log(swiper)}
-        onSlideChange={() => console.log('slide change')}
-        coverflowEffect={{
-          depth: 200,
-          rotate: 0,
-          stretch: 0,
-          slideShadows: true
-        }}
-        loop={true}
-      >
-        <SwiperSlide>
-          <a href="#">
-            <img
-              src="https://res.cloudinary.com/shotgun/image/upload/ar_16:9,c_limit,f_auto,fl_lossy,q_auto,w_854/v1686313186/production/artworks/DJ_CONTEST_FINALE_1920x1080_zhvrs4"
-              alt=""
-            />
-          </a>
-        </SwiperSlide>
-        <SwiperSlide>
-          <a href="#">
-            <img
-              src="https://www.juliacharleseventmanagement.co.uk/wp-content/uploads/2019/04/Street-Dancers-Performing-For-Audience.jpg"
-              alt=""
-            />
-          </a>
-        </SwiperSlide>
-        <SwiperSlide>
-          <a href="#">
-            <img
-              src="https://www.juliacharleseventmanagement.co.uk/wp-content/uploads/2019/04/Street-Dance-Crew-For-Events.jpg"
-              alt=""
-            />
-          </a>
-        </SwiperSlide>
-        <SwiperSlide>
-          <a href="#">
-            <img
-              src="https://www.juliacharleseventmanagement.co.uk/wp-content/uploads/2019/04/streetdancers1.jpg"
-              alt=""
-            />
-          </a>
-        </SwiperSlide>
-      </Swiper>
-    )
-  }
-}
+const eventData = [
+  {
+    id: 1,
+    category: 'rap',
+    image: yitaiImg,
+    title: '王以太 《Love Me Later》 台北站',
+    date: '2024-09-12 至 2024-09-14',
+    link: '../static/eventPage2.html'
+  },
+  {
+    id: 2,
+    category: 'streetdance',
+    image: galiImg,
+    title: 'GALI 《STRIPELIVE》IN TAIPEI',
+    date: '2024-09-14 至 2024-09-14',
+    link: '#'
+  },
+  {
+    id: 3,
+    category: 'rap',
+    image: yitaiImg,
+    title: '王以太 《Love Me Later》 台北站',
+    date: '2024-09-12 至 2024-09-14',
+    link: '../static/eventPage2.html'
+  },
+  {
+    id: 4,
+    category: 'streetdance',
+    image: galiImg,
+    title: 'GALI 《STRIPELIVE》IN TAIPEI',
+    date: '2024-09-14 至 2024-09-14',
+    link: '#'
+  },
+];
 
-export default EventIndex
+const EventSwiper = () => {
+  return (
+    <Swiper
+      modules={[Navigation, Pagination, Autoplay, EffectCoverflow]}
+      autoplay={true}
+      direction={'horizontal'}
+      loop={true}
+      slidesPerView={1}
+      effect="coverflow"
+      centeredSlides={true}
+      coverflowEffect={{
+        rotate: 0,
+        stretch: 0,
+        depth: 0,
+        modifier: 1,
+        slideShadows: true,
+      }}
+      className="swiper"
+    >
+      <SwiperSlide>
+        <a href="#"><img src={yitaiImg} alt="DJ Contest" /></a>
+      </SwiperSlide>
+      <SwiperSlide>
+        <a href="#"><img src={galiImg} alt="Street Dancers Performing" /></a>
+      </SwiperSlide>
+      <SwiperSlide>
+        <a href="#"><img src={yeemaoImg} alt="Street Dance Crew" /></a>
+      </SwiperSlide>
+      <SwiperSlide>
+        <a href="#"><img src={lunarfaceImg} alt="Street Dancers" /></a>
+      </SwiperSlide>
+    </Swiper>
+  );
+};
+
+const EventIndex = () => {
+  const [filter, setFilter] = useState('all');
+  const [searchTerm, setSearchTerm] = useState('');
+  
+  const [apiEventData, setApiEventData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchEvents = async () => {
+      try {
+        setLoading(true);
+        const response = await axios.get('http://localhost:3000/riverflow/events');
+        setApiEventData(response.data);
+        setLoading(false);
+      } catch (err) {
+        console.error('獲取事件數據時出錯：', err);
+        setApiEventData(eventData);
+        setLoading(false);
+      }
+    };
+
+    fetchEvents();
+  }, []);
+
+  const dataToUse = apiEventData.length > 0 ? apiEventData : eventData;
+
+  const filteredEvents = dataToUse.filter(event => 
+    (filter === 'all' || event.category === filter || event.eventType === filter) &&
+    (event.title || event.eventName).toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  if (loading) return <div>載入中...</div>;
+
+  return (
+    <div className="w-bg scrollCust">
+      <div className="wrap container">
+        <div className="header">
+          <img src="../../src/assets/images/indexImg/nav.jpg" alt="" />
+        </div>
+
+        <div className="carousel">
+          <EventSwiper />
+        </div>
+
+        <div className="event">
+          <div className="eventFilter">
+            <div>
+              <input 
+                type="text" 
+                placeholder="搜尋活動"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
+            </div>
+            <div className="titleSelect">
+              <div><a href="#" onClick={() => setFilter('all')}>全部</a></div>
+              <div><a href="#" onClick={() => setFilter('DJ')}>DJ | Disc Jockey</a></div>
+              <div><a href="#" onClick={() => setFilter('streetdance')}>街舞 | Street Dance</a></div>
+              <div><a href="#" onClick={() => setFilter('rap')}>饒舌 | Rap</a></div>
+              <div><a href="#" onClick={() => setFilter('graffiti')}>塗鴉 | Graffiti</a></div>
+              <div><a href="#" onClick={() => setFilter('skate')}>滑板 | Skate</a></div>
+            </div>
+          </div>
+
+          <div className="eventList">
+            <div className="eventProduct">
+              {filteredEvents.map(event => (
+                <div key={event.id || event.eventId} className="eventCard" data-category={event.category || event.eventType}>
+                  <Link to={`/Event/Detail/${event.eventId}`}>
+                    <img src={event.image || event.eventImg} alt={event.title || event.eventName} />
+                    <p>{event.title || event.eventName}</p>
+                    <p>{event.date || new Date(event.eventDate).toLocaleDateString()}</p>
+                  </Link>
+                </div>
+              ))}
+            </div>
+            <div className="eventListBtn">
+              <button>查看更多活動</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default EventIndex;
