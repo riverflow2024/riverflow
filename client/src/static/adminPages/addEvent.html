@@ -64,7 +64,7 @@
             <div class="pageTitle">
                 新增活動
             </div>
-            <form action="" id="eventForm">
+            <form action="" id="eventForm" enctype="multipart/form-data">
                 <div class="tabs">
                     <ul class="tabBtnList">
                         <li><a href="#eventIntro" id="defaultOpen" class="tabBtn active">活動資訊</a></li>
@@ -158,19 +158,19 @@
                                 <div class="descInfo">
                                     <div class="descItem">
                                         <label for="sec1Stock" class="editTitle">1F搖滾區：</label>
-                                        <input id="sec1Stock" name="sec1Stock" type="number" min="0" step="1" required>
+                                        <input id="sec1Stock" class="tktStock" name="sec1Stock" type="number" min="0" step="1" required>
                                     </div>
                                     <div class="descItem">
                                         <label for="sec2Stock" class="editTitle">2F坐席區：</label>
-                                        <input id="sec2Stock" name="sec2Stock" type="number" min="0" step="1" required>
+                                        <input id="sec2Stock" class="tktStock" name="sec2Stock" type="number" min="0" step="1" required>
                                     </div>
                                     <div class="descItem">
                                         <label for="sec3Stock" class="editTitle">2F站席區：</label>
-                                        <input id="sec3Stock" name="sec3Stock" type="number" min="0" step="1" required>
+                                        <input id="sec3Stock" class="tktStock" name="sec3Stock" type="number" min="0" step="1" required>
                                     </div>
                                     <div class="descItem">
                                         <label for="sec4Stock" class="editTitle">1F身障區：</label>
-                                        <input id="sec4Stock" name="sec4Stock" type="number" min="0" step="1" required>
+                                        <input id="sec4Stock" class="tktStock" name="sec4Stock" type="number" min="0" step="1" required>
                                     </div>
                                 </div>
                             </div>
@@ -185,8 +185,7 @@
                             </div>
                             <div class="infoItem">
                                 <label for="eventSingleStock" class="editTitle">票券庫存：</label>
-                                <input id="secSingleStock" name="secSingleStock" type="number" min="0" step="1"
-                                    required>
+                                <input id="secSingleStock" name="secSingleStock" type="number" min="0" step="1" required>
                             </div>
                         </div>
                     </div>
@@ -243,10 +242,12 @@
         $('#priceSingle').css('display', 'none')        // 預設
         $('#eventPlace').on('change', function () {
             if ($('#eventPlace').val() == 1) {
-                // console.log('ok')
+                // 對號座顯示
                 $('#priceSingle').css('display', 'none')
                 $('#priceMulti').css('display', 'flex')
+
             } else {
+                // 單一區顯示
                 $('#priceSingle').css('display', 'block')
                 $('#priceMulti').css('display', 'none')
             }

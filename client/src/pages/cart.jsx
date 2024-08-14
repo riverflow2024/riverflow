@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import '../assets/cart.css'
+import Header from '../components/header'
 
 const CartItem = ({ item, onQuantityChange, onDelete }) => {
   const handleQuantityChange = (change) => {
@@ -82,6 +83,7 @@ const Cart = () => {
 
   return (
     <div className="cart-wrap-f">
+      <Header />
       <div className="container-f">
         <div className="cart-wrap">
           <div className="container">

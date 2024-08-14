@@ -282,7 +282,7 @@ const EventOrder = () => {
   const isNextStepEnabled = contactName && contactEmail && contactPhone && ibonSelected && creditCardSelected;
 
   return (
-    <div className="wrap container">
+    <div className="framWrap container">
       <div className="header">
         <img src="../../src/assets/images/indexImg/nav.jpg" alt="" />
       </div>
@@ -304,7 +304,21 @@ const EventOrder = () => {
       </div>
 
       <div className="order">
-        {/* 購買順序部分保持不變 */}
+      <div className="ticketOrder">
+                <div><span>1</span></div>
+                <div><span>選擇票區</span></div>
+                <p></p>
+              </div>
+              <div className="ticketOrder">
+                <div><span>2</span></div>
+                <div><span>確認明細</span></div>
+                <p></p>
+              </div>
+              <div className="ticketOrder">
+                <div className="ticketOrder3"><span>3</span></div>
+                <div><span>確認資料</span></div>
+                <p></p>
+              </div>
       </div>
 
       <div className="ticketChoose">

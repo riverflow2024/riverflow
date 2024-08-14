@@ -1,40 +1,40 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import '../assets/basic.css'
-import '@fortawesome/fontawesome-free/css/all.min.css'
 import '../assets/ProductDetail.css'
 import 'lightbox2/dist/css/lightbox.min.css'
 import lightbox from 'lightbox2'
 import Swal from 'sweetalert2'
+import { useParams } from 'react-router-dom'
+import Header from '../components/header'
 
-// 圖片組件
-const ProductImages = ({ images }) => (
+const ProductImages = ({ images = [], isFavorited, onToggleFavorite }) => (
   <aside className="product-images">
     <div className="product-images-big">
       <a href={images[0]} data-lightbox="example-set" data-title="產品圖片">
-        <img className="example-image" src={images[0]} alt="product" />
+        <img className="example-image" src={images[0] || '/path/to/default-image.jpg'} alt="product" />
       </a>
-      <a href="#" className="favorite">
-        <i className="fa-regular fa-heart"></i>
+      <a href="#" className={`favorite ${isFavorited ? 'selected' : ''}`} onClick={onToggleFavorite}>
+        <i className={`fa-regular fa-heart ${isFavorited ? 'selected' : ''}`}></i>
       </a>
     </div>
     <div className="product-image-small">
       {images.slice(1).map((image, index) => (
         <a href={image} data-lightbox="example-set" data-title="產品圖片" key={index}>
-          <img className="example-image" src={image} alt={`product${index + 2}`} />
+          <img className="example-image" src={image || '/path/to/default-image.jpg'} alt={`product${index + 2}`} />
         </a>
       ))}
     </div>
   </aside>
 )
 
-// 右邊訊息組件
 const ProductInfo = ({ product, onSizeSelect, onQuantityChange, quantity, selectedSize, onAddToCart, totalPrice }) => (
   <main className="product-info">
     <h1>{product.productName}</h1>
     <div className="labels">
       <span className="label normal">{product.category}</span>
       {product.isNew && <span className="label new">新品</span>}
+      {product.isOnSale && <span className="label sale">優惠</span>}
     </div>
     <div className="price-rating">
       <div className="price">
@@ -70,15 +70,19 @@ const ProductInfo = ({ product, onSizeSelect, onQuantityChange, quantity, select
     </div>
     <div className="size">
       <h3>尺寸</h3>
-      {product.sizes.map((size, index) => (
-        <button
-          key={index}
-          className={`size-option ${selectedSize === size ? 'selected' : ''}`}
-          onClick={() => onSizeSelect(size)}
-        >
-          {size}
-        </button>
-      ))}
+      {product.sizes && product.sizes.length > 0 ? (
+        product.sizes.map((size, index) => (
+          <button
+            key={index}
+            className={`size-option ${selectedSize === size ? 'selected' : ''}`}
+            onClick={() => onSizeSelect(size)}
+          >
+            {size}
+          </button>
+        ))
+      ) : (
+        <p>無可選擇的尺寸</p>
+      )}
     </div>
     <div className="quantity">
       <div className="add-minus">
@@ -111,46 +115,63 @@ const ProductInfo = ({ product, onSizeSelect, onQuantityChange, quantity, select
   </main>
 )
 
-// 產品組件
 const Recommendations = () => (
   <div className="recommendations container">
     <h2>你可能會喜歡</h2>
-    <div className="product-item-container">{/* 這裡可以動態生成推薦產品 */}</div>
+    <div className="product-item-container">{/* 这里可以动态生成推荐产品 */}</div>
   </div>
 )
 
-const ProductDetail = ({ match }) => {
+const ProductDetail = () => {
+  const { productId } = useParams()
   const [selectedSize, setSelectedSize] = useState('')
   const [quantity, setQuantity] = useState(1)
   const [product, setProduct] = useState(null)
   const [loading, setLoading] = useState(true)
-
-  const productId = match.params.id // 假設路由傳入的產品 ID
+  const [isFavorited, setIsFavorited] = useState(false)
 
   useEffect(() => {
-    // 使用 axios 獲取產品數據
     axios
-      .get(`/api/products/${productId}`)
+      .get(`http://localhost:3000/riverflow/products/${productId}`)
       .then((response) => {
-        setProduct(response.data)
+        const data = response.data
+        const productData = data.productInfo[0]
+
+        productData.sizes = JSON.parse(productData.productOpt).map((opt) => opt.name)
+        productData.images = data.productImg.map((img) => img.productImg)
+        productData.rating =
+          JSON.parse(productData.productRating).reduce((acc, curr) => acc + curr.rating, 0) /
+          JSON.parse(productData.productRating).length
+
+        // 设置标签状态，假设数据中有 isNew 和 isOnSale 字段
+        productData.isNew = data.isNew || false
+        productData.isOnSale = data.isOnSale || false
+
+        setProduct(productData)
         setLoading(false)
+
+        lightbox.option({
+          resizeDuration: 200,
+          wrapAround: true
+        })
       })
       .catch((error) => {
-        console.error('Error fetching product:', error)
+        console.error('Error fetching product details:', error)
         setLoading(false)
       })
-
-    lightbox.option({
-      resizeDuration: 200,
-      wrapAround: true
-    })
   }, [productId])
+
+  const toggleFavorite = () => {
+    setIsFavorited(!isFavorited)
+    // 这里可以调用 API 来保存最爱状态到后端
+  }
 
   const unitPrice = product ? parseInt(product.productPrice, 10) : 0
   const totalPrice = `NT$${unitPrice * quantity}`
 
   const handleSizeSelect = (size) => setSelectedSize(size)
-  const handleQuantityChange = (delta) => setQuantity((prevQuantity) => Math.max(1, prevQuantity + delta))
+  const handleQuantityChange = (delta) => setQuantity((prev) => Math.max(1, prev + delta))
+
   const handleAddToCart = () => {
     if (!selectedSize) {
       Swal.fire({
@@ -169,7 +190,7 @@ const ProductDetail = ({ match }) => {
       timer: 3000,
       timerProgressBar: true
     })
-    // 這裡可以調用API，將產品加入購物車
+    // 调用 API 将产品添加到购物车
   }
 
   if (loading) {
@@ -178,11 +199,12 @@ const ProductDetail = ({ match }) => {
 
   return (
     <div className="w-bg scrollCust">
+      <Header />
       <div className="container-f">
         <div className="wrap">
           {product && (
             <>
-              <ProductImages images={product.images} />
+              <ProductImages images={product.images} isFavorited={isFavorited} onToggleFavorite={toggleFavorite} />
               <ProductInfo
                 product={product}
                 selectedSize={selectedSize}

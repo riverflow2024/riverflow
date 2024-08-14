@@ -3,6 +3,8 @@ const productModel = require('../models/productModel')
 // 取得所有產品
 const getAllProducts = async (req, res) => {
   try {
+    // const userId = req.userId;
+    // console.log(userId)
     // const { productid , userid } = req.body;
     // const createCart = await getProduct(pro)
 

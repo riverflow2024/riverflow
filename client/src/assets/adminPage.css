@@ -1,13 +1,14 @@
-@import url(basic.css);
 /*後台管理 CSS*/
 body {
     --mainlighter: #F6FFE0;
     --err: #FF7E55;
     --cancel: #A8A7A7;
     --gr0: #F5F5F5;
+}
 
+.w-bg:has(.admin-page) {
     background-color: #fff;
-    color: #000;
+    background-image: none;
 }
 
 input, select {
@@ -46,6 +47,8 @@ i.fa-solid {
 
 
 .admin-page {
+    background-color: #fff;
+    color: #000;
     position: relative;
 }
 
@@ -153,10 +156,10 @@ td {
     text-align: center;
     width: auto;
 }
-.item {
+.admin-page .item {
     border-bottom: 1px solid var(--cancel);
 }
-.item:last-of-type {
+.admin-page .item:last-of-type {
     border-bottom: 0;
 }
 .prdImgPre {
@@ -420,6 +423,9 @@ button.addItem, button.delItem {
 }
 .multiSect>.infoList {
     width: 48%;
+}
+.tktStock {
+    width: 50%;
 }
 @media screen and (max-width: 800px) {
     .itemflexList>div,
