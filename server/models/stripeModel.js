@@ -16,7 +16,7 @@ const createCheckoutSession = async (items) => {
             },
             quantity: item.quantity,
         })),
-        success_url: `${process.env.CLIENT_URL}/success.html?session_id={CHECKOUT_SESSION_ID}`,
+        success_url: `${process.env.CLIENT_URL}/success.jsx?session_id={CHECKOUT_SESSION_ID}`,
         cancel_url: `${process.env.CLIENT_URL}/cancel.html`,
         metadata: {
             order_details: JSON.stringify(items)

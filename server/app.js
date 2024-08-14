@@ -12,13 +12,9 @@ app.use(express.static(path.join(__dirname, 'public')))
 app.use(cookieParser())
 app.use(bodyParser.json())
 app.use(express.urlencoded({ extended: true }))
-<<<<<<< HEAD
-app.use(cors({ origin:`http://localhost:5500`,
-=======
 app.use(
   cors({
     origin: `http://localhost:${process.env.CLIENT_PORT}`,
->>>>>>> cd3aac4d4f09104de53fd247bfd8e066f5000285
     credentials: true // 带憑證的请求
   })
 )
@@ -45,8 +41,8 @@ app.use('/riverflow/user', authenticateToken, userRoutes)
 app.use('/riverflow/products', productRoutes)
 app.use('/riverflow/events', eventRoutes)
 // app.use('/riverflow/payment',paymentRoutes)
-app.use('/riverflow/pay', stripeRoutes)
-app.use('/riverflow/cart', cartRoutes)
+app.use('/riverflow/pay',authenticateToken, stripeRoutes)
+app.use('/riverflow/cart',authenticateToken, cartRoutes)
 
 app.use('/riverflow/events/Tobuy', eventTobuyRoutes)
 // app.use('/riverflow/orders', orderRoutes)

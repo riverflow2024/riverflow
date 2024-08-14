@@ -35,6 +35,7 @@ import ProductDetail from './pages/ProductDetail'
 import Cart from './pages/cart'
 import cartCheckOut from './pages/cartCheckOut'
 import cartConfirmation from './pages/cartConfirmation'
+import PaymentSuccess from './pages/success'
 
 export default function UserInterface() {
   return (
@@ -67,6 +68,7 @@ export default function UserInterface() {
         <Route path="Order/Cart" element={<Cart />} />
         <Route path="Order/cartCheckOut" element={<cartCheckOut />} />
         <Route path="Order/cartConfirmation" element={<cartConfirmation />} />
+        <Route path="Order/PaymentSuccess" element={<PaymentSuccess />} />
       </Routes>
       <Footer />
     </div>
