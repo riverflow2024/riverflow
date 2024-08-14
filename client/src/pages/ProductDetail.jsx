@@ -172,26 +172,72 @@ const ProductDetail = () => {
   const handleSizeSelect = (size) => setSelectedSize(size)
   const handleQuantityChange = (delta) => setQuantity((prev) => Math.max(1, prev + delta))
 
-  const handleAddToCart = () => {
+  const handleAddToCart = async () => {
     if (!selectedSize) {
       Swal.fire({
         icon: 'error',
         title: '請選擇尺寸規格',
         confirmButtonColor: 'red'
-      })
-      return
+      });
+      return;
     }
-    Swal.fire({
-      icon: 'success',
-      title: '已成功加入購物車',
-      toast: true,
-      position: 'top-end',
-      showConfirmButton: false,
-      timer: 3000,
-      timerProgressBar: true
-    })
-    // 调用 API 将产品添加到购物车
-  }
+  
+    const cartData = {
+      productId: productId,
+      quantity: quantity,
+      productName: product.productName,
+      productOpt: selectedSize,
+      price: product.productPrice
+    };
+  
+    try {
+      const response = await axios.post('http://localhost:3000/riverflow/cart/add', cartData, {
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        withCredentials: true // 確保發送跨域請求時包含 cookies
+      });
+  
+      if (response.data.success) {
+        Swal.fire({
+          icon: 'success',
+          title: '已成功加入購物車',
+          toast: true,
+          position: 'top-end',
+          showConfirmButton: false,
+          timer: 3000,
+          timerProgressBar: true
+        });
+      } else {
+        throw new Error('加入購物車失敗');
+      }
+    } catch (error) {
+      console.error('加入購物車時出錯：', error);
+      if (error.response && error.response.status === 401) {
+        // 處理未授權錯誤
+        Swal.fire({
+          icon: 'error',
+          title: '登錄已過期',
+          text: '請重新登錄',
+          confirmButtonColor: 'red',
+          confirmButtonText: '前往登錄'
+        }).then((result) => {
+          if (result.isConfirmed) {
+            // 重定向到登錄頁面
+            window.location.href = '/login'; // 請根據實際的登錄頁面 URL 進行調整
+          }
+        });
+      } else {
+        // 處理其他錯誤
+        Swal.fire({
+          icon: 'error',
+          title: '加入購物車失敗',
+          text: '請稍後再試',
+          confirmButtonColor: 'red'
+        });
+      }
+    }
+  };
 
   if (loading) {
     return <div>Loading...</div>

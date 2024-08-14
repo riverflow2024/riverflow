@@ -121,7 +121,7 @@ exports.getProductInfo = (id) => {
             FROM 
             products, productcategories ,categories 
             WHERE 
-            products.productid = 1 
+            products.productid = ? 
             AND products.productid = productcategories.productid 
             AND productcategories.categoryid = categories.categoryid 
             `,
