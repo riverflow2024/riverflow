@@ -10,8 +10,19 @@ const PaymentSuccess = () => {
     const sessionId = urlParams.get('session_id');
 
     if (sessionId) {
-      fetch(`http://localhost:3000/riverflow/pay/payment-success?session_id=${sessionId}`)
-        .then(response => response.text())
+      fetch(`http://localhost:3000/riverflow/pay/payment-success?session_id=${sessionId}`, {
+        method: 'GET',
+        credentials: 'include', // 重要：包含 cookies
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+          return response.json();
+        })
         .then(data => {
           console.log(data);
           setPaymentStatus('支付成功！');
@@ -27,7 +38,6 @@ const PaymentSuccess = () => {
     <div className="w-bg">
       <header>
         {/* Header content */}
-        {/* You can create a separate Header component and import it here */}
       </header>
 
       <div style={{ marginTop: '100px', fontSize: '24px', textAlign: 'center' }}>
