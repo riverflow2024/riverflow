@@ -1,3 +1,4 @@
+// Author: zhier1114
 const db = require('./dbConnect')
 
 // 建立帳號
@@ -138,11 +139,29 @@ exports.findAllOrders = async (userId) => {
 exports.findOneOrder = async (userId, orderId) => {
   return new Promise((resolve, reject) => {
     db.query(
-      'SELECT o.orderId, o.totalPrice, o.orderStatus, o.payMethod, o.createdAt, o.rcptName, o.rcptPhone, o.rcptAddr, o.shipMethod, o.convAddr, oi.productName, oi.productOpt, oi.quantity, oi.quantity FROM Users AS u, `Order` AS o, OrderItem AS oi WHERE u.userId = o.userId AND u.userId = ? AND o.orderId = oi.orderId AND o.orderId = ?',
+      'SELECT o.orderId, o.totalPrice, o.orderStatus, o.payMethod, o.createdAt, o.rcptName, o.rcptPhone, o.rcptAddr, o.shipMethod, o.convAddr FROM Users AS u, `Order` AS o WHERE u.userId = o.userId AND u.userId = ? AND o.orderId = ?',
       [userId, orderId],
       (error, results) => {
         if (error) {
           console.error('查詢商品失敗:', error)
+          reject(error)
+        } else {
+          resolve(results[0])
+        }
+      }
+    )
+  })
+}
+
+// 商品訂單明細選項
+exports.findOneOrderDetail = async (orderId) => {
+  return new Promise((resolve, reject) => {
+    db.query(
+      'SELECT oi.productName, oi.productOpt, oi.quantity, oi.price FROM `Order` AS o, OrderItem AS oi WHERE o.orderId = oi.orderId AND oi.orderId = ? ORDER BY oi.oiId',
+      [orderId],
+      (error, results) => {
+        if (error) {
+          console.error('查詢商品明細失敗:', error)
           reject(error)
         } else {
           resolve(results)

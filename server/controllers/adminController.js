@@ -383,3 +383,74 @@ exports.createEvent = async (req, res) => {
     res.status(500).json({ message: '建立活動失敗', error: err.message })
   }
 }
+// 刪除
+exports.deleteEvent = async (req, res) => {
+  const query = util.promisify(dbConnect.query).bind(dbConnect)
+  // 開始事務
+  await query('START TRANSACTION')
+  try {
+    const eventId = req.params.eventId
+    const deleteEventImages = await adminModel.deleteEventImages(eventId)
+    if (!deleteEventImages) {
+      console.error('該活動無照片')
+    }
+    const deletedEvents = await adminModel.deleteEvent(eventId)
+    if (!deletedEvents) {
+      await query('ROLLBACK')
+      res.status(500).json({ message: '活動刪除失敗' })
+    }
+    // 提交事務
+    await query('COMMIT')
+    res.status(200).json({ message: '活動已刪除' })
+  } catch (err) {
+    console.error('活動刪除失敗：', err)
+    res.status(500).json({ message: err.message })
+  }
+}
+
+// 活動訂單
+
+// 列表
+exports.getAllEventOrders = async (req, res) => {
+  try {
+    const allOrders = await adminModel.getAllEventOrders()
+    res.json(allOrders)
+  } catch (err) {
+    console.error('活動訂單列表取得失敗：', err)
+    res.status(500).json({ message: err.message })
+  }
+}
+// 搜尋
+exports.searchEventOrders = async (req, res) => {
+  try {
+    const searchOrders = await adminModel.searchEventOrders(req.query.keyword)
+
+    res.json(searchOrders)
+  } catch (err) {
+    console.error('搜尋活動訂單失敗：', err)
+    res.status(500).json({ message: err.message })
+  }
+}
+// 詳細內容
+exports.getEventOrderDetail = async (req, res) => {
+  try {
+    const orderDetail = await adminModel.getEventOrderDetail(req.params.orderId)
+    res.json(orderDetail)
+  } catch (err) {
+    console.error('活動訂單取得失敗：', err)
+    res.status(500).json({ message: err.message })
+  }
+}
+// 更新狀態
+exports.updateEventOrderStatus = async (req, res) => {
+  try {
+    const updated = await adminModel.updateEventOrderStatus(req.params.orderId, req.body.tdStatus)
+    if (!updated) {
+      return res.status(404).json({ message: '找不到此活動訂單' })
+    }
+    res.json({ message: '活動訂單狀態已更新' })
+  } catch (err) {
+    console.error('活動訂單狀態更新失敗：', err)
+    res.status(500).json({ message: err.message })
+  }
+}

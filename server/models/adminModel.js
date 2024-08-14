@@ -303,7 +303,7 @@ exports.restoreData = async (productData) => {
 exports.getAllProductOrders = async () => {
   return new Promise((resolve, reject) => {
     db.query(
-      'SELECT o.orderId, CONCAT(u.firstName, "", u.lastName) AS name , o.rcptPhone, o.totalPrice, o.payMethod, o.orderStatus FROM `Order` AS o, Users AS u WHERE o.userId = u.userId',
+      'SELECT o.orderId, CONCAT(u.firstName, "", u.lastName) AS rcptName , o.rcptPhone, o.totalPrice, o.payMethod, o.orderStatus FROM `Order` AS o, Users AS u WHERE o.userId = u.userId',
       (error, results) => {
         if (error) {
           console.error('取得所有商品資訊失敗:', error)
@@ -319,7 +319,7 @@ exports.getAllProductOrders = async () => {
 exports.getProductOrderDetail = async (orderId) => {
   return new Promise((resolve, reject) => {
     db.query(
-      'SELECT o.createdAt, CONCAT(u.firstName, "", u.lastName), u.sex, u.email, u.phone, o.totalPrice, o.payMethod, o.orderStatus, o.receiptType, o.receiptInfo, o.rcptName, o.rcptPhone, o.rcptAddr, o.shipMethod, o.convAddr, o.orderRemark, o.backRemark, o.orderStatus FROM `Order` AS o, Users AS u WHERE o.orderId = 1 AND o.userId = u.userId',
+      'SELECT o.createdAt, CONCAT(u.firstName, "", u.lastName) AS rcptName, u.sex, u.email, u.phone, o.totalPrice, o.payMethod, o.orderStatus, o.receiptType, o.receiptInfo, o.rcptName, o.rcptPhone, o.rcptAddr, o.shipMethod, o.convAddr, o.orderRemark, o.backRemark, o.orderStatus FROM `Order` AS o, Users AS u WHERE o.orderId = 1 AND o.userId = u.userId',
       [orderId],
       (error, results) => {
         if (error) {
@@ -615,5 +615,97 @@ exports.createEventImages = async (eventId, eventImg, imgType) => {
         }
       }
     )
+  })
+}
+// 刪除
+exports.deleteEvent = async (eventId) => {
+  return new Promise((resolve, reject) => {
+    db.query('DELETE FROM Events WHERE eventId = ?', [eventId], (error, results) => {
+      if (error) {
+        console.error('刪除活動錯誤:', error)
+        reject(error)
+      } else {
+        resolve(results)
+      }
+    })
+  })
+}
+// 刪除照片
+exports.deleteEventImages = async (eventId) => {
+  return new Promise((resolve, reject) => {
+    db.query('DELETE FROM EventImages WHERE eventId = ?', [eventId], (error, results) => {
+      if (error) {
+        console.error('刪除活動照片失敗:', error)
+        reject(error)
+      } else {
+        resolve(results)
+      }
+    })
+  })
+}
+
+// 活動訂單
+
+// 列表
+exports.getAllEventOrders = async () => {
+  return new Promise((resolve, reject) => {
+    db.query(
+      'SELECT td.tdId, CONCAT(u.firstName, "", u.lastName) AS rcptName, e.eventName, td.quantity, td.tdPrice, td.tdStatus FROM TicketDetails AS td LEFT JOIN Events AS e ON td.eventId = e.eventId LEFT JOIN Users AS u ON td.userId = u.userId',
+      (error, results) => {
+        if (error) {
+          console.error('取得活動訂單列表錯誤:', error)
+          reject(error)
+        } else {
+          resolve(results)
+        }
+      }
+    )
+  })
+}
+// 搜尋
+exports.searchEventOrders = async (searchKeywords) => {
+  return new Promise((resolve, reject) => {
+    const query =
+      'SELECT td.tdId, CONCAT(u.firstName, "", u.lastName) AS rcptName, e.eventName, td.quantity, td.tdPrice, td.tdStatus FROM TicketDetails AS td LEFT JOIN Events AS e ON td.eventId = e.eventId LEFT JOIN Users AS u ON td.userId = u.userId WHERE e.eventName LIKE ? OR u.firstName LIKE ? OR u.lastName LIKE ?'
+    const searchPattern = `%${searchKeywords}%`
+    const values = [searchPattern, searchPattern, searchPattern]
+    db.query(query, values, (err, result) => {
+      if (err) {
+        console.error('活動訂單搜尋錯誤:', err)
+        reject(err)
+      } else {
+        resolve(result)
+      }
+    })
+  })
+}
+// 詳細內容
+exports.getEventOrderDetail = async (tdId) => {
+  return new Promise((resolve, reject) => {
+    db.query(
+      'SELECT td.createdAt, CONCAT(u.firstName, "", u.lastName) AS rcptName, u.sex, u.email, u.phone, td.receiptType, td.receiptInfo, e.eventName, td.quantity, td.ticketType, td.randNum, td.tdPrice, td.tdStatus FROM TicketDetails AS td LEFT JOIN Events AS e ON td.eventId = e.eventId LEFT JOIN Users AS u ON td.userId = u.userId WHERE td.tdId = ?',
+      [tdId],
+      (error, results) => {
+        if (error) {
+          console.error('取得活動訂單詳細內容錯誤:', error)
+          reject(error)
+        } else {
+          resolve(results)
+        }
+      }
+    )
+  })
+}
+// 更新狀態
+exports.updateEventOrderStatus = async (tdId, tdStatus) => {
+  return new Promise((resolve, reject) => {
+    db.query('UPDATE TicketDetails SET tdStatus = ? WHERE tdId = ?', [tdStatus, tdId], (error, results) => {
+      if (error) {
+        console.error('更新活動訂單狀態失敗:', error)
+        reject(error)
+      } else {
+        resolve(results)
+      }
+    })
   })
 }

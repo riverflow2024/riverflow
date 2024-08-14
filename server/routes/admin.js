@@ -82,5 +82,18 @@ router.get('/events/:eventId/review', (req, res) => {
 })
 // 新增
 router.post('/events/create', adminController.createEvent)
+// 刪除
+router.delete('/events/:eventId', adminController.deleteEvent)
+
+// 活動訂單
+
+// 列表
+router.get('/event-orders', adminController.getAllEventOrders)
+// 搜尋
+router.get('/event-orders/search', adminController.searchEventOrders)
+// 詳細內容
+router.get('/event-orders/:orderId', adminController.getEventOrderDetail)
+// 更新狀態
+router.put('/event-orders/:orderId', adminController.updateEventOrderStatus)
 
 module.exports = router
