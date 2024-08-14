@@ -156,7 +156,7 @@ exports.findOneOrder = async (userId, orderId) => {
 exports.findUserEvents = async (userId) => {
   return new Promise((resolve, reject) => {
     db.query(
-      'SELECT td.tdId, td.ticketType, td.quantity, td.tdStatus, td.tdPrice, td.randNum, e.eventName, e.eventDate FROM Users AS u, TicketDetails AS td, Events AS e WHERE u.userId = td.userId AND u.userId = ? Order BY e.eventId',
+      'SELECT td.tdId, td.ticketType, td.quantity, td.tdStatus, td.tdPrice, td.randNum, e.eventName, e.eventDate FROM Users AS u, TicketDetails AS td LEFT JOIN Events AS e ON td.eventId = e.eventId WHERE u.userId = td.userId AND u.userId = ? Order BY e.eventId',
       [userId],
       (error, results) => {
         if (error) {

@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 // import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 
-import { TicketProvider } from './pages/TicketContext';
+import { TicketProvider } from './pages/TicketContext'
 
 import Header from './components/header'
 import Footer from './components/footer'
@@ -40,14 +40,13 @@ import Cart from './pages/cart'
 import cartCheckOut from './pages/cartCheckOut'
 import cartConfirmation from './pages/cartConfirmation'
 
-
 class App extends Component {
   render() {
     return (
       <Router>
         <div>
           <Switch>
-            <Route path="/Index" component={Index} />
+            <Route path="/index" component={Index} />
 
             <Route path="/Login/Index" component={Login} />
             <Route path="/Login/Verify" component={LoginVerify} />
@@ -67,7 +66,6 @@ class App extends Component {
             <Route path="/Event/ConfirmNoseat" component={EventConfirmNoseat} />
             <Route path="/Event/ConfirmSeat" component={EventConfirmSeat} />
             <Route path="/Event/ConfirmInfo" component={EventConfirmInfo} />
-            
 
             <Route path="/Product/All" component={ProductAll} />
             <Route path="/Product/Detail" component={ProductDetail} />
