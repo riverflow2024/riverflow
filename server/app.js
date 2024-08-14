@@ -7,13 +7,21 @@ const app = express()
 require('dotenv').config({ path: '../config.env' })
 
 const { authenticateToken } = require('./middlewares/auth')
+const { adminAuthenticateToken } = require('./middlewares/adminAuth')
 app.use(express.static(path.join(__dirname, 'public')))
 app.use(cookieParser())
 app.use(bodyParser.json())
 app.use(express.urlencoded({ extended: true }))
+<<<<<<< HEAD
 app.use(cors({ origin:`http://localhost:5500`,
+=======
+app.use(
+  cors({
+    origin: `http://localhost:${process.env.CLIENT_PORT}`,
+>>>>>>> cd3aac4d4f09104de53fd247bfd8e066f5000285
     credentials: true // 带憑證的请求
- }))
+  })
+)
 
 // Routers
 
@@ -26,6 +34,7 @@ const stripeRoutes = require('./routes/stripe')
 const cartRoutes = require('./routes/cartRoutes')
 // const cartRoutes = require('./routes/cart')
 // const orderRoutes = require('./routes/orders')
+const adminRoutes = require('./routes/admin')
 
 
 
@@ -37,9 +46,12 @@ app.use('/riverflow/products', productRoutes)
 app.use('/riverflow/events', eventRoutes)
 // app.use('/riverflow/payment',paymentRoutes)
 app.use('/riverflow/pay', stripeRoutes)
-app.use('/riverflow/cart' ,cartRoutes)
+app.use('/riverflow/cart', cartRoutes)
 
 app.use('/riverflow/events/Tobuy', eventTobuyRoutes)
 // app.use('/riverflow/orders', orderRoutes)
+
+// backstage routes
+app.use('/riverflow/admin', adminAuthenticateToken, adminRoutes)
 
 module.exports = app

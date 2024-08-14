@@ -5,11 +5,9 @@ import 'swiper/css/pagination'
 import Swiper from 'swiper/bundle'
 import 'swiper/css/bundle'
 import resetStyles from '../assets/reset.module.css'
-import '../assets/basic.css'
 import '../assets/ProductAll.css'
-// import '@fortawesome/fontawesome-free/css/all.min.css'
+import '@fortawesome/fontawesome-free/css/all.min.css'
 import Header from '../components/header'
-// import '@fortawesome/fontawesome-free/css/all.min.css'
 import axios from 'axios'
 import { Link } from 'react-router-dom'
 
@@ -21,7 +19,7 @@ const Banner = () => {
       scrollbar: { el: '.swiper-scrollbar' }
     })
 
-    return () => swiper.destroy() // 清理
+    return () => swiper.destroy()
   }, [])
 
   return (

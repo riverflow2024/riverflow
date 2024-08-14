@@ -1,10 +1,9 @@
 import React, { useState } from 'react'
 import '../assets/cartConfirmation.css'
 import '../assets/reset.css'
-import '../assets/basic.css'
 import Header from '../components/header'
 import Swal from 'sweetalert2'
-// import Swal from 'sweetalert2'
+import axios from 'axios'
 
 const CartConfirmation = () => {
   const [customerName, setCustomerName] = useState('林小美')
@@ -20,23 +19,57 @@ const CartConfirmation = () => {
   const [mobileInfo, setMobileInfo] = useState('')
   const [shippingFee] = useState(60)
 
-  // 這邊只是假設商品
+  // 假設的商品資料
   const itemTotal = 4060
-
   const finalTotal = itemTotal + shippingFee
 
-  const handleSubmitOrder = () => {
-    Swal.fire({
-      title: '訂單完成',
-      text: '謝謝您的購買!',
-      icon: 'success',
-      confirmButtonColor: '#98d900',
-      timer: 6000,
-      timerProgressBar: true,
-      willClose: () => {
-        window.location.href = './memberOrderList.html'
+  const handleSubmitOrder = async () => {
+    try {
+      // 準備要送出的訂單資料
+      const orderData = {
+        customerName,
+        customerEmail,
+        customerPhone,
+        orderRemark,
+        deliveryMethod,
+        storeAddress: deliveryMethod === '7-ELEVEN' ? storeAddress : '',
+        homeAddress: deliveryMethod === '宅配' ? homeAddress : '',
+        paymentMethod,
+        invoiceType,
+        companyInfo: invoiceType === '三聯式' ? companyInfo : '',
+        mobileInfo: invoiceType === '手機載具' ? mobileInfo : '',
+        itemTotal,
+        shippingFee,
+        finalTotal
       }
-    })
+
+      // 送出資料到後端金流系統
+      const response = await axios.post('http://localhost:3000/riverflow/pay/create-checkout-session', orderData)
+
+      if (response.status === 200) {
+        Swal.fire({
+          title: '訂單完成',
+          text: '謝謝您的購買!',
+          icon: 'success',
+          confirmButtonColor: '#98d900',
+          timer: 6000,
+          timerProgressBar: true,
+          willClose: () => {
+            window.location.href = './memberOrderList.html'
+          }
+        })
+      } else {
+        throw new Error('結帳過程中發生錯誤。')
+      }
+    } catch (error) {
+      console.error('錯誤：', error.message)
+      Swal.fire({
+        title: '錯誤',
+        text: '結帳過程中發生錯誤。請稍後再試。',
+        icon: 'error',
+        confirmButtonColor: '#d33'
+      })
+    }
   }
 
   return (
