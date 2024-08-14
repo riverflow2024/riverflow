@@ -41,12 +41,12 @@ import UserInterface from './userInterface'
 // import cartCheckOut from './pages/cartCheckOut'
 // import cartConfirmation from './pages/cartConfirmation'
 
-export default function App () {
+export default function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path='/admin/*' element={<AdminInterface />} />
-        <Route path='/*' element={<UserInterface />} />
+        <Route path="/admin/*" element={<AdminInterface />} />
+        <Route path="/*" element={<UserInterface />} />
       </Routes>
     </BrowserRouter>
   )
@@ -81,8 +81,8 @@ export default function App () {
 //             <Route path="/Event/ConfirmSeat" component={EventConfirmSeat} />
 //             <Route path="/Event/ConfirmInfo" component={EventConfirmInfo} />
 
-//             <Route path="/Product/All" component={ProductAll} />
-//             <Route path="/Product/Detail" component={ProductDetail} />
+// <Route path="/Product/All" component={ProductAll} />
+// <Route path="/Product/Detail" component={ProductDetail} />
 
 //             <Route path="/Order/Cart" component={Cart} />
 //             <Route path="/Order/cartCheckOut" component={cartCheckOut} />

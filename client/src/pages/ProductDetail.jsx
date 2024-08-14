@@ -4,6 +4,7 @@ import '../assets/basic.css'
 // import '@fortawesome/fontawesome-free/css/all.min.css'
 import '../assets/ProductDetail.css'
 import 'lightbox2/dist/css/lightbox.min.css'
+
 import lightbox from 'lightbox2'
 // import Swal from 'sweetalert2'
 
@@ -182,6 +183,7 @@ const ProductDetail = ({ match }) => {
         <div className="wrap">
           {product && (
             <>
+              <Header />
               <ProductImages images={product.images} />
               <ProductInfo
                 product={product}
