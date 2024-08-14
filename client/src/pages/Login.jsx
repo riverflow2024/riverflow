@@ -20,33 +20,7 @@ class Login extends Component {
 
     }
 
-    // Login = async () => {
-    //     try {
-    //         let dataToserver = {
-    //             email: this.state.Users.email,
-    //             secret: this.state.Users.secret
-    //         };
-
-    //         var result = await axios.post('http://localhost:3000/riverflow/user/login',
-    //             JSON.stringify(dataToserver),
-    //             {
-    //                 headers: {
-    //                     "Content-Type": "application/json",
-    //                 }
-    //             }
-    //         );
-    //         // 存储 Token
-    //         localStorage.setItem('token', result.data.token);
-
-
-
-    //         // 登录成功后重定向
-    //         window.location = "/Index";
-    //     } catch (error) {
-    //         // 捕获错误并更新 error 状态
-    //         this.setState({ error: true });
-    //     }
-    // }
+    
 
 
     Login = async () => {
@@ -72,7 +46,7 @@ class Login extends Component {
             // 檢查是否登入成功
             if (result.data.message === '登入成功') {
                 
-                window.location = "/Index";
+                window.location = "/";
             } else {
                 console.error('Login failed:', result.data.message);
             }
@@ -93,7 +67,7 @@ class Login extends Component {
 
 
         return (
-            <div className="">
+            <div >
                 <Header />
 
                 <section className="login" >
@@ -104,7 +78,7 @@ class Login extends Component {
                             <input type="text" id="email" name="email"
                                 value={this.state.Users.email}
                                 placeholder="Enter email"
-                                // autoComplete='off' // 關閉自動填入
+                               
                                 onChange={this.EmailChange}
                             /><br />
                         </div>
@@ -118,6 +92,7 @@ class Login extends Component {
                                 value={this.state.Users.secret}
                                 placeholder="Enter password"
                                 pattern="^(?=.*[a-zA-Z])(?=.*[0-9]).{6,}$" required
+                                autoComplete='new-password' 
                                 onChange={this.PasswordChange} />
                             <div><i id="showBtn" className={`bi ${isPasswordVisible ? 'bi-eye-fill' : 'bi-eye-slash-fill'}`} onClick={this.handlePasswordToggle}></i></div>
                         </div>

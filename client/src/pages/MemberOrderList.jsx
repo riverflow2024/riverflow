@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import '../assets/member.css';
 import Header from '../components/header'
-import defaultImg from '../assets/images/defaultphoto.jpg'; // 静态导入图片
+import defaultImg from '../assets/images/defaultphoto.jpg'; // 預設會員圖片
 
 class MemberOrderList extends Component {
     state = {
@@ -18,12 +18,12 @@ class MemberOrderList extends Component {
 
         },
         Order: [
-             // 去看資料庫怎麼寫!
+            // 去看資料庫怎麼寫!
             { "orderId": "", "createdAt": "", "payMethod": "", "totalPrice": "", "orderStatus": "" },
         ],
 
         showAdditionalOrders: false,
-        Users: null,       // 用户数据
+        activeAccordion: null,
         isLoading: true,      // 加载状态
         error: null
     }
@@ -77,19 +77,35 @@ class MemberOrderList extends Component {
 
     // 格式化日期的方法
     formatDate(dateString) {
-    // 将日期字符串转换为 Date 对象
-    const date = new Date(dateString);
+        // 将日期字符串转换为 Date 对象
+        const date = new Date(dateString);
 
-    // 获取年、月、日
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0'); // 月份从 0 开始
-    const day = String(date.getDate()).padStart(2, '0');
+        // 获取年、月、日
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0'); // 月份从 0 开始
+        const day = String(date.getDate()).padStart(2, '0');
 
-    // 格式化为 YYYY/MM/DD
-    const formattedDate = `${year}/${month}/${day}`;
-    console.log('Formatted Date:', formattedDate); // 输出格式化后的日期
-    return formattedDate;
+        // 格式化为 YYYY/MM/DD
+        const formattedDate = `${year}/${month}/${day}`;
+        console.log('Formatted Date:', formattedDate); // 输出格式化后的日期
+        return formattedDate;
     }
+
+    // 登出
+    Logout = async () => {
+        try {
+            await axios.get('http://localhost:3000/riverflow/user/logout', {
+                withCredentials: true // 确保请求带上 Cookie
+            });
+            // 清除本地存储中的 Token
+            localStorage.removeItem('token');
+            // 重定向到登录页面
+            window.location.href = '/login/Index';
+        } catch (error) {
+            console.error("Error logging out:", error);
+            // 可以显示错误消息或者其他处理
+        }
+    };
 
 
 
@@ -128,8 +144,6 @@ class MemberOrderList extends Component {
             "card": "信用卡",
             "bankTransfer": "AMT",
             "cash": "現金付款",
-            
-
         };
 
 
@@ -152,9 +166,8 @@ class MemberOrderList extends Component {
         const displayedrecentnotYetCompletedOrders = this.state.showAdditionalOrders ? recentnotYetCompletedOrders : notYetCompletedOrders.slice(0, 2);
 
 
+        // 如果會員沒有照片就使用預設圖片
         const { userImg } = this.state.Users;
-
-        // 如果用户图片路径为空，使用默认图片
         const imageSrc = userImg ? `/images/users/${userImg}` : defaultImg;
 
         return (
@@ -181,7 +194,7 @@ class MemberOrderList extends Component {
                                     <li><a onClick={this.backCollection}><i className="bi bi-heart"></i> 我的最愛</a></li>
                                 </ul>
                             </div>
-                            <button className='btn'>會員登出</button>
+                            <button className='btn' onClick={this.Logout}>會員登出</button>
                         </div>
                     </div>
                     <div className="order-box" flex="2">
@@ -198,8 +211,37 @@ class MemberOrderList extends Component {
                                 <div className="order" key={order.orderId}>
                                     <div className="wrap">
                                         <span>訂單編號：{order.orderId}</span>
-                                        <a onClick={this.goOrder}>
-                                            <button className="orderbtn">訂單明細</button>
+                                        <button className="orderbtn" onClick={() => this.goOrder(order.orderId)}>訂單明細</button>
+                                    </div>
+                                    <table>
+                                        <thead>
+                                            <tr>
+                                                <th>日期</th>
+                                                <th>總金額</th>
+                                                <th>付款方式</th>
+                                                <th>狀態</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>{this.formatDate(order.createdAt)}</td>
+                                                <td>NT${order.totalPrice}</td>
+                                                <td>{payMethodMap[order.payMethod] || order.payMethod}</td>
+                                                <td>{statusMap[order.orderStatus] || order.orderStatus}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            )}
+                        </div>
+
+                        <div id="Payment" className="tabcontent">
+                            {paymentOrders.map(order =>
+                                <div className="order" key={order.orderId}>
+                                    <div className="wrap">
+                                        <span>訂單編號：{order.orderId}</span>
+                                        <a href="memberOrder.html">
+                                        <button className="orderbtn" onClick={() => this.goOrder(order.orderId)}>訂單明細</button>
                                         </a>
                                     </div>
                                     <table>
@@ -215,39 +257,7 @@ class MemberOrderList extends Component {
                                             <tr>
                                                 <td>{this.formatDate(order.createdAt)}</td>
                                                 <td>NT${order.totalPrice}</td>
-                                               <td>{payMethodMap[order.payMethod] || order.payMethod}</td>
-                                                
-                                                <td>{statusMap[order.orderStatus] || order.orderStatus}</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            )}
-                        </div>
-
-                        <div id="Payment" className="tabcontent">
-                            {paymentOrders.map(order =>
-                                <div className="order" key={order.orderId}>
-                                    <div className="wrap">
-                                        <span>訂單編號：{order.orderId}</span>
-                                        <a href="memberOrder.html">
-                                            <button className="orderbtn">訂單明細</button>
-                                        </a>
-                                    </div>
-                                    <table>
-                                        <thead>
-                                            <tr>
-                                                <th>日期</th>
-                                                <th>總金額</th>
-                                                <th>付款方式</th>
-                                                <th>狀態</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>{this.formatDate(order.createdAt)}</td>
-                                                <td>{order.totalPrice}</td>
-                                               <td>{payMethodMap[order.payMethod] || order.payMethod}</td>
+                                                <td>{payMethodMap[order.payMethod] || order.payMethod}</td>
                                                 <td>{statusMap[order.orderStatus] || order.orderStatus}</td>
                                             </tr>
                                         </tbody>
@@ -278,8 +288,8 @@ class MemberOrderList extends Component {
                                         <tbody>
                                             <tr>
                                                 <td>{this.formatDate(order.createdAt)}</td>
-                                                <td>{order.totalPrice}</td>
-                                               <td>{payMethodMap[order.payMethod] || order.payMethod}</td>
+                                                <td>NT${order.totalPrice}</td>
+                                                <td>{payMethodMap[order.payMethod] || order.payMethod}</td>
                                                 <td>{statusMap[order.orderStatus] || order.orderStatus}</td>
                                             </tr>
                                         </tbody>
@@ -312,8 +322,8 @@ class MemberOrderList extends Component {
                                         <tbody>
                                             <tr>
                                                 <td>{this.formatDate(order.createdAt)}</td>
-                                                <td>{order.totalPrice}</td>
-                                               <td>{payMethodMap[order.payMethod] || order.payMethod}</td>
+                                                <td>NT${order.totalPrice}</td>
+                                                <td>{payMethodMap[order.payMethod] || order.payMethod}</td>
                                                 <td>{statusMap[order.orderStatus] || order.orderStatus}</td>
                                             </tr>
                                         </tbody>
@@ -369,9 +379,9 @@ class MemberOrderList extends Component {
     backCollection = async () => {
         window.location = "/Member/Collection";
     }
-    goOrder = async () => {
-        window.location = "/Member/Order";
-    }
+    goOrder = (orderId) => {
+        window.location = `/Member/Order/${orderId}`;
+    };
 }
 
 export default MemberOrderList;

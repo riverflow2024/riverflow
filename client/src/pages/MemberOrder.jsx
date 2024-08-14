@@ -1,114 +1,172 @@
 import React, { Component } from 'react';
 import '../assets/member.css';
+import axios from 'axios';
 import Header from '../components/header'
+import defaultImg from '../assets/images/defaultphoto.jpg'; // 預設會員圖片
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
+
+// 自定义 withRouter 高阶组件
+
+function withRouter(Component) {
+    return function (props) {
+        const params = useParams(); // 获取当前路由的 params
+        const navigate = useNavigate(); // 获取 navigate 函数
+        const location = useLocation(); // 获取当前 location 对象
+        return <Component {...props} params={params} navigate={navigate} location={location} />;
+    };
+}
+
 
 class MemberOrder extends Component {
     state = {
         Users: {
-            // "firstName": "林",
-            // "lastName": "小美",
-            // "phone": "0912-333-555",
-            // "email": "abc12345@gmail.com",
-            // "birth": "1995/10/10",
-            // "sex": "女",
+            "firstName": "",
+            "lastName": "",
+            "phone": "",
+            "email": "",
+            "birth": "",
+            "sex": "",
         },
         Order: [
-            // { "odid": "C123456789", "createdAt": "2024/08/10", "payMethod": "信用卡", "price": 2500, "quantity": 1, "orderStatus": "待出貨" },
+            // 去看資料庫怎麼寫!
+            {
+                "orderId": "",
+                "totalPrice": "",
+                "orderStatus": "",
+                "payMethod": "",
+                "createdAt": "",
+                "rcptName": "",
+                "rcptPhone": "",
+                "rcptAddr": "",
+                "shipMethod": "",
+                "convAddr": "",
+                "productName": "",
+                "productOpt": "",
+                "quantity": ""
+            },
 
 
-            // { "odid": "B123456789", "createdAt": "2024/08/08", "payMethod": "信用卡", "price": "$800", "orderStatus": "未付款" },
-            // { "odid": "A123456789", "createdAt": "2024/08/03", "payMethod": "信用卡", "price": "$1400", "orderStatus": "未付款" },
-            // { "odid": "E123456789", "createdAt": "2024/08/05", "payMethod": "信用卡", "price": "$1400", "orderStatus": "已完成" },
-            // { "odid": "D123456789", "createdAt": "2024/08/03", "payMethod": "信用卡", "price": "$1400", "orderStatus": "已完成" },
-            // { "odid": "I123456789", "createdAt": "2024/07/29", "payMethod": "信用卡", "price": "$400", "orderStatus": "已完成" },
-            // { "odid": "J123456789", "createdAt": "2024/07/15", "payMethod": "信用卡", "price": "$1400", "orderStatus": "已完成" },
-            // { "odid": "K123456789", "createdAt": "2024/07/03", "payMethod": "信用卡", "price": "$1400", "orderStatus": "已完成" },
-            // { "odid": "L123456789", "createdAt": "2024/06/03", "payMethod": "信用卡", "price": "$1400", "orderStatus": "已完成" },
-            // { "odid": "K123456789", "createdAt": "2024/08/03", "payMethod": "信用卡", "price": "$1000", "orderStatus": "未完成" },
-            // { "odid": "X123456789", "createdAt": "2024/07/11", "payMethod": "信用卡", "price": "$1800", "orderStatus": "未完成" },
-            // { "odid": "Z123456789", "createdAt": "2024/07/07", "payMethod": "信用卡", "price": "$200", "orderStatus": "未完成" },
+
         ],
-        OrderItem: [
-            // { "productName": "商品1", "priceOpt": 980, },
-            // { "productName": "商品2", "priceOpt": 1080, },
-            // { "productName": "商品3", "priceOpt": 880, },
-            // { "productName": "商品4", "priceOpt": 680, },
-        ],
-        Users: null,       // 用户数据
+
         isLoading: true,      // 加载状态
         error: null,        // 错误信息
-
-
         showAdditionalOrders: false,
         activeAccordion: null // 用于跟踪哪个折叠面板是活动的
     }
     componentDidMount() {
-       
+        
         this.fetchUserData();
-        const defaultOpenElement = document.getElementById("defaultOpen");
-        if (defaultOpenElement) {
-            defaultOpenElement.click();
+        const { params } = this.props;
+
+        if (params && params.id) {
+            this.fetchOrderData(params.id);
+        } else {
+            console.error("params or params.id is undefined");
         }
     }
-    
+
     fetchUserData = async () => {
         try {
             const response = await axios.get('http://localhost:3000/riverflow/user', {
                 withCredentials: true // 确保请求带上 Cookie
             });
-    
-            // 更新状态以显示用户数据
+            console.log("Fetched user data:", response.data); // 打印返回的数据
             this.setState({
-                Users: response.data, // 使用 Users 状态
+                Users: response.data,
                 isLoading: false
             });
         } catch (error) {
-            // 清除本地存储中的 Token（如果你仍然在使用本地存储）
+            console.error("Error fetching user data:", error);
+            // 清除本地存储中的 Token，并重定向到登录页面
             localStorage.removeItem('token');
             this.setState({
                 isLoading: false,
                 error: 'Failed to fetch user data. Please log in again.'
             });
+            // window.location.href = '/login';
         }
     };
 
+    fetchOrderData = async (id) => {
+        try {
+            const response = await axios.get(`http://localhost:3000/riverflow/user/products/${id}`, {
+                withCredentials: true
+            });
+            console.log("Fetched order data:", response.data); // 打印返回的数据
+            this.setState({
+                Order: response.data
+            });
+        } catch (error) {
+            console.error("Error fetching order data:", error);
+            this.setState({
+                error: 'Failed to fetch order data.'
+            });
+        }
+        console.log("Fetching order data for ID:", id);
+    };
+
+    // 格式化日期的方法
+    formatDate(dateString) {
+        // 将日期字符串转换为 Date 对象
+        const date = new Date(dateString);
+
+        // 获取年、月、日
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0'); // 月份从 0 开始
+        const day = String(date.getDate()).padStart(2, '0');
+
+        // 格式化为 YYYY/MM/DD
+        const formattedDate = `${year}/${month}/${day}`;
+        console.log('Formatted Date:', formattedDate); // 输出格式化后的日期
+        return formattedDate;
+    }
+
     render() {
-        
+        const { Order, isLoading, error } = this.state;
         // 當前日期一個月前的日期
         const oneMonthAgo = new Date();
         oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
 
+        // 變更訂單狀態名稱
+        const statusMap = {
+            "processing": "待出貨",
+            "pending": "未付款",
+            "complete": "已完成",
+            "canceled": "未完成",
+
+        };
+        // 變更付款方式名稱
+        const payMethodMap = {
+            "card": "信用卡",
+            "bankTransfer": "AMT",
+            "cash": "現金付款",
+        };
+
+        
         // 根據訂單篩選，用filter過濾
-        const unpaidOrders = this.state.Order.filter(order => order.orderStatus === '待出貨');
-        const paymentOrders = this.state.Order.filter(order => order.orderStatus === '未付款');
-        const completedOrders = this.state.Order.filter(order => order.orderStatus === '已完成');
-        const notYetCompletedOrders = this.state.Order.filter(order => order.orderStatus === '未完成');
+        // const unpaidOrders = this.state.Order.filter(order => order.orderStatus === 'processing');
+        const paymentOrders = this.state.Order.filter(order => order.orderStatus === 'pending');
+        const completedOrders = this.state.Order.filter(order => order.orderStatus === 'complete');
+        const notYetCompletedOrders = this.state.Order.filter(order => order.orderStatus === 'cancelled');
 
         // 篩選近一個月的訂單 已完成 ＆ 未完成
         const recentCompletedOrders = completedOrders.filter(order => new Date(order.createdAt) >= oneMonthAgo);
         const recentnotYetCompletedOrders = notYetCompletedOrders.filter(order => new Date(order.createdAt) >= oneMonthAgo);
 
+
+
         // 根據 showAdditionalOrders 狀態來顯示訂單
         const displayedCompletedOrders = this.state.showAdditionalOrders ? recentCompletedOrders : completedOrders.slice(0, 2);
         const displayedrecentnotYetCompletedOrders = this.state.showAdditionalOrders ? recentnotYetCompletedOrders : notYetCompletedOrders.slice(0, 2);
 
-        const { Users, isLoading, error } = this.state;
 
-    if (isLoading) {
-        return <div>Loading...</div>;
-    }
+        // 如果會員沒有照片就使用預設圖片
+        const { userImg } = this.state.Users;
+        const imageSrc = userImg ? `/images/users/${userImg}` : defaultImg;
 
-    if (error) {
-        return <div>{error}</div>;
-    }
-
-    if (!Users) {
-        return <div>No user data available.</div>;
-    }
-
-        
         return (
-            
+
 
             <div>
                 <Header />
@@ -118,7 +176,7 @@ class MemberOrder extends Component {
                         <div className="wrap">
                             <div className="member">
                                 <div>
-                                    <img className="member-img" src={require('../assets/images/defaultphoto.jpg')} alt="" />
+                                    <img className="member-img" src={imageSrc} alt="" />
                                 </div>
                                 <div className="profile">
                                     <h3>Hey！{this.state.Users.lastName} </h3>
@@ -145,10 +203,10 @@ class MemberOrder extends Component {
                         </div>
 
                         <div id="Unpaid" className="tabcontent">
-                            {unpaidOrders.map((OrderItem, index) =>
-                                <div className="order" key={OrderItem.odid}>
+                            {this.state.Order.map((order, index) =>
+                                <div className="order" key={order.orderId}>
                                     <div className="wrap">
-                                        <span>訂單編號：{OrderItem.odid}</span>
+                                        <span>訂單編號：{order.orderId}</span>
                                     </div>
 
                                     <table>
@@ -163,10 +221,10 @@ class MemberOrder extends Component {
 
                                         <tbody>
                                             <tr>
-                                                <td>{OrderItem.createdAt}</td>
-                                                <td>${OrderItem.price + 60}</td>
-                                                <td>{OrderItem.payMethod}</td>
-                                                <td>{OrderItem.orderStatus}</td>
+                                                <td>{order.createdAt}</td>
+                                                <td>NT${order.price + 60}</td>
+                                                <td>{payMethodMap[order.payMethod] || order.payMethod}</td>
+                                                <td>{statusMap[order.orderStatus] || order.orderStatus}</td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -191,7 +249,7 @@ class MemberOrder extends Component {
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                {this.state.OrderItem.map(productItem =>
+                                                {this.state.Order.map(productItem =>
                                                     <tr>
                                                         <td colspan="2">{productItem.productName}</td>
                                                         <td>1</td>
@@ -212,7 +270,7 @@ class MemberOrder extends Component {
                                                     <td colspan="2" style={{ fontWeight: "bold" }}>應付金額</td>
                                                     <td></td>
                                                     <td></td>
-                                                    <td style={{ fontWeight: "bold" }}>${OrderItem.price + 60}</td>
+                                                    <td style={{ fontWeight: "bold" }}>${order.price + 60}</td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -222,10 +280,10 @@ class MemberOrder extends Component {
                         </div>
 
                         <div id="Payment" className="tabcontent">
-                            {paymentOrders.map(OrderItem =>
-                                <div className="order" key={OrderItem.odid}>
+                            {paymentOrders.map(order =>
+                                <div className="order" key={order.orderId}>
                                     <div className="wrap">
-                                        <span>訂單編號：{OrderItem.odid}</span>
+                                        <span>訂單編號：{order.orderId}</span>
                                         <a href="memberOrder.html">
                                             <button className="orderbtn">訂單明細</button>
                                         </a>
@@ -241,10 +299,10 @@ class MemberOrder extends Component {
                                         </thead>
                                         <tbody>
                                             <tr>
-                                                <td>{OrderItem.createdAt}</td>
-                                                <td>{OrderItem.price}</td>
-                                                <td>{OrderItem.payMethod}</td>
-                                                <td>{OrderItem.orderStatus}</td>
+                                                <td>{order.createdAt}</td>
+                                                <td>{order.price}</td>
+                                                <td>{payMethodMap[order.payMethod] || order.payMethod}</td>
+                                                <td>{statusMap[order.orderStatus] || order.orderStatus}</td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -253,10 +311,10 @@ class MemberOrder extends Component {
                         </div>
 
                         <div id="Completed" className="tabcontent">
-                            {displayedCompletedOrders.map(OrderItem =>
-                                <div className="order" key={OrderItem.odid}>
+                            {displayedCompletedOrders.map(order =>
+                                <div className="order" key={order.orderId}>
                                     <div className="wrap">
-                                        <span>訂單編號：{OrderItem.odid}</span>
+                                        <span>訂單編號：{order.orderId}</span>
                                         <a href="memberOrder.html">
                                             <button className="orderbtn">訂單明細</button>
                                         </a>
@@ -272,10 +330,10 @@ class MemberOrder extends Component {
                                         </thead>
                                         <tbody>
                                             <tr>
-                                                <td>{OrderItem.createdAt}</td>
-                                                <td>{OrderItem.price}</td>
-                                                <td>{OrderItem.payMethod}</td>
-                                                <td>{OrderItem.orderStatus}</td>
+                                                <td>{order.createdAt}</td>
+                                                <td>{order.price}</td>
+                                                <td>{payMethodMap[order.payMethod] || order.payMethod}</td>
+                                                <td>{statusMap[order.orderStatus] || order.orderStatus}</td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -287,10 +345,10 @@ class MemberOrder extends Component {
                         </div>
 
                         <div id="NotYetCompleted" className="tabcontent">
-                            {displayedrecentnotYetCompletedOrders.map(OrderItem =>
-                                <div className="order" key={OrderItem.odid}>
+                            {displayedrecentnotYetCompletedOrders.map(order =>
+                                <div className="order" key={order.orderId}>
                                     <div className="wrap">
-                                        <span>訂單編號：{OrderItem.odid}</span>
+                                        <span>訂單編號：{order.orderId}</span>
                                         <a href="memberOrder.html">
                                             <button className="orderbtn">訂單明細</button>
                                         </a>
@@ -306,10 +364,10 @@ class MemberOrder extends Component {
                                         </thead>
                                         <tbody>
                                             <tr>
-                                                <td>{OrderItem.createdAt}</td>
-                                                <td>{OrderItem.price}</td>
-                                                <td>{OrderItem.payMethod}</td>
-                                                <td>{OrderItem.orderStatus}</td>
+                                                <td>{order.createdAt}</td>
+                                                <td>{order.price}</td>
+                                                <td>{payMethodMap[order.payMethod] || order.payMethod}</td>
+                                                <td>{statusMap[order.orderStatus] || order.orderStatus}</td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -369,9 +427,7 @@ class MemberOrder extends Component {
     backCollection = async () => {
         window.location = "/Member/Collection";
     }
-    goOrder = async () => {
-        window.location = "/Member/Order";
-    }
+
 }
 
-export default MemberOrder;
+export default withRouter(MemberOrder);

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import '../assets/member.css';
 import Header from '../components/header'
+import defaultImg from '../assets/images/defaultphoto.jpg'; // 預設會員圖片
 
 
 class MemberIndex extends Component {
@@ -21,13 +22,13 @@ class MemberIndex extends Component {
     componentDidMount() {
         this.fetchUserData();
     }
-    
+
     fetchUserData = async () => {
         try {
             const response = await axios.get('http://localhost:3000/riverflow/user', {
                 withCredentials: true // 确保请求带上 Cookie
             });
-    
+
             // 更新状态以显示用户数据
             this.setState({
                 Users: response.data, // 使用 Users 状态
@@ -38,12 +39,28 @@ class MemberIndex extends Component {
             localStorage.removeItem('token');
             this.setState({
                 isLoading: false,
-                error: 'Failed to fetch user data. Please log in again.'
             });
+            window.location.href = '/login/Index';
+
         }
     };
-    
-    
+
+   Logout = async () => {
+        try {
+            await axios.get('http://localhost:3000/riverflow/user/logout', {
+                withCredentials: true // 确保请求带上 Cookie
+            });
+            // 清除本地存储中的 Token
+            localStorage.removeItem('token');
+            // 重定向到登录页面
+            window.location.href = '/login/Index';
+        } catch (error) {
+            console.error("Error logging out:", error);
+            // 可以显示错误消息或者其他处理
+        }
+    };
+
+
 
     render() {
         const { Users, isLoading, error } = this.state;
@@ -55,6 +72,11 @@ class MemberIndex extends Component {
         if (error) {
             return <div>{error}</div>;
         }
+
+
+        // 如果會員沒有照片就使用預設圖片
+        const { userImg } = this.state.Users;
+        const imageSrc = userImg ? `/images/users/${userImg}` : defaultImg;
         return (
 
             <div>
@@ -65,8 +87,8 @@ class MemberIndex extends Component {
                     <div class="nav-box" flex="1">
                         <div class="wrap">
                             <div class="member">
-                                <div class="member-img">
-                                    <img src={require('../assets/images/defaultphoto.jpg')} alt="" />
+                                <div>
+                                    <img className="member-img" src={imageSrc} alt="" />
                                 </div>
                                 <div class="profile">
                                     <h3>Hey！{this.state.Users.lastName} </h3>
@@ -80,8 +102,8 @@ class MemberIndex extends Component {
                                     <li><a onClick={this.backCollection}><i class="bi bi-heart"></i> 我的最愛</a></li>
 
                                 </ul>
-
                             </div>
+                            <button className='btn' onClick={this.Logout}>會員登出</button>
                         </div>
 
                     </div>

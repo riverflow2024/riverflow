@@ -1,101 +1,180 @@
 import React, { Component } from 'react';
 import '../assets/member.css';
+import axios from 'axios';
 import Header from '../components/header'
+import defaultImg from '../assets/images/defaultphoto.jpg'; // 預設會員圖片
 
 
 class MemberCollection extends Component {
     state = {
         Users: {
-            "firstName": "林",
-            "lastName": "小美",
-            "phone": "0912-333-555",
-            "email": "abc12345@gmail.com",
-            "birth": "1995/10/10",
-            "sex": "女",
+            "firstName": "",
+            "lastName": "",
+            "phone": "",
+            "email": "",
+            "birth": "",
+            "sex": "",
         },
         ProductFavorite: [
-          {
-            "productName":"王以太 演說家 幸存者 專輯",
-            "productDesc":"演說家不用多說封神專輯 裡面的歌幾本都很頂，每天都還是會聽阿斯匹林，內涵CD+超長拉頁拼圖"
+            {
+                "productName": "王以太 演說家 幸存者 專輯",
+                "productDesc": "演說家不用多說封神專輯 裡面的歌幾本都很頂，每天都還是會聽阿斯匹林，內涵CD+超長拉頁拼圖"
 
-          },
-        ]
+            },
+        ],
+
+
+        isLoading: true,      // 加载状态
+        error: null
     }
+
+    componentDidMount() {
+        this.fetchUserData();
+        this.fetchOrderData();
+
+    }
+
+    fetchUserData = async () => {
+        try {
+            const response = await axios.get('http://localhost:3000/riverflow/user', {
+                withCredentials: true // 确保请求带上 Cookie
+            });
+            console.log("Fetched user data:", response.data); // 打印返回的数据
+            this.setState({
+                Users: response.data,
+                isLoading: false
+            });
+        } catch (error) {
+            console.error("Error fetching user data:", error);
+            // 清除本地存储中的 Token，并重定向到登录页面
+            localStorage.removeItem('token');
+            this.setState({
+                isLoading: false,
+                error: 'Failed to fetch user data. Please log in again.'
+            });
+            // window.location.href = '/login';
+        }
+    };
+
+    fetchOrderData = async () => {
+        try {
+            const response = await axios.get('http://localhost:3000/riverflow/user/products/', {
+                withCredentials: true
+            });
+            console.log("Fetched order data:", response.data); // 打印返回的数据
+            this.setState({
+                Order: response.data
+            });
+        } catch (error) {
+            console.error("Error fetching order data:", error);
+            this.setState({
+                error: 'Failed to fetch order data.'
+            });
+        }
+
+
+    };
+
+     // 登出
+     Logout = async () => {
+        try {
+            await axios.get('http://localhost:3000/riverflow/user/logout', {
+                withCredentials: true // 确保请求带上 Cookie
+            });
+            // 清除本地存储中的 Token
+            localStorage.removeItem('token');
+            // 重定向到登录页面
+            window.location.href = '/login/Index';
+        } catch (error) {
+            console.error("Error logging out:", error);
+            // 可以显示错误消息或者其他处理
+        }
+    };
     render() {
+        const { Users, isLoading, error } = this.state;
+        if (isLoading) {
+            return <div>Loading...</div>;
+        }
+
+        if (error) {
+            return <div>{error}</div>;
+        }
+        // 如果會員沒有照片就使用預設圖片
+        const { userImg } = this.state.Users;
+        const imageSrc = userImg ? `/images/users/${userImg}` : defaultImg;
         return (
             <div>
-                 <Header />
-                 <div class="Collection">
-               
+                <Header />
+                <div class="Collection">
 
-               <div class="nav-box" flex="1">
-                   <div class="wrap">
-                       <div class="member">
-                           <div>
-                               <img class="member-img" src={require('../assets/images/defaultphoto.jpg')} alt="" />
-                           </div>
-                           <div class="profile">
-                               <h3>Hey！{this.state.Users.lastName} </h3>
-                               <a onClick={this.backMember}>個人資料</a>
-                           </div>
-                       </div>
-                       <div class="nav">
-                           <ul>
-                               <li><a onClick={this.backOrderList}><i class="bi bi-clipboard"></i> 訂單查詢</a></li>
-                               <li><a onClick={this.backTickets}><i class="bi bi-ticket-perforated"></i> 活動票券</a></li>
-                               <li><a onClick={this.backCollection}><i class="bi bi-heart"></i> 我的最愛</a></li>
 
-                           </ul>
+                    <div class="nav-box" flex="1">
+                        <div class="wrap">
+                            <div class="member">
+                                <div>
+                                    <img className="member-img" src={imageSrc} alt="" />
+                                </div>
+                                <div class="profile">
+                                    <h3>Hey！{this.state.Users.lastName} </h3>
+                                    <a onClick={this.backMember}>個人資料</a>
+                                </div>
+                            </div>
+                            <div class="nav">
+                                <ul>
+                                    <li><a onClick={this.backOrderList}><i class="bi bi-clipboard"></i> 訂單查詢</a></li>
+                                    <li><a onClick={this.backTickets}><i class="bi bi-ticket-perforated"></i> 活動票券</a></li>
+                                    <li><a onClick={this.backCollection}><i class="bi bi-heart"></i> 我的最愛</a></li>
+                                </ul>
+                                <button className='btn' onClick={this.Logout}>會員登出</button>
+                            </div>
+                        </div>
 
-                       </div>
-                   </div>
+                    </div>
+                    <div class="order-box" flex="2">
 
-               </div>
-               <div class="order-box" flex="2">
+                        <h3>我的最愛</h3>
+                        <div class="btn-box">
+                            <button class="tablink" onClick={(e) => this.openPage('Collection', e.currentTarget, '3px solid var(--main)')} id="defaultOpen">商品</button>
 
-                   <h3>我的最愛</h3>
-                   <div class="btn-box">
-                       <button class="tablink" onClick={(e) => this.openPage('Collection', e.currentTarget, '3px solid var(--main)')} id="defaultOpen">商品</button>
+                        </div>
 
-                   </div>
+                        <div id="Collection" class="tabcontent">
+                            {this.state.ProductFavorite.map(productItem =>
+                                <div class="order">
 
-                   <div id="Collection" class="tabcontent">
-                   {this.state.ProductFavorite.map (productItem =>
-                       <div class="order">
+                                    <div class="Img-box">
+                                        <img src={require("../assets/images/memberCollection.png")} alt="" />
+                                    </div>
+                                    <div class="container">
+                                        <div class="wrap">
+                                            <h3>{productItem.productName}</h3>
+                                            <button class="closebtn"><i class="bi bi-x"></i></button>
+                                        </div>
+                                        <div class="wrap">
+                                            <p>{productItem.productDesc}</p>
+                                        </div>
+                                        <div class="wrap">
+                                            <span>金額  NT. $880</span>
+                                            <button class="orderbtn">加入購物車</button>
+                                        </div>
+                                    </div>
 
-                           <div class="Img-box">
-                               <img src={require("../assets/images/memberCollection.png")} alt="" />
-                           </div>
-                           <div class="container">
-                               <div class="wrap">
-                                   <h3>{productItem.productName}</h3>
-                                   <button class="closebtn"><i class="bi bi-x"></i></button>
-                               </div>
-                               <div class="wrap">
-                                   <p>{productItem.productDesc}</p>
-                               </div>
-                               <div class="wrap">
-                                   <span>金額  NT. $880</span>
-                                   <button class="orderbtn">加入購物車</button>
-                               </div>
-                           </div>
+                                </div>
 
-                       </div>
-
-                   )}
-                   </div>
-
+                            )}
+                        </div>
 
 
 
-               </div>
 
-           </div>
+                    </div>
+
+                </div>
 
 
             </div>
 
-        
+
 
 
         );
@@ -119,7 +198,7 @@ class MemberCollection extends Component {
         elmnt.style.borderBottom = border;
     }
 
-    componentDidMount() {
+    componentDidUpdate() {
         document.getElementById("defaultOpen").click();
     }
 
