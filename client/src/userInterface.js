@@ -36,37 +36,37 @@ import Cart from './pages/cart'
 import cartCheckOut from './pages/cartCheckOut'
 import cartConfirmation from './pages/cartConfirmation'
 
-export default function UserInterface () {
+export default function UserInterface() {
   return (
     <div>
       <Routes>
         <Route index element={<Index />} />
-        <Route path='aboutUs' element={<AboutUs />} />
-        <Route path='Login/Index' element={<Login />} />
-        <Route path='Login/Verify' element={<LoginVerify />} />
-        <Route path='Login/Register' element={<LoginRegister />} />
-        <Route path='Login/Password' element={<LoginPassword />} />
+        <Route path="aboutUs" element={<AboutUs />} />
+        <Route path="Login/Index" element={<Login />} />
+        <Route path="Login/Verify" element={<LoginVerify />} />
+        <Route path="Login/Register" element={<LoginRegister />} />
+        <Route path="Login/Password" element={<LoginPassword />} />
 
-        <Route path='Member/Index' element={<MemberIndex />} />
-        <Route path='Member/Edit' element={<MemberEdit />} />
-        <Route path='Member/OrderList' element={<MemberOrderList />} />
-        <Route path='Member/Order' element={<MemberOrder />} />
-        <Route path='Member/Tickets' element={<MemberTickets />} />
-        <Route path='Member/Collection' element={<MemberCollection />} />
+        <Route path="Member/Index" element={<MemberIndex />} />
+        <Route path="Member/Edit" element={<MemberEdit />} />
+        <Route path="Member/OrderList" element={<MemberOrderList />} />
+        <Route path="Member/Order" element={<MemberOrder />} />
+        <Route path="Member/Tickets" element={<MemberTickets />} />
+        <Route path="Member/Collection" element={<MemberCollection />} />
 
-        <Route path='Event/Order' element={<EventOrder />} />
-        <Route path='Event/Index' element={<EventIndex />} />
-        <Route path='Event/Detail' element={<EventDetail />} />
-        <Route path='Event/ConfirmNoseat' element={<EventConfirmNoseat />} />
-        <Route path='Event/ConfirmSeat' element={<EventConfirmSeat />} />
-        <Route path='Event/ConfirmInfo' element={<EventConfirmInfo />} />
+        <Route path="Event/Order" element={<EventOrder />} />
+        <Route path="Event/Index" element={<EventIndex />} />
+        <Route path="Event/Detail" element={<EventDetail />} />
+        <Route path="Event/ConfirmNoseat" element={<EventConfirmNoseat />} />
+        <Route path="Event/ConfirmSeat" element={<EventConfirmSeat />} />
+        <Route path="Event/ConfirmInfo" element={<EventConfirmInfo />} />
 
-        <Route path='Product/All' element={<ProductAll />} />
-        <Route path='Product/Detail' element={<ProductDetail />} />
+        <Route path="Product/All" element={<ProductAll />} />
+        <Route path="Product/Detail/:productId" element={<ProductDetail />} />
 
-        <Route path='Order/Cart' element={<Cart />} />
-        <Route path='Order/cartCheckOut' element={<cartCheckOut />} />
-        <Route path='Order/cartConfirmation' element={<cartConfirmation />} />
+        <Route path="Order/Cart" element={<Cart />} />
+        <Route path="Order/cartCheckOut" element={<cartCheckOut />} />
+        <Route path="Order/cartConfirmation" element={<cartConfirmation />} />
       </Routes>
       <Footer />
     </div>
