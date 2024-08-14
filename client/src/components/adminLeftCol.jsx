@@ -1,60 +1,61 @@
-import React, { Component } from 'react'
+import React from 'react'
+import { NavLink } from 'react-router-dom'
 import '../assets/adminPage.css'
 
 export default function LeftCol () {
   return (
-    <div class="sideBar">
-      <div class="greeting flex">
+    <div className='sideBar'>
+      <div className='greeting flex'>
         <div>
           <span>管理帳號</span>，你好！
         </div>
-        <button class="btn">登出</button>
+        <button className='btn'>登出</button>
       </div>
-      <div class="sideMenu">
+      <div className='sideMenu'>
         <ul>
-          <li class="sideMenuOpt">
-            <label class="menuTitle flex">
-              <i class="fa-solid fa-bag-shopping"></i>商品管理
+          <li className='sideMenuOpt'>
+            <label className='menuTitle flex'>
+              <i className='fa-solid fa-bag-shopping'> </i>商品管理
             </label>
-            <ul class="secMenu">
+            <ul className='secMenu'>
               <li>
-                <a href="prdList.html" class="menuPage thisPage">
+                <NavLink to='/prdList' className='menuPage'>
                   商品列表
-                </a>
+                </NavLink>
               </li>
               <li>
-                <a href="prdOrder.html" class="menuPage">
+                <NavLink to='/prdOrder' className='menuPage'>
                   商品訂單
-                </a>
+                </NavLink>
               </li>
             </ul>
           </li>
-          <li class="sideMenuOpt">
-            <label class="menuTitle flex">
-              <i class="fa-solid fa-newspaper"></i>專欄管理
+          <li className='sideMenuOpt'>
+            <label className='menuTitle flex'>
+              <i className='fa-solid fa-newspaper'> </i>專欄管理
             </label>
-            <ul class="secMenu">
+            <ul className='secMenu'>
               <li>
-                <a href="blogList.html" class="menuPage">
+                <NavLink to='/blogList' className='menuPage'>
                   文章列表
-                </a>
+                </NavLink>
               </li>
             </ul>
           </li>
-          <li class="sideMenuOpt">
-            <label class="menuTitle flex">
-              <i class="fa-solid fa-calendar-days"></i>活動管理
+          <li className='sideMenuOpt'>
+            <label className='menuTitle flex'>
+              <i className='fa-solid fa-calendar-days'> </i>活動管理
             </label>
-            <ul class="secMenu">
+            <ul className='secMenu'>
               <li>
-                <a href="eventList.html" class="menuPage">
+                <NavLink to='/eventList' className='menuPage'>
                   活動列表
-                </a>
+                </NavLink>
               </li>
               <li>
-                <a href="eventOrder.html" class="menuPage">
+                <NavLink to='/eventOrder' className='menuPage'>
                   活動訂單
-                </a>
+                </NavLink>
               </li>
             </ul>
           </li>

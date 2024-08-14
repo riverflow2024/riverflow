@@ -219,16 +219,16 @@
 
         // 規格新增
         $(document).on('click', '.addItem', function () {
-            $itemId = $('.specItem').length
-            // console.log(this)
-            $(this).parents('.specInfo').append(`
-                <div class="specItem" spec-id="${$itemId + 1}">
-                    <label for="prdSpec${$itemId + 1}">規格${$itemId + 1}名稱：</label>
-                    <input id="prdSpec${$itemId + 1}" class="specTitle" type="text" required>
-                    <button class="addItem"><i class="bi bi-plus-circle"></i></button>
-                    <button class="delItem"><i class="bi bi-dash-circle"></i></button>
-                </div>
-            `)
+            // $itemId = $('.specItem').length
+            console.log($(this).parents('.specInfo'))
+            // $(this).parents('.specInfo').append(`
+            //     <div class="specItem" spec-id="${$itemId + 1}">
+            //         <label for="prdSpec${$itemId + 1}">規格${$itemId + 1}名稱：</label>
+            //         <input id="prdSpec${$itemId + 1}" class="specTitle" type="text" required>
+            //         <button class="addItem"><i class="bi bi-plus-circle"></i></button>
+            //         <button class="delItem"><i class="bi bi-dash-circle"></i></button>
+            //     </div>
+            // `)
 
             // $specNum = $('.specItemInfo').length
             $('.specSum tbody').append(`

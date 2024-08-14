@@ -41,12 +41,12 @@ import UserInterface from './userInterface'
 // import cartCheckOut from './pages/cartCheckOut'
 // import cartConfirmation from './pages/cartConfirmation'
 
-export default function App() {
+export default function App () {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/admin/*" element={<AdminInterface />} />
-        <Route path="/*" element={<UserInterface />} />
+        <Route path='/admin/*' element={<AdminInterface />} />
+        <Route path='/*' element={<UserInterface />} />
       </Routes>
     </BrowserRouter>
   )
