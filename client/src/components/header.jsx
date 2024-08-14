@@ -45,7 +45,7 @@ export default function Header () {
         <div class='flex header-right'>
           <ul class='headerLink flex'>
             <li>
-              <Link to='/'>首頁</Link>
+              <NavLink to='/'>首頁</NavLink>
             </li>
             <li class='cultureListName dropdown'>
               <a class='dropdownToggle'>
@@ -113,7 +113,7 @@ export default function Header () {
       <div class='mobMenu'>
         <ul class='headerLink mob flex'>
           <li>
-            <Link to='/'>首頁</Link>
+            <NavLink to='/'>首頁</NavLink>
           </li>
           <li class='cultureListName dropdown dropdown_mob'>
             <a class='dropdownToggle'>
