@@ -235,7 +235,7 @@ class LoginRegister extends Component {
 
                     </div>
 
-                    {/* 显示加载画面 */}
+                    {/* Loading */}
                     {this.state.isLoading && (
                         <div className="loading-overlay">
                             <div className="spinner"></div> {/* 你可以用CSS或图片来实现转动的加载效果 */}
@@ -252,7 +252,7 @@ class LoginRegister extends Component {
         this.setState({ agreeToPrivacy: !this.state.agreeToPrivacy });
     };
 
-
+    // email格式驗證
     EmailChange = (event) => {
         const email = event.target.value;
         const emailPattern = /^[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$/i;
@@ -330,11 +330,6 @@ class LoginRegister extends Component {
 
         this.setState({ checkPasswordError });
     };
-
-
-
-
-
 
 
     // 確認密碼更動時，同時啟動確認密碼功能
@@ -459,11 +454,7 @@ class LoginRegister extends Component {
                         htmlContainer: 'custom-text',  // 自定义内文的 class
                         confirmButton: 'swal2-confirm' // 应用自定义按钮类
                     },
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        window.location = "/Login/Index";
-                    }
-                });
+                })
 
                 
             } catch (error) {

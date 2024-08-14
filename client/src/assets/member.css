@@ -54,17 +54,18 @@
   justify-content: center;
   width: 88px;
   text-align: center;
-  padding: 8px 0px;
+  padding: 5px 0px 10px;
   font-size: 15px;
-  font-weight: 400;
+  font-weight: 600;
+  text-shadow: var(--bk2) 1px 0 15px;
   letter-spacing: 2px;
-  background-color: hsla(78, 65%, 44%, 0.5);
+  background-color: hsla(78, 69%, 43%, 0.5);
   box-shadow: 0 10px 15px rgba(0, 0, 0, 0.33);
   color: white;
   cursor: pointer;
 }
 .Member .nav-box .member .member-img .prettier-input:hover div {
-  background-color: hsla(0, 0%, 80%, 0.5);
+  background-color: hsla(0, 0%, 35%, 0.8);
 }
 .Member .nav-box .member .profile {
   padding: 10px;
@@ -763,6 +764,13 @@
   flex-wrap: wrap;
   justify-content: center;
 }
+.Collection .multiline-ellipsis {
+  white-space: wrap;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+}
 .Collection h3 {
   color: var(--main);
   margin-bottom: 20px;
@@ -869,6 +877,8 @@
 .Collection .order-box .tabcontent .order .Img-box img {
   -o-object-fit: cover;
      object-fit: cover;
+  width: 220px;
+  height: 220px;
 }
 .Collection .order-box .tabcontent .order .container {
   flex: 2;
@@ -887,6 +897,9 @@
 }
 .Collection .order-box .tabcontent .order .container .wrap h3 {
   line-height: normal;
+}
+.Collection .order-box .tabcontent .order .container .wrap p {
+  text-align: justify;
 }
 .Collection .order-box .tabcontent .order .container .wrap .closebtn {
   height: auto;

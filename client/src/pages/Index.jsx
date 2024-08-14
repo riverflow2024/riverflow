@@ -4,6 +4,7 @@ import '../assets/index.css';
 import Header from '../components/header'
 
 class Index extends Component {
+  
   state = {
     isLoggedIn: false,  
     Users: null     
@@ -11,7 +12,17 @@ class Index extends Component {
 
   componentDidMount() {
     this.checkLoginStatus();
+    document.body.classList.remove('w-bg');
 }
+
+
+
+componentWillUnmount() {
+  // 在组件卸载时恢复 body 上的 `w-bg` 类
+  document.body.classList.add('w-bg');
+}
+
+
 
 checkLoginStatus = async () => {
     try {
@@ -38,9 +49,6 @@ checkLoginStatus = async () => {
   render() {
     const { isLoggedIn, userData } = this.state;
 
-    if (!isLoggedIn) {
-        return <div>Please log in to access this page.</div>;
-    }
 
     
     return (

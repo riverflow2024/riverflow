@@ -8,14 +8,17 @@ import defaultImg from '../assets/images/defaultphoto.jpg'; // 預設會員圖�
 class MemberIndex extends Component {
     state = {
         Users: {
+            // 去看資料庫怎麼寫!
             "firstName": "",
             "lastName": "",
             "phone": "",
             "email": "",
             "birth": "",
             "sex": "",
+            "userImg": "",
+
         },
-        Users: null,       // 用户数据
+
         isLoading: true,      // 加载状态
         error: null           // 错误信息
     };
@@ -23,29 +26,44 @@ class MemberIndex extends Component {
         this.fetchUserData();
     }
 
-    fetchUserData = async () => {
-        try {
-            const response = await axios.get('http://localhost:3000/riverflow/user', {
-                withCredentials: true // 确保请求带上 Cookie
-            });
-
-            // 更新状态以显示用户数据
-            this.setState({
-                Users: response.data, // 使用 Users 状态
-                isLoading: false
-            });
-        } catch (error) {
-            // 清除本地存储中的 Token（如果你仍然在使用本地存储）
-            localStorage.removeItem('token');
-            this.setState({
-                isLoading: false,
-            });
-            window.location.href = '/login/Index';
-
-        }
+    // 將 UTC 日期轉換為本地日期
+    formatDate = (dateString) => {
+        const date = new Date(dateString);
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0'); // 月份从0开始，所以要加1
+        const day = String(date.getDate()).padStart(2, '0');
+        return `${year}-${month}-${day}`;
     };
 
-   Logout = async () => {
+    fetchUserData = async () => {
+    try {
+        const response = await axios.get('http://localhost:3000/riverflow/user', {
+            withCredentials: true // 确保请求带上 Cookie
+        });
+
+        // 格式化日期
+        const birth = response.data.birth ? this.formatDate(response.data.birth) : '';
+
+        // 更新状态以显示用户数据
+        this.setState({
+            Users: {
+                ...response.data,
+                birth // 确保日期格式正确
+            },
+            isLoading: false
+        });
+    } catch (error) {
+        localStorage.removeItem('token');
+        this.setState({
+            Users: { ...this.state.Users, birth: '' },
+            isLoading: false,
+        });
+        window.location.href = '/login/Index';
+    }
+};
+
+
+    Logout = async () => {
         try {
             await axios.get('http://localhost:3000/riverflow/user/logout', {
                 withCredentials: true // 确保请求带上 Cookie
@@ -65,13 +83,13 @@ class MemberIndex extends Component {
     render() {
         const { Users, isLoading, error } = this.state;
 
-        if (isLoading) {
-            return <div>Loading...</div>;
-        }
+        // 變更訂單狀態名稱
+        const sexMap = {
+            "Female": "女",
+            "Male": "男",
 
-        if (error) {
-            return <div>{error}</div>;
-        }
+
+        };
 
 
         // 如果會員沒有照片就使用預設圖片
@@ -130,7 +148,8 @@ class MemberIndex extends Component {
                             </div>
                             <div class="input-card">
                                 <label>您的性別</label><br />
-                                <span>{this.state.Users.sex}</span>
+
+                                <span>{sexMap[this.state.Users.sex] || this.state.Users.sex}</span>
                             </div>
                             <div class="btn-box">
                                 <input type="button" value="修改個人資料" onClick={this.editClick} />

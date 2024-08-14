@@ -29,24 +29,7 @@ class MemberOrder extends Component {
         },
         Order: [
             // 去看資料庫怎麼寫!
-            {
-                "orderId": "",
-                "totalPrice": "",
-                "orderStatus": "",
-                "payMethod": "",
-                "createdAt": "",
-                "rcptName": "",
-                "rcptPhone": "",
-                "rcptAddr": "",
-                "shipMethod": "",
-                "convAddr": "",
-                "productName": "",
-                "productOpt": "",
-                "quantity": ""
-            },
-
-
-
+            { "orderId": "", "createdAt": "", "payMethod": "", "totalPrice": "", "orderStatus": "" },
         ],
 
         isLoading: true,      // 加载状态
@@ -55,8 +38,9 @@ class MemberOrder extends Component {
         activeAccordion: null // 用于跟踪哪个折叠面板是活动的
     }
     componentDidMount() {
-        
+
         this.fetchUserData();
+        // this.fetchOrderData();
         const { params } = this.props;
 
         if (params && params.id) {
@@ -87,6 +71,24 @@ class MemberOrder extends Component {
             // window.location.href = '/login';
         }
     };
+    // fetchOrderData = async () => {
+    //     try {
+    //         const response = await axios.get('http://localhost:3000/riverflow/user/products/', {
+    //             withCredentials: true
+    //         });
+    //         console.log("Fetched order data:", response.data); // 打印返回的数据
+    //         this.setState({
+    //             Order: response.data
+    //         });
+    //     } catch (error) {
+    //         console.error("Error fetching order data:", error);
+    //         this.setState({
+    //             error: 'Failed to fetch order data.'
+    //         });
+    //     }
+
+
+    // };
 
     fetchOrderData = async (id) => {
         try {
@@ -143,9 +145,9 @@ class MemberOrder extends Component {
             "cash": "現金付款",
         };
 
-        
+
         // 根據訂單篩選，用filter過濾
-        // const unpaidOrders = this.state.Order.filter(order => order.orderStatus === 'processing');
+        const unpaidOrders = this.state.Order.filter(order => order.orderStatus === 'processing');
         const paymentOrders = this.state.Order.filter(order => order.orderStatus === 'pending');
         const completedOrders = this.state.Order.filter(order => order.orderStatus === 'complete');
         const notYetCompletedOrders = this.state.Order.filter(order => order.orderStatus === 'cancelled');
@@ -203,7 +205,7 @@ class MemberOrder extends Component {
                         </div>
 
                         <div id="Unpaid" className="tabcontent">
-                            {this.state.Order.map((order, index) =>
+                            {unpaidOrders.map((order, index) =>
                                 <div className="order" key={order.orderId}>
                                     <div className="wrap">
                                         <span>訂單編號：{order.orderId}</span>
@@ -221,8 +223,8 @@ class MemberOrder extends Component {
 
                                         <tbody>
                                             <tr>
-                                                <td>{order.createdAt}</td>
-                                                <td>NT${order.price + 60}</td>
+                                                <td>{this.formatDate(order.createdAt)}</td>
+                                                <td>NT${order.totalPrice + 60}</td>
                                                 <td>{payMethodMap[order.payMethod] || order.payMethod}</td>
                                                 <td>{statusMap[order.orderStatus] || order.orderStatus}</td>
                                             </tr>
@@ -236,7 +238,8 @@ class MemberOrder extends Component {
                                             <div className="content">
                                                 <span>收件人：{this.state.Users.firstName}{this.state.Users.lastName}</span><br />
                                                 <span>聯絡電話：{this.state.Users.phone}</span><br />
-                                                <span>收件地址：宅配</span><br />
+                                                <span>寄送方式：{order.shipMethod}</span><br />
+                                                <span>收件地址：{order.convAddr}</span><br />
                                             </div>
                                         </div>
                                         <table>
@@ -251,8 +254,8 @@ class MemberOrder extends Component {
                                             <tbody>
                                                 {this.state.Order.map(productItem =>
                                                     <tr>
-                                                        <td colspan="2">{productItem.productName}</td>
-                                                        <td>1</td>
+                                                        <td colspan="2">{productItem.productName} / {productItem.productOpt}</td>
+                                                        <td>{productItem.quantity}</td>
                                                         <td></td>
                                                         <td>{productItem.priceOpt}</td>
                                                     </tr>
@@ -261,7 +264,7 @@ class MemberOrder extends Component {
 
                                                 <tr style={{ borderBottom: '0.5px solid var(--main)' }}>
                                                     <td colspan="2">運費</td>
-                                                    <td>1</td>
+                                                    <td></td>
                                                     <td></td>
                                                     <td>$60</td>
                                                 </tr>
@@ -270,7 +273,7 @@ class MemberOrder extends Component {
                                                     <td colspan="2" style={{ fontWeight: "bold" }}>應付金額</td>
                                                     <td></td>
                                                     <td></td>
-                                                    <td style={{ fontWeight: "bold" }}>${order.price + 60}</td>
+                                                    <td style={{ fontWeight: "bold" }}>${order.totalPrice + 60}</td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -410,9 +413,10 @@ class MemberOrder extends Component {
         elmnt.style.borderBottom = border;
     }
 
-    // componentDidMount() {
-    //     document.getElementById("defaultOpen").click();
-    // }
+    componentDidUpdate() {
+        document.getElementById("defaultOpen").click();
+    }
+
 
     // 選單按鈕
     backMember = async () => {
