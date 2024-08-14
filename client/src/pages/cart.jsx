@@ -45,7 +45,7 @@ const Cart = () => {
   const [cartItems, setCartItems] = useState([])
 
   useEffect(() => {
-    // 假設現在API 返回當前用戶的購物車 ID 和對應的購物車項目列表
+    // 獲取當前用戶的購物車商品列表
     axios
       .get('/api/cart/1') // 假設使用者有 cartId = 1
       .then((response) => {
@@ -57,6 +57,7 @@ const Cart = () => {
   }, [])
 
   const updateCart = (ciId, newQuantity) => {
+    if (newQuantity <= 0) return // 確保數量不會小於 1
     axios
       .put(`/api/cart/items/${ciId}`, { quantity: newQuantity })
       .then((response) => {

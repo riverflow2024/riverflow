@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import '../assets/cartCheckOut.css'
 import '../assets/reset.css'
-import '../assets/basic.css'
+
 import Header from '../components/header'
 import axios from 'axios'
 
