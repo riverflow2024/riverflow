@@ -1,5 +1,5 @@
 @charset "UTF-8";
-@import url(basic.css);
+@import url("https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css");
 @import url("https://fonts.googleapis.com/css2?family=Just+Another+Hand&display=swap");
 @import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css");
 input:-webkit-autofill {
@@ -92,12 +92,11 @@ input:-webkit-autofill {
   display: flex;
   justify-content: center;
   align-items: center;
-  visibility: hidden;
 }
 .login .nolongin .nolongin-wrap {
-  width: 20%;
-  height: 30vh;
-  padding: 40px;
+  width: 300px;
+  height: 250px;
+  padding: 20px;
   box-sizing: border-box;
   background: var(--bk2);
   box-shadow: 0 0.125rem 0.5rem rgba(0, 0, 0, 0.33);
@@ -340,11 +339,66 @@ input:-webkit-autofill {
   padding: 10px 40px;
   margin: auto;
 }
+.register .loading-overlay {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 999;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.register .loading-overlay .spinner {
+  width: 50px;
+  height: 50px;
+  border: 10px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 10px solid var(--side);
+  animation: spin 1s linear infinite;
+}
+.register .loading-overlay .loading-text {
+  position: 10px;
+  font-size: 20px;
+  font-weight: 400;
+}
+.register .loading-overlay .loading-text .dots::after {
+  content: "";
+  animation: dot-blink 1.5s steps(4, end) infinite;
+}
+@keyframes dot-blink {
+  0% {
+    content: "";
+  }
+  25% {
+    content: ".";
+  }
+  50% {
+    content: "..";
+  }
+  75% {
+    content: "...";
+  }
+  100% {
+    content: "";
+  }
+}
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
 
 /*------- 忘記密碼--------- */
 .password {
   width: 100%;
-  height: 720PX;
+  height: 720px;
   display: flex;
   justify-content: center;
   box-sizing: border-box;

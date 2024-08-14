@@ -50,7 +50,7 @@ export default function UserInterface() {
         <Route path="Member/Index" element={<MemberIndex />} />
         <Route path="Member/Edit" element={<MemberEdit />} />
         <Route path="Member/OrderList" element={<MemberOrderList />} />
-        <Route path="Member/Order" element={<MemberOrder />} />
+        <Route path="/Member/Order/:id" element={<MemberOrder />} />
         <Route path="Member/Tickets" element={<MemberTickets />} />
         <Route path="Member/Collection" element={<MemberCollection />} />
 
