@@ -1,18 +1,20 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
 
 const PaymentSuccess = () => {
   const [paymentStatus, setPaymentStatus] = useState('處理中...');
   const location = useLocation();
+  const processedRef = useRef(false);
 
   useEffect(() => {
     const urlParams = new URLSearchParams(location.search);
     const sessionId = urlParams.get('session_id');
 
-    if (sessionId) {
+    if (sessionId && !processedRef.current) {
+      processedRef.current = true; // 標記為已處理
       fetch(`http://localhost:3000/riverflow/pay/payment-success?session_id=${sessionId}`, {
         method: 'GET',
-        credentials: 'include', // 重要：包含 cookies
+        credentials: 'include',
         headers: {
           'Content-Type': 'application/json'
         }

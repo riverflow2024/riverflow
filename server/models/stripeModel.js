@@ -57,6 +57,19 @@ const saveOrderDetails = async (sessionId, userId) => {
         await query('START TRANSACTION');
 
         try {
+
+
+            // 檢查是否已存在相同的訂單
+            const existingOrder = await query(
+                'SELECT orderid FROM `order` WHERE userId = ? AND totalPrice = ? AND createdAt > DATE_SUB(NOW(), INTERVAL 5 MINUTE)',
+                [userId, totalPrice]
+            );
+
+            if (existingOrder.length > 0) {
+                await query('COMMIT');
+                return { success: true, message: '訂單已存在，無需重複處理' };
+            }
+
             // 插入訂單主表
             const result = await query(
                 'INSERT INTO `order` (userId, totalPrice, orderStatus, shipMethod, convAddr, rcptName, rcptPhone, rcptAddr, payMethod, payTime, receiptType, receiptInfo, orderRemark, createdAt) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), ?, ?, ?, NOW())',
