@@ -16,7 +16,7 @@ const createCheckoutSession = async (items) => {
             },
             quantity: item.quantity,
         })),
-        success_url: `${process.env.CLIENT_URL}/success.jsx?session_id={CHECKOUT_SESSION_ID}`,
+        success_url: `${process.env.CLIENT_URL}/Order/PaymentSuccess?session_id={CHECKOUT_SESSION_ID}`,
         cancel_url: `${process.env.CLIENT_URL}/cancel.html`,
         metadata: {
             order_details: JSON.stringify(items)
@@ -73,7 +73,10 @@ const saveOrderDetails = async (sessionId, userId) => {
                 );
             }
 
-            // 清空用戶的購物車
+            // 删除 cartitem 记录
+            await query('DELETE FROM cartitem WHERE cartId IN (SELECT cartId FROM cart WHERE userId = ?)', [userId]);
+
+            // 删除 cart 记录
             await query('DELETE FROM cart WHERE userId = ?', [userId]);
 
             // 提交事務
@@ -91,75 +94,8 @@ const saveOrderDetails = async (sessionId, userId) => {
     }
 };
 
-
-// const saveOrderDetails = async (sessionId, userId) => {
-//     try {
-//         const session = await retrieveSession(sessionId);
-
-//         const orderDetails = JSON.parse(session.metadata.order_details);
-//         // console.log('訂單資料:', orderDetails);
-
-//         // 計算總價
-//         const totalPrice = orderDetails.reduce((sum, item) => sum + item.price * item.quantity, 0);
-
-//         // 使用 Promise 包裝回调函数
-//         const query = (sql, params) => {
-//             return new Promise((resolve, reject) => {
-//                 dbconnect.query(sql, params, (error, results) => {
-//                     if (error) {
-//                         console.error('資料庫查詢錯誤:', error);
-//                         return reject(error);
-//                     }
-//                     resolve(results);
-//                 });
-//             });
-//         };
-
-//         // 插入訂單主表
-//         const result = await query(
-//             'INSERT INTO `order` (userId, totalPrice, orderStatus, shipMethod, convAddr, rcptName, rcptPhone, rcptAddr, payMethod, payTime, receiptType, receiptInfo, orderRemark, createdAt) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), ?, ?, ?, NOW())',
-//             [11, totalPrice, 'processing', 'delivery', null, '測試', '0933444333', '某處', 'card', 'dupInvoice', 'Z1234567', '這是一個測試訂單']
-//         );
-//         console.log('result: ',result)
-//         const orderId = result.insertId;
-//         console.log('插入訂單主表成功，orderId:', orderId);
-
-//         // 插入訂單項目
-//         for (const item of orderDetails) {
-//             console.log('插入訂單項目:', item);
-//             try {
-//                 const insertItem = await query(
-//                     'INSERT INTO orderitem (orderId, productId, productName, productOpt, quantity, price) VALUES (?, ?, ?, ?, ?, ?)',
-//                     [orderId, item.productId, item.name, item.size, item.quantity, item.price]
-//                 );
-//                 console.log('插入項目成功:', insertItem);
-//             } catch (error) {
-//                 console.error('插入訂單項目時發生錯誤:', error);
-//             }
-//         }
-
-//         return { success: true, message: '訂單已成功處理並保存' };
-//     } catch (error) {
-//         console.error('保存訂單詳情時發生錯誤:', error);
-//         return { success: false, message: '保存訂單詳情時發生錯誤' };
-//     }
-// };
-
-
 module.exports = {
     createCheckoutSession,
     retrieveSession,
     saveOrderDetails
 };
-
-
-
-
-
-
-
-
-
-
-
-
