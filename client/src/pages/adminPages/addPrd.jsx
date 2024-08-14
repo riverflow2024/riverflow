@@ -6,6 +6,7 @@ import 'jquery-ui/ui/widgets/tabs'
 export default function AddPrd () {
   const navigate = useNavigate()
   const [specItems, setSpecItems] = useState([])
+  const [tableItems, setTableItems] = useState([])
 
   $(function () {
     $('.tabs').tabs()
@@ -180,10 +181,28 @@ export default function AddPrd () {
                 <div className='specItem' spec-id='1'>
                   <label htmlFor='prdSpec1'>規格1名稱：</label>
                   <input id='prdSpec1' name='prdSpec1' className='specTitle' type='text' required />
-                  <button className='addItem'>
+                  <button onClick={addItem} className='addItem'>
                     <i className='bi bi-plus-circle'> </i>
                   </button>
                 </div>
+                {specItems.map((item, index) => (
+                  <div key={item.id} className='specItem' spec-id={item.id}>
+                    <label htmlFor={`prdSpec${item.id}`}>規格{item.id}名稱：</label>
+                    <input id={`prdSpec${item.id}`} name={`prdSpec${item.id}`} value={item.title}
+                      type='text' className='specTitle' required onChange={(e) => {
+                        const newItems = [...specItems]
+                        newItems[index].title = e.target.value
+                        setSpecItems(newItems)
+                      }}
+                    />
+                    <button onClick={addItem}><i className='bi bi-plus-circle' /></button>
+                    <button onClick={() => {
+                      const newItems = specItems.filter((_, i) => i !== index)
+                      setSpecItems(newItems)
+                    }}><i className='bi bi-dash-circle' />
+                    </button>
+                  </div>
+                ))}
               </div>
             </div>
             <hr />
