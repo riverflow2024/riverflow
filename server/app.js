@@ -15,7 +15,7 @@ app.use(bodyParser.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(
   cors({
-    origin: `http://localhost:3001`,
+    origin: `http://localhost:3001`
   })
 )
 
@@ -41,10 +41,10 @@ app.use('/riverflow/events', eventRoutes)
 app.use('/riverflow/pay', authenticateToken, stripeRoutes)
 app.use('/riverflow/cart', authenticateToken, cartRoutes)
 
-app.use('/riverflow/events/Tobuy',authenticateToken, stripeRoutes)
+app.use('/riverflow/events/Tobuy', authenticateToken, stripeRoutes)
 // app.use('/riverflow/orders', orderRoutes)
 
 // backstage routes
-app.use('/riverflow/admin', adminAuthenticateToken, adminRoutes)
+app.use('/riverflow/admin', adminRoutes)
 
 module.exports = app

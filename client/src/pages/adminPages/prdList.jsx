@@ -3,17 +3,17 @@ import $ from 'jquery'
 import { Link, useMatch } from 'react-router-dom'
 import axios from 'axios'
 
-async function login(username, password) {
-  try {
-    const response = await axios.post('localhost:3000/riverflow/admin/login', {username, password})
-    const token = response.data.token
-    localStorage.setItem('authToken', token)
-    return token
-  } catch (error) {
-    console.log('登錄失敗:', error)
-    throw error
-  }
-}
+// async function login(username, password) {
+//   try {
+//     const response = await axios.post('localhost:3000/riverflow/admin/login', {username, password})
+//     const token = response.data.token
+//     localStorage.setItem('authToken', token)
+//     return token
+//   } catch (error) {
+//     console.log('登錄失敗:', error)
+//     throw error
+//   }
+// }
 
 export default function PrdList () {
   const match = useMatch('/admin/prdList/*')
@@ -23,12 +23,12 @@ export default function PrdList () {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        let token = localStorage.getItem('authToken')
-        if (!token) {
-          token = await login('adminaccount', 'Adminsecret')
-        }
-        
-        const response = await axios.get('localhost:3000/riverflow/admin/')
+        // let token = localStorage.getItem('authToken')
+        // if (!token) {
+        //   token = await login('adminaccount', 'Adminsecret')
+        // }
+
+        const response = await axios.get('http://localhost:3000/riverflow/admin/')
         setData(response.data)
         console.log('測試:', response.data)
       } catch (error) {
