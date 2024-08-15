@@ -102,6 +102,29 @@ exports.updatePassword = async (userId, hashedPassword) => {
   })
 }
 
+// 檢查照片名稱
+exports.getUserImageName = (userId) => {
+  return new Promise((resolve, reject) => {
+    db.query('SELECT userImg FROM users WHERE userId = ?', [userId], (err, results) => {
+      if (err) reject(err)
+      resolve(results ? results.userImg : null)
+    })
+  })
+}
+// 更新照片
+exports.updateUserImg = async (userId, userImg) => {
+  return new Promise((resolve, reject) => {
+    db.query('UPDATE Users SET userImg = ? WHERE userId = ?', [userImg, userId], (error, result) => {
+      if (error) {
+        console.error('照片更新失敗:', error)
+        reject(error)
+      } else {
+        resolve(result.affectedRows > 0)
+      }
+    })
+  })
+}
+
 // 刪除帳號（創建帳號失敗）
 exports.deleteUser = async (userId) => {
   return new Promise((resolve, reject) => {

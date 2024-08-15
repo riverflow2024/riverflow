@@ -1,3 +1,4 @@
+// Author: zhier1114
 const express = require('express')
 const router = express.Router()
 const userController = require('../controllers/userController')
@@ -6,6 +7,8 @@ const userController = require('../controllers/userController')
 router.get('/', userController.getUserInfo)
 // 會員中心：更新資料
 router.put('/update', userController.updateUserInfo)
+// 會員中心：更新照片
+router.post('/update/img', userController.updateUserImg)
 
 // 會員中心：商品資訊
 router.get('/products', userController.getAllOrders)

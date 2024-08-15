@@ -1,4 +1,8 @@
+// Author: zhier1114
 const userModel = require('../models/userModel')
+const path = require('path')
+const fs = require('fs')
+const multer = require('multer')
 
 // 會員中心首頁：顯示會員資料
 exports.getUserInfo = async (req, res) => {
@@ -32,6 +36,65 @@ exports.updateUserInfo = async (req, res) => {
     res.status(500).json({ message: '更新失敗', error: error.message })
   }
 }
+
+// 更新會員照片
+const ensureDirectoryExists = (directory) => {
+  if (!fs.existsSync(directory)) {
+    fs.mkdirSync(directory, { recursive: true })
+  }
+}
+const projectRoot = path.join(__dirname, '..', '..')
+const uploadDirectory = path.join(projectRoot, 'client', 'src', 'assets', 'images', 'users')
+ensureDirectoryExists(uploadDirectory)
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, uploadDirectory)
+  },
+  filename: (req, file, cb) => {
+    const fileName = `user${req.userId}${path.extname(file.originalname)}`
+    cb(null, fileName)
+  }
+})
+const fileFilter = (req, file, cb) => {
+  const allowedExtensions = ['.jpg', '.jpeg', '.png']
+  const ext = path.extname(file.originalname).toLowerCase()
+  if (allowedExtensions.includes(ext)) {
+    cb(null, true)
+  } else {
+    cb(new Error('Invalid file type. Only JPG, JPEG AND PNG are allowed.'))
+  }
+}
+const upload = multer({
+  storage,
+  limits: {
+    fileSize: 1 * 1024 * 1024 // 1MB
+  },
+  fileFilter
+})
+exports.updateUserImg = [
+  upload.single('userImg'),
+  async (req, res) => {
+    try {
+      if (!req.file) {
+        return res.status(400).send('No file uploaded')
+      }
+      const fileName = req.file.filename
+      const oldImageName = await userModel.getUserImageName(req.userId)
+      if (oldImageName) {
+        const oldImagePath = path.join(uploadDirectory, oldImageName)
+        if (fs.existsSync(oldImagePath)) {
+          fs.unlinkSync(oldImagePath)
+        }
+      }
+      await userModel.updateUserImg(req.userId, fileName)
+
+      res.status(200).json({ message: 'File uploaded and saved successfully', fileName })
+    } catch (err) {
+      console.error('Error in updateUserImg:', err)
+      res.status(500).json({ error: 'Internal server error', details: err.message })
+    }
+  }
+]
 
 // 會員商品訂單
 exports.getAllOrders = async (req, res) => {
