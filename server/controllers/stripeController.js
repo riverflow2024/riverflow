@@ -48,6 +48,14 @@ const createEventCheckoutSession = async (req, res) => {
     try {
         const event = req.body.event;
         console.log('活動訂單項目:', event);
+
+        // 檢查票券庫存
+        const availabilityCheck = await stripeModel.checkTicketAvailability(event);
+        if (!availabilityCheck.success) {
+            return res.status(400).json({ error: availabilityCheck.message });
+        }
+
+
         const session = await stripeModel.createEventCheckoutSession(event);
         res.json({ url: session.url });
     } catch (e) {
@@ -87,4 +95,6 @@ module.exports = {
     createEventCheckoutSession,
     handleEventSuccessfulPayment
 };
+
+
 

@@ -149,6 +149,51 @@ const createEventCheckoutSession = async (event) => {
     return session;
 };
 
+
+const checkTicketAvailability = async (event) => {
+    try {
+        const query = (sql, params) => {
+            return new Promise((resolve, reject) => {
+                dbconnect.query(sql, params, (error, results) => {
+                    if (error) {
+                        console.error('資料庫查詢錯誤:', error);
+                        return reject(error);
+                    }
+                    resolve(results);
+                });
+            });
+        };
+
+        const [dbEvent] = await query(
+            'SELECT ticketType FROM events WHERE eventId = ?',
+            [event.eventId]
+        );
+
+        if (!dbEvent) {
+            return { success: false, message: '找不到該活動' };
+        }
+
+        const dbTicketTypes = JSON.parse(dbEvent.ticketType);
+
+        for (const requestedTicket of event.ticketType) {
+            const dbTicket = dbTicketTypes.find(t => t.type === requestedTicket.type);
+            if (!dbTicket || dbTicket.stock < requestedTicket.quantity) {
+                return { success: false, message: `票券 ${requestedTicket.type} 庫存不足` };
+            }
+        }
+
+        return { success: true };
+    } catch (error) {
+        console.error('檢查票券庫存時發生錯誤:', error);
+        return { success: false, message: '檢查票券庫存時發生錯誤' };
+    }
+};
+
+
+
+
+
+
 const saveEventOrderDetails = async (sessionId, userId) => {
     try {
         // 從會話中獲取必要資訊
@@ -156,7 +201,11 @@ const saveEventOrderDetails = async (sessionId, userId) => {
         const eventId = session.metadata.event_id;
         const ticketType = JSON.parse(session.metadata.tickets); // 解析 JSON 字符串
         console.log('ticketType :', ticketType);
-
+        if (ticketType) {
+            // 新增票
+        } else {
+            //新增商品
+        }
         // 資料庫查詢輔助函數
         const query = (sql, params) => {
             return new Promise((resolve, reject) => {
@@ -174,9 +223,9 @@ const saveEventOrderDetails = async (sessionId, userId) => {
         await query('START TRANSACTION');
 
         try {
-            // 檢查是否在過去5分鐘內存在相同的訂單
+            // 檢查是否在過去1分鐘內存在相同的訂單
             const existingOrder = await query(
-                'SELECT tdId FROM ticketdetails WHERE userId = ? AND eventId = ? AND createdAt > DATE_SUB(NOW(), INTERVAL 5 MINUTE)',
+                'SELECT tdId FROM ticketdetails WHERE userId = ? AND eventId = ? AND createdAt > DATE_SUB(NOW(), INTERVAL 1 MINUTE)',
                 [userId, eventId]
             );
 
@@ -185,6 +234,36 @@ const saveEventOrderDetails = async (sessionId, userId) => {
                 await query('COMMIT');
                 return { success: true, message: '票券訂單已存在，無需重複處理' };
             }
+
+            // 獲取當前活動的票券信息
+            const [eventResult] = await query(
+                'SELECT ticketType FROM events WHERE eventId = ?',
+                [eventId]
+            );
+
+            if (!eventResult) {
+                throw new Error('找不到該活動');
+            }
+
+            const currentTicketTypes = JSON.parse(eventResult.ticketType);
+
+            // 更新票券庫存
+            const updatedTicketTypes = currentTicketTypes.map(currentTicket => {
+                const purchasedTicket = ticketType.find(t => t.type === currentTicket.type);
+                if (purchasedTicket) {
+                    return {
+                        ...currentTicket,
+                        stock: currentTicket.stock - purchasedTicket.quantity
+                    };
+                }
+                return currentTicket;
+            });
+
+            // 更新資料庫中的票券庫存
+            await query(
+                'UPDATE events SET ticketType = ? WHERE eventId = ?',
+                [JSON.stringify(updatedTicketTypes), eventId]
+            );
 
             // 生成隨機數字作為訂單編號
             const randNum = Math.floor(Math.random() * 10000000);
@@ -195,7 +274,7 @@ const saveEventOrderDetails = async (sessionId, userId) => {
                     `INSERT INTO ticketdetails
                     (userId, eventId, ticketType, quantity, tdStatus, tdPrice, randNum, payTime, receiptType, receiptInfo, createdAt, updatedAt)
                     VALUES (?, ?, ?, ?, ?, ?, ?, NOW(), ?, ?, NOW(), NOW())`,
-                    [userId, eventId, ticket.type, ticket.quantity, 'pending', ticket.price, randNum, 'dupInvoice', '123K456']
+                    [userId, eventId, ticket.type, ticket.quantity, 'pending', ticket.price, randNum, 'dupInvoice', '/123K456']
                 );
             }
 
@@ -222,5 +301,6 @@ module.exports = {
     retrieveSession,
     saveOrderDetails,
     createEventCheckoutSession,
-    saveEventOrderDetails
+    saveEventOrderDetails,
+    checkTicketAvailability
 };
