@@ -1,3 +1,4 @@
+// Author: zhier1114, Yufu
 const express = require('express')
 const bodyParser = require('body-parser')
 const cookieParser = require('cookie-parser')
@@ -24,7 +25,7 @@ app.use(
 const userRoutes = require('./routes/users')
 const productRoutes = require('./routes/products')
 const eventRoutes = require('./routes/events')
-const eventTobuyRoutes = require('./routes/eventTobuy')
+// const eventTobuyRoutes = require('./routes/eventTobuy')
 // const paymentRoutes = require('./routes/paymentRoutes')
 const stripeRoutes = require('./routes/stripe')
 const cartRoutes = require('./routes/cartRoutes')
@@ -38,10 +39,10 @@ app.use('/riverflow/user', authenticateToken, userRoutes)
 app.use('/riverflow/products', productRoutes)
 app.use('/riverflow/events', eventRoutes)
 // app.use('/riverflow/payment',paymentRoutes)
-app.use('/riverflow/pay', stripeRoutes)
-app.use('/riverflow/cart', cartRoutes)
+app.use('/riverflow/pay', authenticateToken, stripeRoutes)
+app.use('/riverflow/cart', authenticateToken, cartRoutes)
 
-app.use('/riverflow/events/Tobuy', eventTobuyRoutes)
+app.use('/riverflow/events/Tobuy', authenticateToken, stripeRoutes)
 // app.use('/riverflow/orders', orderRoutes)
 
 // backstage routes

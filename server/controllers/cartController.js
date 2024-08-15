@@ -14,7 +14,8 @@ exports.addToCart = async (req, res) => {
 
 exports.getCart = async (req, res) => {
   try {
-    const { userId } = req.params;
+    const userId  = req.userId;
+    console.log(userId);
     const cart = await cartModel.getCart(userId);
     res.json(cart);
   } catch (error) {

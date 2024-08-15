@@ -5,7 +5,10 @@ body {
     --cancel: #A8A7A7;
     --gr0: #F5F5F5;
 }
-
+body:has(.admin-page) {
+    background-color: #fff;
+    background-image: none;
+}
 .w-bg:has(.admin-page) {
     background-color: #fff;
     background-image: none;
@@ -26,6 +29,7 @@ body {
 }
 
 .admin-page .btn, .admin-page input[type="submit"] {
+    background-color: var(--main);
     border-radius: 5px;
     font-size: 16px;
     font-weight: bold;

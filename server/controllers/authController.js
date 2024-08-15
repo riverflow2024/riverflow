@@ -1,3 +1,4 @@
+// Author: zhier1114
 const userModel = require('../models/userModel')
 const adminModel = require('../models/adminModel')
 const bcrypt = require('bcryptjs')

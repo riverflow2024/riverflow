@@ -5,8 +5,9 @@ import $ from 'jquery'
 
 export default function AddPrd() {
   const navigate = useNavigate()
-  const [specItems, setSpecItems] = useState([])
-  const [tableItems, setTableItems] = useState([])
+  const [specItems, setSpecItems] = useState([{ id: 1, title: '', isInitial: true }])
+  const [tableItems, setTableItems] = useState([{ id: 1, name: '', stock: 0, isInitial: true }])
+  const [isDisChecked, setIsDisChecked] = useState(false)
 
   $(function () {
     $('.tabs').tabs()
@@ -34,43 +35,20 @@ export default function AddPrd() {
       ...specItems,
       {
         id: newItemId,
-        title: ''
+        title: '',
+        isInitial: false
+      }
+    ])
+    setTableItems([
+      ...tableItems,
+      {
+        id: newItemId,
+        name: '',
+        stock: 0,
+        isInitial: false
       }
     ])
   }
-  // 規格新增
-  // $(document).on('click', '.addItem', function () {
-  //   let itemId = $('.specItem').length
-  //   console.log($(this).parents('.specInfo'))
-  //   $('.specInfo').append(`
-  //       <div class='specItem' spec-id='${itemId + 1}'>
-  //         <label htmlFor='prdSpec${itemId + 1}'>規格${itemId + 1}名稱：</label>
-  //         <input id='prdSpec${itemId + 1}' name='prdSpec${itemId + 1}' class='specTitle' type='text' required>
-  //         <button class='addItem'><i class='bi bi-plus-circle'></i></button>
-  //         <button class='delItem'><i class='bi bi-dash-circle'></i></button>
-  //       </div>
-  //     `)
-
-  // $('.specSum tbody').append(`
-  //     <tr class='specItemInfo' spec-id='${itemId + 1}'>
-  //       <td><span id='specName${itemId + 1}' class='itemTitle'></span></td>
-  //       <td><input type='number' name='specStock${itemId + 1}' id='specStock${itemId + 1}' min='0' step='1'></td>
-  //     </tr>
-  //   `)
-  // })
-  // 規格刪除
-  $(document).on('click', '.delItem', function () {
-    // console.log($(this).parent('.specItem').attr('spec-id'))
-    let itemId = $(this).parent('.specItem').attr('spec-id')
-    // console.log(itemId)
-    $(this).parent('.specItem').remove()
-    $(`.specItemInfo[spec-id='${itemId}']`).remove()
-  })
-
-  // 優惠勾選切換
-  $('#disCheck').on('change', function () {
-    $('.ifHasDis').toggleClass('hidden')
-  })
 
   // 表單測試
   //   document.getElementById('prdForm').addEventListener('submit', function (event) {
@@ -85,7 +63,7 @@ export default function AddPrd() {
 
   return (
     <div className="main">
-      <div className="pageTitle">新增商品</div>
+      <div className="pageTitle">商品編輯</div>
       <form action="" id="prdForm">
         <div className="tabs">
           <ul className="tabBtnList">
@@ -184,7 +162,8 @@ export default function AddPrd() {
                   <button onClick={addItem} className="addItem">
                     <i className="bi bi-plus-circle"> </i>
                   </button>
-                </div>
+                </div>{' '}
+                */}
                 {specItems.map((item, index) => (
                   <div key={item.id} className="specItem" spec-id={item.id}>
                     <label htmlFor={`prdSpec${item.id}`}>規格{item.id}名稱：</label>
@@ -199,6 +178,10 @@ export default function AddPrd() {
                         const newItems = [...specItems]
                         newItems[index].title = e.target.value
                         setSpecItems(newItems)
+
+                        const newTableItems = [...tableItems]
+                        newTableItems[index].name = e.target.value
+                        setTableItems(newTableItems)
                       }}
                     />
                     <button onClick={addItem}>

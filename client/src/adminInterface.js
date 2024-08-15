@@ -8,6 +8,9 @@ import AddPrd from './pages/adminPages/addPrd'
 
 import BlogList from './pages/adminPages/blogList'
 
+import EventList from './pages/adminPages/eventList'
+import AddEvent from './pages/adminPages/addEvent'
+
 export default function AdminInterface () {
   const match = useMatch('/admin/*')
 
@@ -18,6 +21,8 @@ export default function AdminInterface () {
         <Route path='prdList' element={<PrdList />} />
         <Route path='prdList/edit' element={<AddPrd />} />
         <Route path='blogList' element={<BlogList />} />
+        <Route path='eventList' element={<EventList />} />
+        <Route path='eventList/edit' element={<AddEvent />} />
       </Routes>
     </div>
   )

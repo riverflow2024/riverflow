@@ -9,7 +9,7 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
-
+import Header from '../components/header'
 import axios from 'axios';
 
 import yitaiImg from '../assets/images/events/event-yitai.jpg'
@@ -123,6 +123,7 @@ const EventIndex = () => {
 
   return (
     <div className="w-bg scrollCust">
+      <Header/>
       <div className="wrap container">
         <div className="header">
           <img src="../../src/assets/images/indexImg/nav.jpg" alt="" />

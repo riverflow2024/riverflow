@@ -6,7 +6,7 @@ import yitaiImg from '../assets/images/events/event-yitai.jpg'
 
 const EventConfirmInfo = () => {
     const [eventDetails, setEventDetails] = useState({
-        image: "",
+      eventImg: "",
         title: "",
         date: "",
         time: "",
@@ -62,7 +62,7 @@ const EventConfirmInfo = () => {
                 <p></p>
               </div>
               <div className="ticketOrder">
-                <div className="ticketOrder2"><span>2</span></div>
+                <div className="ticketOrder"><span>2</span></div>
                 <div><span>確認明細</span></div>
                 <p></p>
               </div>
