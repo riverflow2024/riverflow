@@ -17,10 +17,11 @@ class MemberCollection extends Component {
         },
         ProductFavorite: [
             {
-                "productName": "王以太 演說家 幸存者 專輯",
-                "productDesc": "演說家不用多說封神專輯 裡面的歌幾本都很頂，每天都還是會聽阿斯匹林，內涵CD+超長拉頁拼圖"
-
-            },
+                "productName": "名字",
+                "productDesc": "描述",
+                "productPrice": 250,
+                "productImg": "../assets/images/products/product1_1.jpeg"
+              },
         ],
 
 
@@ -30,10 +31,10 @@ class MemberCollection extends Component {
 
     componentDidMount() {
         this.fetchUserData();
-        this.fetchOrderData();
+        this.fetchFavoritesData();
 
     }
-
+    // 取得會員資料
     fetchUserData = async () => {
         try {
             const response = await axios.get('http://localhost:3000/riverflow/user', {
@@ -56,14 +57,14 @@ class MemberCollection extends Component {
         }
     };
 
-    fetchOrderData = async () => {
+    fetchFavoritesData = async () => {
         try {
-            const response = await axios.get('http://localhost:3000/riverflow/user/products/', {
+            const response = await axios.get('http://localhost:3000/riverflow/user/favorites', {
                 withCredentials: true
             });
             console.log("Fetched order data:", response.data); // 打印返回的数据
             this.setState({
-                Order: response.data
+                ProductFavorite: response.data
             });
         } catch (error) {
             console.error("Error fetching order data:", error);
@@ -139,11 +140,11 @@ class MemberCollection extends Component {
                         </div>
 
                         <div id="Collection" class="tabcontent">
-                            {this.state.ProductFavorite.map(productItem =>
-                                <div class="order">
+                        {this.state.ProductFavorite.map((productItem, index) => (
+                                <div class="order" key={index}>
 
                                     <div class="Img-box">
-                                        <img src={require("../assets/images/memberCollection.png")} alt="" />
+                                        <img src={require(`${productItem.productImg}`)} alt="" />
                                     </div>
                                     <div class="container">
                                         <div class="wrap">
@@ -161,7 +162,7 @@ class MemberCollection extends Component {
 
                                 </div>
 
-                            )}
+                            ))}
                         </div>
 
 
