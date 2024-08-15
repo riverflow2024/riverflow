@@ -1,12 +1,58 @@
 import React, { Component } from 'react';
-import Header from '../components/header'
+import axios from 'axios';
 import '../assets/index.css';
+import Header from '../components/header'
 
 class Index extends Component {
-  state = {}
+  
+  state = {
+    isLoggedIn: false,  
+    Users: null     
+  };
+
+  componentDidMount() {
+    this.checkLoginStatus();
+    document.body.classList.remove('w-bg');
+}
+
+
+
+componentWillUnmount() {
+  // 在组件卸载时恢复 body 上的 `w-bg` 类
+  document.body.classList.add('w-bg');
+}
+
+
+
+checkLoginStatus = async () => {
+    try {
+        // 使用 Cookie 中的 Token 向服務端請求
+        const response = await axios.get('http://localhost:3000/riverflow/user', {
+            withCredentials: true // 連接 Cookie
+        });
+
+        // 如果請求成功，更新狀態以表示用戶已經登入
+        this.setState({
+            isLoggedIn: true,
+            Users: response.data
+        });
+    } catch (error) {
+        // 如果請求失敗（例如 Token 無效或未登入），更新狀態
+        this.setState({
+            isLoggedIn: false,
+            Users: null
+        });
+    }
+};
+
 
   render() {
+    const { isLoggedIn, userData } = this.state;
+
+
+    
     return (
+    
       <div class="scrollCust IndexPage">
         {/* 星星背景 */}
         <div class="starbg">
@@ -109,9 +155,7 @@ class Index extends Component {
         {/* logo 結束  */}
 
                 {/* sticky 的 header */}
-                <header id="navbar">
-                    <img src={require("../assets/images/indexImg/nav.jpg")} alt="" />
-                </header>
+                <Header/>
 
 
 

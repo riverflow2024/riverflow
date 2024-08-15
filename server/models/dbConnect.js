@@ -1,4 +1,5 @@
 const dotenv = require('dotenv')
+const util = require('util')
 dotenv.config({ path: '../../config.env' })
 
 const mysql = require('mysql')
@@ -16,5 +17,7 @@ dbConnect.connect((err) => {
     console.log('Database connection established')
   }
 })
+
+dbConnect.queryAsync = util.promisify(dbConnect.query).bind(dbConnect)
 
 module.exports = dbConnect

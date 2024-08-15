@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import '../assets/cartCheckOut.css'
 import '../assets/reset.css'
 import '../assets/basic.css'
+import Header from '../components/header'
 import axios from 'axios'
 
 const CartCheckout = () => {
@@ -64,6 +65,7 @@ const CartCheckout = () => {
 
   return (
     <div className="cartCheckOut">
+      <Header />
       <div className="container">
         <div className="content-left">
           <div className="order-steps">

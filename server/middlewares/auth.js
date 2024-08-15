@@ -24,7 +24,7 @@ exports.authenticateToken = (req, res, next) => {
     db.query('SELECT valid FROM Users WHERE userId = ?', [decoded.userId], (error, results) => {
       if (error) {
         console.error('查詢用戶驗證狀態錯誤:', error)
-        return res.status(500).json({ message: '內部服務器錯誤' })
+        return res.redirect('/user/login')
       }
 
       if (results.length === 0) {

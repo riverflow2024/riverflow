@@ -1,4 +1,5 @@
 const userModel = require('../models/userModel')
+const adminModel = require('../models/adminModel')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const nodemailer = require('nodemailer')
@@ -285,4 +286,49 @@ exports.resetPasswordPage = function (req, res) {
 // 暫用：輸入新密碼的頁面
 exports.setNewPasswordPage = function (req, res) {
   res.json({ 輸入新密碼: '請輸入新密碼' })
+}
+
+// 管理員登入
+exports.adminLogin = async (req, res) => {
+  const { account, secret } = req.body
+
+  try {
+    const admin = await adminModel.findAccount(account)
+
+    if (!admin) {
+      return res.status(401).json({ message: '帳號或密碼不正確' })
+    }
+
+    if (!admin.valid) {
+      return res.status(401).json({ message: '無效的帳號' })
+    }
+
+    const isMatch = await bcrypt.compare(secret, admin.secret)
+    if (!isMatch) {
+      return res.status(401).json({ message: '帳號或密碼不正確' })
+    }
+
+    if (!admin.adminId) {
+      return res.status(500).json({ message: '內部服務器錯誤' })
+    }
+
+    const newToken = jwt.sign({ adminId: admin.adminId }, process.env.JWT_SECRET, { expiresIn: '7d' })
+
+    res.cookie('adminToken', newToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      maxAge: 7 * 24 * 60 * 60 * 1000 // 7天
+    })
+
+    res.json({ message: '管理員登入成功' })
+  } catch (error) {
+    console.error('登入錯誤:', error)
+    res.status(500).json({ message: '登入失敗，請稍後再試' })
+  }
+}
+
+// 管理員登出
+exports.adminLogout = (req, res) => {
+  res.clearCookie('adminToken')
+  res.json({ message: '管理員登出成功' })
 }

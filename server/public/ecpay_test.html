@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>綠界支付測試</title>
+</head>
+
+<body>
+    <h1>綠界支付測試</h1>
+    <form action="http://localhost:3000/riverflow/ecpay/create-payment" method="post">
+        <label for="itemName">商品名稱：</label><br>
+        <input type="text" id="itemName" name="itemName" required><br><br>
+
+        <label for="totalAmount">總金額：</label><br>
+        <input type="number" id="totalAmount" name="totalAmount" required><br><br>
+
+        <input type="submit" value="提交支付">
+    </form>
+
+    <h2>回調數據</h2>
+    <p>支付處理完成後，伺服器應該在 `/riverflow/ecpay/payment-callback` 處理回調。</p>
+</body>
+
+</html>

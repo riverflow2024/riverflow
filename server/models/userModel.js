@@ -1,3 +1,4 @@
+// Author: zhier1114
 const db = require('./dbConnect')
 
 // 建立帳號
@@ -138,11 +139,29 @@ exports.findAllOrders = async (userId) => {
 exports.findOneOrder = async (userId, orderId) => {
   return new Promise((resolve, reject) => {
     db.query(
-      'SELECT o.orderId, o.totalPrice, o.orderStatus, o.payMethod, o.createdAt, o.rcptName, o.rcptPhone, o.rcptAddr, o.shipMethod, o.convAddr, oi.productName, oi.productOpt, oi.quantity, oi.quantity FROM Users AS u, `Order` AS o, OrderItem AS oi WHERE u.userId = o.userId AND u.userId = ? AND o.orderId = oi.orderId AND o.orderId = ?',
+      'SELECT o.orderId, o.totalPrice, o.orderStatus, o.payMethod, o.createdAt, o.rcptName, o.rcptPhone, o.rcptAddr, o.shipMethod, o.convAddr FROM Users AS u, `Order` AS o WHERE u.userId = o.userId AND u.userId = ? AND o.orderId = ?',
       [userId, orderId],
       (error, results) => {
         if (error) {
           console.error('查詢商品失敗:', error)
+          reject(error)
+        } else {
+          resolve(results[0])
+        }
+      }
+    )
+  })
+}
+
+// 商品訂單明細選項
+exports.findOneOrderDetail = async (orderId) => {
+  return new Promise((resolve, reject) => {
+    db.query(
+      'SELECT oi.productName, oi.productOpt, oi.quantity, oi.price FROM `Order` AS o, OrderItem AS oi WHERE o.orderId = oi.orderId AND oi.orderId = ? ORDER BY oi.oiId',
+      [orderId],
+      (error, results) => {
+        if (error) {
+          console.error('查詢商品明細失敗:', error)
           reject(error)
         } else {
           resolve(results)
@@ -156,7 +175,7 @@ exports.findOneOrder = async (userId, orderId) => {
 exports.findUserEvents = async (userId) => {
   return new Promise((resolve, reject) => {
     db.query(
-      'SELECT td.tdId, td.ticketType, td.quantity, td.tdStatus, td.tdPrice, td.randNum, e.eventName, e.eventDate FROM Users AS u, TicketDetails AS td, Events AS e WHERE u.userId = td.userId AND u.userId = ? AND td.eventId = e.eventId',
+      'SELECT td.tdId, td.ticketType, td.quantity, td.tdStatus, td.tdPrice, td.randNum, e.eventName, e.eventDate FROM Users AS u, TicketDetails AS td LEFT JOIN Events AS e ON td.eventId = e.eventId WHERE u.userId = td.userId AND u.userId = ? Order BY e.eventId',
       [userId],
       (error, results) => {
         if (error) {
@@ -175,7 +194,13 @@ exports.findUserEvents = async (userId) => {
 exports.findFavorites = async (userId) => {
   return new Promise((resolve, reject) => {
     db.query(
-      'SELECT p.productName, p.productOpt FROM Users AS u, ProductFavorite AS pf, Products AS p WHERE u.userId = ? AND u.userId = pf.userId AND pf.productId = p.productId',
+      `SELECT p.productName, p.productDesc, p.productPrice, pi.productImg FROM Users AS u 
+      JOIN ProductFavorite AS pf ON u.userId = pf.userId 
+      JOIN Products AS p ON pf.productId = p.productId
+      LEFT JOIN (
+        SELECT productId, MIN(productImg) as productImg FROM ProductImages GROUP BY productId
+      ) pi ON p.productId = pi.productId
+      WHERE u.userId = ?`,
       [userId],
       (error, results) => {
         if (error) {
@@ -188,3 +213,5 @@ exports.findFavorites = async (userId) => {
     )
   })
 }
+
+exports.findFavoritesImg = async (userId) => {}

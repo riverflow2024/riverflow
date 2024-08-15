@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="../../assets/basic.css">
     <link rel="stylesheet" href="../../assets/adminPage.css">
     <script src="https://code.jquery.com/jquery-3.7.1.js"
         integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
@@ -220,7 +221,7 @@
         // 規格新增
         $(document).on('click', '.addItem', function () {
             $itemId = $('.specItem').length
-            // console.log(this)
+            // console.log($(this).parents('.specInfo'))
             $(this).parents('.specInfo').append(`
                 <div class="specItem" spec-id="${$itemId + 1}">
                     <label for="prdSpec${$itemId + 1}">規格${$itemId + 1}名稱：</label>

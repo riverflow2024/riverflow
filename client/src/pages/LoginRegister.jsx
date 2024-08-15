@@ -1,16 +1,24 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 import '../assets/login.css';
+import '../assets/customSwalStyles.css'; 
+import Header from '../components/header'
+
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
+
+const MySwal = withReactContent(Swal);
 
 class LoginRegister extends Component {
     state = {
         Users: {
             "firstName": "",
             "lastName": "",
-            "phone": "0912-333-555",
+            "phone": "",
             "email": "",
             "secret": "",  // 原本會員的密碼
-            "birth": "1995/10/10",
-            "sex": "女",
+            "birth": "",
+            "sex": "",
         },
         isNewPasswordVisible: false,
         isConfirmPasswordVisible: false,
@@ -20,6 +28,8 @@ class LoginRegister extends Component {
         checkPasswordError: '',
         nameError: '',
         emailError: '',
+        agreeToPrivacy: false,
+        isLoading: false // 用于跟踪加载状态
     };
 
     componentDidMount() {
@@ -36,6 +46,7 @@ class LoginRegister extends Component {
 
         return (
             <div className="loginPage">
+                <Header />
                 <section className="register">
                     <div className="form">
                         <h4>註冊新帳號</h4>
@@ -43,18 +54,22 @@ class LoginRegister extends Component {
                             <label>姓</label>
                             <input
                                 type="text"
+                                value={this.state.Users.firstName}
                                 name="firstName"
                                 id="firstName"
                                 placeholder="林"
                                 required
+                                autoComplete='off'
                                 onChange={this.handleInputChange}
                             />
                             <label>名</label>
                             <input type="text"
+                                value={this.state.Users.lastName}
                                 name="lastName"
                                 id="lastName"
                                 placeholder="小美"
                                 required
+                                autoComplete='off'
                                 onChange={this.handleInputChange}
                             />
                         </div>
@@ -67,7 +82,9 @@ class LoginRegister extends Component {
                             <input type="text" id="email" name="email"
                                 value={this.state.Users.email}
                                 placeholder="Enter email"
+                                autoComplete='off'
                                 onChange={this.EmailChange} /><br />
+
                         </div>
                         <span className="tips" id="" dangerouslySetInnerHTML={{ __html: emailError }}></span>
 
@@ -78,10 +95,11 @@ class LoginRegister extends Component {
                                 style={{ width: '80%' }}
                                 name="newPassword"
                                 id="newPassword"
-                                value={newPassword}
-                                placeholder="Enter new password"
+                                value={this.state.Users.secret}
+                                placeholder="Enter password"
                                 required
                                 onChange={this.NewPassword}
+                                autoComplete='new-password'
                             />
                             <div>
                                 <i
@@ -94,14 +112,14 @@ class LoginRegister extends Component {
                         <br />
 
                         <div className="input-text input-password">
-                            <label style={{ width: '70px' }}>確認密碼</label>
+                            <label style={{ width: '75px' }}>確認密碼</label>
                             <input
                                 type={isConfirmPasswordVisible ? 'text' : 'password'}
                                 style={{ width: '80%' }}
                                 name="confirmPassword"
                                 id="checkPassword"
                                 value={confirmPassword}
-                                placeholder="Enter confirm password"
+                                placeholder="Check password"
                                 onChange={this.handleConfirmPasswordChange}
                             />
                             <div>
@@ -114,9 +132,15 @@ class LoginRegister extends Component {
                         <span className="tips" dangerouslySetInnerHTML={{ __html: checkPasswordError }}></span>
                         <br />
 
-                        <input type="button" className="btn" value="Login" onClick={this.SentBtn} />
+                        {/* <input type="button" className="btn" value="Login" onClick={this.SentBtn} /> */}
+                        <input type="button" className="btn" value="註冊" onClick={this.registerUser} disabled={!this.state.agreeToPrivacy}
+                            style={{
+                                backgroundColor: this.state.agreeToPrivacy ? '' : '#6e9c02',
+                                cursor: this.state.agreeToPrivacy ? 'pointer' : 'not-allowed'
+                            }}
+                        />
                         <label class="input-checkbox">
-                            <input type="checkbox" /><span>我已詳閱並同意</span><button onClick={this.openPrivacy} >隱私權政策</button>
+                            <input type="checkbox" onChange={this.handleCheckboxChange} /><span>我已詳閱並同意</span><button onClick={this.openPrivacy} >隱私權政策</button>
                         </label>
                         <span>
                             沒有River Flow帳號嗎？
@@ -207,13 +231,28 @@ class LoginRegister extends Component {
                             </div>
                         </div>
 
+
+
                     </div>
+
+                    {/* Loading */}
+                    {this.state.isLoading && (
+                        <div className="loading-overlay">
+                            <div className="spinner"></div> {/* 你可以用CSS或图片来实现转动的加载效果 */}
+                            <p className="loading-text">Loading<span className="dots"></span></p>
+                        </div>
+                    )}
                 </section>
+
             </div>
         );
     }
 
+    handleCheckboxChange = () => {
+        this.setState({ agreeToPrivacy: !this.state.agreeToPrivacy });
+    };
 
+    // email格式驗證
     EmailChange = (event) => {
         const email = event.target.value;
         const emailPattern = /^[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$/i;
@@ -245,7 +284,9 @@ class LoginRegister extends Component {
 
     // 新密碼驗證，同時啟動確認密碼功能
     NewPassword = (event) => {
-        const newPassword = event.target.value;
+        const newPassword = event.target.value.trim(); // 修剪空白字符
+        // console.log('New Password Input:', newPassword); // 調試輸出
+
         const passwordPattern = /^(?=.*[a-zA-Z])(?=.*[0-9]).{6,}$/;
         let passwordError = '';
 
@@ -255,15 +296,28 @@ class LoginRegister extends Component {
             passwordError = '';
         }
 
-        this.setState({
-            newPassword,
+        this.setState(prevState => ({
+            Users: {
+                ...prevState.Users,
+                secret: newPassword
+            },
             passwordError
-        }, this.CheckPassword);
+        }), () => {
+            // 確保狀態更新後調用 CheckPassword
+            console.log('Updated New Password (after state update):', this.state.Users.secret); // 調試輸出
+            this.CheckPassword();
+        });
     };
+
+
 
     // 確認密碼功能，並在下方顯示提示
     CheckPassword = () => {
-        const { newPassword, confirmPassword } = this.state;
+        const { Users, confirmPassword } = this.state;
+        const newPassword = Users.secret; // 確保獲取正確的 newPassword
+        // console.log('Current New Password (CheckPassword):', newPassword); // 調試輸出
+        // console.log('Current Confirm Password:', confirmPassword); // 調試輸出
+
         let checkPasswordError = '';
 
         if (confirmPassword && newPassword !== confirmPassword) {
@@ -277,38 +331,88 @@ class LoginRegister extends Component {
         this.setState({ checkPasswordError });
     };
 
+
     // 確認密碼更動時，同時啟動確認密碼功能
     handleConfirmPasswordChange = (event) => {
-        const confirmPassword = event.target.value;
-        // 每當確認密碼更改時驗證密碼匹配
+        const confirmPassword = event.target.value.trim();
         this.setState({ confirmPassword }, this.CheckPassword);
     };
 
+
+
     handleInputChange = (event) => {
         const { name, value } = event.target;
+        // console.log('Field:', name, 'Value:', value); // 調試輸出
         this.setState(prevState => ({
             Users: {
                 ...prevState.Users,
                 [name]: value
             }
         }));
-    }
+    };
 
+    //     const { Users } = this.state;
+    //     const { firstName, lastName, email, secret } = Users;
 
-    SentBtn = () => {
-        const { Users } = this.state;
-        const { firstName, lastName, newPassword, email } = Users;
+    //     console.log('Sending data:', { firstName, lastName, email, secret });
+
+    //     let nameError = '';
+    //     let passwordError = '';
+    //     let emailError = '';
+
+    //     if (!firstName || !lastName) {
+    //         nameError = '<i class="bi bi-asterisk"></i> 請輸入姓名';
+    //     }
+
+    //     if (!secret) {
+    //         passwordError = '<i class="bi bi-asterisk"></i> 請輸入密碼';
+    //     }
+
+    //     if (!email) {
+    //         emailError = `<i class="bi bi-asterisk"></i> 請輸入email`;
+    //     }
+
+    //     this.setState({ nameError, passwordError, emailError });
+
+    //     if (!nameError && !passwordError && !this.state.checkPasswordError && !emailError) {
+    //         try {
+    //             const response = await axios.post('http://localhost:3000/riverflow/user/register', {
+    //                 firstName,
+    //                 lastName,
+    //                 email,
+    //                 secret
+    //             }, {
+    //                 headers: {
+    //                     'Content-Type': 'application/json'
+    //                 }
+    //             });
+
+    //             console.log('Response data:', response.data);
+    //             alert('註冊成功！');
+    //             window.location = "/Login/Index";
+    //         } catch (error) {
+    //             debugger; // 在此行设置断点
+    //             console.error('註冊失敗:', error.response ? error.response.data : error.message);
+    //             alert(`註冊失敗！錯誤信息：${error.response ? error.response.data : error.message}`);
+    //         }
+    //     }
+    // };
+
+    registerUser = async () => {
+        const { Users, agreeToPrivacy } = this.state;
+        const { firstName, lastName, email, secret } = Users;
+
+        console.log('Sending data:', { firstName, lastName, email, secret });
+
         let nameError = '';
         let passwordError = '';
         let emailError = '';
 
         if (!firstName || !lastName) {
             nameError = '<i class="bi bi-asterisk"></i> 請輸入姓名';
-        } else {
-            nameError = '';
         }
 
-        if (!newPassword) {
+        if (!secret) {
             passwordError = '<i class="bi bi-asterisk"></i> 請輸入密碼';
         }
 
@@ -318,12 +422,54 @@ class LoginRegister extends Component {
 
         this.setState({ nameError, passwordError, emailError });
 
-        // 如果没有错误，则执行注册逻辑
-        if (!nameError && !this.state.passwordError && !this.state.checkPasswordError && !this.state.emailError) {
-            // 这里可以执行注册逻辑，例如向服务器发送请求
-            console.log('提交注册信息');
+        if (!nameError && !passwordError && !emailError && agreeToPrivacy) {
+            this.setState({ isLoading: true }); // 开始加载
+            try {
+                const response = await axios.post('http://localhost:3000/riverflow/user/register',
+                    JSON.stringify({
+                        firstName: this.state.Users.firstName,
+                        lastName: this.state.Users.lastName,
+                        email: this.state.Users.email,
+                        secret: this.state.Users.secret
+                    }),
+                    {
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    }
+                );
+
+                console.log('Response data:', response.data);
+
+                MySwal.fire({
+                    title: "註冊成功",
+                    text: "Welcome to visit RiverFlow!",
+                    width: "300px", 
+                    background: "var(--bk2)", 
+                    color: "var(--gr1)", 
+                    confirmButtonColor: "var(--main)",
+                    confirmButtonText: "OK",
+                    customClass: {
+                        title: 'custom-title',  // 自定义标题的 class
+                        htmlContainer: 'custom-text',  // 自定义内文的 class
+                        confirmButton: 'swal2-confirm' // 应用自定义按钮类
+                    },
+                })
+
+                
+            } catch (error) {
+                console.error('註冊失敗:', error.response ? error.response.data : error.message);
+                alert(`註冊失敗！錯誤信息：${error.response ? error.response.data : error.message}`);
+            } finally {
+                this.setState({ isLoading: false }); // 请求完成或出错后停止加载
+            }
         }
     }
+
+
+
+
+
 
     openPrivacy = () => {
         const privacy = document.getElementById('privacy');
