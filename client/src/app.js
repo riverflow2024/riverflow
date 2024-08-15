@@ -65,7 +65,7 @@ class App extends Component {
             <Route path="/Event/Index" component={EventIndex} />
             <Route path="/Event/Detail/:id" component={EventDetail} />
             <Route path="/Event/ConfirmNoseat" component={EventConfirmNoseat} />
-            <Route path="/Event/ConfirmSeat" component={EventConfirmSeat} />
+            <Route path="/Event/ConfirmSeat/:id" component={EventConfirmSeat} />
             <Route path="/Event/ConfirmInfo" component={EventConfirmInfo} />
             
 
