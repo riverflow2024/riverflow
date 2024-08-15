@@ -51,8 +51,6 @@ function EventDetail() {
     }
   }
 
-  
-    
 
     // 新增：加載中和錯誤處理
     if (loading) return <div>載入中...</div>

@@ -125,18 +125,30 @@ function EventConfirmSeat() {
   };
   // 存取資料到下一頁
   const handleNextStep = () => {
-    const selectedTickets = event.ticketType.filter(ticket => ticket.quantity > 0);
-    navigate('/Event/ConfirmInfo', { 
-      state: { 
-        selectedTickets,
-        eventDetails: {
-          eventName: event.eventName,
-          eventDate: event.eventDate,
-          location: event.location,
-          eventImg: event.eventImg
+    const selectedTickets = event.ticketType
+      .filter(ticket => ticket.quantity > 0)
+      .map(ticket => ({
+        area: ticket.type,
+        type: "一般票", // 固定為 "一般票"
+        price: ticket.price,
+        quantity: ticket.quantity
+      }));
+  
+    if (selectedTickets.length > 0) {
+      navigate('/Event/ConfirmInfo', { 
+        state: { 
+          selectedTickets,
+          eventDetails: {
+            eventName: event.eventName,
+            eventDate: event.eventDate,
+            location: event.location,
+            eventImg: event.eventImg
+          }
         }
-      }
-    });
+      });
+    } else {
+      alert("請選擇至少一張票");
+    }
   };
 
 
@@ -259,7 +271,7 @@ function EventConfirmSeat() {
           </div>
           {/* 下一步按鍵 */}
           <div className="nextBtn">
-            <Link to={`/Event/ConfirmInfo`}>下一步</Link>
+          <button onClick={handleNextStep}>下一步</button>
           </div>
         </div>
       </div>
