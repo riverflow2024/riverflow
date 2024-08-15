@@ -42,7 +42,7 @@ export default function PrdList () {
           <input type='submit' value='搜尋' />
         </div>
       </div>
-      <table page='1' itemShowing='5' className='listTable'>
+      <table page='1' itemshowing='5' className='listTable'>
         <thead>
           <tr>
             <td>圖片</td>

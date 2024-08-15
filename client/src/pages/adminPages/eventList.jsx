@@ -4,6 +4,7 @@ import { Link, useMatch } from 'react-router-dom'
 
 export default function EventList () {
   const match = useMatch('/admin/eventList/*')
+
   $(function () {
     $('.Status').each(function (index, elem) {
       // console.log(elem.innerText)
@@ -14,6 +15,7 @@ export default function EventList () {
       }
     })
   })
+
   return (
     <div class='main'>
       <div class='pageTitle'>活動列表</div>
@@ -26,7 +28,7 @@ export default function EventList () {
           <input type='submit' value='搜尋' />
         </div>
       </div>
-      <table page='1' itemShowing='5' class='listTable'>
+      <table page='1' itemshowing='5' class='listTable'>
         <thead>
           <tr>
             <td>類別</td>
@@ -61,21 +63,21 @@ export default function EventList () {
               <div class='flex'>
                 <a href='addEvent.html'>
                   <button id='btnEdit' class='btn itemOpr inline-flex'>
-                    <i class='fa-solid fa-pen'></i>編輯
+                    <i class='fa-solid fa-pen' />編輯
                   </button>
                 </a>
                 <a href='#'>
                   <button id='btnView' class='btn itemOpr inline-flex'>
-                    <i class='fa-solid fa-eye'></i>檢視
+                    <i class='fa-solid fa-eye' />檢視
                   </button>
                 </a>
               </div>
               <div class='flex'>
                 <button id='btnSta' class='btn itemOpr inline-flex'>
-                  <i class='fa-solid fa-arrow-down'></i>下架
+                  <i class='fa-solid fa-arrow-down' />下架
                 </button>
                 <button class='btn itemOpr inline-flex'>
-                  <i class='fa-solid fa-trash'></i>刪除
+                  <i class='fa-solid fa-trash' />刪除
                 </button>
               </div>
             </td>
@@ -102,21 +104,21 @@ export default function EventList () {
               <div class='flex'>
                 <a href='#'>
                   <button id='btnEdit' class='btn itemOpr inline-flex'>
-                    <i class='fa-solid fa-pen'></i>編輯
+                    <i class='fa-solid fa-pen' />編輯
                   </button>
                 </a>
                 <a href='#'>
                   <button id='btnView' class='btn itemOpr inline-flex'>
-                    <i class='fa-solid fa-eye'></i>檢視
+                    <i class='fa-solid fa-eye' />檢視
                   </button>
                 </a>
               </div>
               <div class='flex'>
                 <button id='btnSta' class='btn itemOpr inline-flex'>
-                  <i class='fa-solid fa-arrow-down'></i>下架
+                  <i class='fa-solid fa-arrow-down' />下架
                 </button>
                 <button class='btn itemOpr inline-flex'>
-                  <i class='fa-solid fa-trash'></i>刪除
+                  <i class='fa-solid fa-trash' />刪除
                 </button>
               </div>
             </td>
@@ -135,21 +137,21 @@ export default function EventList () {
               <div class='flex'>
                 <a href='#'>
                   <button id='btnEdit' class='btn itemOpr inline-flex'>
-                    <i class='fa-solid fa-pen'></i>編輯
+                    <i class='fa-solid fa-pen' />編輯
                   </button>
                 </a>
                 <a href='#'>
                   <button id='btnView' class='btn itemOpr inline-flex'>
-                    <i class='fa-solid fa-eye'></i>檢視
+                    <i class='fa-solid fa-eye' />檢視
                   </button>
                 </a>
               </div>
               <div class='flex'>
                 <button id='btnSta' class='btn itemOpr inline-flex'>
-                  <i class='fa-solid fa-arrow-down'></i>下架
+                  <i class='fa-solid fa-arrow-down' />下架
                 </button>
                 <button class='btn itemOpr inline-flex'>
-                  <i class='fa-solid fa-trash'></i>刪除
+                  <i class='fa-solid fa-trash' />刪除
                 </button>
               </div>
             </td>
@@ -168,21 +170,21 @@ export default function EventList () {
               <div class='flex'>
                 <a href='#'>
                   <button id='btnEdit' class='btn itemOpr inline-flex'>
-                    <i class='fa-solid fa-pen'></i>編輯
+                    <i class='fa-solid fa-pen' />編輯
                   </button>
                 </a>
                 <a href='#'>
                   <button id='btnView' class='btn itemOpr inline-flex'>
-                    <i class='fa-solid fa-eye'></i>檢視
+                    <i class='fa-solid fa-eye' />檢視
                   </button>
                 </a>
               </div>
               <div class='flex'>
                 <button id='btnSta' class='btn itemOpr inline-flex'>
-                  <i class='fa-solid fa-arrow-down'></i>下架
+                  <i class='fa-solid fa-arrow-down' />下架
                 </button>
                 <button class='btn itemOpr inline-flex'>
-                  <i class='fa-solid fa-trash'></i>刪除
+                  <i class='fa-solid fa-trash' />刪除
                 </button>
               </div>
             </td>
@@ -201,21 +203,21 @@ export default function EventList () {
               <div class='flex'>
                 <a href='#'>
                   <button id='btnEdit' class='btn itemOpr inline-flex'>
-                    <i class='fa-solid fa-pen'></i>編輯
+                    <i class='fa-solid fa-pen' />編輯
                   </button>
                 </a>
                 <a href='#'>
                   <button id='btnView' class='btn itemOpr inline-flex'>
-                    <i class='fa-solid fa-eye'></i>檢視
+                    <i class='fa-solid fa-eye' />檢視
                   </button>
                 </a>
               </div>
               <div class='flex'>
                 <button id='btnSta' class='btn itemOpr inline-flex'>
-                  <i class='fa-solid fa-arrow-down'></i>下架
+                  <i class='fa-solid fa-arrow-down' />下架
                 </button>
                 <button class='btn itemOpr inline-flex'>
-                  <i class='fa-solid fa-trash'></i>刪除
+                  <i class='fa-solid fa-trash' />刪除
                 </button>
               </div>
             </td>

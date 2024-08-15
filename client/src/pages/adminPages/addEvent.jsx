@@ -3,8 +3,9 @@ import { useNavigate } from 'react-router-dom'
 import $ from 'jquery'
 import 'jquery-ui/ui/widgets/tabs'
 
-export default function AddEvent() {
+export default function AddEvent () {
   const navigate = useNavigate()
+  const [eventPlace, eventPlaceDefault] = useState()
 
   $(function () {
     $('.tabs').tabs()
