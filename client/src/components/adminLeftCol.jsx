@@ -1,8 +1,10 @@
 import React from 'react'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useMatch } from 'react-router-dom'
 import '../assets/adminPage.css'
 
 export default function LeftCol () {
+  const match = useMatch('/admin/*')
+
   return (
     <div className='sideBar'>
       <div className='greeting flex'>
@@ -19,12 +21,12 @@ export default function LeftCol () {
             </label>
             <ul className='secMenu'>
               <li>
-                <NavLink to='/prdList' className='menuPage'>
+                <NavLink to='prdList' className='menuPage'>
                   商品列表
                 </NavLink>
               </li>
               <li>
-                <NavLink to='/prdOrder' className='menuPage'>
+                <NavLink to='prdOrder' className='menuPage'>
                   商品訂單
                 </NavLink>
               </li>
@@ -36,7 +38,7 @@ export default function LeftCol () {
             </label>
             <ul className='secMenu'>
               <li>
-                <NavLink to='/blogList' className='menuPage'>
+                <NavLink to='blogList' className='menuPage'>
                   文章列表
                 </NavLink>
               </li>
@@ -48,12 +50,12 @@ export default function LeftCol () {
             </label>
             <ul className='secMenu'>
               <li>
-                <NavLink to='/eventList' className='menuPage'>
+                <NavLink to='eventList' className='menuPage'>
                   活動列表
                 </NavLink>
               </li>
               <li>
-                <NavLink to='/eventOrder' className='menuPage'>
+                <NavLink to='eventOrder' className='menuPage'>
                   活動訂單
                 </NavLink>
               </li>

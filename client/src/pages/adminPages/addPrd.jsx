@@ -5,8 +5,9 @@ import 'jquery-ui/ui/widgets/tabs'
 
 export default function AddPrd () {
   const navigate = useNavigate()
-  const [specItems, setSpecItems] = useState([])
-  const [tableItems, setTableItems] = useState([])
+  const [specItems, setSpecItems] = useState([{ id: 1, title: '', isInitial: true }])
+  const [tableItems, setTableItems] = useState([{ id: 1, name: '', stock: 0, isInitial: true }])
+  const [isDisChecked, setIsDisChecked] = useState(false)
 
   $(function () {
     $('.tabs').tabs()
@@ -34,43 +35,17 @@ export default function AddPrd () {
       ...specItems,
       {
         id: newItemId,
-        title: ''
+        title: '',
+        isInitial: false
       }
     ])
+    setTableItems([...tableItems, {
+      id: newItemId,
+      name: '',
+      stock: 0,
+      isInitial: false
+    }])
   }
-  // 規格新增
-  // $(document).on('click', '.addItem', function () {
-  //   let itemId = $('.specItem').length
-  //   console.log($(this).parents('.specInfo'))
-  //   $('.specInfo').append(`
-  //       <div class='specItem' spec-id='${itemId + 1}'>
-  //         <label htmlFor='prdSpec${itemId + 1}'>規格${itemId + 1}名稱：</label>
-  //         <input id='prdSpec${itemId + 1}' name='prdSpec${itemId + 1}' class='specTitle' type='text' required>
-  //         <button class='addItem'><i class='bi bi-plus-circle'></i></button>
-  //         <button class='delItem'><i class='bi bi-dash-circle'></i></button>
-  //       </div>
-  //     `)
-
-  // $('.specSum tbody').append(`
-  //     <tr class='specItemInfo' spec-id='${itemId + 1}'>
-  //       <td><span id='specName${itemId + 1}' class='itemTitle'></span></td>
-  //       <td><input type='number' name='specStock${itemId + 1}' id='specStock${itemId + 1}' min='0' step='1'></td>
-  //     </tr>
-  //   `)
-  // })
-  // 規格刪除
-  $(document).on('click', '.delItem', function () {
-    // console.log($(this).parent('.specItem').attr('spec-id'))
-    let itemId = $(this).parent('.specItem').attr('spec-id')
-    // console.log(itemId)
-    $(this).parent('.specItem').remove()
-    $(`.specItemInfo[spec-id='${itemId}']`).remove()
-  })
-
-  // 優惠勾選切換
-  $('#disCheck').on('change', function () {
-    $('.ifHasDis').toggleClass('hidden')
-  })
 
   // 表單測試
   //   document.getElementById('prdForm').addEventListener('submit', function (event) {
@@ -178,29 +153,41 @@ export default function AddPrd () {
             <div className='specEdit'>
               <span className='editTitle'>規格選項：</span>
               <div className='specInfo'>
-                <div className='specItem' spec-id='1'>
+                {/* <div className='specItem' spec-id='1'>
                   <label htmlFor='prdSpec1'>規格1名稱：</label>
                   <input id='prdSpec1' name='prdSpec1' className='specTitle' type='text' required />
                   <button onClick={addItem} className='addItem'>
                     <i className='bi bi-plus-circle'> </i>
                   </button>
-                </div>
+                </div> */}
                 {specItems.map((item, index) => (
                   <div key={item.id} className='specItem' spec-id={item.id}>
                     <label htmlFor={`prdSpec${item.id}`}>規格{item.id}名稱：</label>
-                    <input id={`prdSpec${item.id}`} name={`prdSpec${item.id}`} value={item.title}
+                    <input
+                      id={`prdSpec${item.id}`} name={`prdSpec${item.id}`} placeholder='請輸入規格名稱' value={item.title}
                       type='text' className='specTitle' required onChange={(e) => {
                         const newItems = [...specItems]
                         newItems[index].title = e.target.value
                         setSpecItems(newItems)
+
+                        const newTableItems = [...tableItems]
+                        newTableItems[index].name = e.target.value
+                        setTableItems(newTableItems)
                       }}
                     />
-                    <button onClick={addItem}><i className='bi bi-plus-circle' /></button>
-                    <button onClick={() => {
-                      const newItems = specItems.filter((_, i) => i !== index)
-                      setSpecItems(newItems)
-                    }}><i className='bi bi-dash-circle' />
-                    </button>
+                    <button className='addItem' onClick={addItem}><i className='bi bi-plus-circle' /></button>
+                    {!item.isInitial && (
+                      <button
+                        className='delItem'
+                        onClick={() => {
+                          const newSpecItems = specItems.filter((_, i) => i !== index)
+                          setSpecItems(newSpecItems)
+
+                          const newTableItems = tableItems.filter((_, i) => i !== index)
+                          setTableItems(newTableItems)
+                        }}><i className='bi bi-dash-circle' />
+                      </button>
+                    )}
                   </div>
                 ))}
               </div>
@@ -215,7 +202,7 @@ export default function AddPrd () {
                   </tr>
                 </thead>
                 <tbody>
-                  <tr className='specItemInfo' spec-id='1'>
+                  {/* <tr className='specItemInfo' spec-id='1'>
                     <td>
                       <span id='specName1' className='itemTitle'>
                         {' '}
@@ -224,7 +211,31 @@ export default function AddPrd () {
                     <td>
                       <input type='number' name='specStock1' id='specStock1' min='0' step='1' />
                     </td>
-                  </tr>
+                  </tr> */}
+                  {tableItems.map((item, index) => (
+                    <tr key={item.id} className='specItemInfo' spec-id={item.id}>
+                      <td>
+                        <span id={`specName${item.id}`} className='itemTitle'>
+                          {item.name}
+                        </span>
+                      </td>
+                      <td>
+                        <input
+                          type='number'
+                          name={`specStock${item.id}`}
+                          id={`specStock${item.id}`}
+                          min='0'
+                          step='1'
+                          value={item.stock}
+                          onChange={(e) => {
+                            const newTableItems = [...tableItems]
+                            newTableItems[index].stock = parseInt(e.target.value)
+                            setTableItems(newTableItems)
+                          }}
+                        />
+                      </td>
+                    </tr>
+                  ))}
                 </tbody>
               </table>
             </div>
@@ -234,12 +245,19 @@ export default function AddPrd () {
           <div id='prdDiscount' className='tabContent'>
             <div className='infoItem'>
               <span>商品優惠：</span>
-              <input type='checkbox' name='disCheck' id='disCheck' className='prdDisCheck' />
+              <input
+                type='checkbox'
+                name='disCheck'
+                id='disCheck'
+                className='prdDisCheck'
+                checked={isDisChecked}
+                onChange={(e) => setIsDisChecked(e.target.checked)}
+              />
               <label htmlFor='disCheck' className='checkmark'>
                 {' '}
               </label>
             </div>
-            <div className='ifHasDis hidden'>
+            <div className={`ifHasDis ${isDisChecked ? '' : 'hidden'}`}>
               <div className='infoItem itemflexList'>
                 <div>
                   <label htmlFor='discountStart' className='editTitle'>
