@@ -6,53 +6,53 @@ import Header from '../components/header'
 
 export default function AboutUs () {
   return (
-    <div class='aboutPage'>
+    <div className='aboutPage'>
       <Header />
       <section>
-        <div class='aboutBanner'>
+        <div className='aboutBanner'>
           <img src={AboutBanner} alt='about_banner' />
         </div>
       </section>
-      <section class='container'>
-        <div class='gtitle'>
+      <section className='container'>
+        <div className='gtitle'>
           <span>Members</span>
         </div>
-        <div id='aboutMem01' class='memberIntro flex'>
-          <div class='memImgBlk'>
+        <div id='aboutMem01' className='memberIntro flex'>
+          <div className='memImgBlk'>
             <img src={MemberPic1} alt='member_pic01' />
-            <div class='memLabel'>Team Leader</div>
-            <div class='memLabel purple'>Cat Lover :）</div>
+            <div className='memLabel'>Team Leader</div>
+            <div className='memLabel purple'>Cat Lover :）</div>
           </div>
-          <div class='memInfoBlk'>
-            <div class='memNameInfo flex'>
-              <div class='memName'>名字</div>
-              <div class='memLink flex'>
+          <div className='memInfoBlk'>
+            <div className='memNameInfo flex'>
+              <div className='memName'>名字</div>
+              <div className='memLink flex'>
                 <a href='#'>
-                  <i class='fa-brands fa-square-behance' />
+                  <i className='fa-brands fa-square-behance' />
                 </a>
                 <a href='#'>
-                  <i class='fa-brands fa-instagram' />
+                  <i className='fa-brands fa-instagram' />
                 </a>
               </div>
             </div>
             <p>簡短的自我介紹約50字?簡短的自我介紹約50字?簡短的自我介紹約50字?簡短的自我介紹約50字?</p>
           </div>
         </div>
-        <div id='aboutMem02' class='memberIntro flex picRight'>
-          <div class='memImgBlk'>
+        <div id='aboutMem02' className='memberIntro flex picRight'>
+          <div className='memImgBlk'>
             <img src={MemberPic1} alt='member_pic02' />
-            <div class='memLabel purple label2'>UI/UX Designer</div>
-            <div class='memLabel label2'>Gamer</div>
+            <div className='memLabel purple label2'>UI/UX Designer</div>
+            <div className='memLabel label2'>Gamer</div>
           </div>
-          <div class='memInfoBlk'>
-            <div class='memNameInfo flex'>
-              <div class='memName'>名字</div>
-              <div class='memLink flex'>
+          <div className='memInfoBlk'>
+            <div className='memNameInfo flex'>
+              <div className='memName'>名字</div>
+              <div className='memLink flex'>
                 <a href='#'>
-                  <i class='fa-brands fa-square-behance' />
+                  <i className='fa-brands fa-square-behance' />
                 </a>
                 <a href='#'>
-                  <i class='fa-brands fa-instagram' />
+                  <i className='fa-brands fa-instagram' />
                 </a>
               </div>
             </div>

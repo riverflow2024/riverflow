@@ -12,7 +12,7 @@ router.get('/products', userController.getAllOrders)
 router.get('/products/:orderId', userController.getOneOrder)
 
 // 會員中心：訂票資訊
-router.get('/events', userController.getUserEvent)
+router.get('/events', userController.getUserEvents)
 
 // 會員中心：我的最愛商品
 router.get('/favorites', userController.getFavorites)

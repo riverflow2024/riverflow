@@ -47,9 +47,16 @@ exports.getAllOrders = async (req, res) => {
 // 會員商品訂單明細
 exports.getOneOrder = async (req, res) => {
   try {
-    console.log('req.userId:', req.userId, 'req.params:', req.params)
+    const orderId = req.params.orderId
+    const oneOrder = await userModel.findOneOrder(req.userId, orderId)
 
-    const oneOrder = await userModel.findOneOrder(req.userId, req.params.orderId)
+    if (!oneOrder) {
+      return res.status(404).json({ message: '訂單不存在' })
+    }
+
+    oneOrder.orderItem = await userModel.findOneOrderDetail(orderId)
+    console.log(oneOrder)
+
     res.json(oneOrder)
   } catch (err) {
     console.error('獲取商品訂單失敗：', err)
@@ -58,7 +65,7 @@ exports.getOneOrder = async (req, res) => {
 }
 
 // 會員購票訂單
-exports.getUserEvent = async (req, res) => {
+exports.getUserEvents = async (req, res) => {
   try {
     const allEvents = await userModel.findUserEvents(req.userId)
     res.json(allEvents)
@@ -74,23 +81,24 @@ exports.getFavorites = async (req, res) => {
     const favorites = await userModel.findFavorites(req.userId)
     console.log(favorites)
 
-    const processData = (data) => {
-      return data.map((data) => {
-        const productOpt = JSON.parse(data.productOpt)
+    // const processData = (data) => {
+    //   return data.map((data) => {
+    //     const productOpt = JSON.parse(data.productOpt)
 
-        const firstOption = productOpt[0]
+    //     const firstOption = productOpt[0]
 
-        return {
-          productName: data.productName,
-          productOpt: firstOption.name,
-          price: firstOption.price
-        }
-      })
-    }
-    const favoriteData = processData(favorites)
-    console.log(favoriteData)
+    //     return {
+    //       productName: data.productName,
+    //       productOpt: firstOption.name,
+    //       price: firstOption.price,
+    //       productImg: data.productImg || null
+    //     }
+    //   })
+    // }
+    // const favoriteData = processData(favorites)
+    // console.log(favoriteData)
 
-    res.json(favoriteData)
+    res.json(favorites)
   } catch (err) {
     console.error('獲取最愛商品失敗：', err)
     res.status(500).json({ message: err.message })

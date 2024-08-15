@@ -11,13 +11,13 @@ body {
     background-image: none;
 }
 
-input, select {
+.admin-page input, .admin-page select {
     background-color: transparent;
     color: var(--bk1);
     font-family: 'Noto Sans TC', sans-serif;
     font-size: 16px;
 }
-textarea {
+.admin-page textarea {
     line-height: 140%;
     margin-top: 5px;
     min-height: 80px;
@@ -25,17 +25,17 @@ textarea {
     width: 100%;
 }
 
-.btn, input[type="submit"] {
+.admin-page .btn, .admin-page input[type="submit"] {
     border-radius: 5px;
     font-size: 16px;
     font-weight: bold;
     padding: 7px 15px;
 }
-input[type="text"] {
+.admin-page input[type="text"] {
     color: var(--bk2);
     padding: 3px 5px;
 }
-input[type="datetime-local"] {
+.admin-page input[type="datetime-local"] {
     border: 0;
     border-bottom: 1px solid;
     padding: 3px 5px;
@@ -146,10 +146,10 @@ input[type="text"].search {
     width: 100%
 }
 
-thead {
+.admin-page thead {
     background-color: var(--main);
 }
-td {
+.admin-page td {
     border: 0;
     line-height: 120%;
     padding: 10px 5px;
@@ -190,7 +190,7 @@ td {
 .itemOpt .flex {
     justify-content: center;
 }
-.itemOpr {
+body .admin-page .itemOpr {
     flex-wrap: nowrap;
     font-size: 14px;
     justify-content: space-between;
@@ -223,6 +223,7 @@ td {
     display: flex;
     list-style: none;
     margin: 0;
+    padding-left: 40px;
 }
 .tabBtnList li {
     display: inline-block;
@@ -303,7 +304,7 @@ td {
     padding: 10px;
     text-align: center;
 }
-input[type="file"] {
+.admin-page input[type="file"] {
     border: 0;
     clip: rect(0,0,0,0);
     position: absolute;
@@ -318,7 +319,7 @@ input[type="file"] {
     border-radius: 4px;
     margin-left: 5px;
 }
-hr {
+.admin-page hr {
     margin: 20px 0;
 }
 .specSum {
@@ -330,7 +331,7 @@ hr {
 .specItemInfo {
     position: relative;
 }
-input[type="number"] {
+.admin-page input[type="number"] {
     border: 0;
     border-bottom: 1px solid;
     padding: 3px 5px;
@@ -374,6 +375,7 @@ button.addItem, button.delItem {
     background: transparent;
     border: 0;
     cursor: pointer;
+    padding: 0 5px;
 }
 .addItem i, .delItem i {
     font-size: 18px;

@@ -272,7 +272,7 @@ class LoginRegister extends Component {
             </div>
           </div>
 
-          {/* 显示加载画面 */}
+          {/* Loading */}
           {this.state.isLoading && (
             <div className="loading-overlay">
               <div className="spinner"></div> {/* 你可以用CSS或图片来实现转动的加载效果 */}

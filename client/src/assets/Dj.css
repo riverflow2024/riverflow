@@ -1,3 +1,4 @@
+@charset "UTF-8";
 @import url(basic.css);
 body,
 html {
@@ -8,6 +9,7 @@ html {
 .wrap {
   width: 100%;
 }
+
 /* 導覽列 */
 .header-nav {
   background-color: #1d1d1d;
@@ -17,7 +19,8 @@ html {
 }
 
 .header-nav img {
-  object-fit: cover;
+  -o-object-fit: cover;
+     object-fit: cover;
 }
 
 /*------> banner<------ */
@@ -29,36 +32,44 @@ html {
   z-index: -999;
   /* 跑馬燈上的圖片 */
 }
+
 /* 跑馬燈文字調整 */
 .marquee {
   height: 100vh;
 }
+
 .marquee p {
   margin: 10px;
-  font-family: 'Kanit', sans-serif;
+  font-family: "Kanit", sans-serif;
   font-weight: 800;
   font-style: italic;
   font-size: 230px;
   color: var(--main2);
   line-height: 190px;
 }
+
 .marquee span {
   padding-right: 2rem;
   margin: 0px 10px;
 }
+
 /* 跑馬燈錯位調整 */
 .marquee p:nth-of-type(1) {
   transform: translateX(0%);
 }
+
 .marquee p:nth-of-type(2) {
   transform: translateX(-20%);
 }
+
 .marquee p:nth-of-type(3) {
   transform: translateX(10%);
 }
+
 .marquee p:nth-of-type(4) {
   transform: translateX(-15%);
 }
+
 /* 播放機 */
 #Record {
   position: absolute;
@@ -133,11 +144,13 @@ html {
   position: absolute;
   top: 30px;
 }
+
 .content:nth-of-type(7) img {
   max-width: 65%;
   position: absolute;
   top: 30px;
 }
+
 .content-text {
   position: absolute;
   top: 60%;
@@ -159,28 +172,32 @@ html {
 }
 
 /* 底下介紹 */
-
 .bottom-content {
   margin-bottom: 100px;
 }
+
 .bottom-content img {
   margin-bottom: 5rem;
   width: 100%;
   height: 50vh;
   opacity: 0.5;
-  object-fit: cover;
+  -o-object-fit: cover;
+     object-fit: cover;
 }
+
 .bottom-text {
   color: white;
   z-index: 10;
   padding: 0px 50px;
   text-align: center;
 }
+
 .bottom-content h2 {
   margin: 0px;
   font-size: 4rem;
   color: #baf13a;
 }
+
 .bottom-content p {
   margin: 0 auto;
   width: 80ch;
@@ -254,18 +271,23 @@ body {
 .bg-1 {
   background-color: #1d1d1d;
 }
+
 .bg-2 {
   background: #1d1d1d;
 }
+
 .bg-3 {
   background: #1d1d1d;
 }
+
 .bg-4 {
   background: #1d1d1d;
 }
+
 .bg-5 {
   background: #1d1d1d;
 }
+
 .bg-6 {
   background: #1d1d1d;
 }
@@ -296,8 +318,8 @@ body {
     position: fixed;
     bottom: 2rem;
   }
-
   .content--half {
     width: 50%;
   }
 }
+/*# sourceMappingURL=Dj.css.map */

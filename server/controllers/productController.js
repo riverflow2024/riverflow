@@ -1,7 +1,7 @@
 const productModel = require('../models/productModel')
 
 // 取得所有產品
-const getAllProducts = async(req, res) => {
+const getAllProducts = async (req, res) => {
   try {
     // const userId = req.userId;
     // console.log(userId)
@@ -11,12 +11,11 @@ const getAllProducts = async(req, res) => {
     const getAllProductImg = await productModel.getAllProductImg()
     const getAllProductFavorite = await productModel.getAllProductFavorite()
     const getAllProductInfo = await productModel.getAllProductInfo()
-    
+
     const products = {
       getAllProductInfo,
       getAllProductImg,
       getAllProductFavorite
-
     }
     res.json(products)
   } catch (error) {
@@ -25,9 +24,8 @@ const getAllProducts = async(req, res) => {
 }
 
 // 取得單個產品
-const getProductById = async(req, res) => {
+const getProductById = async (req, res) => {
   try {
-
     const productImg = await productModel.getProductImg(req.params.id)
     const productFavorite = await productModel.getProductFavorite(req.params.id)
     const productInfo = await productModel.getProductInfo(req.params.id)
@@ -48,7 +46,7 @@ const getProductById = async(req, res) => {
 }
 
 // 新增產品
-const createProduct = async(req, res) => {
+const createProduct = async (req, res) => {
   try {
     const newProduct = await productModel.createProduct(req.body)
     res.status(201).json(newProduct)
@@ -58,7 +56,7 @@ const createProduct = async(req, res) => {
 }
 
 // 更新產品
-const updateProduct = async(req, res) => {
+const updateProduct = async (req, res) => {
   try {
     const updatedProduct = await productModel.updateProduct(req.params.id, req.body)
     if (!updatedProduct) {
@@ -71,7 +69,7 @@ const updateProduct = async(req, res) => {
 }
 
 // 刪除產品
-const deleteProduct = async(req, res) => {
+const deleteProduct = async (req, res) => {
   try {
     const deletedProduct = await productModel.deleteProduct(req.params.id)
     if (!deletedProduct) {
