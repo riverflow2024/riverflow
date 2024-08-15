@@ -1,3 +1,4 @@
+// Author: zhier1114
 const jwt = require('jsonwebtoken')
 const db = require('../models/dbConnect')
 require('dotenv').config({ path: '../config.env' })

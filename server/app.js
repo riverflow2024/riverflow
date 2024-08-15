@@ -1,3 +1,4 @@
+// Author: zhier1114, Yufu
 const express = require('express')
 const bodyParser = require('body-parser')
 const cookieParser = require('cookie-parser')
@@ -32,17 +33,14 @@ const cartRoutes = require('./routes/cartRoutes')
 // const orderRoutes = require('./routes/orders')
 const adminRoutes = require('./routes/admin')
 
-
-
-
 // Use routes
 app.use('/riverflow', require('./routes/public'))
 app.use('/riverflow/user', authenticateToken, userRoutes)
 app.use('/riverflow/products', productRoutes)
 app.use('/riverflow/events', eventRoutes)
 // app.use('/riverflow/payment',paymentRoutes)
-app.use('/riverflow/pay',authenticateToken, stripeRoutes)
-app.use('/riverflow/cart',authenticateToken, cartRoutes)
+app.use('/riverflow/pay', authenticateToken, stripeRoutes)
+app.use('/riverflow/cart', authenticateToken, cartRoutes)
 
 app.use('/riverflow/events/Tobuy', eventTobuyRoutes)
 // app.use('/riverflow/orders', orderRoutes)
