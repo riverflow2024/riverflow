@@ -1,8 +1,119 @@
-import React from 'react'
+import React, { useReducer, useEffect, useCallback } from 'react'
+import axios from 'axios'
 import { Link, useMatch } from 'react-router-dom'
+import BlogItem from '../../components/blogItem'
 
-export default function BlogList () {
-  const match = useMatch('/admin/blogList/*')
+const initialState = {
+  blogs: [],
+  loading: true,
+  error: null,
+  currentPage: 1,
+  searchTerm: '',
+  blogsPerPage: 5
+}
+
+const reducer = (state, action) => {
+  switch (action.type) {
+    case 'SET_BLOGS':
+      return { ...state, blogs: action.payload, loading: false }
+    case 'SET_ERROR':
+      return { ...state, error: action.payload, loading: false }
+    case 'UPDATE_BLOG':
+      return {
+        ...state,
+        blogs: state.blogs.map((blog) =>
+          blog.newsId === action.payload.newsId ? { ...blog, ...action.payload } : blog
+        )
+      }
+    case 'SET_SEARCH_TERM':
+      return { ...state, searchTerm: action.payload, currentPage: 1 }
+    case 'SET_CURRENT_PAGE':
+      return { ...state, currentPage: action.payload }
+    default:
+      return state
+  }
+}
+
+const BlogList = () => {
+  useMatch('/admin/blogList/*')
+
+  const [state, dispatch] = useReducer(reducer, initialState)
+  const { blogs, loading, error, currentPage, searchTerm, blogsPerPage } = state
+
+  const fetchBlogs = useCallback(async () => {
+    try {
+      const response = await axios.get('http://localhost:3000/riverflow/admin/news')
+      dispatch({ type: 'SET_BLOGS', payload: response.data })
+    } catch (err) {
+      console.error('獲取文章數據錯誤：', err)
+      dispatch({ type: 'SET_ERROR', payload: '獲取文章數據時出錯' })
+    }
+  }, [])
+
+  useEffect(() => {
+    fetchBlogs()
+  }, [fetchBlogs])
+
+  useEffect(() => {
+    const updateStatusColors = () => {
+      document.querySelectorAll('.Status').forEach((elem) => {
+        if (elem.innerText === '上架') {
+          elem.style.color = 'var(--side)'
+        } else if (elem.innerText === '下架') {
+          elem.style.color = 'var(--err)'
+        }
+      })
+    }
+    updateStatusColors()
+  }, [blogs, currentPage])
+
+  const reloadBlogItem = useCallback(async (blogId, newStatus) => {
+    try {
+      const response = await axios.get(`http://localhost:3000/riverflow/admin/news/${blogId}`)
+      dispatch({
+        type: 'UPDATE_BLOG',
+        payload: { ...response.data, newsStatus: newStatus, newsId: blogId }
+      })
+    } catch (err) {
+      console.error('重新加載文章數據錯誤：', err)
+    }
+  }, [])
+
+  const formatDate = (dateString) => {
+    const date = new Date(dateString)
+    return date
+      .toLocaleString('zh-TW', {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: false
+      })
+      .replace(/\//g, '-')
+  }
+
+  const filteredBlogs = blogs.filter(
+    (blog) =>
+      blog.newsTitle &&
+      (blog.newsTitle.toLowerCase().includes(searchTerm.toLowerCase()) || blog.newsTitle.includes(searchTerm))
+  )
+
+  const indexOfLastBlog = currentPage * blogsPerPage
+  const indexOfFirstBlog = indexOfLastBlog - blogsPerPage
+  const currentBlogs = filteredBlogs.slice(indexOfFirstBlog, indexOfLastBlog)
+  const totalPages = Math.ceil(filteredBlogs.length / blogsPerPage)
+
+  const paginate = (pageNumber) => dispatch({ type: 'SET_CURRENT_PAGE', payload: pageNumber })
+
+  const handleSearch = (e) => {
+    e.preventDefault()
+    dispatch({ type: 'SET_SEARCH_TERM', payload: e.target.blogSearch.value })
+  }
+
+  if (loading) return <div>加載中...</div>
+  if (error) return <div>{error}</div>
 
   return (
     <div className='main'>
@@ -11,12 +122,12 @@ export default function BlogList () {
         <Link to='edit' className='divided'>
           <button className='btn'>新增文章</button>
         </Link>
-        <div className='flex'>
-          <input type='text' name='' id='blogSearch' className='search' placeholder='文章搜尋' />
+        <form onSubmit={handleSearch} className='flex'>
+          <input type='text' name='blogSearch' id='blogSearch' className='search' placeholder='文章搜尋' />
           <input type='submit' value='搜尋' />
-        </div>
+        </form>
       </div>
-      <table page='1' itemshowing='5' className='listTable'>
+      <table className='listTable'>
         <thead>
           <tr>
             <td>文章分類</td>
@@ -28,163 +139,24 @@ export default function BlogList () {
           </tr>
         </thead>
         <tbody>
-          <tr className='item'>
-            <td className='blogSort'>
-              <div className='sort'>饒舌</div>
-            </td>
-            <td className='blogTitle'>來自成都集團CDC的大陸饒舌歌手王以太</td>
-            <td className='blogAuthor'>Andy</td>
-            <td className='time'>2024/08/05</td>
-            <td className='Status'>上架</td>
-            <td className='itemOpt'>
-              <div className='flex'>
-                <a href='addBlog.html'>
-                  <button id='btnEdit' className='btn itemOpr inline-flex'>
-                    <i className='fa-solid fa-pen' />編輯
-                  </button>
-                </a>
-                <a href='../../static/news_article.html' target='_blank'>
-                  <button id='btnView' className='btn itemOpr inline-flex'>
-                    <i className='fa-solid fa-eye' />檢視
-                  </button>
-                </a>
-              </div>
-              <div className='flex'>
-                <button id='btnSta' className='btn itemOpr inline-flex'>
-                  <i className='fa-solid fa-arrow-down' />下架
-                </button>
-                <button className='btn itemOpr inline-flex'>
-                  <i className='fa-solid fa-trash' />刪除
-                </button>
-              </div>
-            </td>
-          </tr>
-          <tr className='item'>
-            <td className='blogSort'>
-              <div className='sort'>街舞</div>
-            </td>
-            <td className='blogTitle'>台灣嘻哈的強勢分之 - 台灣Trap 台...</td>
-            <td className='blogAuthor'>Andy</td>
-            <td className='time'>2024/07/28</td>
-            <td className='Status'>上架</td>
-            <td className='itemOpt'>
-              <div className='flex'>
-                <a href='#'>
-                  <button id='btnEdit' className='btn itemOpr inline-flex'>
-                    <i className='fa-solid fa-pen' />編輯
-                  </button>
-                </a>
-                <a href='#'>
-                  <button id='btnView' className='btn itemOpr inline-flex'>
-                    <i className='fa-solid fa-eye' />檢視
-                  </button>
-                </a>
-              </div>
-              <div className='flex'>
-                <button id='btnSta' className='btn itemOpr inline-flex'>
-                  <i className='fa-solid fa-arrow-down' />下架
-                </button>
-                <button className='btn itemOpr inline-flex'>
-                  <i className='fa-solid fa-trash' />刪除
-                </button>
-              </div>
-            </td>
-          </tr>
-          <tr className='item'>
-            <td className='blogSort'>
-              <div className='sort'>街舞</div>
-            </td>
-            <td className='blogTitle'>台灣嘻哈的強勢分之 - 台灣Trap 台...</td>
-            <td className='blogAuthor'>Andy</td>
-            <td className='time'>2024/07/28</td>
-            <td className='Status'>上架</td>
-            <td className='itemOpt'>
-              <div className='flex'>
-                <a href='#'>
-                  <button id='btnEdit' className='btn itemOpr inline-flex'>
-                    <i className='fa-solid fa-pen' />編輯
-                  </button>
-                </a>
-                <a href='#'>
-                  <button id='btnView' className='btn itemOpr inline-flex'>
-                    <i className='fa-solid fa-eye' />檢視
-                  </button>
-                </a>
-              </div>
-              <div className='flex'>
-                <button id='btnSta' className='btn itemOpr inline-flex'>
-                  <i className='fa-solid fa-arrow-down' />下架
-                </button>
-                <button className='btn itemOpr inline-flex'>
-                  <i className='fa-solid fa-trash' />刪除
-                </button>
-              </div>
-            </td>
-          </tr>
-          <tr className='item'>
-            <td className='blogSort'>
-              <div className='sort'>街舞</div>
-            </td>
-            <td className='blogTitle'>台灣嘻哈的強勢分之 - 台灣Trap 台...</td>
-            <td className='blogAuthor'>Andy</td>
-            <td className='time'>2024/07/28</td>
-            <td className='Status'>上架</td>
-            <td className='itemOpt'>
-              <div className='flex'>
-                <a href='#'>
-                  <button id='btnEdit' className='btn itemOpr inline-flex'>
-                    <i className='fa-solid fa-pen' />編輯
-                  </button>
-                </a>
-                <a href='#'>
-                  <button id='btnView' className='btn itemOpr inline-flex'>
-                    <i className='fa-solid fa-eye' />檢視
-                  </button>
-                </a>
-              </div>
-              <div className='flex'>
-                <button id='btnSta' className='btn itemOpr inline-flex'>
-                  <i className='fa-solid fa-arrow-down' />下架
-                </button>
-                <button className='btn itemOpr inline-flex'>
-                  <i className='fa-solid fa-trash' />刪除
-                </button>
-              </div>
-            </td>
-          </tr>
-          <tr className='item'>
-            <td className='blogSort'>
-              <div className='sort'>街舞</div>
-            </td>
-            <td className='blogTitle'>台灣嘻哈的強勢分之 - 台灣Trap 台...</td>
-            <td className='blogAuthor'>Andy</td>
-            <td className='time'>2024/07/28</td>
-            <td className='Status'>上架</td>
-            <td className='itemOpt'>
-              <div className='flex'>
-                <a href='#'>
-                  <button id='btnEdit' className='btn itemOpr inline-flex'>
-                    <i className='fa-solid fa-pen' />編輯
-                  </button>
-                </a>
-                <a href='#'>
-                  <button id='btnView' className='btn itemOpr inline-flex'>
-                    <i className='fa-solid fa-eye' />檢視
-                  </button>
-                </a>
-              </div>
-              <div className='flex'>
-                <button id='btnSta' className='btn itemOpr inline-flex'>
-                  <i className='fa-solid fa-arrow-down' />下架
-                </button>
-                <button className='btn itemOpr inline-flex'>
-                  <i className='fa-solid fa-trash' />刪除
-                </button>
-              </div>
-            </td>
-          </tr>
+          {currentBlogs.map((blog) => (
+            <BlogItem
+              key={blog.newsId}
+              blog={{ ...blog, createdAt: formatDate(blog.createdAt) }}
+              onStatusChange={reloadBlogItem}
+            />
+          ))}
         </tbody>
       </table>
+      <div className='pagination'>
+        {Array.from({ length: totalPages }, (_, i) => (
+          <button key={i} onClick={() => paginate(i + 1)} className={currentPage === i + 1 ? 'active' : ''}>
+            {i + 1}
+          </button>
+        ))}
+      </div>
     </div>
   )
 }
+
+export default BlogList
