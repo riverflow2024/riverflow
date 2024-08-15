@@ -76,9 +76,9 @@ export default function App () {
 
 //             <Route path="/Event/Order" component={EventOrder} />
 //             <Route path="/Event/Index" component={EventIndex} />
-//             <Route path="/Event/Detail" component={EventDetail} />
+//             <Route path="/Event/Detail/:id" component={EventDetail} />
 //             <Route path="/Event/ConfirmNoseat" component={EventConfirmNoseat} />
-//             <Route path="/Event/ConfirmSeat" component={EventConfirmSeat} />
+//             <Route path="/Event/ConfirmSeat/:id" component={EventConfirmSeat} />
 //             <Route path="/Event/ConfirmInfo" component={EventConfirmInfo} />
 
 // <Route path="/Product/All" component={ProductAll} />

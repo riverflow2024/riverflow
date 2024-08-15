@@ -15,8 +15,7 @@ app.use(bodyParser.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(
   cors({
-    origin: `http://localhost:${process.env.CLIENT_PORT}`,
-    credentials: true // 带憑證的请求
+    origin: `http://localhost:3001`,
   })
 )
 
@@ -25,7 +24,7 @@ app.use(
 const userRoutes = require('./routes/users')
 const productRoutes = require('./routes/products')
 const eventRoutes = require('./routes/events')
-const eventTobuyRoutes = require('./routes/eventTobuy')
+// const eventTobuyRoutes = require('./routes/eventTobuy')
 // const paymentRoutes = require('./routes/paymentRoutes')
 const stripeRoutes = require('./routes/stripe')
 const cartRoutes = require('./routes/cartRoutes')
@@ -42,7 +41,7 @@ app.use('/riverflow/events', eventRoutes)
 app.use('/riverflow/pay', authenticateToken, stripeRoutes)
 app.use('/riverflow/cart', authenticateToken, cartRoutes)
 
-app.use('/riverflow/events/Tobuy', eventTobuyRoutes)
+app.use('/riverflow/events/Tobuy',authenticateToken, stripeRoutes)
 // app.use('/riverflow/orders', orderRoutes)
 
 // backstage routes

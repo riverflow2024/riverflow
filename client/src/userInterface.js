@@ -57,9 +57,9 @@ export default function UserInterface() {
 
         <Route path="Event/Order" element={<EventOrder />} />
         <Route path="Event/Index" element={<EventIndex />} />
-        <Route path="Event/Detail" element={<EventDetail />} />
+        <Route path="Event/Detail/:id" element={<EventDetail />} />
         <Route path="Event/ConfirmNoseat" element={<EventConfirmNoseat />} />
-        <Route path="Event/ConfirmSeat" element={<EventConfirmSeat />} />
+        <Route path="Event/ConfirmSeat/:id" element={<EventConfirmSeat />} />
         <Route path="Event/ConfirmInfo" element={<EventConfirmInfo />} />
 
         <Route path="Product/All" element={<ProductAll />} />
