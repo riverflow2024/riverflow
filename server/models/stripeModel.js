@@ -107,8 +107,120 @@ const saveOrderDetails = async (sessionId, userId) => {
     }
 };
 
+
+
+
+
+
+
+
+
+
+const createEventCheckoutSession = async (event) => {
+    const session = await stripe.checkout.sessions.create({
+        payment_method_types: ['card'],
+        mode: 'payment',
+        line_items: event.ticketType.map(ticket => ({
+            price_data: {
+                currency: 'twd',
+                product_data: {
+                    name: `${event.eventName} - ${ticket.type}`,
+                    description: event.eventDesc,
+                },
+                unit_amount: ticket.price * 100,
+            },
+            quantity: 1, // 默認為1,可以根據需求調整
+        })),
+        success_url: `${process.env.CLIENT_URL}/Order/PaymentSuccess?session_id={CHECKOUT_SESSION_ID}`,
+        cancel_url: `${process.env.CLIENT_URL}/cancel.html`,
+        metadata: {
+            event_id: event.eventId.toString(),
+            event_name: event.eventName,
+            // 將票券信息轉換為 JSON 字符串存儲在 metadata 中
+            tickets: JSON.stringify(event.ticketType.map(ticket => ({
+                type: ticket.type,
+                quantity: ticket.quantity,
+                price: ticket.price
+            })))
+        }
+    });
+    console.log('eventOrderID:', session.id);
+    console.log('eventOrderData:', session.metadata);
+    return session;
+};
+
+const saveEventOrderDetails = async (sessionId, userId) => {
+    try {
+        // 從會話中獲取必要資訊
+        const session = await retrieveSession(sessionId);
+        const eventId = session.metadata.event_id;
+        const ticketType = JSON.parse(session.metadata.tickets); // 解析 JSON 字符串
+        console.log('ticketType :', ticketType);
+
+        // 資料庫查詢輔助函數
+        const query = (sql, params) => {
+            return new Promise((resolve, reject) => {
+                dbconnect.query(sql, params, (error, results) => {
+                    if (error) {
+                        console.error('資料庫查詢錯誤:', error);
+                        return reject(error);
+                    }
+                    resolve(results);
+                });
+            });
+        };
+
+        // 開始資料庫交易
+        await query('START TRANSACTION');
+
+        try {
+            // 檢查是否在過去5分鐘內存在相同的訂單
+            const existingOrder = await query(
+                'SELECT tdId FROM ticketdetails WHERE userId = ? AND eventId = ? AND createdAt > DATE_SUB(NOW(), INTERVAL 5 MINUTE)',
+                [userId, eventId]
+            );
+
+            // 如果存在相同訂單，提交交易並返回
+            if (existingOrder.length > 0) {
+                await query('COMMIT');
+                return { success: true, message: '票券訂單已存在，無需重複處理' };
+            }
+
+            // 生成隨機數字作為訂單編號
+            const randNum = Math.floor(Math.random() * 10000000);
+
+            // 遍歷每種票券類型並插入數據庫
+            for (const ticket of ticketType) {
+                await query(
+                    `INSERT INTO ticketdetails
+                    (userId, eventId, ticketType, quantity, tdStatus, tdPrice, randNum, payTime, receiptType, receiptInfo, createdAt, updatedAt)
+                    VALUES (?, ?, ?, ?, ?, ?, ?, NOW(), ?, ?, NOW(), NOW())`,
+                    [userId, eventId, ticket.type, ticket.quantity, 'pending', ticket.price, randNum, 'dupInvoice', '123K456']
+                );
+            }
+
+            console.log('插入票券訂單成功');
+
+            // 提交交易
+            await query('COMMIT');
+
+            return { success: true, message: '票券訂單已成功處理並保存' };
+        } catch (error) {
+            // 如果出現錯誤，回滾交易
+            await query('ROLLBACK');
+            throw error;
+        }
+    } catch (error) {
+        console.error('保存票券訂單詳情時發生錯誤:', error);
+        return { success: false, message: '保存票券訂單詳情時發生錯誤' };
+    }
+};
+
+
 module.exports = {
     createCheckoutSession,
     retrieveSession,
-    saveOrderDetails
+    saveOrderDetails,
+    createEventCheckoutSession,
+    saveEventOrderDetails
 };

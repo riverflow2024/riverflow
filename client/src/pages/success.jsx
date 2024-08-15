@@ -9,10 +9,15 @@ const PaymentSuccess = () => {
   useEffect(() => {
     const urlParams = new URLSearchParams(location.search);
     const sessionId = urlParams.get('session_id');
+    const isEventPayment = urlParams.get('event') === 'true';
 
     if (sessionId && !processedRef.current) {
       processedRef.current = true; // 標記為已處理
-      fetch(`http://localhost:3000/riverflow/pay/payment-success?session_id=${sessionId}`, {
+      const endpoint = isEventPayment
+        ? `http://localhost:3000/riverflow/events/Tobuy/event-payment-success?session_id=${sessionId}`
+        : `http://localhost:3000/riverflow/pay/payment-success?session_id=${sessionId}`;
+
+      fetch(endpoint, {
         method: 'GET',
         credentials: 'include',
         headers: {
@@ -21,7 +26,7 @@ const PaymentSuccess = () => {
       })
         .then(response => {
           if (!response.ok) {
-            throw new Error('Network response was not ok');
+            throw new Error('網絡回應不正常');
           }
           return response.json();
         })
@@ -39,7 +44,7 @@ const PaymentSuccess = () => {
   return (
     <div className="w-bg">
       <header>
-        {/* Header content */}
+        {/* 頁首內容 */}
       </header>
 
       <div style={{ marginTop: '100px', fontSize: '24px', textAlign: 'center' }}>

@@ -4,14 +4,15 @@
   "description": "大專協作作品",
   "main": "index.js",
   "scripts": {
-    "start": "concurrently \"npm run start:client\" \"npm run start:server\"",
-    "start:client": "npm --prefix client start",
+    "start": "concurrently \"npm run start:server\" \"npm run start:client\"",
+    "start:client": "PORT=3001 npm --prefix client start",
     "start:server": "npm --prefix server start"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "concurrently": "^8.2.2",
+    "cross-env": "^7.0.3",
     "standard": "^17.1.0"
   },
   "dependencies": {

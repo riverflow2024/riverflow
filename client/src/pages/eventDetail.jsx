@@ -1,61 +1,58 @@
-import React, { Component } from 'react'
-import { Link, withRouter } from 'react-router-dom' // 修改：添加 withRouter
-import { useParams } from 'react-router-dom'
+import React, { useState, useEffect } from 'react' // 修改：使用 React Hooks
+import { Link, useParams } from 'react-router-dom' // 修改：移除 withRouter，添加 useParams
 import axios from 'axios'
 import '../assets/event/eventPage2.css'
 import '../utils/eventDetail.js'
 import Header from '../components/header'
 
-class EventDetail extends Component {
-  state = {
-    event: {
-      eventId: 1,
-      eventType: 'DJ',
-      eventName: '星空下的電音狂歡 <頂尖DJ戶外派對>',
-      eventDesc:
-        '準備好迎接一個難忘的夜晚吧！熱血派對夜將帶給你一場無與倫比的DJ戶外音樂盛宴。這次活動將在台北市市民廣場盛大舉行，這裡擁有開闊的空間和絕佳的音響效果，讓你在星空下盡情舞動，感受音樂的無限魅力。\n現場將設有一個巨型舞台，配備最先進的音響設備和炫酷的燈光效果，確保每一位參加者都能享受到頂級的音樂體驗。我們精心挑選了多位頂尖DJ，他們將帶來一系列高能量的電子音樂，從節奏強烈的電音到充滿律動感的混音，讓你在音樂的海洋中徹底釋放自我。\n除了音樂之外，活動現場還設有多個主題區域，包括美食區、飲品區和互動遊戲區。你可以在這裡品嚐到來自各地的美食，享受各種精選飲品，並參加趣味橫生的互動遊戲，贏取豐富獎品。\n現場還將設有專業的攝影團隊，捕捉每一個精彩瞬間，讓你留下最美好的回憶。我們還準備了多種派對小道具，如螢光棒、面具和飾品，讓你可以自由搭配，打造屬於自己的獨特造型。\n這次活動不僅是一場音樂派對，更是一個交友的平台。你將有機會結識來自不同地方、擁有共同興趣的朋友，一起分享對音樂的熱愛，共同創造美好的回憶。',
-      eventDate: '2024-08-14T11:30:00.000Z',
-      location: '台北市中山區濱江街5號',
-      seat: 0,
-      ticketType: [
-        { type: '一般票', price: 3000, stock: 500 },
-        { type: '愛心票', price: 1500, stock: 100 }
-      ],
-      launchDate: '2024-07-25T12:00:00.000Z',
-      launchStatus: 1,
-      saleDate: '2024-08-07T07:00:00.000Z',
-      eventImg: '/images/events/event-yitai.jpg',
-      eventAnoc:
-        '若信用卡刷卡付款失敗，會將刷卡失敗的訂單，陸續轉為【ATM虛擬帳號付款】，屆時請依的訂單顯示之「銀行帳號」、「銀行代碼」於「匯款期限」內完成付款，系統將以款項實際入帳時間為準，請於繳費後一小時至我的訂單確認，若訂單付款狀態顯示為「待繳費」，須等待銀行回傳付款狀態；若逾期未付款，系統收到銀行回傳付款狀態後將自動取消該筆訂單並顯示「付款失敗」，各家銀行轉帳入帳時間不同，請盡早繳款以保障您的權益。'
-    },
-    loading: true, // 新增：加載狀態
-    error: null // 新增：錯誤狀態
-  }
-  // 新增：組件掛載時獲取數據
-  componentDidMount() {
-    const { id } = this.props.match.params // 新增：從 URL 獲取 id
-    this.fetchEventDetails(id)
-  }
+function EventDetail() {
+  const { id } = useParams();
 
-  // 新增：獲取活動詳情的方法
-  fetchEventDetails = async (id) => {
+  // 修改：使用 useState 鉤子管理狀態
+  const [event, setEvent] = useState({
+    eventId: 1,
+    eventType: 'DJ',
+    eventName: '星空下的電音狂歡 <頂尖DJ戶外派對>',
+    eventDesc: '準備好迎接一個難忘的夜晚吧！熱血派對夜將帶給你一場無與倫比的DJ戶外音樂盛宴。這次活動將在台北市市民廣場盛大舉行，這裡擁有開闊的空間和絕佳的音響效果，讓你在星空下盡情舞動，感受音樂的無限魅力。\n現場將設有一個巨型舞台，配備最先進的音響設備和炫酷的燈光效果，確保每一位參加者都能享受到頂級的音樂體驗。我們精心挑選了多位頂尖DJ，他們將帶來一系列高能量的電子音樂，從節奏強烈的電音到充滿律動感的混音，讓你在音樂的海洋中徹底釋放自我。\n除了音樂之外，活動現場還設有多個主題區域，包括美食區、飲品區和互動遊戲區。你可以在這裡品嚐到來自各地的美食，享受各種精選飲品，並參加趣味橫生的互動遊戲，贏取豐富獎品。\n現場還將設有專業的攝影團隊，捕捉每一個精彩瞬間，讓你留下最美好的回憶。我們還準備了多種派對小道具，如螢光棒、面具和飾品，讓你可以自由搭配，打造屬於自己的獨特造型。\n這次活動不僅是一場音樂派對，更是一個交友的平台。你將有機會結識來自不同地方、擁有共同興趣的朋友，一起分享對音樂的熱愛，共同創造美好的回憶。',
+    eventDate: '2024-08-14T11:30:00.000Z',
+    location: '台北市中山區濱江街5號',
+    seat: 0,
+    ticketType: [
+      { type: '一般票', price: 3000, stock: 500 },
+      { type: '愛心票', price: 1500, stock: 100 }
+    ],
+    launchDate: '2024-07-25T12:00:00.000Z',
+    launchStatus: 1,
+    saleDate: '2024-08-07T07:00:00.000Z',
+    eventImg: '/images/events/event-yitai.jpg',
+    eventAnoc: '若信用卡刷卡付款失敗，會將刷卡失敗的訂單，陸續轉為【ATM虛擬帳號付款】，屆時請依的訂單顯示之「銀行帳號」、「銀行代碼」於「匯款期限」內完成付款，系統將以款項實際入帳時間為準，請於繳費後一小時至我的訂單確認，若訂單付款狀態顯示為「待繳費」，須等待銀行回傳付款狀態；若逾期未付款，系統收到銀行回傳付款狀態後將自動取消該筆訂單並顯示「付款失敗」，各家銀行轉帳入帳時間不同，請盡早繳款以保障您的權益。'
+  });
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  // 修改：使用 useEffect 鉤子替代 componentDidMount
+  useEffect(() => {
+    fetchEventDetails(id);
+  }, [id]); // 依賴數組中加入 id，確保 id 改變時重新獲取數據
+
+  
+
+  // 修改：將 fetchEventDetails 改為普通函數
+  const fetchEventDetails = async (eventId) => {
     try {
-      const response = await axios.get(`http://localhost:3000/riverflow/events/${id}`)
-      // console.log('完整的 API 響應:', response);
+      const response = await axios.get(`http://localhost:3000/riverflow/events/${eventId}`)
       console.log('response.data:', response.data)
-      this.setState({ event: response.data[0], loading: false })
-      // console.log(response.data.eventName);
+      setEvent(response.data[0]); // 修改：使用 setEvent 更新狀態
+      setLoading(false);
     } catch (error) {
-      // console.error('獲取活動詳情時出錯：', error);
-      this.setState({
-        event: this.state.event,
-        loading: false
-      })
+      console.error('獲取活動詳情時出錯：', error);
+      setLoading(false);
+      setError('獲取活動詳情時出錯'); // 新增：設置錯誤狀態
     }
   }
 
-  render() {
-    const { event, loading, error } = this.state // 修改：解構 loading 和 error
+  
+    
 
     // 新增：加載中和錯誤處理
     if (loading) return <div>載入中...</div>
@@ -302,7 +299,7 @@ class EventDetail extends Component {
         <br />
       </div>
     )
-  }
+  
 }
 
 export default EventDetail
