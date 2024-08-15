@@ -3,7 +3,7 @@ import $ from 'jquery'
 import { Link, useMatch } from 'react-router-dom'
 
 export default function PrdList () {
-  const match = useMatch('/admin/prdList')
+  const match = useMatch('/admin/prdList/*')
   $(function () {
     $('.Status').each(function (index, elem) {
       //   $elem = $(elem)

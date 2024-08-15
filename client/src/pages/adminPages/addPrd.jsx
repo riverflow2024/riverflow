@@ -60,7 +60,7 @@ export default function AddPrd () {
 
   return (
     <div className='main'>
-      <div className='pageTitle'>新增商品</div>
+      <div className='pageTitle'>商品編輯</div>
       <form action='' id='prdForm'>
         <div className='tabs'>
           <ul className='tabBtnList'>
