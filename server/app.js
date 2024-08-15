@@ -12,13 +12,10 @@ app.use(express.static(path.join(__dirname, 'public')))
 app.use(cookieParser())
 app.use(bodyParser.json())
 app.use(express.urlencoded({ extended: true }))
-<<<<<<< HEAD
-app.use(cors({ origin:`http://localhost:5500`,
-=======
+
 app.use(
   cors({
     origin: `http://localhost:${process.env.CLIENT_PORT}`,
->>>>>>> cd3aac4d4f09104de53fd247bfd8e066f5000285
     credentials: true // 带憑證的请求
   })
 )

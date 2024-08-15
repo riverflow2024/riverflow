@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import '../assets/login.css';
-import '../assets/customSwalStyles.css'; 
+import '../assets/customSwalStyles.css';
 import Header from '../components/header'
 
 import Swal from 'sweetalert2';
@@ -57,7 +57,7 @@ class LoginRegister extends Component {
                                 value={this.state.Users.firstName}
                                 name="firstName"
                                 id="firstName"
-                                placeholder="林"
+                                placeholder="First Name"
                                 required
                                 autoComplete='off'
                                 onChange={this.handleInputChange}
@@ -67,7 +67,7 @@ class LoginRegister extends Component {
                                 value={this.state.Users.lastName}
                                 name="lastName"
                                 id="lastName"
-                                placeholder="小美"
+                                placeholder="Last Name"
                                 required
                                 autoComplete='off'
                                 onChange={this.handleInputChange}
@@ -80,8 +80,9 @@ class LoginRegister extends Component {
                         <div class="input-text">
                             <label>帳號</label>
                             <input type="text" id="email" name="email"
+                                style={{ width: '80%' }}
                                 value={this.state.Users.email}
-                                placeholder="Enter email"
+                                placeholder="Enter Email"
                                 autoComplete='off'
                                 onChange={this.EmailChange} /><br />
 
@@ -96,7 +97,7 @@ class LoginRegister extends Component {
                                 name="newPassword"
                                 id="newPassword"
                                 value={this.state.Users.secret}
-                                placeholder="Enter password"
+                                placeholder="Enter Password"
                                 required
                                 onChange={this.NewPassword}
                                 autoComplete='new-password'
@@ -443,10 +444,10 @@ class LoginRegister extends Component {
 
                 MySwal.fire({
                     title: "註冊成功",
-                    text: "Welcome to visit RiverFlow!",
-                    width: "300px", 
-                    background: "var(--bk2)", 
-                    color: "var(--gr1)", 
+                    text: "請至信箱，收取驗證信！",
+                    width: "300px",
+                    background: "var(--bk2)",
+                    color: "var(--gr1)",
                     confirmButtonColor: "var(--main)",
                     confirmButtonText: "OK",
                     customClass: {
@@ -454,9 +455,13 @@ class LoginRegister extends Component {
                         htmlContainer: 'custom-text',  // 自定义内文的 class
                         confirmButton: 'swal2-confirm' // 应用自定义按钮类
                     },
-                })
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location = "/Login/Index";
+                    }
+                });
 
-                
+
             } catch (error) {
                 console.error('註冊失敗:', error.response ? error.response.data : error.message);
                 alert(`註冊失敗！錯誤信息：${error.response ? error.response.data : error.message}`);
