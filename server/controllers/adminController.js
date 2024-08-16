@@ -308,7 +308,7 @@ exports.createNews = async (req, res) => {
   const upload = multer({ storage, fileFilter }).single('coverImg')
 
   // 處理CKEditor內容中的圖片
-  async function processEditorContent(content) {
+  async function processBase64Images(content) {
     const dom = new JSDOM(content)
     const images = dom.window.document.querySelectorAll('img')
 
@@ -324,9 +324,9 @@ exports.createNews = async (req, res) => {
         img.src = `/assets/images/news/${filename}`
       }
     }
-
     return dom.window.document.body.innerHTML
   }
+
   upload(req, res, async (err) => {
     if (err instanceof multer.MulterError) {
       return res.status(400).json({ message: 'File upload error: ' + err.message })
@@ -335,16 +335,16 @@ exports.createNews = async (req, res) => {
     }
 
     try {
-      console.log('Received form data:', req.body)
-      console.log('Received file:', req.file)
-
       const { newsTitle, newsType, newsAuthor, newsContent, pubTime } = req.body
+
+      // 解析 JSON 格式的 newsContent
+      // const parsedContent = JSON.parse(newsContent)
 
       // 處理封面圖片
       const coverImgFilename = req.file ? req.file.filename : null
 
       // 處理編輯器內容
-      const processedContent = await processEditorContent(newsContent)
+      const processedContent = await processBase64Images(newsContent)
 
       // 判斷 pubTime 和設置 newsStatus
       const currentTime = new Date()
@@ -379,6 +379,17 @@ exports.createNews = async (req, res) => {
       res.status(500).json({ message: err.message })
     }
   })
+}
+// 新增：圖片處理
+exports.createNewsImages = async (req, res) => {
+  const projectRoot = path.join(__dirname, '..', '..')
+  const uploadDirectory = path.join(projectRoot, 'client', 'src', 'assets', 'images', 'news')
+  if (!req.file) {
+    return res.status(400).send({ error: 'No file uploaded' })
+  }
+  const imageUrl = `${uploadDirectory}/${req.file.filename}`
+
+  res.status(200).json({ url: imageUrl })
 }
 // 刪除
 exports.deleteNews = async (req, res) => {

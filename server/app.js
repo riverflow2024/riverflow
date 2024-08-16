@@ -11,8 +11,8 @@ const { authenticateToken } = require('./middlewares/auth')
 const { adminAuthenticateToken } = require('./middlewares/adminAuth')
 app.use(express.static(path.join(__dirname, 'public')))
 app.use(cookieParser())
-app.use(bodyParser.json())
-app.use(express.urlencoded({ extended: true }))
+app.use(bodyParser.json({ limit: '10mb' }))
+app.use(express.urlencoded({ limit: '10mb', extended: true }))
 app.use(
   cors({
     origin: 'http://localhost:3001',

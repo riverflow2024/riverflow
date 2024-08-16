@@ -505,7 +505,38 @@ button.delItem {
   width: 100%;
 }
 
-/* CK Editor - 嘻哈專欄 */
-.ck-editor__editable_inline {
-  min-height: 350px;
+/*---------------------------------------------*/
+/*                   CK Editor                 */
+/*---------------------------------------------*/
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+
+@media print {
+  body {
+    margin: 0 !important;
+  }
+}
+
+.main-container {
+  font-family: 'Lato';
+  width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+  min-height: 500px;
+  max-height: 500px;
+  overflow: scroll;
+}
+
+.ck-content {
+  font-family: 'Lato';
+  line-height: 1.6;
+  word-break: break-word;
+}
+
+.editor-container_classic-editor .editor-container__editor {
+  min-width: 1000px;
+  max-width: 1000px;
+  min-height: 500px;
+  max-height: 500px;
+  margin-top: 10px;
+  overflow: visible;
 }
