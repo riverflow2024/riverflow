@@ -7,6 +7,7 @@ import $ from 'jquery'
 import axios from 'axios'
 import Header from '../components/header'
 
+
 function EventConfirmSeat() {
   const [event, setEvent] = useState({
     eventId: 1,
@@ -17,7 +18,7 @@ function EventConfirmSeat() {
     location: '台北市中山區濱江街5號',
     seat: 0,
     ticketType: [
-      { "type": "1F搖滾區", "price": 2900, "stock": 30 }, 
+      { "type": "1F搖滾區", "price": 2900, "stock": 30 },
       { "type": "2F座席區", "price": 2300, "stock": 100 },
       { "type": "2F站席區", "price": 2300, "stock": 100 },
       { "type": "1F身障區", "price": 1190, "stock": 100 }
@@ -38,7 +39,7 @@ function EventConfirmSeat() {
 
   useEffect(() => {
     setupJQuery();
-    console.log('Component mounted. Event ID:', id);
+    // console.log('Component mounted. Event ID:', id);
     if (id) {
       fetchEventDetails(id);
     } else {
@@ -56,13 +57,13 @@ function EventConfirmSeat() {
     });
   };
 
-  
+
 
 
 
   const fetchEventDetails = async (eventId) => {
     try {
-      console.log('Fetching event details for ID:', eventId);
+      // console.log('Fetching event details for ID:', eventId);
       const response = await axios.get(`http://localhost:3000/riverflow/events/${eventId}`);
       console.log('API Response:', response.data);
       if (response.data && response.data.length > 0) {
@@ -90,7 +91,10 @@ function EventConfirmSeat() {
   };
 
   const toggleTicket = (ticketType) => {
-    setOpenTicketType(prevType => prevType === ticketType ? null : ticketType);
+    console.log('toggleTicket', ticketType)
+    setOpenTicketType(prevType => {
+      prevType === ticketType ? null : ticketType
+    });
   };
 
   //  購買票數上限為4張
@@ -128,17 +132,18 @@ function EventConfirmSeat() {
     const selectedTickets = event.ticketType
       .filter(ticket => ticket.quantity > 0)
       .map(ticket => ({
-        area: ticket.type,
-        type: "一般票", // 固定為 "一般票"
+        type: ticket.type,
+        area: "一般票", // 固定為 "一般票"
         price: ticket.price,
         quantity: ticket.quantity
       }));
-  
+
     if (selectedTickets.length > 0) {
-      navigate('/Event/ConfirmInfo', { 
-        state: { 
+      navigate('/Event/ConfirmInfo', {
+        state: {
           selectedTickets,
           eventDetails: {
+            eventId: event.eventId,
             eventName: event.eventName,
             eventDate: event.eventDate,
             location: event.location,
@@ -154,133 +159,135 @@ function EventConfirmSeat() {
 
 
 
-  
-   
 
-    return (
-      <div className="w-bg scrollCust">
-        <Header />
-        <div className="framWrap">
-          {/* 活動明細 */}
-          <div className="eventName">
-            <div className="eventImg">
-              <img src={event.eventImg} alt="" />
-            </div>
-            <div className="eventTitle">
-              <h1>{event.eventName}</h1>
-              <p>日期：{new Date(event.eventDate).toLocaleDateString()}</p>
-              <p>時間：{new Date(event.eventDate).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</p>
-              <p>場次地點：{event.location}</p>
-            </div>
+
+
+  return (
+    <div className="w-bg scrollCust">
+      <Header />
+      <div className="framWrap">
+        {/* 活動明細 */}
+        <div className="eventName">
+          <div className="eventImg">
+            <img src={event.eventImg} alt="" />
           </div>
+          <div className="eventTitle">
+            <h1>{event.eventName}</h1>
+            <p>日期：{new Date(event.eventDate).toLocaleDateString()}</p>
+            <p>時間：{new Date(event.eventDate).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</p>
+            <p>場次地點：{event.location}</p>
+          </div>
+        </div>
 
-          {/* 中間的線 */}
-          <div className="middleLine">
+        {/* 中間的線 */}
+        <div className="middleLine">
+          <p></p>
+        </div>
+
+        {/* 購買順序 */}
+        <div className="order">
+          <div className="ticketOrder">
+            <div className="ticketOrder1">
+              <span>1</span>
+            </div>
+            <div>
+              <span>選擇票區</span>
+            </div>
             <p></p>
           </div>
 
-          {/* 購買順序 */}
-          <div className="order">
-            <div className="ticketOrder">
-              <div className="ticketOrder1">
-                <span>1</span>
-              </div>
-              <div>
-                <span>選擇票區</span>
-              </div>
-              <p></p>
+          <div class="ticketOrder">
+            <div>
+              <span>2</span>
             </div>
-
-            <div class="ticketOrder">
-              <div>
-                <span>2</span>
-              </div>
-              <div>
-                <span>確認明細</span>
-              </div>
-              <p></p>
+            <div>
+              <span>確認明細</span>
             </div>
-
-            <div className="ticketOrder">
-              <div>
-                <span>3</span>
-              </div>
-              <div>
-                <span>確認資料</span>
-              </div>
-              <p></p>
-            </div>
+            <p></p>
           </div>
 
-          {/* 選擇票種數量 */}
-          <div className="ticketChoose">
-            <div className="ticketText">
-              <h3>票區一覽</h3>
+          <div className="ticketOrder">
+            <div>
+              <span>3</span>
             </div>
-            {/* 選擇票種 */}
-            <div className="ticketSeat">
-              <div className="seatImage">
-                <img src={seatImg} alt="" />
-              </div>
+            <div>
+              <span>確認資料</span>
+            </div>
+            <p></p>
+          </div>
+        </div>
 
-              <div className="seat">
+        {/* 選擇票種數量 */}
+        <div className="ticketChoose">
+          <div className="ticketText">
+            <h3>票區一覽</h3>
+          </div>
+          {/* 選擇票種 */}
+          <div className="ticketSeat">
+            <div className="seatImage">
+              <img src={seatImg} alt="" />
+            </div>
+
+            <div className="seat">
               {event.ticketType.map((ticket, index) => (
-                  <div key={ticket.type} className={`${['first', 'second', 'third', 'forth'][index]}Floor`}>
-                    <div className="seatName" onClick={() => toggleTicket(ticket.type)}>
+                <div key={ticket.type} className={`${['first', 'second', 'third', 'forth'][index]}Floor`}>
+
+
+                  <div className="seatName" onClick={() => toggleTicket(ticket.type)}>
+                    <div>
+                      <span>{ticket.type}</span>
                       <div>
-                        <span>{ticket.type}</span>
-                        <div>
-                          <span>剩餘</span>
-                          <span id={`remaining${ticket.type}`}>{ticket.stock}</span>
-                        </div>
-                      </div>
-                      <div>
-                        <span>NT${ticket.price}</span>
+                        <span>剩餘</span>
+                        <span id={`remaining${ticket.type}`}>{ticket.stock}</span>
                       </div>
                     </div>
-                    <div className={`ticketName ${openTicketType === ticket.type ? 'active' : ''}`}>
-                      <div className="ticketCotent">
-                        <div>
-                          <span>一般票</span>
-                        </div>
-                        <div className="ticketBtn">
-                          <button
-                            className="decrement"
-                            onClick={() => handleQuantityChange(ticket.type, -1)}
-                            data-target={`#quantity${ticket.type}`}
-                            data-remaining={`#remaining${ticket.type}`}
-                          >
-                            <i className="fa-solid fa-circle-minus"></i>
-                          </button>
-                          <span id={`quantity${ticket.type}`}>{ticket.quantity || 0}</span>
-                          <button
-                            className="increment"
-                            onClick={() => handleQuantityChange(ticket.type, 1)}
-                            data-target={`#quantity${ticket.type}`}
-                            data-remaining={`#remaining${ticket.type}`}
-                          >
-                            <i className="fa-solid fa-circle-plus"></i>
-                          </button>
-                        </div>
+                    <div>
+                      <span>NT${ticket.price}</span>
+                    </div>
+                  </div>
+                  <div className={`ticketName ${openTicketType === ticket.type ? 'active' : ''}`}>
+                    <div className="ticketCotent">
+                      <div>
+                        <span>一般票</span>
+                      </div>
+                      <div className="ticketBtn">
+                        <button
+                          className="decrement"
+                          onClick={() => handleQuantityChange(ticket.type, -1)}
+                          data-target={`#quantity${ticket.type}`}
+                          data-remaining={`#remaining${ticket.type}`}
+                        >
+                          <i className="fa-solid fa-circle-minus"></i>
+                        </button>
+                        <span id={`quantity${ticket.type}`}>{ticket.quantity || 0}</span>
+                        <button
+                          className="increment"
+                          onClick={() => handleQuantityChange(ticket.type, 1)}
+                          data-target={`#quantity${ticket.type}`}
+                          data-remaining={`#remaining${ticket.type}`}
+                        >
+                          <i className="fa-solid fa-circle-plus"></i>
+                        </button>
                       </div>
                     </div>
                   </div>
-                ))}
-              </div>
+                </div>
+              ))}
             </div>
           </div>
-          {/* 下一步按鍵 */}
-          <div className="nextBtn">
+        </div>
+        {/* 下一步按鍵 */}
+        <div className="nextBtn">
           <button onClick={handleNextStep}>下一步</button>
-          </div>
         </div>
       </div>
-    )
-  
+    </div>
+  )
 
-  
-  
-  
+
+
+
+
 }
 
 export default EventConfirmSeat

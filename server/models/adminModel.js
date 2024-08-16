@@ -21,7 +21,7 @@ exports.findAccount = async (account) => {
 exports.getAllProducts = async () => {
   return new Promise((resolve, reject) => {
     db.query(
-      `SELECT p.productId, p.productName, p.productPrice, p.productStatus, pi.productImg FROM products AS p 
+      `SELECT p.productId, p.productName, p.productPrice, p.productStatus, p.productOpt, pi.productImg FROM products AS p 
         LEFT JOIN (SELECT productId, MIN(productImg) as productImg FROM ProductImages GROUP BY productId) 
         pi ON p.productId = pi.productId`,
       (error, results) => {
@@ -447,11 +447,16 @@ exports.searchNews = async (searchKeywords) => {
       'SELECT * FROM News AS n WHERE n.newsTitle LIKE ? OR n.newsType LIKE ? OR n.newsAuthor LIKE ? OR n.newsContent LIKE ?'
     const searchPattern = `%${searchKeywords}%`
     const values = [searchPattern, searchPattern, searchPattern, searchPattern]
+
+    console.log('執行查詢:', query)
+    console.log('查詢參數:', values)
+
     db.query(query, values, (err, result) => {
       if (err) {
         console.error('文章搜尋錯誤:', err)
         reject(err)
       } else {
+        console.log('查詢結果數量:', result.length)
         resolve(result)
       }
     })
@@ -465,11 +470,12 @@ exports.createNews = async (newsData) => {
     newsData.coverImg,
     newsData.newsContent,
     newsData.newsAuthor,
-    newsData.pubTime
+    newsData.pubTime,
+    newsData.newsStatus
   ]
   return new Promise((resolve, reject) => {
     db.query(
-      'INSERT INTO News (newsType, newsTitle, coverImg, newsContent, newsAuthor, pubTime) VALUES (?, ?, ?, ?, ?, ?)',
+      'INSERT INTO News (newsType, newsTitle, coverImg, newsContent, newsAuthor, pubTime, newsStatus) VALUES (?, ?, ?, ?, ?, ?, ?)',
       values,
       (error, results) => {
         if (error) {

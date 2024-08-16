@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from 'react'
-import { useLocation } from 'react-router-dom'
-import '../assets/event/eventPage5.css'
-import Header from '../components/header'
+import { useLocation, useNavigate } from 'react-router-dom'
+import '../assets/event/eventPage5.css'  // 修正 CSS 文件的路徑
+import Header from '../components/header'  // 修正 Header 組件的路徑
+import Swal from 'sweetalert2'
+import axios from 'axios'
 
 const EventOrder = () => {
-  const location = useLocation();
-  const [eventDetails, setEventDetails] = useState({});
-  const [tickets, setTickets] = useState([]);
-  const [totalTickets, setTotalTickets] = useState(0);
-  const [totalCost, setTotalCost] = useState(0);
+  const location = useLocation()
+  const navigate = useNavigate()
+  const [eventDetails, setEventDetails] = useState({})
+  const [tickets, setTickets] = useState([])
+  const [totalTickets, setTotalTickets] = useState(0)
+  const [totalCost, setTotalCost] = useState(0)
   const [contactName, setContactName] = useState('林小美')
   const [contactEmail, setContactEmail] = useState('abc12345@gmail.com')
   const [contactPhone, setContactPhone] = useState('0912333555')
@@ -25,20 +28,56 @@ const EventOrder = () => {
     }
   }, [location])
 
-  const handleNextStep = (e) => {
+  const handleNextStep = async (e) => {
     e.preventDefault()
-    // 這裡應該添加訂單提交邏輯
-    alert('訂單完成，謝謝您的購買!')
-    // 跳轉頁面邏輯應該在這裡實現
+    
+    // 根據後端 API 要求格式化數據
+    const event = {
+      eventId: eventDetails.id,
+      eventName: eventDetails.title,
+      eventDesc: `${eventDetails.date} ${eventDetails.time} 於 ${eventDetails.location}`,
+      ticketType: tickets.map(ticket => ({
+        type: ticket.type,
+        quantity: ticket.quantity,
+        price: ticket.price
+      }))
+
+    }
+    console.log('orderData :',event);
+    try {
+      // 創建 Stripe 結帳會話
+      const stripeResponse = await axios.post('http://localhost:3000/riverflow/pay/create-event-checkout-session', event,
+        {
+          withCredentials: true // 確保發送 cookies
+        }
+      )
+
+      if (stripeResponse.data.url) {
+        // 如果成功，將用戶重定向到 Stripe 結帳 URL
+        window.location.href = stripeResponse.data.url
+      } else {
+        throw new Error('無法創建 Stripe 結帳會話')
+      }
+    } catch (error) {
+      console.error('處理訂單時發生錯誤:', error)
+      Swal.fire({
+        title: '錯誤',
+        text: '處理您的訂單時發生錯誤。請再試一次。',
+        icon: 'error',
+        confirmButtonColor: '#98d900',
+        timer: 3000,
+        timerProgressBar: true
+      })
+    }
   }
 
-  const isNextStepEnabled = contactName && contactEmail && contactPhone && ibonSelected && creditCardSelected
+  const isNextStepEnabled = contactName && contactEmail && contactPhone && (ibonSelected || creditCardSelected)
 
   return (
     <div className="framWrap container">
       <Header />
       <div className="header">
-        <img src="../../src/assets/images/indexImg/nav.jpg" alt="" />
+        <img src="/assets/images/indexImgnav.jpg" alt="" />  {/* 修正圖片路徑 */}
       </div>
 
       <div className="eventName">
@@ -156,7 +195,6 @@ const EventOrder = () => {
             </label>
           </div>
         </div>
-        
       </div>
 
       <div className="ticketChoose">
@@ -182,59 +220,59 @@ const EventOrder = () => {
       </div>
 
       <div className="ticketChoose">
-              <div className="ticketText">
-                <h3>購票明細</h3>
-              </div>
-              <div className="ticketDetail">
-                <div>
-                  <p></p>
-                </div>
-                <div className="contentTitle">
-                  <div>
-                    <span>票區</span>
-                  </div>
-                  <div>
-                    <span>票種</span>
-                  </div>
-                  <div>
-                    <span>金額</span>
-                  </div>
-                </div>
-                <div>
-                  <p></p>
-                </div>
-                {tickets.map((ticket, index) => (
-                  <React.Fragment key={index}>
-                    <div className="contentTitle">
-                      <div>
-                        <span>{ticket.area}</span>
-                      </div>
-                      <div>
-                        <span>{ticket.type}</span>
-                      </div>
-                      <div>
-                        <span>NT${ticket.price}</span>
-                      </div>
-                    </div>
-                    <div>
-                      <p></p>
-                    </div>
-                  </React.Fragment>
-                ))}
-                <div className="cost">
-                  <div></div>
-                  <div>
-                    <span>共</span>
-                    <span>{totalTickets}</span>
-                    <span>張</span>
-                  </div>
-                  <div>
-                    <span>合計</span>
-                    <span>NT${totalCost}</span>
-                  </div>
-                </div>
-              </div>
+        <div className="ticketText">
+          <h3>購票明細</h3>
+        </div>
+        <div className="ticketDetail">
+          <div>
+            <p></p>
+          </div>
+          <div className="contentTitle">
+            <div>
+              <span>票區</span>
             </div>
+            <div>
+              <span>票種</span>
+            </div>
+            <div>
+              <span>金額</span>
+            </div>
+          </div>
+          <div>
+            <p></p>
+          </div>
+          {tickets.map((ticket, index) => (
+            <React.Fragment key={index}>
+              <div className="contentTitle">
+                <div>
+                  <span>{ticket.area}</span>
+                </div>
+                <div>
+                  <span>{ticket.type}</span>
+                </div>
+                <div>
+                  <span>NT${ticket.price}</span>
+                </div>
+              </div>
+              <div>
+                <p></p>
+              </div>
+            </React.Fragment>
+          ))}
+          <div className="cost">
+            <div></div>
+            <div>
+              <span>共</span>
+              <span>{totalTickets}</span>
+              <span>張</span>
+            </div>
+            <div>
+              <span>合計</span>
+              <span>NT${totalCost}</span>
+            </div>
+          </div>
+        </div>
+      </div>
 
       <div className="nextBtn">
         <button className="nextStep" id="nextStep" disabled={!isNextStepEnabled} onClick={handleNextStep}>
