@@ -46,7 +46,7 @@ router.put('/product-orders/:orderId', adminController.updateProductOrderStatus)
 // 列表
 router.get('/news', adminController.getAllNews)
 // 搜尋
-router.get('/news/search', adminController.searchNews)
+router.get(`/news/search`, adminController.searchNews)
 // 詳細內容
 router.get('/news/:newsId', adminController.getNewsDetail)
 // 下架

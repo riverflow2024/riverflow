@@ -1,3 +1,4 @@
+// Author: zhier1114
 import React, { useReducer, useEffect, useCallback } from 'react'
 import axios from 'axios'
 import { Link, useMatch } from 'react-router-dom'
@@ -18,6 +19,8 @@ const reducer = (state, action) => {
       return { ...state, blogs: action.payload, loading: false }
     case 'SET_ERROR':
       return { ...state, error: action.payload, loading: false }
+    case 'SET_LOADING':
+      return { ...state, loading: action.payload }
     case 'UPDATE_BLOG':
       return {
         ...state,
@@ -41,8 +44,11 @@ const BlogList = () => {
   const { blogs, loading, error, currentPage, searchTerm, blogsPerPage } = state
 
   const fetchBlogs = useCallback(async () => {
+    console.log('Fetching blogs...')
+    dispatch({ type: 'SET_LOADING', payload: true })
     try {
       const response = await axios.get('http://localhost:3000/riverflow/admin/news')
+      console.log('Fetched blogs:', response.data)
       dispatch({ type: 'SET_BLOGS', payload: response.data })
     } catch (err) {
       console.error('獲取文章數據錯誤：', err)
@@ -70,10 +76,8 @@ const BlogList = () => {
   const reloadBlogItem = useCallback(async (blogId, newStatus) => {
     try {
       const response = await axios.get(`http://localhost:3000/riverflow/admin/news/${blogId}`)
-      dispatch({
-        type: 'UPDATE_BLOG',
-        payload: { ...response.data, newsStatus: newStatus, newsId: blogId }
-      })
+      console.log('Search results:', response.data)
+      dispatch({ type: 'UPDATE_BLOG', payload: response.data })
     } catch (err) {
       console.error('重新加載文章數據錯誤：', err)
     }
@@ -94,23 +98,38 @@ const BlogList = () => {
       .replace(/\//g, '-')
   }
 
-  const filteredBlogs = blogs.filter(
-    (blog) =>
-      blog.newsTitle &&
-      (blog.newsTitle.toLowerCase().includes(searchTerm.toLowerCase()) || blog.newsTitle.includes(searchTerm))
-  )
-
   const indexOfLastBlog = currentPage * blogsPerPage
   const indexOfFirstBlog = indexOfLastBlog - blogsPerPage
-  const currentBlogs = filteredBlogs.slice(indexOfFirstBlog, indexOfLastBlog)
-  const totalPages = Math.ceil(filteredBlogs.length / blogsPerPage)
+  const currentBlogs = blogs.slice(indexOfFirstBlog, indexOfLastBlog)
+  const totalPages = Math.ceil(blogs.length / blogsPerPage)
 
   const paginate = (pageNumber) => dispatch({ type: 'SET_CURRENT_PAGE', payload: pageNumber })
 
-  const handleSearch = (e) => {
-    e.preventDefault()
-    dispatch({ type: 'SET_SEARCH_TERM', payload: e.target.blogSearch.value })
-  }
+  const handleSearch = useCallback(
+    async (e) => {
+      e.preventDefault()
+      const keyword = e.target.blogSearch.value || ''
+      console.log('Searching with keyword:', keyword)
+      dispatch({ type: 'SET_SEARCH_TERM', payload: keyword })
+      dispatch({ type: 'SET_LOADING', payload: true })
+      try {
+        if (keyword === '' || undefined) {
+          await fetchBlogs()
+        } else {
+          const response = await axios.get(`http://localhost:3000/riverflow/admin/news/search?keyword=${keyword}`)
+          console.log('Search results:', response.data)
+          dispatch({ type: 'SET_BLOGS', payload: response.data })
+        }
+      } catch (err) {
+        console.error('搜尋文章錯誤：', err)
+        dispatch({ type: 'SET_ERROR', payload: '搜尋文章錯誤' })
+      } finally {
+        dispatch({ type: 'SET_LOADING', payload: false })
+      }
+    },
+    [fetchBlogs]
+  )
+  console.log('Current state:', state)
 
   if (loading) return <div>加載中...</div>
   if (error) return <div>{error}</div>
@@ -119,7 +138,7 @@ const BlogList = () => {
     <div className='main'>
       <div className='pageTitle'>文章列表</div>
       <div className='flex'>
-        <Link to='edit' className='divided'>
+        <Link to='create' className='divided'>
           <button className='btn'>新增文章</button>
         </Link>
         <form onSubmit={handleSearch} className='flex'>
@@ -127,6 +146,7 @@ const BlogList = () => {
           <input type='submit' value='搜尋' />
         </form>
       </div>
+
       <table className='listTable'>
         <thead>
           <tr>
@@ -138,15 +158,19 @@ const BlogList = () => {
             <td>操作</td>
           </tr>
         </thead>
-        <tbody>
-          {currentBlogs.map((blog) => (
-            <BlogItem
-              key={blog.newsId}
-              blog={{ ...blog, createdAt: formatDate(blog.createdAt) }}
-              onStatusChange={reloadBlogItem}
-            />
-          ))}
-        </tbody>
+        {blogs.length === 0 ? (
+          <div>沒有找到相關文章</div>
+        ) : (
+          <tbody>
+            {currentBlogs.map((blog) => (
+              <BlogItem
+                key={blog.newsId}
+                blog={{ ...blog, createdAt: formatDate(blog.createdAt) }}
+                onStatusChange={reloadBlogItem}
+              />
+            ))}
+          </tbody>
+        )}
       </table>
       <div className='pagination'>
         {Array.from({ length: totalPages }, (_, i) => (

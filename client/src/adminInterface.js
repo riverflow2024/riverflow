@@ -16,7 +16,7 @@ import AddEvent from './pages/adminPages/addEvent'
 import EventOrderList from './pages/adminPages/eventOrder'
 import EventOrderInfo from './pages/adminPages/eventOrderInfo'
 
-export default function AdminInterface () {
+export default function AdminInterface() {
   const match = useMatch('/admin/*')
 
   return (
@@ -28,7 +28,7 @@ export default function AdminInterface () {
         <Route path='prdOrderList' element={<PrdOrderList />} />
         <Route path='prdOrderList/edit' element={<PrdOrderInfo />} />
         <Route path='blogList' element={<BlogList />} />
-        <Route path='blogList/edit' element={<AddBlog />} />
+        <Route path='blogList/create' element={<AddBlog />} />
         <Route path='eventList' element={<EventList />} />
         <Route path='eventList/edit' element={<AddEvent />} />
         <Route path='eventOrderList' element={<EventOrderList />} />

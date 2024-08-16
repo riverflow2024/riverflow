@@ -38,14 +38,8 @@ exports.updateUserInfo = async (req, res) => {
 }
 
 // 更新會員照片
-const ensureDirectoryExists = (directory) => {
-  if (!fs.existsSync(directory)) {
-    fs.mkdirSync(directory, { recursive: true })
-  }
-}
 const projectRoot = path.join(__dirname, '..', '..')
 const uploadDirectory = path.join(projectRoot, 'client', 'src', 'assets', 'images', 'users')
-ensureDirectoryExists(uploadDirectory)
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, uploadDirectory)
