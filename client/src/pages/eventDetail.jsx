@@ -55,7 +55,7 @@ function EventDetail() {
   
   const handleBuyTicket = () => {
     if (event.seat === 0) {
-      navigate(`/Event/ConfirmNoseat/${event.eventId}`);
+      navigate(`/Event/ConfirmSeat/${event.eventId}`);
     } else if (event.seat === 1) {
       navigate(`/Event/ConfirmSeat/${event.eventId}`);
     } else {
