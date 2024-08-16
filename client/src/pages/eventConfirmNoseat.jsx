@@ -41,19 +41,16 @@ class EventConfirmNoseat extends Component {
 
         {/* 活動明細 */}
         <div className={styles.eventName}>
-          <div className={styles.eventImg}>
-            <img
-              src="https://res.cloudinary.com/shotgun/image/upload/ar_16:9,c_limit,f_auto,fl_lossy,q_auto,w_854/v1686313186/production/artworks/DJ_CONTEST_FINALE_1920x1080_zhvrs4"
-              alt=""
-            />
-          </div>
-          <div className={styles.eventTitle}>
-            <h1>星空下的電音狂歡 (DJ戶外派對)</h1>
-            <p>日期：8/3</p>
-            <p>時間： 20:00</p>
-            <p>場次地點：大佳河濱公園 台北市中山區濱江街5號</p>
-          </div>
+        <div className={styles.eventImg}>
+          <img src={eventData.eventImg} alt={eventData.eventName} />
         </div>
+        <div className={styles.eventTitle}>
+          <h1>{eventData.eventName}</h1>
+          <p>日期：{new Date(eventData.eventDate).toLocaleDateString()}</p>
+          <p>時間：{new Date(eventData.eventDate).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</p>
+          <p>場次地點：{eventData.location}</p>
+        </div>
+      </div>
 
         {/* 中間的線 */}
         <div className={styles.middleLine}>

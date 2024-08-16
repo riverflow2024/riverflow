@@ -2,13 +2,14 @@ import React, { useState, useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
 import '../assets/event/eventPage5.css'
 import Header from '../components/header'
+import Swal from 'sweetalert2'
 
 const EventOrder = () => {
-  const location = useLocation();
-  const [eventDetails, setEventDetails] = useState({});
-  const [tickets, setTickets] = useState([]);
-  const [totalTickets, setTotalTickets] = useState(0);
-  const [totalCost, setTotalCost] = useState(0);
+  const location = useLocation()
+  const [eventDetails, setEventDetails] = useState({})
+  const [tickets, setTickets] = useState([])
+  const [totalTickets, setTotalTickets] = useState(0)
+  const [totalCost, setTotalCost] = useState(0)
   const [contactName, setContactName] = useState('林小美')
   const [contactEmail, setContactEmail] = useState('abc12345@gmail.com')
   const [contactPhone, setContactPhone] = useState('0912333555')
@@ -28,7 +29,18 @@ const EventOrder = () => {
   const handleNextStep = (e) => {
     e.preventDefault()
     // 這裡應該添加訂單提交邏輯
-    alert('訂單完成，謝謝您的購買!')
+    Swal.fire({
+      title: '訂單完成',
+      icon: 'success',
+      confirmButtonColor: '#98d900',
+      timer: 3000,
+      timerProgressBar: true,
+      willClose: () => {
+        window.location.href = '/Member/Tickets'
+    }
+
+    })
+    
     // 跳轉頁面邏輯應該在這裡實現
   }
 
@@ -156,7 +168,6 @@ const EventOrder = () => {
             </label>
           </div>
         </div>
-        
       </div>
 
       <div className="ticketChoose">
@@ -182,59 +193,59 @@ const EventOrder = () => {
       </div>
 
       <div className="ticketChoose">
-              <div className="ticketText">
-                <h3>購票明細</h3>
-              </div>
-              <div className="ticketDetail">
-                <div>
-                  <p></p>
-                </div>
-                <div className="contentTitle">
-                  <div>
-                    <span>票區</span>
-                  </div>
-                  <div>
-                    <span>票種</span>
-                  </div>
-                  <div>
-                    <span>金額</span>
-                  </div>
-                </div>
-                <div>
-                  <p></p>
-                </div>
-                {tickets.map((ticket, index) => (
-                  <React.Fragment key={index}>
-                    <div className="contentTitle">
-                      <div>
-                        <span>{ticket.area}</span>
-                      </div>
-                      <div>
-                        <span>{ticket.type}</span>
-                      </div>
-                      <div>
-                        <span>NT${ticket.price}</span>
-                      </div>
-                    </div>
-                    <div>
-                      <p></p>
-                    </div>
-                  </React.Fragment>
-                ))}
-                <div className="cost">
-                  <div></div>
-                  <div>
-                    <span>共</span>
-                    <span>{totalTickets}</span>
-                    <span>張</span>
-                  </div>
-                  <div>
-                    <span>合計</span>
-                    <span>NT${totalCost}</span>
-                  </div>
-                </div>
-              </div>
+        <div className="ticketText">
+          <h3>購票明細</h3>
+        </div>
+        <div className="ticketDetail">
+          <div>
+            <p></p>
+          </div>
+          <div className="contentTitle">
+            <div>
+              <span>票區</span>
             </div>
+            <div>
+              <span>票種</span>
+            </div>
+            <div>
+              <span>金額</span>
+            </div>
+          </div>
+          <div>
+            <p></p>
+          </div>
+          {tickets.map((ticket, index) => (
+            <React.Fragment key={index}>
+              <div className="contentTitle">
+                <div>
+                  <span>{ticket.area}</span>
+                </div>
+                <div>
+                  <span>{ticket.type}</span>
+                </div>
+                <div>
+                  <span>NT${ticket.price}</span>
+                </div>
+              </div>
+              <div>
+                <p></p>
+              </div>
+            </React.Fragment>
+          ))}
+          <div className="cost">
+            <div></div>
+            <div>
+              <span>共</span>
+              <span>{totalTickets}</span>
+              <span>張</span>
+            </div>
+            <div>
+              <span>合計</span>
+              <span>NT${totalCost}</span>
+            </div>
+          </div>
+        </div>
+      </div>
 
       <div className="nextBtn">
         <button className="nextStep" id="nextStep" disabled={!isNextStepEnabled} onClick={handleNextStep}>

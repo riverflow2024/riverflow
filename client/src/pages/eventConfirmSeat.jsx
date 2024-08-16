@@ -7,6 +7,7 @@ import $ from 'jquery'
 import axios from 'axios'
 import Header from '../components/header'
 
+
 function EventConfirmSeat() {
   const [event, setEvent] = useState({
     eventId: 1,
