@@ -140,6 +140,7 @@ function EventConfirmSeat() {
         state: { 
           selectedTickets,
           eventDetails: {
+            eventId: event.eventId,
             eventName: event.eventName,
             eventDate: event.eventDate,
             location: event.location,

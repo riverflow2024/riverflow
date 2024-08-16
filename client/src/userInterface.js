@@ -36,7 +36,7 @@ import Cart from './pages/cart'
 import cartCheckOut from './pages/cartCheckOut'
 import cartConfirmation from './pages/cartConfirmation'
 import PaymentSuccess from './pages/success'
-// import Graffiti from './pages/graffiti'
+import Graffiti from './pages/graffiti'
 
 export default function UserInterface() {
   return (
@@ -62,7 +62,7 @@ export default function UserInterface() {
         <Route path="Event/ConfirmNoseat" element={<EventConfirmNoseat />} />
         <Route path="Event/ConfirmSeat/:id" element={<EventConfirmSeat />} />
         <Route path="Event/ConfirmInfo" element={<EventConfirmInfo />} />
-        {/* <Route path="Graffiti" element={<Graffiti />} /> */}
+        <Route path="Graffiti" element={<Graffiti />} />
         
 
         <Route path="Product/All" element={<ProductAll />} />
