@@ -20,7 +20,9 @@ const createCheckoutSession = async (req, res) => {
 //建立活動訂單
 const createEventCheckoutSession = async (req, res) => {
     try {
-        const event = req.body.event;
+        
+        const event = req.body;
+        console.log(typeof(event));
         console.log('活動訂單項目:', event);
 
         // 檢查票券庫存
@@ -28,7 +30,7 @@ const createEventCheckoutSession = async (req, res) => {
         if (!availabilityCheck.success) {
             return res.status(400).json({ error: availabilityCheck.message });
         }
-
+        console.log(event)
         const session = await stripeModel.createEventCheckoutSession(event);
         res.json({ url: session.url });
     } catch (e) {
@@ -43,6 +45,7 @@ const createEventCheckoutSession = async (req, res) => {
 const handleSuccessfulPayment = async (req, res) => {
     const sessionId = req.query.session_id;
     const userId = req.userId;
+    console.log('sessionId:', sessionId, 'userId:', userId);
 
     if (!sessionId || !userId) {
         return res.status(400).json({ error: '缺少必要參數' });

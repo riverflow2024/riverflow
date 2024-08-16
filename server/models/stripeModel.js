@@ -50,6 +50,7 @@ const createCheckoutSession = async (items) => {
 
 //新增活動付款Session
 const createEventCheckoutSession = async (event) => {
+    console.log('event',event)
     const session = await stripe.checkout.sessions.create({
         payment_method_types: ['card'],
         mode: 'payment',
@@ -127,7 +128,7 @@ const saveOrderDetails = async (sessionId, userId) => {
                 // 插入訂單表
                 const result = await query(
                     'INSERT INTO `order` (userId, totalPrice, orderStatus, shipMethod, convAddr, rcptName, rcptPhone, rcptAddr, payMethod, payTime, receiptType, receiptInfo, orderRemark, createdAt) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), ?, ?, ?, NOW())',
-                    [userId, totalPrice, 'processing', 'delivery', null, '測試', '0933444333', '某處', 'card', 'dupInvoice', 'Z1234567', '這是一個測試訂單']
+                    [userId, totalPrice, '付款成功', '7-11', null, '小美', '0933444333', '小美家', 'card', '手機載具', 'Z1234567', '備註']
                 );
                 const orderId = result.insertId;
                 console.log('插入訂單主表成功，orderId:', orderId);
@@ -246,13 +247,14 @@ const saveOrderDetails = async (sessionId, userId) => {
 //檢查票券庫存數量
 const checkTicketAvailability = async (event) => {
     try {
+        console.log()
         const [dbEvent] = await query(
             'SELECT ticketType FROM events WHERE eventId = ?',
             [event.eventId]
         );
 
         if (!dbEvent) {
-            return { success: false, message: '找不到該活動' };
+            return { success: false, message: '找不到該活動拉' };
         }
 
         const dbTicketTypes = JSON.parse(dbEvent.ticketType);

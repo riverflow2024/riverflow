@@ -21,21 +21,23 @@ const EventConfirmInfo = () => {
         if (location.state) {
           const { eventDetails, selectedTickets } = location.state;
           setEventDetails({
+            id: eventDetails.eventId,
             image: eventDetails.eventImg,
             title: eventDetails.eventName,
             date: new Date(eventDetails.eventDate).toLocaleDateString(),
             time: new Date(eventDetails.eventDate).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
             location: eventDetails.location
           });
-
+          console.log('selectedTickets : ',selectedTickets)
           const expandedTickets = selectedTickets.flatMap(ticket => 
             Array(ticket.quantity).fill().map(() => ({
+              quantity: ticket.quantity,
               area: ticket.area,
               type: ticket.type,
               price: ticket.price
             }))
           );
-
+          console.log('expandedTickets : ',expandedTickets)
           setTickets(expandedTickets);
         }
       }, [location]);
