@@ -50,6 +50,7 @@ const createCheckoutSession = async (items) => {
 
 //新增活動付款Session
 const createEventCheckoutSession = async (event) => {
+    console.log('event',event)
     const session = await stripe.checkout.sessions.create({
         payment_method_types: ['card'],
         mode: 'payment',
@@ -246,13 +247,14 @@ const saveOrderDetails = async (sessionId, userId) => {
 //檢查票券庫存數量
 const checkTicketAvailability = async (event) => {
     try {
+        console.log()
         const [dbEvent] = await query(
             'SELECT ticketType FROM events WHERE eventId = ?',
             [event.eventId]
         );
 
         if (!dbEvent) {
-            return { success: false, message: '找不到該活動' };
+            return { success: false, message: '找不到該活動拉' };
         }
 
         const dbTicketTypes = JSON.parse(dbEvent.ticketType);
