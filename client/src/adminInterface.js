@@ -10,6 +10,7 @@ import PrdOrderInfo from './pages/adminPages/prdOrderInfo'
 
 import BlogList from './pages/adminPages/blogList'
 import AddBlog from './pages/adminPages/addBlog'
+import EditBlog from './pages/adminPages/editBlog'
 
 import EventList from './pages/adminPages/eventList'
 import AddEvent from './pages/adminPages/addEvent'
@@ -17,7 +18,7 @@ import EventOrderList from './pages/adminPages/eventOrder'
 import EventOrderInfo from './pages/adminPages/eventOrderInfo'
 
 export default function AdminInterface() {
-  const match = useMatch('/admin/*')
+  useMatch('/admin/*')
 
   return (
     <div className='admin-page'>
@@ -29,6 +30,7 @@ export default function AdminInterface() {
         <Route path='prdOrderList/edit' element={<PrdOrderInfo />} />
         <Route path='blogList' element={<BlogList />} />
         <Route path='blogList/create' element={<AddBlog />} />
+        <Route path='blogList/edit/:id' element={<EditBlog />} />
         <Route path='eventList' element={<EventList />} />
         <Route path='eventList/edit' element={<AddEvent />} />
         <Route path='eventOrderList' element={<EventOrderList />} />

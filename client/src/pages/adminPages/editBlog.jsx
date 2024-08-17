@@ -1,7 +1,7 @@
-// AddBlog.jsx
+// editBlog.jsx
 // Author: zhier1114
 import React, { useState, useRef, useEffect, useCallback } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import debounce from 'lodash/debounce'
 // CKEditor套件
@@ -75,22 +75,72 @@ import 'ckeditor5/ckeditor5.css'
 import translations from 'ckeditor5/translations/zh.js'
 
 export default function AddBlog() {
+  const { id } = useParams()
   const navigate = useNavigate()
   const fileInputRef = useRef(null)
   // 儲存的資料格式
   const [formData, setFormData] = useState({
-    newsType: 'dj',
+    newsType: '',
     newsTitle: '',
-    coverImg: null,
+    coverImg: '',
     newsContent: '',
     newsAuthor: '',
-    newsStatus: 1
+    newsStatus: 1,
+    pubTime: ''
   })
 
+  const [isLoading, setIsLoading] = useState(true)
+  const [fileName, setFileName] = useState()
+
+  // 獲取資料數據
+  const fetchBlogData = useCallback(async () => {
+    setIsLoading(true)
+    try {
+      const response = await axios.get(`http://localhost:3000/riverflow/admin/news/${id}`)
+      const blogData = response.data[0]
+
+      // 處理時間格式
+      const formatDate = (dateString) => {
+        if (!dateString) return ''
+        const date = new Date(dateString)
+        const year = date.getFullYear()
+        const month = String(date.getMonth() + 1).padStart(2, '0')
+        const day = String(date.getDate()).padStart(2, '0')
+        const hours = String(date.getHours()).padStart(2, '0')
+        const minutes = String(date.getMinutes()).padStart(2, '0')
+        const seconds = String(date.getSeconds()).padStart(2, '0')
+        return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}`
+      }
+
+      const newFormData = {
+        newsType: blogData.newsType || '',
+        newsTitle: blogData.newsTitle || '',
+        coverImg: blogData.coverImg || '',
+        newsContent: blogData.newsContent || '',
+        newsAuthor: blogData.newsAuthor || '',
+        newsStatus: blogData.newsStatus || 1,
+        pubTime: blogData.pubTime ? formatDate(blogData.pubTime) : undefined
+      }
+
+      setFormData(newFormData)
+      setFileName(blogData.coverImg)
+    } catch (error) {
+      console.error('獲取數據時出錯:', error)
+    } finally {
+      setIsLoading(false)
+    }
+  }, [id])
+
+  useEffect(() => {
+    fetchBlogData()
+  }, [fetchBlogData])
+
   // 封面圖片處理
-  const [fileName, setFileName] = useState('未選擇任何檔案')
   const handleFileChange = (e) => {
+    console.log('開始處理封面圖片')
+
     const file = e.target.files[0]
+
     if (file) {
       setFileName(file.name)
       setFormData((prevState) => ({
@@ -100,22 +150,22 @@ export default function AddBlog() {
     }
   }
 
-  // 發布時間處理
-  const [minDateTime, setMinDateTime] = useState('')
-  useEffect(() => {
-    const now = new Date()
-    const offset = now.getTimezoneOffset()
-    now.setMinutes(now.getMinutes() - offset)
-    setMinDateTime(now.toISOString().slice(0, 16))
-  }, [])
+  // // 發布時間處理
+  // const [minDateTime, setMinDateTime] = useState('')
+  // useEffect(() => {
+  //   const now = new Date()
+  //   const offset = now.getTimezoneOffset()
+  //   now.setMinutes(now.getMinutes() - offset)
+  //   setMinDateTime(now.toISOString().slice(0, 16))
+  // }, [])
 
   // 輸入框處理
   const handleInputChange = (e) => {
     const { name, value } = e.target
-    setFormData((prevState) => ({
-      ...prevState,
-      [name]: value
-    }))
+    setFormData((prevState) => {
+      const newState = { ...prevState, [name]: value }
+      return newState
+    })
   }
 
   // CKEditor 相關設定
@@ -323,6 +373,7 @@ export default function AddBlog() {
   const editorRef = useRef(null)
   const [editor, setEditor] = useState(null)
   const [isLayoutReady, setIsLayoutReady] = useState(false)
+
   useEffect(() => {
     if (editor) {
       editor.model.document.on('change:data', () => {
@@ -332,6 +383,7 @@ export default function AddBlog() {
       })
     }
   }, [editor])
+
   useEffect(() => {
     setIsLayoutReady(true)
     return () => setIsLayoutReady(false)
@@ -424,38 +476,57 @@ export default function AddBlog() {
   const handleEditorChange = useCallback(
     (event, editor) => {
       const data = editor.getData()
-      setEditorContent(data)
-      setFormData((prevState) => ({
-        ...prevState,
-        newsContent: data
-      }))
+      setFormData((prevState) => {
+        const newState = { ...prevState, newsContent: data }
+        console.log('formData after editor change:', newState)
+        return newState
+      })
 
       debouncedCheckForImages(data)
     },
     [debouncedCheckForImages]
   )
 
-  // 送出資料儲存
+  // 送出資料更新
   const handleSubmit = async (e) => {
     e.preventDefault()
     const postData = new FormData()
-    for (const key in formData) {
-      postData.append(key, formData[key])
-    }
+
+    // for (const key in formData) {
+    //   if (key === 'coverImg' && !formData[key]) continue // 如果沒有新的封面圖片，不傳送
+    //   postData.append(key, formData[key])
+    // }
+    Object.keys(formData).forEach((key) => {
+      if (key === 'coverImg' && !formData[key]) {
+        if (formData[key] instanceof File) {
+          postData.append(key, formData[key])
+        }
+      } else if (key === 'pubTime') {
+        // 將本地時間轉換回 ISO 格式
+        const date = new Date(formData[key])
+        postData.append(key, date.toISOString())
+      } else {
+        postData.append(key, formData[key])
+      }
+    })
 
     try {
-      const response = await axios.post('http://localhost:3000/riverflow/admin/news/create', postData, {
+      const response = await axios.put(`http://localhost:3000/riverflow/admin/news/${id}`, postData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         },
-        maxContentLength: Infinity, // 不限制请求体大小
-        maxRedirects: 0 // 不允许重定向
+        maxContentLength: Infinity,
+        maxRedirects: 0
       })
-      console.log('部落格文章已創建:', response.data)
+      console.log('文章已更新:', response.data)
       navigate(-1)
     } catch (error) {
-      console.error('創建部落格文章時出錯:', error)
+      console.error('更新文章時出錯:', error)
     }
+  }
+
+  if (isLoading) {
+    return <div>加載中...</div>
   }
 
   return (
@@ -496,13 +567,14 @@ export default function AddBlog() {
                   id='coverImg'
                   name='coverImg'
                   type='file'
-                  required
                   accept='image/png, image/jpeg'
                   ref={fileInputRef}
                   onChange={handleFileChange}
                   style={{ display: 'none' }}
                 />
-                <span id='fileChosen'>{fileName}</span>
+                <span id='fileChosen' value={formData.coverImg}>
+                  {fileName}
+                </span>
               </div>
             </div>
             <div className='infoItem'>
@@ -545,6 +617,7 @@ export default function AddBlog() {
                           onReady={(editorInstance) => {
                             setEditor(editorInstance)
                           }}
+                          data={formData.newsContent}
                           onChange={handleEditorChange}
                         />
                       )}
@@ -562,7 +635,7 @@ export default function AddBlog() {
                 name='pubTime'
                 type='datetime-local'
                 onChange={handleInputChange}
-                min={minDateTime}
+                // min={minDateTime}
                 value={formData.pubTime}
                 step='1' // 這允許秒數的輸入
               />
@@ -574,7 +647,7 @@ export default function AddBlog() {
             <i className='fa-solid fa-angle-left' /> 返回
           </button>
           <button className='btn' type='submit'>
-            <i className='fa-solid fa-floppy-disk' /> 新增
+            <i className='fa-solid fa-floppy-disk' /> 更新
           </button>
         </div>
       </form>

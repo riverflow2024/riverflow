@@ -440,6 +440,32 @@ exports.launchNews = async (newsId) => {
     })
   })
 }
+// 編輯
+exports.updateNews = async (newsId, newsData) => {
+  const values = [
+    newsData.newsType,
+    newsData.newsTitle,
+    newsData.coverImg,
+    newsData.newsContent,
+    newsData.newsAuthor,
+    newsData.pubTime,
+    newsId
+  ]
+  return new Promise((resolve, reject) => {
+    db.query(
+      'UPDATE News SET newsType =?, newsTitle =?, coverImg =?, newsContent =?, newsAuthor =?, pubTime =? WHERE newsId =?',
+      values,
+      (error, results) => {
+        if (error) {
+          console.error('更新文章錯誤:', error)
+          reject(error)
+        } else {
+          resolve(results)
+        }
+      }
+    )
+  })
+}
 // 搜尋
 exports.searchNews = async (searchKeywords) => {
   return new Promise((resolve, reject) => {

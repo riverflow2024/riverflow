@@ -1,8 +1,12 @@
+// blogItem.jsx
 // Author: zhier1114
 import React, { useState, useEffect, useCallback } from 'react'
+import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 
-const BlogItem = ({ blog, onStatusChange }) => {
+const BlogItem = ({ blog, onStatusChange, handleDelete }) => {
+  const navigate = useNavigate()
+
   const [status, setStatus] = useState(blog.newsStatus)
   const [isUpdating, setIsUpdating] = useState(false)
 
@@ -15,7 +19,7 @@ const BlogItem = ({ blog, onStatusChange }) => {
       setIsUpdating(true)
       try {
         const endpoint = newStatus === 1 ? 'launch' : 'remove'
-        const response = await axios.put(`http://localhost:3000/riverflow/admin/news/${blog.newsId}/${endpoint}`)
+        await axios.put(`http://localhost:3000/riverflow/admin/news/${blog.newsId}/${endpoint}`)
         setStatus(newStatus)
         onStatusChange(blog.newsId, newStatus)
       } catch (error) {
@@ -30,6 +34,14 @@ const BlogItem = ({ blog, onStatusChange }) => {
   const removeStatus = () => updateStatus(0)
   const launchStatus = () => updateStatus(1)
 
+  const handleEdit = () => {
+    navigate(`/admin/blogList/edit/${blog.newsId}`)
+  }
+
+  const handleView = () => {
+    window.open(`http://localhost:3001/riverflow/news/${blog.newsId}`, '_blank')
+  }
+
   return (
     <tr className='item'>
       <td className='blogSort'>
@@ -41,18 +53,14 @@ const BlogItem = ({ blog, onStatusChange }) => {
       <td className='Status'>{status === 1 ? '上架' : '下架'}</td>
       <td className='itemOpt'>
         <div className='flex'>
-          <a href='addBlog.html'>
-            <button id='btnEdit' className='btn itemOpr inline-flex'>
-              <i className='fa-solid fa-pen' />
-              編輯
-            </button>
-          </a>
-          <a href='../../static/news_article.html' target='_blank'>
-            <button id='btnView' className='btn itemOpr inline-flex'>
-              <i className='fa-solid fa-eye' />
-              檢視
-            </button>
-          </a>
+          <button onClick={handleEdit} id='btnEdit' className='btn itemOpr inline-flex'>
+            <i className='fa-solid fa-pen' />
+            編輯
+          </button>
+          <button onClick={handleView} id='btnView' className='btn itemOpr inline-flex'>
+            <i className='fa-solid fa-eye' />
+            檢視
+          </button>
         </div>
         <div className='flex'>
           {status === 0 ? (
@@ -66,7 +74,7 @@ const BlogItem = ({ blog, onStatusChange }) => {
               {isUpdating ? '更新中...' : '下架'}
             </button>
           )}
-          <button className='btn itemOpr inline-flex'>
+          <button onClick={() => handleDelete(blog.newsId)} className='btn itemOpr inline-flex'>
             <i className='fa-solid fa-trash' />
             刪除
           </button>

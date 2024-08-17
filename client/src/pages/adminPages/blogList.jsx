@@ -1,8 +1,9 @@
+// blogList.jsx
 // Author: zhier1114
 import React, { useReducer, useEffect, useCallback } from 'react'
-import axios from 'axios'
-import { Link, useMatch } from 'react-router-dom'
+import { Link, useMatch, useNavigate } from 'react-router-dom'
 import BlogItem from '../../components/blogItem'
+import axios from 'axios'
 
 const initialState = {
   blogs: [],
@@ -28,6 +29,11 @@ const reducer = (state, action) => {
           blog.newsId === action.payload.newsId ? { ...blog, ...action.payload } : blog
         )
       }
+    case 'DELETE_BLOG':
+      return {
+        ...state,
+        blogs: state.blogs.filter((blog) => blog.newsId !== action.payload)
+      }
     case 'SET_SEARCH_TERM':
       return { ...state, searchTerm: action.payload, currentPage: 1 }
     case 'SET_CURRENT_PAGE':
@@ -39,6 +45,7 @@ const reducer = (state, action) => {
 
 const BlogList = () => {
   useMatch('/admin/blogList/*')
+  const navigate = useNavigate()
 
   const [state, dispatch] = useReducer(reducer, initialState)
   const { blogs, loading, error, currentPage, searchTerm, blogsPerPage } = state
@@ -80,6 +87,24 @@ const BlogList = () => {
       dispatch({ type: 'UPDATE_BLOG', payload: response.data })
     } catch (err) {
       console.error('重新加載文章數據錯誤：', err)
+    }
+  }, [])
+
+  const handleEdit = useCallback(
+    (blogId) => {
+      navigate(`/admin/blogList/edit/${blogId}`)
+    },
+    [navigate]
+  )
+
+  const handleDelete = useCallback(async (blogId) => {
+    if (window.confirm('確定要刪除這篇文章嗎？')) {
+      try {
+        await axios.delete(`http://localhost:3000/riverflow/admin/news/${blogId}`)
+        dispatch({ type: 'DELETE_BLOG', payload: blogId })
+      } catch (err) {
+        console.error('刪除文章錯誤：', err)
+      }
     }
   }, [])
 
@@ -167,6 +192,8 @@ const BlogList = () => {
                 key={blog.newsId}
                 blog={{ ...blog, createdAt: formatDate(blog.createdAt) }}
                 onStatusChange={reloadBlogItem}
+                handleEdit={handleEdit}
+                handleDelete={handleDelete}
               />
             ))}
           </tbody>
