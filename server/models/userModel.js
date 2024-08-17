@@ -211,13 +211,12 @@ exports.findUserEvents = async (userId) => {
     )
   })
 }
-// 'SELECT e.eventId, e.eventName, e.eventDate, e.eventTime, e.eventPrice, e.eventDesc, COUNT(t.ticketId) AS soldQuantity, e.maxTickets - COUNT(t.ticketId) AS remainingQuantity FROM Events AS e LEFT JOIN Tickets AS t ON e.eventId = t.eventId WHERE e.eventDate >= CURDATE() GROUP BY e.eventId'
 
 // 會員最愛商品
 exports.findFavorites = async (userId) => {
   return new Promise((resolve, reject) => {
     db.query(
-      `SELECT p.productName, p.productDesc, p.productPrice, pi.productImg FROM Users AS u 
+      `SELECT p.productId, p.productName, p.productDesc, p.productPrice, pi.productImg FROM Users AS u 
       JOIN ProductFavorite AS pf ON u.userId = pf.userId 
       JOIN Products AS p ON pf.productId = p.productId
       LEFT JOIN (
@@ -238,3 +237,17 @@ exports.findFavorites = async (userId) => {
 }
 
 exports.findFavoritesImg = async (userId) => {}
+
+// 移除最愛商品
+exports.deleteFavorite = async (userId, productId) => {
+  return new Promise((resolve, reject) => {
+    db.query('DELETE FROM ProductFavorite WHERE userId = ? AND productId = ?', [userId, productId], (error, result) => {
+      if (error) {
+        console.error('移除最愛商品失敗:', error)
+        reject(error)
+      } else {
+        resolve(result.affectedRows > 0)
+      }
+    })
+  })
+}

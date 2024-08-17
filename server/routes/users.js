@@ -19,5 +19,7 @@ router.get('/events', userController.getUserEvents)
 
 // 會員中心：我的最愛商品
 router.get('/favorites', userController.getFavorites)
+// 會員中心：刪除最愛商品
+router.delete('/favorites/:productId', userController.deleteFavorite)
 
 module.exports = router

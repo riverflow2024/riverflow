@@ -11,13 +11,14 @@ const { authenticateToken } = require('./middlewares/auth')
 const { adminAuthenticateToken } = require('./middlewares/adminAuth')
 app.use(express.static(path.join(__dirname, 'public')))
 app.use(cookieParser())
-app.use(bodyParser.json())
-app.use(express.urlencoded({ extended: true }))
-
-app.use(cors({
-  origin: `http://localhost:${process.env.CLIENT_PORT}`, // 使用反引号
-  credentials: true // 带凭证的请求
-}));
+app.use(bodyParser.json({ limit: '10mb' }))
+app.use(express.urlencoded({ limit: '10mb', extended: true }))
+app.use(
+  cors({
+    origin: 'http://localhost:3001',
+    credentials: true
+  })
+)
 
 // Routers
 
@@ -41,10 +42,10 @@ app.use('/riverflow/events', eventRoutes)
 app.use('/riverflow/pay', authenticateToken, stripeRoutes)
 app.use('/riverflow/cart', authenticateToken, cartRoutes)
 
-app.use('/riverflow/events/Tobuy',authenticateToken, stripeRoutes)
+// app.use('/riverflow/events/Tobuy', authenticateToken, stripeRoutes)
 // app.use('/riverflow/orders', orderRoutes)
 
 // backstage routes
-app.use('/riverflow/admin', adminAuthenticateToken, adminRoutes)
+app.use('/riverflow/admin', adminRoutes)
 
 module.exports = app
