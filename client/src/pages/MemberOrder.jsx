@@ -58,7 +58,7 @@ class MemberOrder extends Component {
     fetchUserData = async () => {
         try {
             const response = await axios.get('http://localhost:3000/riverflow/user', {
-                withCredentials: true // 确保请求带上 Cookie
+                withCredentials: true //保持 Cookie
             });
             console.log("Fetched user data:", response.data); // 打印返回的数据
             this.setState({
@@ -180,8 +180,9 @@ class MemberOrder extends Component {
 
         // 如果會員沒有照片就使用預設圖片
 
+        // 如果會員沒有照片就使用預設圖片
         const { userImg } = this.state.Users;
-        const imageSrc = userImg ? `/images/users/${userImg}` : defaultImg;
+        const imageSrc = userImg ?require(`../assets/images/users/${userImg}`)  : defaultImg;
 
         return (
 

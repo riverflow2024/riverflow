@@ -874,16 +874,19 @@
 }
 .Collection .order-box .tabcontent .order .Img-box {
   flex: 1;
+  padding: 10px;
 }
 .Collection .order-box .tabcontent .order .Img-box img {
   -o-object-fit: cover;
      object-fit: cover;
-  width: 220px;
-  height: 220px;
+  width: 200px;
+  height: 200px;
+  border-radius: 5px;
 }
 .Collection .order-box .tabcontent .order .container {
   flex: 2;
   display: flex;
+  gap: 20px;
   flex-direction: column;
 }
 .Collection .order-box .tabcontent .order .container .wrap:nth-of-type(2) {
@@ -894,10 +897,11 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1px 0px;
 }
 .Collection .order-box .tabcontent .order .container .wrap h3 {
   line-height: normal;
+  padding-top: 30px;
+  padding-right: 50px;
 }
 .Collection .order-box .tabcontent .order .container .wrap p {
   text-align: justify;

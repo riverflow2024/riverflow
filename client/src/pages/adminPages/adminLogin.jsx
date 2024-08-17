@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import axios from 'axios'
-import '../assets/login.css'
+// import '../assets/login.css'
 
 class AdminLogin extends Component {
   state = {

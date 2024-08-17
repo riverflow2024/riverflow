@@ -27,7 +27,7 @@ class MemberEdit extends Component {
         this.fetchUserData();
     }
 
-    // 將 UTC 日期轉換為本地日期
+    // 將會員生日 UTC 日期轉換為本地日期
     formatDate = (dateString) => {
         const date = new Date(dateString);
         const year = date.getFullYear();
@@ -36,6 +36,7 @@ class MemberEdit extends Component {
         return `${year}-${month}-${day}`;
     };
 
+    // 取得會員資料
     fetchUserData = async () => {
         try {
             const response = await axios.get('http://localhost:3000/riverflow/user', {
@@ -64,7 +65,7 @@ class MemberEdit extends Component {
     };
 
     //上傳大頭貼到前端顯示
-    handleUpload = async () => {
+    UploadImg = async () => {
         const { selectedFile } = this.state;
         if (!selectedFile) return;
 
@@ -72,7 +73,7 @@ class MemberEdit extends Component {
         formData.append('image', selectedFile);
 
         try {
-            const response = await axios.post('http://localhost:3000/riverflow/upload', formData, {
+            const response = await axios.post('http://localhost:3000/riverflow/user/update/img', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
@@ -94,18 +95,7 @@ class MemberEdit extends Component {
     };
 
     handleSave = async (e) => {
-        e.preventDefault(); // 防止表单自动提交
-
-        // 首先上傳大頭貼
-        const fileName = await this.handleUpload();
-        if (fileName) {
-            this.setState(prevState => ({
-                Users: {
-                    ...prevState.Users,
-                    userImg: fileName
-                }
-            }));
-        }
+       
         try {
             const { Users } = this.state;
             await axios.put('http://localhost:3000/riverflow/user/update', Users, {
@@ -121,9 +111,9 @@ class MemberEdit extends Component {
                 confirmButtonColor: "var(--main)",
                 confirmButtonText: "OK",
                 customClass: {
-                    title: 'custom-title',  // 自定义标题的 class
-                    htmlContainer: 'custom-text',  // 自定义内文的 class
-                    confirmButton: 'swal2-confirm' // 应用自定义按钮类
+                    title: 'custom-title',  // 自訂標題的class
+                    htmlContainer: 'custom-text',  // 自訂内文的 class
+                    confirmButton: 'swal2-confirm' // 按鈕class
                 },
             })
         } catch (error) {
@@ -153,9 +143,10 @@ class MemberEdit extends Component {
 
     render() {
         const { Users, phoneError } = this.state;
+
         // 如果會員沒有照片就使用預設圖片
         const { userImg } = this.state.Users;
-        const imageSrc = userImg ? `/images/users/${userImg}` : defaultImg;
+        const imageSrc = userImg ? require(`../assets/images/users/${userImg}`) : defaultImg;
 
         return (
             <div>
@@ -170,7 +161,7 @@ class MemberEdit extends Component {
                                     <img className="member-img img" src={imageSrc} alt="Profile" />
                                     <label className="prettier-input">
                                         <input type="file" onChange={this.handleFileChange} />
-                                        <div onClick={this.handleUpload}>
+                                        <div onClick={this.UploadImg}>
                                             上傳<br />大頭貼
                                         </div>
                                     </label>
@@ -197,11 +188,11 @@ class MemberEdit extends Component {
                             </div>
                             <div className="input-card">
                                 <label>您的姓氏</label><br />
-                                <input type="text" name="firstName" id="firstName" placeholder={Users.firstName} value={Users.firstName} />
+                                <input type="text" name="firstName" id="firstName" placeholder={Users.firstName} value={Users.firstName} onChange={this.handleInputChange} />
                             </div>
                             <div className="input-card">
                                 <label>您的名字</label><br />
-                                <input type="text" name="lastName" id="lastName" placeholder={Users.lastName} value={Users.lastName} />
+                                <input type="text" name="lastName" id="lastName" placeholder={Users.lastName} value={Users.lastName} onChange={this.handleInputChange} />
                             </div>
                             <div className="input-card">
                                 <label>聯絡電話</label><br />

@@ -21,7 +21,13 @@ class MemberCollection extends Component {
                 "productDesc": "描述",
                 "productPrice": 250,
                 "productImg": "../assets/images/products/product1_1.jpeg"
-              },
+            },
+        ],
+        Product: [
+            {
+                "productId": "",
+               
+            },
         ],
 
 
@@ -32,6 +38,7 @@ class MemberCollection extends Component {
     componentDidMount() {
         this.fetchUserData();
         this.fetchFavoritesData();
+        
 
     }
     // 取得會員資料
@@ -75,9 +82,27 @@ class MemberCollection extends Component {
 
 
     };
+    fetchProductData = async () => {
+        try {
+            const response = await axios.get('http://localhost:3000/riverflow/products/', {
+                withCredentials: true
+            });
+            console.log("Fetched order data:", response.data); // 打印返回的数据
+            this.setState({
+                Product: response.data
+            });
+        } catch (error) {
+            console.error("Error fetching order data:", error);
+            this.setState({
+                error: 'Failed to fetch order data.'
+            });
+        }
 
-     // 登出
-     Logout = async () => {
+
+    };
+
+    // 登出
+    Logout = async () => {
         try {
             await axios.get('http://localhost:3000/riverflow/user/logout', {
                 withCredentials: true // 确保请求带上 Cookie
@@ -100,9 +125,9 @@ class MemberCollection extends Component {
         if (error) {
             return <div>{error}</div>;
         }
-        // 如果會員沒有照片就使用預設圖片
-        const { userImg } = this.state.Users;
-        const imageSrc = userImg ? `/images/users/${userImg}` : defaultImg;
+      // 如果會員沒有照片就使用預設圖片
+      const { userImg } = this.state.Users;
+      const imageSrc = userImg ?require(`../assets/images/users/${userImg}`)  : defaultImg;
         return (
             <div>
                 <Header />
@@ -140,11 +165,11 @@ class MemberCollection extends Component {
                         </div>
 
                         <div id="Collection" class="tabcontent">
-                        {this.state.ProductFavorite.map((productItem, index) => (
+                            {this.state.ProductFavorite.map((productItem, index) => (
                                 <div class="order" key={index}>
 
                                     <div class="Img-box">
-                                        <img src={require(`${productItem.productImg}`)} alt="" />
+                                        <img src={`${process.env.PUBLIC_URL}${productItem.productImg}`} alt="" />
                                     </div>
                                     <div class="container">
                                         <div class="wrap">
@@ -155,8 +180,8 @@ class MemberCollection extends Component {
                                             <p>{productItem.productDesc}</p>
                                         </div>
                                         <div class="wrap">
-                                            <span>金額  NT. $880</span>
-                                            <button class="orderbtn">加入購物車</button>
+                                            <span>NT${productItem.productPrice}</span>
+                                            <button class="orderbtn" onClick={() => this.goProduct()}>前往商品頁</button>
                                         </div>
                                     </div>
 
@@ -219,6 +244,11 @@ class MemberCollection extends Component {
     goOrder = async () => {
         window.location = "/Member/Order";
     }
+
+    //  前往商品頁
+    goProduct = (productId) => {
+        window.location = `/Product/Detail/${productId}`;
+    };
 
 
 
