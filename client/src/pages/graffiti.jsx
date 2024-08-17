@@ -7,6 +7,11 @@ import graffiti1 from '../assets/images/Graffiti/graffiti1.jpeg'
 import graffiti3 from '../assets/images/Graffiti/graffiti3.png'
 import graffiti4 from '../assets/images/Graffiti/graffiti4.jpeg'
 import graffiti5 from '../assets/images/Graffiti/graffiti5.png'
+import graffiti6 from '../assets/images/Graffiti/graffiti6.jpeg'
+import Paste1 from '../assets/images/Graffiti/Paste1.png'
+import Paste2 from '../assets/images/Graffiti/Paste2.png'
+import Paste3 from '../assets/images/Graffiti/Paste3.png'
+import Paste4 from '../assets/images/Graffiti/Paste4.png'
 
 const Graffiti = () => {
   return (
@@ -89,10 +94,10 @@ const Graffiti = () => {
             </div>
           </div>
           
-          <img className="paste1" src="/assets/images/Graffiti/Paste1.png" alt="" />
-          <img className="paste2" src="/assets/images/Graffiti/Paste2.png" alt="" />
-          <img className="paste3" src="/assets/images/Graffiti/Paste3.png" alt="" />
-          <img className="paste4" src="/assets/images/Graffiti/Paste4.png" alt="" />
+          <img className="paste1" src={Paste1} alt="" />
+          <img className="paste2" src={Paste2} alt="" />
+          <img className="paste3" src={Paste3} alt="" />
+          <img className="paste4" src={Paste4} alt="" />
           
           <div className="graffitiContent3">
             <div>
@@ -101,7 +106,7 @@ const Graffiti = () => {
                 從事街頭塗鴉的藝術家被稱為寫手（writer），寫手們會為自己取一個專屬的簽名符號（tag，類似在塗鴉圈中使用的藝名），不公開自己的真實姓名或露臉，主要是為了保護身份並避開法律責任。大部分的寫手在塗鴉時會戴上面罩，則是為了防止吸入噴漆影響身體健康。
               </p>
             </div>
-            <img src="/assets/images/Graffiti/graffiti6.jpeg" alt="" />
+            <img src={graffiti6} alt="" />
           </div>
         </div>
 
