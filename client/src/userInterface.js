@@ -59,7 +59,7 @@ export default function UserInterface() {
         <Route path="Event/Order" element={<EventOrder />} />
         <Route path="Event/Index" element={<EventIndex />} />
         <Route path="Event/Detail/:id" element={<EventDetail />} />
-        <Route path="Event/ConfirmNoseat" element={<EventConfirmNoseat />} />
+        <Route path="Event/ConfirmNoseat/:id" element={<EventConfirmNoseat />} />
         <Route path="Event/ConfirmSeat/:id" element={<EventConfirmSeat />} />
         <Route path="Event/ConfirmInfo" element={<EventConfirmInfo />} />
         <Route path="Graffiti" element={<Graffiti />} />
@@ -73,7 +73,7 @@ export default function UserInterface() {
         <Route path="Order/cartConfirmation" element={<cartConfirmation />} />
         <Route path="Order/PaymentSuccess" element={<PaymentSuccess />} />
       </Routes>
-      <Footer />
+      
     </div>
   )
 }

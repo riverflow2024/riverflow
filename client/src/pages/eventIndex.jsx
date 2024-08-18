@@ -10,6 +10,7 @@ import 'swiper/css/navigation'
 import 'swiper/css/pagination'
 import 'swiper/css/scrollbar'
 import Header from '../components/header'
+import Footer from '../components/footer'
 import axios from 'axios'
 
 import yitaiImg from '../assets/images/events/event-yitai.jpg'
@@ -135,9 +136,7 @@ const EventIndex = () => {
     <div className='w-bg scrollCust'>
       <Header />
       <div className='wrap container'>
-        <div className='header'>
-          <img src='../../src/assets/images/indexImg/nav.jpg' alt='' />
-        </div>
+        
 
         <div className='carousel'>
           <EventSwiper />
@@ -196,9 +195,9 @@ const EventIndex = () => {
                   data-category={event.category || event.eventType}
                 >
                   <Link to={`/Event/Detail/${event.eventId}`}>
-                    <img src={event.image || event.eventImg} alt={event.title || event.eventName} />
-                    <p>{event.title || event.eventName}</p>
-                    <p>{event.date || new Date(event.eventDate).toLocaleDateString()}</p>
+                    <img src={`/images/events/${event.eventImg}`} alt={event.title || event.eventName} />
+                    <p>{ event.eventName}</p>
+                    <p>{ new Date(event.eventDate).toLocaleDateString()}</p>
                   </Link>
                 </div>
               ))}
@@ -209,6 +208,7 @@ const EventIndex = () => {
           </div>
         </div>
       </div>
+      <Footer/>
     </div>
   )
 }

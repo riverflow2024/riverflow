@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import '../../src/assets/basic.css';
 import '../../src/assets/event/eventPage4.css';
 import Header from '../components/header'
+import Footer from '../components/footer'
 
 const EventConfirmInfo = () => {
   const location = useLocation();
@@ -26,7 +27,8 @@ const EventConfirmInfo = () => {
             title: eventDetails.eventName,
             date: new Date(eventDetails.eventDate).toLocaleDateString(),
             time: new Date(eventDetails.eventDate).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-            location: eventDetails.location
+            location: eventDetails.location,
+            seat: eventDetails.eventSeat
           });
           console.log('selectedTickets : ',selectedTickets)
           const expandedTickets = selectedTickets.flatMap(ticket => 
@@ -122,10 +124,10 @@ const EventConfirmInfo = () => {
                   <React.Fragment key={index}>
                     <div className="contentTitle">
                       <div>
-                        <span>{ticket.area}</span>
+                        <span>{eventDetails.seat !== 0 ? ticket.type : ''}</span>
                       </div>
                       <div>
-                        <span>{ticket.type}</span>
+                        <span>{eventDetails.seat !== 0 ? ticket.area : ticket.type}</span>
                       </div>
                       <div>
                         <span>NT${ticket.price}</span>
@@ -155,6 +157,7 @@ const EventConfirmInfo = () => {
             <button onClick={handleNextStep}>下一步</button>
             </div>
           </div>
+          <Footer/>
         </div>
       );
     };

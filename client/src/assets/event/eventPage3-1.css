@@ -120,10 +120,18 @@
     grid-template-columns: 2fr 1fr 1fr;
     text-align: center;
     margin: 1.5rem 0rem;
+    align-items: center;
 }
 .ticketMan p,
+.ticketMan span,
 .ticketSpec p{
-    font-size: 1.3rem;
+    font-size: 24px;
+}
+.ticketMan>div span:nth-child(2),
+.ticketMan>div span:nth-child(3){
+    font-size: 16px;
+    color: red;
+    font-weight: bold;
 }
 
 .ticketNumber {
@@ -148,7 +156,7 @@
     color: var(--main);
 }
 
-.ticketMiddle p {
+.ticketMiddle>p {
     border-bottom: 0.75px solid var(--main);
     margin-left: 2rem;
     margin-right: 2rem;
@@ -159,12 +167,7 @@
 }
 
 /* 下一步按鍵 */
-.ticketBtn {
-    margin-top: 3rem;
-    text-align: right;
-    font-size: 1.3rem;
-    margin-bottom: 10rem;
-}
+
 
 .ticketBtn a {
     border: 0.75px solid var(--main);

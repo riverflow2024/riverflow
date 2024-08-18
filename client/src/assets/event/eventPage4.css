@@ -117,7 +117,9 @@
 .ticketDetail div:nth-child(1) p,
 .ticketDetail div:nth-child(3) p,
 .ticketDetail div:nth-child(5) p,
-.ticketDetail div:nth-child(7) p {
+.ticketDetail div:nth-child(7) p, 
+.ticketDetail div:nth-child(9) p, 
+.ticketDetail div:nth-child(11) p {
     border-bottom: 0.75px solid var(--main);
     margin: 0rem 2rem;
 }

@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import '../assets/event/eventPage5.css'  // 修正 CSS 文件的路徑
-import Header from '../components/header'  // 修正 Header 組件的路徑
+import Header from '../components/header' 
+import Footer from '../components/footer'
 import Swal from 'sweetalert2'
 import axios from 'axios'
+
+
 
 const EventOrder = () => {
   const location = useLocation()
@@ -17,6 +20,7 @@ const EventOrder = () => {
   const [contactPhone, setContactPhone] = useState('0912333555')
   const [ibonSelected, setIbonSelected] = useState(false)
   const [creditCardSelected, setCreditCardSelected] = useState(false)
+  const [otherMethodSelected, setOtherMethodSelected] = useState(false);
 
   useEffect(() => {
     if (location.state) {
@@ -74,8 +78,10 @@ const EventOrder = () => {
   const isNextStepEnabled = contactName && contactEmail && contactPhone && (ibonSelected || creditCardSelected)
 
   return (
+    <div className="w-bg scrollCust">
+    <Header />
     <div className="framWrap container">
-      <Header />
+      
       <div className="header">
         <img src="/assets/images/indexImgnav.jpg" alt="" />  {/* 修正圖片路徑 */}
       </div>
@@ -179,22 +185,43 @@ const EventOrder = () => {
           <h3>取票方式</h3>
         </div>
         <div className="ticketTake">
-          <div className="takeTitle">
-            <label htmlFor="fee">
-              <input
-                type="radio"
-                name="fee"
-                id="fee"
-                checked={ibonSelected}
-                onChange={() => setIbonSelected(!ibonSelected)}
-              />
-              <div>
-                <p>ibon</p>
-                <p>取票時，酌收30元手續費</p>
-              </div>
-            </label>
-          </div>
+    <div className="takeTitle">
+      <label htmlFor="fee-ibon">
+        <input
+          type="radio"
+          name="fee"
+          id="fee-ibon"
+          checked={ibonSelected}
+          onChange={() => {
+            setIbonSelected(true);
+            setOtherMethodSelected(false);
+          }}
+        />
+        <div>
+          <p>ibon</p>
+          <p>取票時，酌收30元手續費</p>
         </div>
+      </label>
+    </div>
+    <div className="takeTitle">
+      <label htmlFor="fee-other">
+        <input
+          type="radio"
+          name="fee"
+          id="fee-other"
+          checked={otherMethodSelected}
+          onChange={() => {
+            setOtherMethodSelected(true);
+            setIbonSelected(false);
+          }}
+        />
+        <div>
+          <p>現場取票</p>
+          <p>依照現場情況，排隊取票</p>
+        </div>
+      </label>
+    </div>
+  </div>
       </div>
 
       <div className="ticketChoose">
@@ -245,10 +272,10 @@ const EventOrder = () => {
             <React.Fragment key={index}>
               <div className="contentTitle">
                 <div>
-                  <span>{ticket.area}</span>
+                  <span>{eventDetails.seat !== 0 ? ticket.type : ''}</span>
                 </div>
                 <div>
-                  <span>{ticket.type}</span>
+                  <span>{eventDetails.seat !== 0 ? ticket.area : ticket.type}</span>
                 </div>
                 <div>
                   <span>NT${ticket.price}</span>
@@ -279,6 +306,8 @@ const EventOrder = () => {
           下一步
         </button>
       </div>
+    </div>
+    <Footer/>
     </div>
   )
 }

@@ -1,5 +1,5 @@
 import React from 'react';
-// import '../assets/graffiti.css'
+import '../assets/graffiti.css'
 import graffitiVdo from '../assets/images/Graffiti/Postcard from Bulgaria _ Friends On Foreign Soil.mov'
 import graffitiIndex from '../assets/images/Graffiti/graffitiIndex.png'
 import graffiti0 from '../assets/images/Graffiti/graffiti0.png'
@@ -12,10 +12,13 @@ import Paste1 from '../assets/images/Graffiti/Paste1.png'
 import Paste2 from '../assets/images/Graffiti/Paste2.png'
 import Paste3 from '../assets/images/Graffiti/Paste3.png'
 import Paste4 from '../assets/images/Graffiti/Paste4.png'
+import Header from '../components/header'
+import Footer from '../components/footer'
 
 const Graffiti = () => {
   return (
-    <>
+    <div className="outer">
+      <Header/>
       <section>
         <div className="section__content">
           <svg>
@@ -110,9 +113,9 @@ const Graffiti = () => {
           </div>
         </div>
 
-        
+        <Footer />
       </section>
-    </>
+    </div>
   );
 };
 
