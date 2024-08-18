@@ -1,14 +1,17 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import $ from 'jquery'
-// import 'jquery-ui/ui/widgets/tabs'
+import 'jquery-ui/ui/widgets/tabs'
+import MultiSelectDropdown from '../../components/MultiSelectDropdown'
 
 export default function AddPrd() {
   const navigate = useNavigate()
+  const [selectedOptions, setSelectedOptions] = useState([])
   const [specItems, setSpecItems] = useState([{ id: 1, title: '', isInitial: true }])
   const [tableItems, setTableItems] = useState([{ id: 1, name: '', stock: 0, isInitial: true }])
   const [isDisChecked, setIsDisChecked] = useState(false)
 
+  // tab
   $(function () {
     $('.tabs').tabs()
     $('.tabBtn').on('click', function () {
@@ -18,17 +21,19 @@ export default function AddPrd() {
     })
   })
 
-  // 圖片上傳
+  // 圖片上傳抓取檔名
   $('#prdPic').on('change', function () {
     // console.log($(this).prop('files'))
     $('#fileChosen').text($(this).prop('files')[0].name)
   })
 
+  // 抓取規格名稱
   $(document).on('input', '.specTitle', function () {
     let itemId = $(this).parent('.specItem').attr('spec-id')
     $(`#specName${itemId}`).text($(this).val())
   })
 
+  // 新增規格
   const addItem = () => {
     const newItemId = specItems.length + 1
     setSpecItems([
@@ -48,6 +53,16 @@ export default function AddPrd() {
         isInitial: false
       }
     ])
+  }
+
+  // 分類選項
+  const handleChange = (selected) => {
+    setSelectedOptions(selected)
+  }
+
+  const handleSubmit = () => {
+    const selectedCategories = selectedOptions.map(option => option.value)
+    console.log('選擇的分類:', selectedCategories)
   }
 
   // 表單測試
@@ -103,22 +118,26 @@ export default function AddPrd() {
                 <span id="fileChosen">未選擇任何檔案</span>
               </div>
             </div>
-            <div className="infoItem">
-              <label htmlFor="prdSort" className="editTitle">
+            <MultiSelectDropdown
+              selectedOptions={selectedOptions}
+              onChange={handleChange}
+            />
+            {/* <div className='infoItem'>
+              <label htmlFor='prdSort' className='editTitle'>
                 商品分類：
               </label>
-              <select name="sort" id="prdSort">
-                <option value="dj">刷碟 Disc Jockey</option>
-                <option value="graffiti">塗鴉 Graffiti</option>
-                <option value="rap">饒舌 Rap</option>
-                <option value="streetDance">街舞 Street Dance</option>
-                <option value="skate">滑板 Skate</option>
-                <option value="new">新上市 New</option>
-                <option value="discount">優惠 Discount</option>
+              <select name='sort' id='prdSort'>
+                <option value='dj'>DJ</option>
+                <option value='graffiti'>塗鴉</option>
+                <option value='rap'>饒舌</option>
+                <option value='streetDance'>街舞</option>
+                <option value='skate'>滑板</option>
+                <option value='new'>新上市</option>
+                <option value='discount'>優惠</option>
               </select>
-            </div>
-            <div className="infoItem">
-              <label htmlFor="prdPrice" className="editTitle">
+            </div> */}
+            <div className='infoItem'>
+              <label htmlFor='prdPrice' className='editTitle'>
                 商品售價：
               </label>
               <div className="itemPrice">
@@ -163,7 +182,6 @@ export default function AddPrd() {
                     <i className="bi bi-plus-circle"> </i>
                   </button>
                 </div>{' '}
-                */}
                 {specItems.map((item, index) => (
                   <div key={item.id} className="specItem" spec-id={item.id}>
                     <label htmlFor={`prdSpec${item.id}`}>規格{item.id}名稱：</label>
@@ -272,8 +290,8 @@ export default function AddPrd() {
               <i className="fa-solid fa-angle-left" /> 返回
             </button>
           </a>
-          <button className="btn" type="submit">
-            <i className="fa-solid fa-floppy-disk" /> 儲存
+          <button onClick={handleSubmit} className='btn'>
+            <i className='fa-solid fa-floppy-disk' /> 儲存
           </button>
         </div>
       </form>
