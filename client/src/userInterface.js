@@ -55,7 +55,7 @@ export default function UserInterface() {
         <Route path="News/Article/:id" element={<NewsArticle />} />
 
         <Route path="Login/Index" element={<Login />} />
-        <Route path="Login/Verify" element={<LoginVerify />} />
+        <Route path="Login/Verify/reset-password/:token" element={<LoginVerify />} />
         <Route path="Login/Register" element={<LoginRegister />} />
         <Route path="Login/Password" element={<LoginPassword />} />
 
