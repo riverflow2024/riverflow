@@ -26,7 +26,7 @@ export default function LeftCol() {
                 </NavLink>
               </li>
               <li>
-                <NavLink to='prdOrder' className='menuPage'>
+                <NavLink to='prdOrderList' className='menuPage'>
                   商品訂單
                 </NavLink>
               </li>

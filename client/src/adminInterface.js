@@ -27,7 +27,7 @@ export default function AdminInterface() {
         <Route path='prdList' element={<PrdList />} />
         <Route path='prdList/create' element={<AddPrd />} />
         <Route path='prdOrderList' element={<PrdOrderList />} />
-        <Route path='prdOrderList/edit' element={<PrdOrderInfo />} />
+        <Route path='prdOrderList/edit/:id' element={<PrdOrderInfo />} />
         <Route path='blogList' element={<BlogList />} />
         <Route path='blogList/create' element={<AddBlog />} />
         <Route path='blogList/edit/:id' element={<EditBlog />} />

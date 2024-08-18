@@ -46,8 +46,6 @@ export default function EventOrderList() {
       if (searchTerm === '' || searchTerm === undefined) {
         await fetchEventOrders()
       } else {
-        console.log('searchTerm:', searchTerm)
-
         const response = await axios.get(
           `http://localhost:3000/riverflow/admin/event-orders/search?keyword=${searchTerm}`
         )

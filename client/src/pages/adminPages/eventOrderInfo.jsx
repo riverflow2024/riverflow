@@ -1,7 +1,7 @@
+// Author: zhier1114
 import React, { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import axios from 'axios'
-import { event } from 'jquery'
 
 export default function EventOrderInfo() {
   const { id } = useParams()

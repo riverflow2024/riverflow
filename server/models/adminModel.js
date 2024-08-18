@@ -319,7 +319,7 @@ exports.getAllProductOrders = async () => {
 exports.getProductOrderDetail = async (orderId) => {
   return new Promise((resolve, reject) => {
     db.query(
-      'SELECT o.createdAt, CONCAT(u.firstName, "", u.lastName) AS rcptName, u.sex, u.email, u.phone, o.totalPrice, o.payMethod, o.orderStatus, o.receiptType, o.receiptInfo, o.rcptName, o.rcptPhone, o.rcptAddr, o.shipMethod, o.convAddr, o.orderRemark, o.backRemark, o.orderStatus FROM `Order` AS o, Users AS u WHERE o.orderId = 1 AND o.userId = u.userId',
+      'SELECT o.createdAt, CONCAT(u.firstName, "", u.lastName) AS userName, u.sex, u.email, u.phone, o.totalPrice, o.payMethod, o.orderStatus, o.receiptType, o.receiptInfo, o.rcptName, o.rcptPhone, o.rcptAddr, o.shipMethod, o.convAddr, o.orderRemark, o.backRemark, o.orderStatus FROM `Order` AS o LEFT JOIN Users AS u ON o.userId = u.userId WHERE o.orderId = ?',
       [orderId],
       (error, results) => {
         if (error) {
@@ -369,9 +369,10 @@ exports.updateProductOrderStatus = async (orderId, orderStatus, backRemark) => {
 // 搜尋
 exports.searchProductOrders = async (searchKeywords) => {
   return new Promise((resolve, reject) => {
-    const query = 'SELECT * FROM `Order` AS o WHERE o.rcptName LIKE ? OR o.rcptPhone LIKE ?'
+    const query =
+      "SELECT o.orderId, CONCAT(u.firstName, ' ', u.lastName) AS rcptName , o.rcptPhone, o.totalPrice, o.payMethod, o.orderStatus FROM `Order` AS o LEFT JOIN Users AS u ON o.userId = u.userId WHERE u.firstName LIKE ? OR u.lastName LIKE ? OR o.rcptPhone LIKE ? OR o.orderId LIKE ?"
     const searchPattern = `%${searchKeywords}%`
-    const values = [searchPattern, searchPattern]
+    const values = [searchPattern, searchPattern, searchPattern, searchPattern]
     db.query(query, values, (err, result) => {
       if (err) {
         console.error('商品訂單搜尋錯誤:', err)
