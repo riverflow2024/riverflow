@@ -4,6 +4,7 @@ import axios from 'axios'
 import '../assets/event/eventPage2.css'
 import '../utils/eventDetail.js'
 import Header from '../components/header'
+import Footer from '../components/footer'
 
 function EventDetail() {
   const { id } = useParams();
@@ -27,7 +28,7 @@ function EventDetail() {
     launchDate: '2024-07-25T12:00:00.000Z',
     launchStatus: 1,
     saleDate: '2024-08-07T07:00:00.000Z',
-    eventImg: '/images/events/event-yitai.jpg',
+    eventImg: 'event-yitai.jpg',
     eventAnoc: '若信用卡刷卡付款失敗，會將刷卡失敗的訂單，陸續轉為【ATM虛擬帳號付款】，屆時請依的訂單顯示之「銀行帳號」、「銀行代碼」於「匯款期限」內完成付款，系統將以款項實際入帳時間為準，請於繳費後一小時至我的訂單確認，若訂單付款狀態顯示為「待繳費」，須等待銀行回傳付款狀態；若逾期未付款，系統收到銀行回傳付款狀態後將自動取消該筆訂單並顯示「付款失敗」，各家銀行轉帳入帳時間不同，請盡早繳款以保障您的權益。'
   });
   const [loading, setLoading] = useState(true);
@@ -55,7 +56,7 @@ function EventDetail() {
   
   const handleBuyTicket = () => {
     if (event.seat === 0) {
-      navigate(`/Event/ConfirmSeat/${event.eventId}`);
+      navigate(`/Event/ConfirmNoseat/${event.eventId}`);
     } else if (event.seat === 1) {
       navigate(`/Event/ConfirmSeat/${event.eventId}`);
     } else {
@@ -79,7 +80,7 @@ function EventDetail() {
 
           {/* <!-- 活動詳細頁面-首圖 --> */}
           <div class="headerImage">
-            <img src={event.eventImg} alt={event.eventName} />
+            <img src={`/images/events/${event.eventImg}`} alt={event.eventName} />
           </div>
           {/* <!-- 活動詳細頁面-標題 --> */}
           <div class="detailEventTitle">
@@ -135,7 +136,7 @@ function EventDetail() {
           <div class="eventIntroduce" id="eventIntroduce">
             <p>活動介紹</p>
             <div class="introduceImage">
-              <img src={event.eventImg} alt={event.eventName} />
+              <img src={`/images/events/${event.eventImg}`} alt={event.eventName} />
             </div>
             <p>活動簡介</p>
             <p>{event.eventDesc}</p>
@@ -271,41 +272,7 @@ function EventDetail() {
         <br />
         <br />
         <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
+        <Footer/>
       </div>
     )
   

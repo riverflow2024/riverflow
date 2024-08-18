@@ -1,158 +1,236 @@
-import React from 'react'
-import { useNavigate } from 'react-router-dom'
-import $ from 'jquery'
-import 'jquery-ui/ui/widgets/tabs'
+// Author: zhier1114
+import React, { useState, useEffect } from 'react'
+import { useParams, useNavigate } from 'react-router-dom'
+import axios from 'axios'
 
-export default function PrdOrderInfo () {
+export default function PrdOrderInfo() {
+  const { id } = useParams()
   const navigate = useNavigate()
-
-  $(function () {
-    $('.tabs').tabs()
-    $('.tabBtn').on('click', function () {
-      // console.log(this)
-      $('.tabBtn').removeClass('active')
-      $(this).addClass('active')
-    })
+  const [formData, setFormData] = useState({
+    createdAt: '',
+    userName: '',
+    sex: '',
+    email: '',
+    phone: '',
+    totalPrice: 0,
+    payMethod: '',
+    orderStatus: '',
+    receiptType: '',
+    receiptInfo: '',
+    rcptName: '',
+    rcptPhone: '',
+    rcptAddr: null,
+    shipMethod: '',
+    convAddr: '',
+    orderRemark: '',
+    backRemark: '',
+    options: []
   })
 
+  const fetchProductOrderDetails = async () => {
+    try {
+      const response = await axios.get(`http://localhost:3000/riverflow/admin/product-orders/${id}`)
+      const productOrderData = response.data[0]
+
+      const formatDate = (dateString) => {
+        if (!dateString) return ''
+        const date = new Date(dateString)
+        return date.toLocaleString('zh-TW', {
+          year: 'numeric',
+          month: '2-digit',
+          day: '2-digit',
+          hour: '2-digit',
+          minute: '2-digit',
+          second: '2-digit'
+        })
+      }
+
+      setFormData({
+        ...productOrderData,
+        createdAt: formatDate(productOrderData.createdAt),
+        backRemark: productOrderData.backRemark || ''
+      })
+    } catch (error) {
+      console.error('獲取活動訂單詳細內容失敗：', error)
+    }
+  }
+
+  useEffect(() => {
+    fetchProductOrderDetails()
+  }, [id])
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value
+    }))
+  }
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    try {
+      await axios.put(`http://localhost:3000/riverflow/admin/product-orders/${id}`, formData)
+      alert('訂單已成功更新')
+      navigate(-1)
+    } catch (error) {
+      console.error('更新訂單失敗：', error)
+      alert('更新訂單失敗，請稍後再試')
+    }
+  }
+
   return (
-    <div class='main'>
-      <div class='pageTitle'>購物訂單詳細</div>
-      <div class='tabs'>
-        <ul class='tabBtnList'>
+    <div className='main'>
+      <div className='pageTitle'>購物訂單詳細</div>
+      <div className='tabs'>
+        <ul className='tabBtnList'>
           <li>
-            <a href='#orderDetail' id='defaultOpen' class='tabBtn active'>
+            <a href='#orderDetail' id='defaultOpen' className='tabBtn active'>
               訂單詳細資訊
             </a>
           </li>
         </ul>
 
         {/* <!-- tabContent 商品資訊--> */}
-        <div id='orderDetail' class='tabContent'>
-          <form action='' class='prdOrderForm'>
-            <div class='orderInfoList flex'>
-              <div class='details'>
-                <div class='orderItem'>
+        <div id='orderDetail' className='tabContent'>
+          <form onSubmit={handleSubmit} className='prdOrderForm'>
+            <div className='orderInfoList flex'>
+              <div className='details'>
+                <div className='orderItem'>
                   <div>訂單成立時間：</div>
-                  <div id='orderTime' class='orderItemInfo'>
-                    2024.07.14 23:02
+                  <div id='orderTime' className='orderItemInfo'>
+                    {formData.createdAt}
                   </div>
                 </div>
-                <div class='orderItemList flex'>
-                  <div class='orderItem half'>
+                <div className='orderItemList flex'>
+                  <div className='orderItem half'>
                     <div>訂購人名稱：</div>
-                    <div id='orderUserName' class='orderItemInfo'>
-                      王大明
+                    <div id='orderUserName' className='orderItemInfo'>
+                      {formData.userName}
                     </div>
                   </div>
-                  <div class='orderItem half'>
+                  <div className='orderItem half'>
                     <div>訂購人性別：</div>
-                    <div id='orderUserGender' class='orderItemInfo'>
-                      男
+                    <div id='orderUserGender' className='orderItemInfo'>
+                      {formData.sex}
                     </div>
                   </div>
                 </div>
-                <div class='orderItem'>
+                <div className='orderItem'>
                   <div>訂購人e-mail：</div>
-                  <div id='orderUserEmail' class='orderItemInfo'>
-                    wangdaming@test.com
+                  <div id='orderUserEmail' className='orderItemInfo'>
+                    {formData.email}
                   </div>
                 </div>
-                <div class='orderItem'>
+                <div className='orderItem'>
                   <div>訂購人電話：</div>
-                  <div id='orderUserPhone' class='orderItemInfo'>
-                    0900-100100
+                  <div id='orderUserPhone' className='orderItemInfo'>
+                    {formData.phone}
                   </div>
                 </div>
-                <div class='orderItem'>
-                  <div>購買票券：</div>
-                  <div class='orderItemInfo flex'>
-                    <div id='orderPrdName'>藝術家聯名T恤【白】</div>
-                    <div>
-                      x <span id='orderPrdNum'>1</span>
-                    </div>
+                <div className='orderItem'>
+                  <div>購買商品：</div>
+                  <div className='orderItemInfo'>
+                    {formData.options.map((option, index) => (
+                      <div key={index} className='productItem'>
+                        {option}
+                      </div>
+                    ))}
                   </div>
                 </div>
-                <div class='orderItem'>
+                <div className='orderItem'>
                   <div>訂單金額：</div>
-                  <div class='orderItemInfo flex'>
+                  <div className='orderItemInfo flex'>
                     <span>NT$</span>
-                    <span id='orderSumPrice'>2260</span>
+                    <span id='orderSumPrice'>{formData.totalPrice}</span>
                   </div>
                 </div>
-                <div class='orderItem'>
+                <div className='orderItem'>
                   <div>付款方式：</div>
-                  <div id='orderPayment' class='orderItemInfo'>
-                    線上付款
+                  <div id='orderPayment' className='orderItemInfo'>
+                    {formData.payMethod}
                   </div>
                 </div>
-                <div class='orderItem'>
+                <div className='orderItem'>
                   <div>付款狀態：</div>
-                  <div id='orderPaymentStatus' class='orderItemInfo'>
+                  <div id='orderPaymentStatus' className='orderItemInfo'>
                     付款成功
                   </div>
                 </div>
-                <div class='orderItem'>
+                <div className='orderItem'>
                   <div>電子發票：</div>
-                  <div id='orderReceipt' class='orderItemInfo'>
-                    手機載具
+                  <div id='orderReceipt' className='orderItemInfo'>
+                    {formData.receiptType}
                   </div>
-                  <div id='carrier' class='orderItemInfo'>
-                    /SVSVSVS
+                  <div id='carrier' className='orderItemInfo'>
+                    {formData.receiptType !== 'dupInvoice' || 'carrier' ? '無' : formData.receiptInfo}
                   </div>
                 </div>
               </div>
-              <div class='details'>
-                <div class='orderItem'>
+              <div className='details'>
+                <div className='orderItem'>
                   <div>收件人姓名</div>
-                  <div id='orderRecipient' class='orderItemInfo'>
-                    王小明
+                  <div id='orderRecipient' className='orderItemInfo'>
+                    {formData.rcptName}
                   </div>
                 </div>
-                <div class='orderItem'>
+                <div className='orderItem'>
                   <div>收件人手機</div>
-                  <div id='orderRecipientPhone' class='orderItemInfo'>
-                    0900-100101
+                  <div id='orderRecipientPhone' className='orderItemInfo'>
+                    {formData.rcptPhone}
                   </div>
                 </div>
-                <div class='orderItemList flex'>
-                  <div class='orderItem half'>
+                <div className='orderItemList flex'>
+                  <div className='orderItem half'>
                     <div>收件人取貨方式：</div>
-                    <div id='orderShipment' class='orderItemInfo'>
-                      7-11取貨
-                    </div>{' '}
+                    <div id='orderShipment' className='orderItemInfo'>
+                      {formData.shipMethod}
+                    </div>
                   </div>
-                  <div class='orderItem half'>
+                  <div className='orderItem half'>
                     <div>收件人取貨店鋪：</div>
-                    <div id='orderShipmentShop' class='orderItemInfo'>
-                      273813/昌進門市
-                    </div>{' '}
+                    <div id='orderShipmentShop' className='orderItemInfo'>
+                      {formData.shipMethod === 'delivery' ? '無' : formData.convAddr}
+                    </div>
                   </div>
                 </div>
-                <div class='orderItem'>
-                  <div>收件人手機</div>
-                  <div id='orderShipmentAddress' class='orderItemInfo'>
-                    台中市南屯區大進街387號1樓
+                <div className='orderItem'>
+                  <div>收件人地址</div>
+                  <div id='orderShipmentAddress' className='orderItemInfo'>
+                    {formData.shipMethod !== 'delivery' ? '無' : formData.rcptAddr}
                   </div>
                 </div>
-                <div class='orderItem'>
+                <div className='orderItem'>
                   <div>訂單備註</div>
-                  <div id='orderUserNote' class='orderItemInfo infoArea'>
-                    我想要那ㄍ酷東西謝謝:）））
+                  <div id='orderUserNote' className='orderItemInfo infoArea'>
+                    {formData.orderRemark}
                   </div>
                 </div>
-                <div class='orderItem'>
-                  <label for='orderSellerNote'>賣家備註：</label>
-                  <textarea name='orderSellerNote' id='orderSellerNote' class='note' placeholder='輸入備註事項'> </textarea>
+                <div className='orderItem'>
+                  <label>賣家備註：</label>
+                  <textarea
+                    name='backRemark'
+                    onChange={handleInputChange}
+                    value={formData.backRemark}
+                    id='orderSellerNote'
+                    className='note'
+                    placeholder='輸入備註事項'
+                  ></textarea>
                 </div>
-                <div class='orderItem'>
-                  <label for='prdOrderStatus'>訂單狀態：</label>
-                  <select name='prdOrderStatus' id='prdOrderStatus' class='statusEdit'>
-                    <option value='processing'>處理中</option>
-                    <option value='shipped'>已出貨</option>
+                <div className='orderItem'>
+                  <label>訂單狀態：</label>
+                  <select
+                    name='orderStatus'
+                    id='prdOrderStatus'
+                    value={formData.orderStatus}
+                    onChange={handleInputChange}
+                    className='statusEdit'
+                  >
+                    {/* <option value='processing'>處理中</option> */}
+                    {/* <option value='shipped'>已出貨</option> */}
                     <option value='completed'>已完成</option>
                     <option value='cancelled'>已取消</option>
-                    <option value='refunded'>已退款</option>
+                    {/* <option value='refunded'>已退款</option> */}
                   </select>
                 </div>
               </div>
@@ -160,12 +238,12 @@ export default function PrdOrderInfo () {
           </form>
         </div>
       </div>
-      <div class='btnList flex'>
+      <div className='btnList flex'>
         <button className='btn' onClick={() => navigate(-1)}>
-          <i class='fa-solid fa-angle-left' /> 返回
+          <i className='fa-solid fa-angle-left' /> 返回
         </button>
-        <button class='btn' type='submit'>
-          <i class='fa-solid fa-floppy-disk' /> 儲存
+        <button onClick={handleSubmit} className='btn' type='submit'>
+          <i className='fa-solid fa-floppy-disk' /> 儲存
         </button>
       </div>
     </div>

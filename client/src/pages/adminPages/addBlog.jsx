@@ -1,8 +1,9 @@
 // Author: zhier1114
-import React, { useState, useRef, useEffect } from 'react'
-import axios from 'axios'
+import React, { useState, useRef, useEffect, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
-
+import axios from 'axios'
+import debounce from 'lodash/debounce'
+// CKEditor套件
 import { CKEditor } from '@ckeditor/ckeditor5-react'
 import {
   ClassicEditor,
@@ -29,6 +30,7 @@ import {
   Highlight,
   HorizontalLine,
   HtmlEmbed,
+  Image,
   ImageBlock,
   ImageCaption,
   ImageInline,
@@ -68,69 +70,55 @@ import {
   Underline,
   Undo
 } from 'ckeditor5'
-import translations from 'ckeditor5/translations/zh.js'
 import 'ckeditor5/ckeditor5.css'
-
-// 自定義上傳適配器
-class MyUploadAdapter {
-  constructor(loader) {
-    this.loader = loader
-    console.log('MyUploadAdapter initialized')
-  }
-
-  upload() {
-    console.log('Upload initiated') // 日誌：開始上傳
-
-    return this.loader.file.then((file) => {
-      console.log('File selected for upload:', file)
-
-      const formData = new FormData()
-      formData.append('upload', file)
-
-      return axios
-        .post('http://localhost:3000/riverflow/admin/news/imgUpload', formData, {
-          headers: {
-            'Content-Type': 'multipart/form-data'
-          },
-          maxContentLength: Infinity, // 不限制请求体大小
-          maxRedirects: 0 // 不允许重定向
-        })
-        .then((response) => {
-          console.log('圖片上傳完成')
-          return {
-            default: response.data.url
-          }
-        })
-        .catch((error) => {
-          console.error('圖片上傳失敗:', error)
-          throw error
-        })
-    })
-  }
-}
-
-function MyCustomUploadAdapterPlugin(editor) {
-  console.log('Initializing MyCustomUploadAdapterPlugin')
-
-  editor.plugins.get('FileRepository').createUploadAdapter = (loader) => {
-    console.log('Creating upload adapter')
-    return new MyUploadAdapter(loader)
-  }
-  editor.plugins.get('FileRepository').on('fileAdded', (file) => {
-    console.log('File added to repository:', file) // 日誌：文件已添加到文件庫
-  })
-}
+import translations from 'ckeditor5/translations/zh.js'
 
 export default function AddBlog() {
-  const editorContainerRef = useRef(null)
-  const editorRef = useRef(null)
-  const [isLayoutReady, setIsLayoutReady] = useState(false)
+  const navigate = useNavigate()
+  const fileInputRef = useRef(null)
+  // 儲存的資料格式
+  const [formData, setFormData] = useState({
+    newsType: 'dj',
+    newsTitle: '',
+    coverImg: null,
+    newsContent: '',
+    newsAuthor: '',
+    newsStatus: 1
+  })
 
+  // 封面圖片處理
+  const [fileName, setFileName] = useState('未選擇任何檔案')
+  const handleFileChange = (e) => {
+    const file = e.target.files[0]
+    if (file) {
+      setFileName(file.name)
+      setFormData((prevState) => ({
+        ...prevState,
+        coverImg: file
+      }))
+    }
+  }
+
+  // 發布時間處理
+  const [minDateTime, setMinDateTime] = useState('')
   useEffect(() => {
-    setIsLayoutReady(true)
-    return () => setIsLayoutReady(false)
+    const now = new Date()
+    const offset = now.getTimezoneOffset()
+    now.setMinutes(now.getMinutes() - offset)
+    setMinDateTime(now.toISOString().slice(0, 16))
   }, [])
 
+  // 輸入框處理
+  const handleInputChange = (e) => {
+    const { name, value } = e.target
+    setFormData((prevState) => ({
+      ...prevState,
+      [name]: value
+    }))
+  }
+
+  // CKEditor 相關設定
+  const MAX_FILE_SIZE = 10 * 1024 * 1024 // 10MB
   const editorConfig = {
     toolbar: {
       items: [
@@ -189,6 +177,7 @@ export default function AddBlog() {
       Highlight,
       HorizontalLine,
       HtmlEmbed,
+      Image,
       ImageBlock,
       ImageCaption,
       ImageInline,
@@ -228,7 +217,6 @@ export default function AddBlog() {
       Underline,
       Undo
     ],
-    extraPlugins: [MyCustomUploadAdapterPlugin],
     balloonToolbar: ['bold', 'italic', '|', 'link', 'insertImage', '|', 'bulletedList', 'numberedList'],
     fontFamily: {
       supportAllValues: true
@@ -283,6 +271,9 @@ export default function AddBlog() {
       ]
     },
     image: {
+      upload: {
+        types: ['jpeg', 'png', 'gif', 'bmp', 'webp', 'tiff']
+      },
       toolbar: [
         'toggleImageCaption',
         'imageTextAlternative',
@@ -294,8 +285,8 @@ export default function AddBlog() {
         'resizeImage'
       ]
     },
-    initialData:
-      '<h2>Congratulations on setting up CKEditor 5! </h2>\n<p>\n    You\'ve successfully created a CKEditor 5 project. This powerful text editor will enhance your application, enabling rich text editing\n    capabilities that are customizable and easy to use.\n</p>\n<h3>What\'s next?</h3>\n<ol>\n    <li>\n        <strong>Integrate into your app</strong>: time to bring the editing into your application. Take the code you created and add to your\n        application.\n    </li>\n    <li>\n        <strong>Explore features:</strong> Experiment with different plugins and toolbar options to discover what works best for your needs.\n    </li>\n    <li>\n        <strong>Customize your editor:</strong> Tailor the editor\'s configuration to match your application\'s style and requirements. Or even\n        write your plugin!\n    </li>\n</ol>\n<p>\n    Keep experimenting, and don\'t hesitate to push the boundaries of what you can achieve with CKEditor 5. Your feedback is invaluable to us\n    as we strive to improve and evolve. Happy editing!\n</p>\n<h3>Helpful resources</h3>\n<ul>\n    <li><a href="https://orders.ckeditor.com/trial/premium-features">Trial sign up</a>,</li>\n    <li><a href="https://ckeditor.com/docs/ckeditor5/latest/installation/index.html">Documentation</a>,</li>\n    <li><a href="https://github.com/ckeditor/ckeditor5">GitHub</a> (star us if you can!),</li>\n    <li><a href="https://ckeditor.com">CKEditor Homepage</a>,</li>\n    <li><a href="https://ckeditor.com/ckeditor-5/demo/">CKEditor 5 Demos</a>,</li>\n</ul>\n<h3>Need help?</h3>\n<p>\n    See this text, but the editor is not starting up? Check the browser\'s console for clues and guidance. It may be related to an incorrect\n    license key if you use premium features or another feature-related requirement. If you cannot make it work, file a GitHub issue, and we\n    will help as soon as possible!\n</p>\n',
+    // initialData:
+    //   '<h2>Congratulations on setting up CKEditor 5! </h2>\n<p>\n    You\'ve successfully created a CKEditor 5 project. This powerful text editor will enhance your application, enabling rich text editing\n    capabilities that are customizable and easy to use.\n</p>\n<h3>What\'s next?</h3>\n<ol>\n    <li>\n        <strong>Integrate into your app</strong>: time to bring the editing into your application. Take the code you created and add to your\n        application.\n    </li>\n    <li>\n        <strong>Explore features:</strong> Experiment with different plugins and toolbar options to discover what works best for your needs.\n    </li>\n    <li>\n        <strong>Customize your editor:</strong> Tailor the editor\'s configuration to match your application\'s style and requirements. Or even\n        write your plugin!\n    </li>\n</ol>\n<p>\n    Keep experimenting, and don\'t hesitate to push the boundaries of what you can achieve with CKEditor 5. Your feedback is invaluable to us\n    as we strive to improve and evolve. Happy editing!\n</p>\n<h3>Helpful resources</h3>\n<ul>\n    <li><a href="https://orders.ckeditor.com/trial/premium-features">Trial sign up</a>,</li>\n    <li><a href="https://ckeditor.com/docs/ckeditor5/latest/installation/index.html">Documentation</a>,</li>\n    <li><a href="https://github.com/ckeditor/ckeditor5">GitHub</a> (star us if you can!),</li>\n    <li><a href="https://ckeditor.com">CKEditor Homepage</a>,</li>\n    <li><a href="https://ckeditor.com/ckeditor-5/demo/">CKEditor 5 Demos</a>,</li>\n</ul>\n<h3>Need help?</h3>\n<p>\n    See this text, but the editor is not starting up? Check the browser\'s console for clues and guidance. It may be related to an incorrect\n    license key if you use premium features or another feature-related requirement. If you cannot make it work, file a GitHub issue, and we\n    will help as soon as possible!\n</p>\n',
     language: 'zh',
     link: {
       addTargetToExternalLinks: true,
@@ -326,57 +317,124 @@ export default function AddBlog() {
     },
     translations: [translations]
   }
-
-  const navigate = useNavigate()
-  const fileInputRef = useRef(null)
-  const [formData, setFormData] = useState({
-    newsType: 'dj',
-    newsTitle: '',
-    coverImg: null,
-    newsContent: '',
-    newsAuthor: '',
-    newsStatus: 1
-  })
-
-  const [minDateTime, setMinDateTime] = useState('')
-  const [fileName, setFileName] = useState('未選擇任何檔案')
-  const [editorContent, setEditorContent] = useState('')
-
+  // 編輯器開啟
+  const editorContainerRef = useRef(null)
+  const editorRef = useRef(null)
+  const [editor, setEditor] = useState(null)
+  const [isLayoutReady, setIsLayoutReady] = useState(false)
   useEffect(() => {
-    const now = new Date()
-    const offset = now.getTimezoneOffset()
-    now.setMinutes(now.getMinutes() - offset)
-    setMinDateTime(now.toISOString().slice(0, 16))
+    if (editor) {
+      editor.model.document.on('change:data', () => {
+        console.log('編輯器內容已更改')
+        const data = editor.getData()
+        checkForImages(data)
+      })
+    }
+  }, [editor])
+  useEffect(() => {
+    setIsLayoutReady(true)
+    return () => setIsLayoutReady(false)
   }, [])
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target
-    setFormData((prevState) => ({
-      ...prevState,
-      [name]: value
-    }))
+  // 圖片處理
+  const uploadingImages = useRef(new Map())
+  const uploadImage = useCallback(
+    async (base64String) => {
+      if (uploadingImages.current.get(base64String)) return
+
+      uploadingImages.current.set(base64String, true)
+
+      try {
+        const base64Data = base64String.split(',')[1]
+        const blob = b64toBlob(base64Data)
+
+        if (blob.size > MAX_FILE_SIZE) {
+          throw new Error('檔案大小超過 10MB 限制')
+        }
+
+        const formData = new FormData()
+        formData.append('upload', blob, 'image.jpg')
+
+        const uploadResponse = await axios.post('http://localhost:3000/riverflow/admin/news/imgUpload', formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          },
+          maxContentLength: Infinity,
+          maxRedirects: 0
+        })
+
+        console.log('圖片上傳成功:', uploadResponse.data.url)
+
+        if (editor) {
+          const newContent = editor.getData().replace(base64String, uploadResponse.data.url)
+          editor.setData(newContent)
+        }
+      } catch (error) {
+        console.error('圖片上傳失敗:', error.message)
+        if (error.message === '檔案大小超過 10MB 限制') {
+          alert('圖片大小超過 10MB，無法上傳。請選擇較小的圖片。')
+          // 從編輯器中移除超過大小限制的圖片
+          if (editor) {
+            const newContent = editor.getData().replace(`<img src="${base64String}">`, '')
+            editor.setData(newContent)
+          }
+        }
+      } finally {
+        uploadingImages.current.delete(base64String)
+      }
+    },
+    [editor]
+  )
+  const checkForImages = useCallback(
+    (content) => {
+      const parser = new DOMParser()
+      const doc = parser.parseFromString(content, 'text/html')
+      const images = doc.getElementsByTagName('img')
+
+      Array.from(images).forEach((img) => {
+        if (img.src.startsWith('data:image') && !uploadingImages.current.has(img.src)) {
+          uploadImage(img.src)
+        }
+      })
+    },
+    [uploadImage]
+  )
+  // base64轉blob
+  function b64toBlob(b64Data, contentType = 'image/jpeg', sliceSize = 512) {
+    const byteCharacters = atob(b64Data)
+    const byteArrays = []
+
+    for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+      const slice = byteCharacters.slice(offset, offset + sliceSize)
+      const byteNumbers = new Array(slice.length)
+      for (let i = 0; i < slice.length; i++) {
+        byteNumbers[i] = slice.charCodeAt(i)
+      }
+      const byteArray = new Uint8Array(byteNumbers)
+      byteArrays.push(byteArray)
+    }
+
+    return new Blob(byteArrays, { type: contentType })
   }
 
-  const handleFileChange = (e) => {
-    const file = e.target.files[0]
-    if (file) {
-      setFileName(file.name)
+  // 內容改變偵測
+  const [editorContent, setEditorContent] = useState('')
+  const debouncedCheckForImages = useCallback(debounce(checkForImages, 300), [checkForImages])
+  const handleEditorChange = useCallback(
+    (event, editor) => {
+      const data = editor.getData()
+      setEditorContent(data)
       setFormData((prevState) => ({
         ...prevState,
-        coverImg: file
+        newsContent: data
       }))
-    }
-  }
 
-  const handleEditorChange = (event, editor) => {
-    const data = editor.getData()
-    setEditorContent(data)
-    setFormData((prevState) => ({
-      ...prevState,
-      newsContent: data
-    }))
-  }
+      debouncedCheckForImages(data)
+    },
+    [debouncedCheckForImages]
+  )
 
+  // 送出資料儲存
   const handleSubmit = async (e) => {
     e.preventDefault()
     const postData = new FormData()
@@ -483,8 +541,8 @@ export default function AddBlog() {
                         <CKEditor
                           editor={ClassicEditor}
                           config={editorConfig}
-                          onReady={(editor) => {
-                            console.log('CKEditor is ready') // 日誌：CKEditor 就緒
+                          onReady={(editorInstance) => {
+                            setEditor(editorInstance)
                           }}
                           onChange={handleEditorChange}
                         />

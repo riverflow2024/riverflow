@@ -22,16 +22,16 @@ const sendVerificationEmail = async (email, token) => {
   const mailOptions = {
     from: process.env.EMAIL_USER,
     to: email,
-    subject: 'riverFlow：驗證帳號',
+    subject: 'RiverFlow：驗證帳號',
     text: `親愛的用戶，您好：
 
 請複製並在瀏覽器中打開以下連結以驗證您的帳號:
 ${verificationUrl}
 
-如果您沒有註冊 riverFlow 帳號，請忽略此郵件。
+如果您沒有註冊 RiverFlow 帳號，請忽略此郵件。
 
 祝您使用愉快！
-riverFlow 團隊`,
+RiverFlow 團隊`,
     html: `
     <html>
       <head>
@@ -46,8 +46,8 @@ riverFlow 團隊`,
         <a href="${verificationUrl}" class="button" style="color: white;">驗證帳號</a>
         <p>或複製並在瀏覽器中打開以下連結：</p>
         <p>${verificationUrl}</p>
-        <p>如果您沒有註冊 riverFlow 帳號，請忽略此郵件。</p>
-        <p>祝您使用愉快！<br>riverFlow 團隊</p>
+        <p>如果您沒有註冊 RiverFlow 帳號，請忽略此郵件。</p>
+        <p>祝您使用愉快！<br>RiverFlow 團隊</p>
       </body>
     </html>
     `
@@ -199,16 +199,16 @@ exports.requestPasswordReset = async (req, res) => {
     const mailOptions = {
       from: process.env.EMAIL_USER,
       to: email,
-      subject: 'riverFlow：修改密碼',
+      subject: 'RiverFlow：修改密碼',
       text: `親愛的用戶，您好：
   
   請複製並在瀏覽器中打開以下連結以前往密碼修改頁面:
   ${resetUrl}
   如果您沒有請求重置密碼，請忽略此郵件，您的密碼將保持不變。此連結將在1小時後失效。
-  如果您沒有註冊 riverFlow 帳號，請忽略此郵件。
+  如果您沒有註冊 RiverFlow 帳號，請忽略此郵件。
   
   祝您使用愉快！
-  riverFlow 團隊`,
+  RiverFlow 團隊`,
       html: `
       <html>
         <head>
@@ -226,8 +226,8 @@ exports.requestPasswordReset = async (req, res) => {
 
                   <p>如果您沒有請求重置密碼，請忽略此郵件，您的密碼將保持不變。</p>
         <p>此連結將在1小時後失效。</p>
-          <p>如果您沒有註冊 riverFlow 帳號，請忽略此郵件。</p>
-          <p>祝您使用愉快！<br>riverFlow 團隊</p>
+          <p>如果您沒有註冊 RiverFlow 帳號，請忽略此郵件。</p>
+          <p>祝您使用愉快！<br>RiverFlow 團隊</p>
         </body>
       </html>
       `

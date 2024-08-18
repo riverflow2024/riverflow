@@ -1,165 +1,265 @@
 import React, { Component } from 'react';
 import '../assets/news.css';
+import axios from 'axios';
+import Header from '../components/header';
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
+
+// 這是是因為orderId所加的程式碼
+
+function withRouter(Component) {
+    return function (props) {
+        const params = useParams(); // 获取当前路由的 params
+        const navigate = useNavigate(); // 获取 navigate 函数
+        const location = useLocation(); // 获取当前 location 对象
+        return <Component {...props} params={params} navigate={navigate} location={location} />;
+    };
+}
 
 
+const NewsCard = ({ newsId, image, type, date, title, description, isGreen, goArticle }) => {
+    const newsCardMap = {
+        "DJ": "DJ",
+        "streetDance": "街舞",
+        "rap": "饒舌",
+        "graffiti": "塗鴉",
+        "skate": "滑板",
+    };
+
+    const dateObj = new Date(date);
+    const year = dateObj.getFullYear();
+    const month = String(dateObj.getMonth() + 1).padStart(2, '0');
+    const day = String(dateObj.getDate()).padStart(2, '0');
+
+    return (
+        <div className="card-box" onClick={() => goArticle(newsId)}>
+            <div className="newsCard-green">
+                <div className="img-box">
+                    <img src={`${process.env.PUBLIC_URL}${image}`} alt="" />
+                </div>
+                <div className="item">
+                    <div className="card-wrap">
+                        <p>
+                            <span>/// </span><span>{newsCardMap[type] || type}</span>
+                        </p>
+                        <br /><br />
+                        <span>{year}</span>
+                        <span>{month}.{day}</span>
+                    </div>
+                    <div className="card-wrap">
+                        <h4 className="multiline-ellipsis">{title}</h4>
+                        <p className="multiline-ellipsis">{description}</p>
+                    </div>
+                    <div className="card-wrap">
+                        <div className="morebtn"><i className="bi bi-arrow-right"></i></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+};
 
 class NewsArticle extends Component {
     state = {
-        Users: {
+        Article: {
+            "newsId": 1,
+            "newsType": "rap",
+            "newsTitle": "來自成都集團CDC的大陸饒舌歌手王以太",
+            "coverImg": "/images/news/news1.jpg",
+            "newsContent": "在2018年《中國新說唱》中取得全國前六強的好成績",
+            "newsAuthor": "都敏俊",
+            "newsStatus": 1,
+            "pubTime": null,
+            "createdAt": "2024-08-05T03:03:28.000Z",
+            "updatedAt": "2024-08-17T10:34:27.000Z"
+        }
+        ,
+        New: [],
 
-        },
+    };
+    componentDidMount() {
+        window.addEventListener('scroll', this.Scroll);
 
+        this.fetchNewsData(); // 获取其他新闻数据
 
+        const { params } = this.props;
+        console.log("params:", params);
+        if (params && params.id) {
+            this.fetchArticleData(params.id);
+        } else {
+            console.error("params or params.id is undefined");
+        }
     }
 
+    componentWillUnmount() {
+        window.removeEventListener('scroll', this.Scroll);
+    }
+
+    Scroll = () => {
+        const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+        const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const scrolled = (winScroll / height) * 100;
+        document.getElementById("myBar").style.width = scrolled + "%";
+    };
+
+
+    // 格式化日期的方法
+    formatDate(dateString) {
+        // 将日期字符串转换为 Date 对象
+        const date = new Date(dateString);
+
+        // 获取年、月、日
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0'); // 月份从 0 开始
+        const day = String(date.getDate()).padStart(2, '0');
+
+        // 格式化为 YYYY/MM/DD
+        const formattedDate = `${year}/${month}/${day}`;
+        console.log('Formatted Date:', formattedDate); // 输出格式化后的日期
+        return formattedDate;
+    }
+
+
+    //隨機抽取新聞
+    getRandomNews(newsArray, count) {
+        let shuffled = newsArray.slice(0);
+        let i = newsArray.length, temp, randomIndex;
+        
+        // Fisher-Yates shuffle algorithm
+        while (i !== 0) {
+            randomIndex = Math.floor(Math.random() * i);
+            i--;
+            temp = shuffled[i];
+            shuffled[i] = shuffled[randomIndex];
+            shuffled[randomIndex] = temp;
+        }
+
+        // 返回前 count 个新闻
+        return shuffled.slice(0, count);
+    }
+
+    fetchNewsData = async () => {
+        try {
+            const response = await axios.get('http://localhost:3000/riverflow/news/news');
+            // 获取随机新闻
+            const randomNews = this.getRandomNews(response.data, 5);
+            this.setState({ News: randomNews });
+        } catch (error) {
+            console.error("Error fetching news data:", error);
+        }
+    };
+
+
+
+    fetchArticleData = async (id) => {
+        try {
+            const response = await axios.get(`http://localhost:3000/riverflow/news/news/${id}`, {
+                withCredentials: true
+            });
+
+            // 确保返回的数据是数组且非空
+            if (Array.isArray(response.data) && response.data.length > 0) {
+                const articleData = response.data[0]; // 取数组中的第一个对象
+                console.log("Fetched Article data:", articleData);
+                this.setState({
+                    Article: {
+                        newsTitle: articleData.newsTitle || "文章標題",
+                        coverImg: articleData.coverImg || "/images/news/default.jpg",
+                        newsAuthor: articleData.newsAuthor || "未知作者",
+                        createdAt: articleData.createdAt || "未知時間",
+                        newsContent: articleData.newsContent || "內容缺失"
+                    }
+                });
+            } else {
+                console.error("Response data is not in expected format or is empty");
+                this.setState({ error: 'No article data found.' });
+            }
+        } catch (error) {
+            console.error("Error fetching article data:", error);
+            this.setState({ error: 'Failed to fetch article data.' });
+        }
+    }
+
+    getCardClass = (index) => {
+        const pattern = [true, false, false, true, true, false];
+        return pattern[index % pattern.length];
+    };
+
+
+
+
+    goNews = () => {
+        window.location = "/News/Index";
+    };
+
     render() {
+        const { News, Article } = this.state;
+        console.log("Article state:", Article);
+        if (!Article || !Article.newsTitle || Article.newsTitle === "文章標題") {
+            return <div>Loading...</div>;
+        }
+
+
+
+
 
         return (
             <div>
-                <section class="newsArticle content">
-                    <div class="news-banner">
-                        <img src={require("../assets/images/new_banner1.png")} alt="" />
-                            <div class="news-title">
-                                <h1>來自成都集團CDC的大陸饒舌歌手王以太</h1>
-                            </div>
+                <Header />
+                <div className="progress-container">
+                    <div className="progress-bar" id="myBar"></div>
+                </div>
+                <section className="newsArticle content">
+                    <div className="news-banner">
+                        <img src={this.state.Article.coverImg} alt="" />
                     </div>
                     <article>
-                        <div class="meta">
-                            <h3>由<span> Andy </span>編寫</h3>
-                            <span>發佈時間 : 2024.08.05 </span>
+                        <div className="news-title">
+                            <h1>{Article.newsTitle || "文章標題"}</h1>
+                        </div>
+                        <div className="meta">
+                            <h3>由<span> {Article.newsAuthor} </span>編寫</h3>
+                            <span>發佈時間 :  {this.formatDate(Article.createdAt)}  </span>
                         </div>
                     </article>
                     <article>
-                        <div class="wrap">
-                            <p>
-                                大陸說唱歌手「王以太」2018年參加《中國新說唱》一路過關斬將闖到全國前六強，知名度和人氣水漲船高，節目結束之後除了持續在演藝圈活躍，也經常跑遍各大商演，然而他先前才在演出遭到台下觀眾惡意潑香檳，近日又再度爆出類似遭遇，引發不少網友熱議。
-                            </p>
-
+                        <div className="wrap">
+                            <p>{this.state.Article.newsContent}</p>
                         </div>
                     </article>
-                    <article>
-                        <div class="news-img-box">
-                            <img src={require("../assets/images/new_banner.jpg")} alt=""/>
-                        </div>
-                        <div class="title">
-                            <h1>王以太 《Love Me Later》 台北站</h1>
-                        </div>
-                        <div class="wrap">
-                            <p>
-                                來自成都集團CDC的大陸饒舌歌手王以太，在2018年《中國新說唱》中取得全國前六強的好成績，後陸續參加《我是唱作人》、《我們的樂隊》等音樂節目，並於2022年《中國說唱巔峰對決》中與成員以「一席之地」之團隊名稱，拿下巔峰聯盟冠軍。
-
-                                這位能唱又能饒的歌手在2019年榮獲華人歌曲音樂盛典年度最受歡迎說唱歌手獎，他的代表作也在YouTube累積驚人的觀看數，其中《目不轉睛》已累積339萬次觀看、《時間是金》累積128萬次觀看。
-
-                                2024年，王以太將帶著他的第三張全新個人專輯《Love Me Later》展開巡迴演出，並於9月14日首次在台北舉辦專場演出，期待與粉絲們共同打造最炸的嘻哈舞台。
-                            </p>
-                            <div class="news-img-box">
-                                <img src={require("../assets/images/newsimg2.jpg")} alt=""/>
-                            </div>
-
-                        </div>
-
-                    </article>
-
-
                 </section>
-                <section class="newsList">
-                    <div class="newsList-title">
+                <section className="newsList">
+                    <div className="newsList-title">
                         <h2>為你推薦</h2>
                     </div>
-                    <div class="newsList-wrap">
-                        <div class="box">
-                            <a href="">
-                                <div class="newsCard-green">
-                                    <div class="img-box">
-                                        <img src={require("../assets/images/RAP.jpg")} alt=""/>
-                                    </div>
-                                    <div class="item">
-                                        <div class="wrap">
-                                            <p>
-                                                <span>/// </span><span>街舞</span>
-                                            </p><br/><br/>
-                                                <span>2024.</span>
-                                                <span>07.28</span>
-
-                                            </div>
-                                                <div class="wrap">
-                                                    <h4 class="multiline-ellipsis ">台灣嘻哈的強勢分支- 台灣TRAP 台灣嘻哈的強勢分支- 台灣TRAP</h4>
-                                                    <p class="multiline-ellipsis ">當陷阱音樂從美國告示牌排行榜上一路延燒至台灣</p>
-                                                </div>
-                                                <div class="wrap">
-                                                    <div class="morebtn"><i class="bi bi-arrow-right"></i></div>
-                                                </div>
-                                        </div>
-                                    </div>
-                            </a>
-                            <a href="">
-                                <div class="newsCard-green">
-                                    <div class="img-box">
-                                        <img src={require("../assets/images/RAP.jpg")} alt=""/>
-                                    </div>
-                                    <div class="item">
-                                        <div class="wrap">
-                                            <p>
-                                                <span>/// </span><span>街舞</span>
-                                            </p><br/><br/>
-                                                <span>2024.</span>
-                                                <span>07.28</span>
-
-                                            </div>
-                                                <div class="wrap">
-                                                    <h4 class="multiline-ellipsis ">台灣嘻哈的強勢分支- 台灣TRAP 台灣嘻哈的強勢分支- 台灣TRAP</h4>
-                                                    <p class="multiline-ellipsis ">當陷阱音樂從美國告示牌排行榜上一路延燒至台灣</p>
-                                                </div>
-                                                <div class="wrap">
-                                                    <div class="morebtn"><i class="bi bi-arrow-right"></i></div>
-                                                </div>
-                                        </div>
-                                    </div>
-                            </a>
-                            <a href="">
-                                <div class="newsCard-green">
-                                    <div class="img-box">
-                                        <img src={require("../assets/images/RAP.jpg")} alt=""/>
-                                    </div>
-                                    <div class="item">
-                                        <div class="wrap">
-                                            <p>
-                                                <span>/// </span><span>街舞</span>
-                                            </p><br/><br/>
-                                                <span>2024.</span>
-                                                <span>07.28</span>
-
-                                            </div>
-                                                <div class="wrap">
-                                                    <h4 class="multiline-ellipsis ">台灣嘻哈的強勢分支- 台灣TRAP 台灣嘻哈的強勢分支- 台灣TRAP</h4>
-                                                    <p class="multiline-ellipsis ">當陷阱音樂從美國告示牌排行榜上一路延燒至台灣</p>
-                                                </div>
-                                                <div class="wrap">
-                                                    <div class="morebtn"><i class="bi bi-arrow-right"></i></div>
-                                                </div>
-                                        </div>
-                                    </div>
-                            </a>
+                    <div className="newsList-wrap">
+                        <div className="box">
+                            {Array.isArray(News) && News.length > 0 ? (
+                                News.map((newItem, index) =>
+                                    <NewsCard
+                                        key={newItem.newsId}
+                                        newsId={newItem.newsId}
+                                        image={newItem.coverImg} // Replace with actual image name
+                                        type={newItem.newsType}
+                                        date={newItem.createdAt}
+                                        title={newItem.newsTitle}
+                                        description="Your description here" // Replace with actual description
+                                        isGreen={this.getCardClass(index)}
+                                        goArticle={this.goArticle}
+                                    />
+                                )
+                            ) : (
+                                <div>No news available</div>
+                            )}
                         </div>
                     </div>
-
                 </section>
+                <div onClick={this.goNews} className="back-btn">
+                    <h4>Back to List</h4>
+                    <i className="bi bi-arrow-left"></i>
+                </div>
             </div>
-
-
-
-
         );
-
-
-
-
-
     }
-
-
-   
-
-
 }
-export default NewsArticle;
+
+export default withRouter(NewsArticle);

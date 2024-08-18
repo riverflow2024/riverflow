@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
-import '../assets/basic.css'
+
 import '../assets/ProductDetail.css'
 import 'lightbox2/dist/css/lightbox.min.css'
 import lightbox from 'lightbox2'
@@ -8,6 +8,7 @@ import Swal from 'sweetalert2'
 import { useParams } from 'react-router-dom'
 import Header from '../components/header'
 
+// 商品圖片展示組件
 const ProductImages = ({ images = [], isFavorited, onToggleFavorite }) => (
   <aside className="product-images">
     <div className="product-images-big">
@@ -28,11 +29,12 @@ const ProductImages = ({ images = [], isFavorited, onToggleFavorite }) => (
   </aside>
 )
 
+// 商品資訊展示組件
 const ProductInfo = ({ product, onSizeSelect, onQuantityChange, quantity, selectedSize, onAddToCart, totalPrice }) => (
   <main className="product-info">
     <h1>{product.productName}</h1>
     <div className="labels">
-      <span className="label normal">{product.category}</span>
+      <span className="label normal">{product.categoryName}</span>
       {product.isNew && <span className="label new">新品</span>}
       {product.isOnSale && <span className="label sale">優惠</span>}
     </div>
@@ -57,14 +59,14 @@ const ProductInfo = ({ product, onSizeSelect, onQuantityChange, quantity, select
         <i className="fa-solid fa-street-view"></i>
         <div className="details-text">
           <span>適用</span>
-          <p>{product.applicable}</p>
+          <p>{product.productSpec1}</p>
         </div>
       </div>
       <div className="details-item">
         <i className="fa-brands fa-think-peaks"></i>
         <div className="details-text">
           <span>材質</span>
-          <p>{product.material}</p>
+          <p>{product.productSpec2}</p>
         </div>
       </div>
     </div>
@@ -115,13 +117,76 @@ const ProductInfo = ({ product, onSizeSelect, onQuantityChange, quantity, select
   </main>
 )
 
-const Recommendations = () => (
-  <div className="recommendations container">
-    <h2>你可能會喜歡</h2>
-    <div className="product-item-container">{/* 这里可以动态生成推荐产品 */}</div>
-  </div>
-)
+// 你可能會喜歡組件，展示假資料
+const Recommendations = () => {
+  const fakeProducts = [
+    // 假資料
+    {
+      id: 1,
+      title: 'TsL滑板',
+      image:
+        'https://images.goodsmile.info/cgm/images/product/20220502/12665/98719/large/d870c31d5f264155ac6e3e359b7d34bc.jpg',
+      price: 'NT$3683',
+      category: '滑板',
+      label: '新品'
+    },
+    {
+      id: 2,
+      title: '6ix9ine原裝CD專輯',
+      image: 'https://shoplineimg.com/59b2d9e49a76f018310010d2/5d299190d0467a0038ae06eb/800x.webp?source_format=jpg',
+      price: 'NT$550',
+      category: '饒舌',
+      label: ''
+    },
+    {
+      id: 3,
+      title: '復古手提箱造型藍芽',
+      image: 'https://shoplineimg.com/59b2d9e49a76f018310010d2/5e908f90c0e941001e48bc23/800x.webp?source_format=jpg',
+      price: 'NT$4980',
+      category: 'DJ',
+      label: ''
+    },
+    {
+      id: 4,
+      title: 'Raw經典煙紙品牌滑板',
+      image: 'https://shoplineimg.com/59b2d9e49a76f018310010d2/5ecf805b323c4a00273a9717/800x.webp?source_format=png',
+      price: 'NT$2880',
+      category: '滑板',
+      label: ''
+    }
+  ]
 
+  return (
+    <div className="recommendations container">
+      <h2>你可能會喜歡</h2>
+      <div className="product-item-container">
+        {fakeProducts.map((product) => (
+          <div className="product-item" key={product.id}>
+            <div className="product-img">
+              <img src={product.image} alt={product.title} />
+              <a href="#" className="favorite">
+                <i className="fa-regular fa-heart"></i>
+              </a>
+            </div>
+            <div className="labels">
+              <span className="label">{product.category}</span>
+              {product.label && <span className="label new">{product.label}</span>}
+            </div>
+            <div className="product-info">
+              <h4>{product.title}</h4>
+              <div className="product-text">
+                <p>{product.price}</p>
+                <button className="add-to-cart">查看更多</button>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+// 商品詳細資訊頁面組件
 const ProductDetail = () => {
   const { productId } = useParams()
   const [selectedSize, setSelectedSize] = useState('')
@@ -135,16 +200,35 @@ const ProductDetail = () => {
       .get(`http://localhost:3000/riverflow/products/${productId}`)
       .then((response) => {
         const data = response.data
+
+        if (!data.productInfo || data.productInfo.length === 0) {
+          console.error('No product info available')
+          return
+        }
+
         const productData = data.productInfo[0]
 
-        productData.sizes = JSON.parse(productData.productOpt).map((opt) => opt.name)
-        productData.images = data.productImg.map((img) => img.productImg)
-        productData.rating =
-          JSON.parse(productData.productRating).reduce((acc, curr) => acc + curr.rating, 0) /
-          JSON.parse(productData.productRating).length
+        try {
+          productData.sizes = productData.productOpt ? JSON.parse(productData.productOpt).map((opt) => opt.name) : []
+        } catch (error) {
+          console.error('Error parsing product options:', error)
+          productData.sizes = []
+        }
 
-        // 设置标签状态，假设数据中有 isNew 和 isOnSale 字段
-        productData.isNew = data.isNew || false
+        productData.images = data.productImg ? data.productImg.map((img) => img.productImg) : []
+
+        try {
+          const ratingData = productData.productRating ? JSON.parse(productData.productRating) : []
+          productData.rating =
+            ratingData.length > 0 ? ratingData.reduce((acc, curr) => acc + curr.rating, 0) / ratingData.length : 'N/A'
+        } catch (error) {
+          console.error('Error parsing product ratings:', error)
+          productData.rating = 'N/A'
+        }
+
+        productData.productSpec1 = productData.productSpec1 || ''
+        productData.productSpec2 = productData.productSpec2 || ''
+        productData.isNew = data.isNew || true
         productData.isOnSale = data.isOnSale || false
 
         setProduct(productData)
@@ -163,7 +247,6 @@ const ProductDetail = () => {
 
   const toggleFavorite = () => {
     setIsFavorited(!isFavorited)
-    // 这里可以调用 API 来保存最爱状态到后端
   }
 
   const unitPrice = product ? parseInt(product.productPrice, 10) : 0
@@ -178,26 +261,28 @@ const ProductDetail = () => {
         icon: 'error',
         title: '請選擇尺寸規格',
         confirmButtonColor: 'red'
-      });
-      return;
+      })
+      return
     }
-  
+
+    console.log('Adding to cart: ', { productId, quantity, selectedSize })
+
     const cartData = {
       productId: productId,
       quantity: quantity,
       productName: product.productName,
       productOpt: selectedSize,
       price: product.productPrice
-    };
-  
+    }
+
     try {
       const response = await axios.post('http://localhost:3000/riverflow/cart/add', cartData, {
         headers: {
           'Content-Type': 'application/json'
         },
-        withCredentials: true // 確保發送跨域請求時包含 cookies
-      });
-  
+        withCredentials: true
+      })
+
       if (response.data.success) {
         Swal.fire({
           icon: 'success',
@@ -207,37 +292,14 @@ const ProductDetail = () => {
           showConfirmButton: false,
           timer: 3000,
           timerProgressBar: true
-        });
+        })
       } else {
-        throw new Error('加入購物車失敗');
+        throw new Error('加入購物車失敗')
       }
     } catch (error) {
-      console.error('加入購物車時出錯：', error);
-      if (error.response && error.response.status === 401) {
-        // 處理未授權錯誤
-        Swal.fire({
-          icon: 'error',
-          title: '登錄已過期',
-          text: '請重新登錄',
-          confirmButtonColor: 'red',
-          confirmButtonText: '前往登錄'
-        }).then((result) => {
-          if (result.isConfirmed) {
-            // 重定向到登錄頁面
-            window.location.href = '/login'; // 請根據實際的登錄頁面 URL 進行調整
-          }
-        });
-      } else {
-        // 處理其他錯誤
-        Swal.fire({
-          icon: 'error',
-          title: '加入購物車失敗',
-          text: '請稍後再試',
-          confirmButtonColor: 'red'
-        });
-      }
+      console.error('加入購物車時出錯：', error)
     }
-  };
+  }
 
   if (loading) {
     return <div>Loading...</div>

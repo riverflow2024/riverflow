@@ -25,6 +25,7 @@
     "jquery": "^3.7.1",
     "jquery.marquee": "^1.6.0",
     "lightbox2": "^2.11.4",
+    "multer": "^1.4.5-lts.1",
     "parallax-js": "^3.1.0",
     "react-router-dom": "^5.3.4",
     "react-select": "^5.8.0",

@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import '../assets/cartCheckOut.css'
-import '../assets/reset.css'
-import '../assets/basic.css'
 import Header from '../components/header'
-import axios from 'axios'
+import { useLocation } from 'react-router-dom'
 
 const CartCheckout = () => {
-  const [cartItems, setCartItems] = useState([])
+  const location = useLocation()
+  const [cartItems, setCartItems] = useState(location.state?.cartItems || [])
+  const [orderRemark, setOrderRemark] = useState('')
   const [deliveryMethod, setDeliveryMethod] = useState('')
   const [storeAddress, setStoreAddress] = useState('')
   const [homeAddress, setHomeAddress] = useState('')
@@ -15,37 +16,45 @@ const CartCheckout = () => {
   const [companyInfo, setCompanyInfo] = useState('')
   const [mobileInfo, setMobileInfo] = useState('')
   const [shippingFee, setShippingFee] = useState(60)
+  const [dropdownVisible, setDropdownVisible] = useState(null)
+  const navigate = useNavigate()
 
-  useEffect(() => {
-    // 假設我們從 API 取得購物車商品
-    axios
-      .get('/api/cart/1')
-      .then((response) => {
-        setCartItems(response.data.cartItems)
-      })
-      .catch((error) => {
-        console.error('Failed to fetch cart items', error)
-      })
-  }, [])
-
-  const handleQuantityChange = (ciId, change) => {
-    setCartItems((prevItems) =>
-      prevItems.map((item) => (item.ciId === ciId ? { ...item, quantity: item.quantity + change } : item))
-    )
+  const toggleDropdown = (dropdownName) => {
+    setDropdownVisible((prev) => (prev === dropdownName ? null : dropdownName))
   }
 
-  const handleDeliveryMethodChange = (method, addressType = '') => {
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (!event.target.closest('.dropdown')) {
+        setDropdownVisible(null)
+      }
+    }
+    document.addEventListener('click', handleClickOutside)
+    return () => {
+      document.removeEventListener('click', handleClickOutside)
+    }
+  }, [])
+
+  const handleDeliveryMethodChange = (method) => {
     setDeliveryMethod(method)
-    if (method === 'store') {
+    setDropdownVisible(null)
+
+    if (method === '7-ELEVEN' || method === '全家') {
       setHomeAddress('')
-    } else if (method === 'home') {
+      setStoreAddress('')
+    } else if (method === '宅配') {
       setStoreAddress('')
     }
-    updateFinalTotal()
+  }
+
+  const handleStoreAddressChange = (address) => {
+    setStoreAddress(address)
+    setDropdownVisible(null)
   }
 
   const handlePaymentMethodChange = (method) => {
     setPaymentMethod(method)
+    setDropdownVisible(null)
   }
 
   const handleInvoiceTypeChange = (type) => {
@@ -55,12 +64,31 @@ const CartCheckout = () => {
     } else if (type === 'mobile') {
       setCompanyInfo('')
     }
+    setDropdownVisible(null)
   }
 
   const updateFinalTotal = () => {
     const itemTotal = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0)
-    const finalTotal = itemTotal + shippingFee
-    return finalTotal
+    return itemTotal + shippingFee
+  }
+
+  const handleSubmit = () => {
+    // 將資料傳遞到下一個頁面
+    navigate('/Order/CartConfirmation', {
+      state: {
+        orderRemark,
+        cartItems,
+        deliveryMethod,
+        storeAddress,
+        homeAddress,
+        paymentMethod,
+        invoiceType,
+        companyInfo,
+        mobileInfo,
+        shippingFee,
+        finalTotal: updateFinalTotal()
+      }
+    })
   }
 
   return (
@@ -96,18 +124,22 @@ const CartCheckout = () => {
 
           {cartItems.map((item) => (
             <div className="cart-items" key={item.ciId}>
-              <img src={`https://example.com/products/${item.productId}/image`} alt={item.productName} />
+              <img src={`http://localhost:3000/riverflow${item.productImg}`} alt={item.productName} />
               <div className="cart-item-content">
                 <h4>{item.productName}</h4>
                 <h5>{item.productOpt}</h5>
               </div>
               <div className="quantity-plus-minus">
-                <button onClick={() => handleQuantityChange(item.ciId, -1)} disabled={item.quantity === 1}>
-                  <i className="fa-solid fa-circle-minus"></i>
+                <button
+                  className="minus-button"
+                  onClick={() => handleQuantityChange(item.ciId, -1)}
+                  disabled={item.quantity === 1}
+                >
+                  <i className="fa-solid fa-circle-minus" aria-hidden="true"></i>
                 </button>
                 <p className="quantity">{item.quantity}</p>
-                <button onClick={() => handleQuantityChange(item.ciId, 1)}>
-                  <i className="fa-solid fa-circle-plus"></i>
+                <button className="plus-button" onClick={() => handleQuantityChange(item.ciId, 1)}>
+                  <i className="fa-solid fa-circle-plus" aria-hidden="true"></i>
                 </button>
               </div>
               <p className="total" data-price={item.price}>
@@ -147,16 +179,28 @@ const CartCheckout = () => {
                   placeholder="請選擇運送方式"
                   value={deliveryMethod}
                   readOnly
+                  onClick={() => toggleDropdown('delivery')}
                 />
-                <div className="dropdown-content">
-                  <div onClick={() => handleDeliveryMethodChange('store')}>7-ELEVEN</div>
-                  <div onClick={() => handleDeliveryMethodChange('store')}>全家</div>
-                  <div onClick={() => handleDeliveryMethodChange('home')}>宅配</div>
-                </div>
+                {dropdownVisible === 'delivery' && (
+                  <div className="dropdown-content">
+                    <div data-type="store" onClick={() => handleDeliveryMethodChange('7-ELEVEN')}>
+                      7-ELEVEN
+                    </div>
+                    <div data-type="store" onClick={() => handleDeliveryMethodChange('全家')}>
+                      全家
+                    </div>
+                    <div data-type="home" onClick={() => handleDeliveryMethodChange('宅配')}>
+                      宅配
+                    </div>
+                  </div>
+                )}
+                <span id="delivery-address" className="address-display">
+                  {deliveryMethod === 'store' ? storeAddress : homeAddress}
+                </span>
               </div>
 
-              {deliveryMethod === 'store' && (
-                <div className="form-group dropdown" id="store-address-group">
+              {deliveryMethod === '7-ELEVEN' || deliveryMethod === '全家' ? (
+                <div className="form-group dropdown">
                   <label htmlFor="store-address">超商地址</label>
                   <br />
                   <input
@@ -166,16 +210,19 @@ const CartCheckout = () => {
                     placeholder="請選擇地址"
                     value={storeAddress}
                     readOnly
+                    onClick={() => toggleDropdown('storeAddress')}
                   />
-                  <div className="dropdown-content">
-                    <div onClick={() => setStoreAddress('台北市信義路123號')}>台北市信義路123號</div>
-                    <div onClick={() => setStoreAddress('新北市中和路456號')}>新北市中和路456號</div>
-                    <div onClick={() => setStoreAddress('台中市大同路789號')}>台中市大同路789號</div>
-                  </div>
+                  {dropdownVisible === 'storeAddress' && (
+                    <div className="dropdown-content">
+                      <div onClick={() => handleStoreAddressChange('台北市信義路123號')}>台北市信義路123號</div>
+                      <div onClick={() => handleStoreAddressChange('新北市中和路456號')}>新北市中和路456號</div>
+                      <div onClick={() => handleStoreAddressChange('台中市大同路789號')}>台中市大同路789號</div>
+                    </div>
+                  )}
                 </div>
-              )}
+              ) : null}
 
-              {deliveryMethod === 'home' && (
+              {deliveryMethod === '宅配' ? (
                 <div className="form-group" id="home-address-group">
                   <label htmlFor="home-address">宅配地址</label>
                   <br />
@@ -188,7 +235,7 @@ const CartCheckout = () => {
                     onChange={(e) => setHomeAddress(e.target.value)}
                   />
                 </div>
-              )}
+              ) : null}
 
               <div className="form-group dropdown">
                 <label htmlFor="payment-method">付款方式</label>
@@ -200,11 +247,14 @@ const CartCheckout = () => {
                   placeholder="請選擇付款方式"
                   value={paymentMethod}
                   readOnly
+                  onClick={() => toggleDropdown('payment')}
                 />
-                <div className="dropdown-content">
-                  <div onClick={() => handlePaymentMethodChange('線上付款')}>線上付款</div>
-                  <div onClick={() => handlePaymentMethodChange('貨到付款')}>貨到付款</div>
-                </div>
+                {dropdownVisible === 'payment' && (
+                  <div className="dropdown-content">
+                    <div onClick={() => handlePaymentMethodChange('線上付款')}>線上付款</div>
+                    <div onClick={() => handlePaymentMethodChange('貨到付款')}>貨到付款</div>
+                  </div>
+                )}
               </div>
 
               <div className="invoice-promo-code">
@@ -218,12 +268,15 @@ const CartCheckout = () => {
                     placeholder="請選擇發票類型"
                     value={invoiceType}
                     readOnly
+                    onClick={() => toggleDropdown('invoice')}
                   />
-                  <div className="dropdown-content">
-                    <div onClick={() => handleInvoiceTypeChange('三聯式')}>三聯式</div>
-                    <div onClick={() => handleInvoiceTypeChange('捐贈發票')}>捐贈發票</div>
-                    <div onClick={() => handleInvoiceTypeChange('手機載具')}>手機載具</div>
-                  </div>
+                  {dropdownVisible === 'invoice' && (
+                    <div className="dropdown-content">
+                      <div onClick={() => handleInvoiceTypeChange('三聯式')}>三聯式</div>
+                      <div onClick={() => handleInvoiceTypeChange('捐贈發票')}>捐贈發票</div>
+                      <div onClick={() => handleInvoiceTypeChange('手機載具')}>手機載具</div>
+                    </div>
+                  )}
                 </div>
               </div>
 
@@ -259,7 +312,7 @@ const CartCheckout = () => {
 
               <div className="total-amount">
                 <p>
-                  商品金額:{' '}
+                  商品金額:
                   <span id="item-total">${cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0)}</span>
                 </p>
                 <p>
@@ -271,9 +324,9 @@ const CartCheckout = () => {
               </div>
 
               <div className="submit">
-                <a href="./cart_confirmation.html" id="submit-order">
+                <button type="button" id="submit" onClick={handleSubmit}>
                   訂單確認
-                </a>
+                </button>
               </div>
             </form>
           </div>

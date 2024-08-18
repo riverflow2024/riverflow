@@ -302,8 +302,13 @@
   color: #1d1d1d;
 }
 .container-f .wrap .product-info .quantity .add-minus input {
+  border: 0;
+  border-bottom: 1px solid;
+  padding: 3px 5px;
+  text-align: right;
+  background-color: #fff;
   width: 30px;
-  padding-left: 20px;
+  padding-left: 15px;
 }
 .container-f .wrap .product-info .quantity .add-to-cart {
   background-color: #98d900;

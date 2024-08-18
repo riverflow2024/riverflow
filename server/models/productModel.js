@@ -59,7 +59,6 @@ AND productcategories.categoryId = categories.categoryId
   })
 }
 
-
 // 選取單個產品
 //------------------------------------------------------------------------------------------------
 
@@ -86,7 +85,6 @@ exports.getProductImg = (id) => {
   })
 }
 
-
 // 產品收藏
 exports.getProductFavorite = (id) => {
   return new Promise((resolve, reject) => {
@@ -110,7 +108,6 @@ exports.getProductFavorite = (id) => {
   })
 }
 
-
 //產品資訊
 exports.getProductInfo = (id) => {
   return new Promise((resolve, reject) => {
@@ -127,14 +124,37 @@ exports.getProductInfo = (id) => {
             `,
       [id],
       (err, product) => {
-        if (err) return reject(err)
+        if (err) {
+          console.error('Database query error:', err)
+          return reject(err)
+        }
         resolve(product)
       }
     )
   })
 }
 
-
+// exports.getProductInfo = (id) => {
+//   return new Promise((resolve, reject) => {
+//     dbConnect.query(
+//       `
+//             SELECT
+//             *
+//             FROM
+//             products, productcategories ,categories
+//             WHERE
+//             products.productid = 1
+//             AND products.productid = productcategories.productid
+//             AND productcategories.categoryid = categories.categoryid
+//             `,
+//       [id],
+//       (err, product) => {
+//         if (err) return reject(err)
+//         resolve(product)
+//       }
+//     )
+//   })
+// }
 
 // 新增產品
 exports.createProduct = (productData) => {
@@ -192,7 +212,6 @@ exports.deleteProduct = (id) => {
 //     )
 //   })
 // }
-
 
 // exports.getAllProduct = () => {
 //   return new Promise((resolve, reject) => {

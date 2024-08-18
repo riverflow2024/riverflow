@@ -5,10 +5,14 @@ import Footer from './components/footer'
 
 import Index from './pages/Index'
 import AboutUs from './pages/about'
+
 import News from './pages/News'
 import NewsArticle from './pages/NewsArticle'
 
+
+// 介紹頁
 import Skate from './pages/skate'
+import Rap from './pages/HippopRap'
 
 import Login from './pages/Login'
 import LoginVerify from './pages/LoginVerify'
@@ -33,8 +37,9 @@ import ProductAll from './pages/ProductAll'
 import ProductDetail from './pages/ProductDetail'
 
 import Cart from './pages/cart'
-import cartCheckOut from './pages/cartCheckOut'
-import cartConfirmation from './pages/cartConfirmation'
+import CartCheckout from './pages/cartCheckOut'
+import CartConfirmation from './pages/cartConfirmation'
+
 import PaymentSuccess from './pages/success'
 import Graffiti from './pages/graffiti'
 
@@ -44,6 +49,12 @@ export default function UserInterface() {
       <Routes>
         <Route index element={<Index />} />
         <Route path="aboutUs" element={<AboutUs />} />
+
+        <Route path="Rap" element={<Rap />} />
+
+        <Route path="News/Index" element={<News />} />
+        <Route path="News/Article/:id" element={<NewsArticle />} />
+
         <Route path="Login/Index" element={<Login />} />
         <Route path="Login/Verify" element={<LoginVerify />} />
         <Route path="Login/Register" element={<LoginRegister />} />
@@ -59,7 +70,7 @@ export default function UserInterface() {
         <Route path="Event/Order" element={<EventOrder />} />
         <Route path="Event/Index" element={<EventIndex />} />
         <Route path="Event/Detail/:id" element={<EventDetail />} />
-        <Route path="Event/ConfirmNoseat" element={<EventConfirmNoseat />} />
+        <Route path="Event/ConfirmNoseat/:id" element={<EventConfirmNoseat />} />
         <Route path="Event/ConfirmSeat/:id" element={<EventConfirmSeat />} />
         <Route path="Event/ConfirmInfo" element={<EventConfirmInfo />} />
         <Route path="Graffiti" element={<Graffiti />} />
@@ -69,11 +80,11 @@ export default function UserInterface() {
         <Route path="Product/Detail/:productId" element={<ProductDetail />} />
 
         <Route path="Order/Cart" element={<Cart />} />
-        <Route path="Order/cartCheckOut" element={<cartCheckOut />} />
-        <Route path="Order/cartConfirmation" element={<cartConfirmation />} />
+        <Route path="Order/CartCheckout" element={<CartCheckout />} />
+        <Route path="Order/CartConfirmation" element={<CartConfirmation />} />
         <Route path="Order/PaymentSuccess" element={<PaymentSuccess />} />
       </Routes>
-      <Footer />
+      
     </div>
   )
 }

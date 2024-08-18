@@ -4,55 +4,70 @@ import '../assets/index.css';
 import Header from '../components/header'
 
 class Index extends Component {
-  
+
   state = {
-    isLoggedIn: false,  
-    Users: null     
+    isLoggedIn: false,
+    Users: null
   };
 
   componentDidMount() {
     this.checkLoginStatus();
     document.body.classList.remove('w-bg');
-}
+    // 添加滚动事件监听器
+    window.addEventListener('scroll', this.Scroll);
+  }
+
+  componentWillUnmount() {
+    // 在组件卸载时恢复 body 上的 `w-bg` 类
+    document.body.classList.add('w-bg');
+    // 移除滚动事件监听器
+    window.removeEventListener('scroll', this.Scroll);
+  }
 
 
-
-componentWillUnmount() {
-  // 在组件卸载时恢复 body 上的 `w-bg` 类
-  document.body.classList.add('w-bg');
-}
-
-
-
-checkLoginStatus = async () => {
+  checkLoginStatus = async () => {
     try {
-        // 使用 Cookie 中的 Token 向服務端請求
-        const response = await axios.get('http://localhost:3000/riverflow/user', {
-            withCredentials: true // 連接 Cookie
-        });
+      // 使用 Cookie 中的 Token 向服務端請求
+      const response = await axios.get('http://localhost:3000/riverflow/user', {
+        withCredentials: true // 連接 Cookie
+      });
 
-        // 如果請求成功，更新狀態以表示用戶已經登入
-        this.setState({
-            isLoggedIn: true,
-            Users: response.data
-        });
+      // 如果請求成功，更新狀態以表示用戶已經登入
+      this.setState({
+        isLoggedIn: true,
+        Users: response.data
+      });
     } catch (error) {
-        // 如果請求失敗（例如 Token 無效或未登入），更新狀態
-        this.setState({
-            isLoggedIn: false,
-            Users: null
-        });
+      // 如果請求失敗（例如 Token 無效或未登入），更新狀態
+      this.setState({
+        isLoggedIn: false,
+        Users: null
+      });
     }
-};
+  };
+
+  Scroll = () => {
+    const sectionBtn = document.getElementById("sectionBtn");
+    const ontop = document.getElementById("ontop");
+    const sticky = 100; // 可以根据需要调整 sticky 的值
+
+    if (window.pageYOffset >= sticky) {
+      ontop.classList.add("ontop");
+      sectionBtn.classList.add("sectionBtn")
+    } else {
+      ontop.classList.remove("ontop");
+      sectionBtn.classList.remove("sectionBtn");
+    }
+  };
 
 
   render() {
     const { isLoggedIn, userData } = this.state;
 
 
-    
+
     return (
-    
+
       <div class="scrollCust IndexPage">
         {/* 星星背景 */}
         <div class="starbg">
@@ -154,8 +169,8 @@ checkLoginStatus = async () => {
         </section>
         {/* logo 結束  */}
 
-                {/* sticky 的 header */}
-                <Header/>
+        {/* sticky 的 header */}
+        <Header />
 
 
 
@@ -436,14 +451,12 @@ checkLoginStatus = async () => {
                   <img class="titlebg" src={require('../assets/images/indexImg/gitlebg.png')} alt="" />
                   <span>Rapping</span>
                   <span class="title_sub"> &nbsp; &nbsp; &nbsp;| &nbsp;饒舌</span>
-                  <a href="../pages/rap.html">
-                    <button class="read_moreBtn">
+                    <button class="read_moreBtn" onClick={this.goRap}>
                       <span class="circle" aria-hidden="true">
                         <span class="icon arrow"></span>
                       </span>
                       <span class="button-text">READ MORE</span>
                     </button>
-                  </a>
                 </h2>
                 <p class="content">
                   作為音樂風格，以吐詞為詞、R&B及其他音樂取樣為曲的嘻哈樂在幾十年裏發展成了美國流行樂的一種主要風格，也影響到了包括亞洲在內的世界流行樂，許多流行歌曲都會加入饒舌元素。
@@ -658,6 +671,10 @@ checkLoginStatus = async () => {
         </div>
       </div>
     )
+  }
+  // Read More
+  goRap=async()=>{
+    window.location="/rap";
   }
 }
 export default Index

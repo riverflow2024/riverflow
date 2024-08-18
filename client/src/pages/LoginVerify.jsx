@@ -1,40 +1,129 @@
 import React, { Component } from 'react';
 import '../assets/login.css';
+import Header from '../components/header';
 
 class LoginVerify extends Component {
     state = {
-        Users: {
-            "firstName": "林",
-            "lastName": "小美",
-            "phone": "0912-333-555",
-            "email": "ko",
-            "secret": "",
-            "birth": "1995/10/10",
-            "sex": "女",
-        },
-        isNewPasswordVisible: false,
-        isConfirmPasswordVisible: false,
         newPassword: '',
         confirmPassword: '',
         passwordError: '',
         checkPasswordError: '',
+        isNewPasswordVisible: false,
+        isConfirmPasswordVisible: false,
+        token: new URLSearchParams(window.location.search).get('authToken'),
     };
 
     componentDidMount() {
-        // newPassword 和 confirmPassword 轉換為secret
-        this.setState({
-            newPassword: this.state.Users.secret,
-            confirmPassword: this.state.Users.secret,
-        });
+        // 从 URL 中提取重置令牌
+        const params = new URLSearchParams(window.location.search);
+        const token = params.get('authToken');
+        
+        console.log('Full URL:', window.location.href); // 打印完整的 URL
+        console.log('Extracted Token:', token); // 打印提取到的令牌
+    
+        if (token) {
+            this.setState({ token });
+        } else {
+            console.error('Token is missing from the URL');
+        }
     }
+    
+    resetPassword = async () => {
+        const { newPassword, confirmPassword, token } = this.state;
+    
+        if (newPassword !== confirmPassword) {
+            this.setState({ checkPasswordError: '<i className="bi bi-asterisk"></i> 密碼不吻合' });
+            return;
+        }
+    
+        // 打印请求数据以进行调试
+        console.log('Sending request with:', { newSecret: newPassword, token });
+    
+        // 检查 token 是否有效
+        if (!token) {
+            console.error('Token is missing');
+            this.setState({ passwordError: '无效或过期的重置令牌' });
+            return;
+        }
+    
+        try {
+            const response = await fetch(`http://localhost:3000/riverflow/reset-password/${token}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ newSecret: newPassword }),
+            });
+    
+            if (!response.ok) {
+                const errorData = await response.json();
+                console.error('Error response:', errorData.message);
+                this.setState({ passwordError: errorData.message || '重置密碼時出錯，請稍後再試。' });
+                return;
+            }
+    
+            alert('密碼重置成功');
+            window.location.href = '/login';
+        } catch (error) {
+            console.error('重置密碼時出錯:', error);
+            this.setState({ passwordError: '重置密碼時出錯，請稍後再試。' });
+        }
+    };
+    
+
+    handlePasswordToggle = (type) => {
+        this.setState((prevState) => ({
+            [type]: !prevState[type],
+        }));
+    };
+
+    NewPassword = (event) => {
+        const newPassword = event.target.value;
+        const passwordPattern = /^(?=.*[a-zA-Z])(?=.*[0-9]).{6,}$/;
+        let passwordError = '';
+
+        if (!newPassword.match(passwordPattern)) {
+            passwordError = '<i className="bi bi-asterisk"></i> 請輸入正確的密碼格式: 含英數至少六個字元';
+        } else if (!newPassword) {
+            passwordError = '<i className="bi bi-asterisk"></i> 請輸入密碼';
+        } else {
+            passwordError = '';
+        }
+
+        this.setState({
+            newPassword,
+            passwordError
+        }, this.CheckPassword);
+    };
+
+    CheckPassword = () => {
+        const { newPassword, confirmPassword } = this.state;
+        let checkPasswordError = '';
+
+        if (confirmPassword && newPassword !== confirmPassword) {
+            checkPasswordError = '<i className="bi bi-asterisk"></i> 密碼不吻合';
+        } else if (confirmPassword && newPassword === confirmPassword) {
+            checkPasswordError = '密碼吻合';
+        } else {
+            checkPasswordError = '';
+        }
+
+        this.setState({ checkPasswordError });
+    };
+
+    handleConfirmPasswordChange = (event) => {
+        const confirmPassword = event.target.value;
+        this.setState({ confirmPassword }, this.CheckPassword);
+    };
 
     render() {
         const { isNewPasswordVisible, isConfirmPasswordVisible, passwordError, checkPasswordError, newPassword, confirmPassword } = this.state;
 
         return (
-            <div className="loginPage">
+            <div>
+                <Header />
                 <section className="verify">
-                    <form>
+                    <div className="form">
                         <h4>修改密碼</h4>
                         <div className="input-text input-password">
                             <label>新密碼</label>
@@ -44,7 +133,7 @@ class LoginVerify extends Component {
                                 id="newPassword"
                                 value={newPassword}
                                 placeholder="Enter new password"
-                                autocomplete="new-password"
+                                autoComplete="new-password"
                                 required
                                 onChange={this.NewPassword}
                             />
@@ -66,7 +155,7 @@ class LoginVerify extends Component {
                                 id="checkPassword"
                                 value={confirmPassword}
                                 placeholder="Enter password"
-                                autocomplete="new-password"
+                                autoComplete="new-password"
                                 onChange={this.handleConfirmPasswordChange}
                             />
                             <div>
@@ -82,64 +171,14 @@ class LoginVerify extends Component {
                         <input
                             type="button"
                             className="btn"
-                            onClick={() => window.location.href = 'login.html'}
+                            onClick={this.resetPassword}
                             value="確認"
                         />
-                    </form>
+                    </div>
                 </section>
             </div>
         );
     }
-
-    // 顯示密碼的功能
-    handlePasswordToggle = (type) => {
-        this.setState((prevState) => ({
-            [type]: !prevState[type],
-        }));
-    };
-
-    // 新密碼驗證，同時啟動確認密碼功能
-    NewPassword = (event) => {
-        const newPassword = event.target.value;
-        const passwordPattern = /^(?=.*[a-zA-Z])(?=.*[0-9]).{6,}$/;
-        let passwordError = '';
-
-        if (!newPassword.match(passwordPattern)) {
-            passwordError = '<i className="bi bi-asterisk"></i> 請輸入正確的密碼格式: 含英數至少六個字元';
-        } else if (!newPassword) {
-            passwordError = '<i className="bi bi-asterisk"></i> 請輸入密碼';
-        } else {
-            passwordError = '';
-        }
-
-        this.setState({
-            newPassword,
-            passwordError
-        }, this.CheckPassword);
-    };
-
-    // 確認密碼功能，並在下方顯示提示
-    CheckPassword = () => {
-        const { newPassword, confirmPassword } = this.state;
-        let checkPasswordError = '';
-
-        if (confirmPassword && newPassword !== confirmPassword) {
-            checkPasswordError = '<i className="bi bi-asterisk"></i> 密碼不吻合';
-        } else if (confirmPassword && newPassword === confirmPassword) {
-            checkPasswordError = '密碼吻合';
-        } else {
-            checkPasswordError = '';
-        }
-
-        this.setState({ checkPasswordError });
-    };
-
-    // 確認密碼更動時，同時啟動確認密碼功能
-    handleConfirmPasswordChange = (event) => {
-        const confirmPassword = event.target.value;
-        // 每當確認密碼更改時驗證密碼匹配
-        this.setState({ confirmPassword }, this.CheckPassword);
-    };
 }
 
 export default LoginVerify;
