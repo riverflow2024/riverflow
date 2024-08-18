@@ -37,7 +37,7 @@ export default function Header () {
   }
 
   return (
-    <header class={`${isHomePage ? 'sticky-navbar' : ''}`}>
+    <header  class={`${isHomePage ? 'sticky-navbar' : ''}`}>
       <div class='flex container '>
         <Link to='/'>
           <img class='logo' src={HeaderLogo} alt='logo' />
@@ -82,7 +82,7 @@ export default function Header () {
               </div>
             </li>
             <li>
-              <a href='#'>嘻哈專欄</a>
+              <NavLink to='/News/Index'>嘻哈專欄</NavLink>
             </li>
             <li>
               <NavLink to='/Event/Index'>into flow</NavLink>

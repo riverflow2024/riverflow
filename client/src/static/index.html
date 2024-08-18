@@ -612,18 +612,18 @@
     <script>
         window.onscroll = function () { myFunction() };
 
-        var navbar = document.getElementById("navbar");
+        // var navbar = document.getElementById("navbar");
         var ontop = document.getElementById("ontop");
         var sectionBtn = document.getElementById("sectionBtn");
         var sticky = navbar.offsetTop;
 
         function myFunction() {
             if (window.pageYOffset >= sticky) {
-                navbar.classList.add("sticky")
+                // navbar.classList.add("sticky")
                 ontop.classList.add("ontop")
                 sectionBtn.classList.add("sectionBtn")
             } else {
-                navbar.classList.remove("sticky");
+                // navbar.classList.remove("sticky");
                 ontop.classList.remove("ontop");
                 sectionBtn.classList.remove("sectionBtn");
             }

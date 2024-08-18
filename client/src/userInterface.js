@@ -5,6 +5,7 @@ import Footer from './components/footer'
 
 import Index from './pages/Index'
 import AboutUs from './pages/about'
+
 import News from './pages/News'
 import NewsArticle from './pages/NewsArticle'
 
@@ -44,6 +45,9 @@ export default function UserInterface() {
       <Routes>
         <Route index element={<Index />} />
         <Route path="aboutUs" element={<AboutUs />} />
+        <Route path="News/Index" element={<News />} />
+        <Route path="News/Article/:id" element={<NewsArticle />} />
+
         <Route path="Login/Index" element={<Login />} />
         <Route path="Login/Verify" element={<LoginVerify />} />
         <Route path="Login/Register" element={<LoginRegister />} />

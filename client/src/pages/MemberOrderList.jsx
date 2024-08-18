@@ -113,10 +113,6 @@ class MemberOrderList extends Component {
 
 
     render() {
-
-
-
-
         const { Users, isLoading, error } = this.state;
 
         if (isLoading) {
@@ -135,7 +131,7 @@ class MemberOrderList extends Component {
         const statusMap = {
             "processing": "待出貨",
             "pending": "未付款",
-            "complete": "已完成",
+            "completed": "已完成",
             "canceled": "未完成",
 
         };
@@ -152,7 +148,7 @@ class MemberOrderList extends Component {
         // 根據訂單篩選，用filter過濾
         const unpaidOrders = this.state.Order.filter(order => order.orderStatus === 'processing');
         const paymentOrders = this.state.Order.filter(order => order.orderStatus === 'pending');
-        const completedOrders = this.state.Order.filter(order => order.orderStatus === 'complete');
+        const completedOrders = this.state.Order.filter(order => order.orderStatus === 'completed');
         const notYetCompletedOrders = this.state.Order.filter(order => order.orderStatus === 'cancelled');
 
         // 篩選近一個月的訂單 已完成 ＆ 未完成

@@ -23,6 +23,7 @@ app.use(
 // Routers
 
 const userRoutes = require('./routes/users')
+const newsRoutes = require('./routes/news')
 const productRoutes = require('./routes/products')
 const eventRoutes = require('./routes/events')
 // const eventTobuyRoutes = require('./routes/eventTobuy')
@@ -36,6 +37,7 @@ const adminRoutes = require('./routes/admin')
 // Use routes
 app.use('/riverflow', require('./routes/public'))
 app.use('/riverflow/user', authenticateToken, userRoutes)
+app.use('/riverflow/news', newsRoutes)
 app.use('/riverflow/products', productRoutes)
 app.use('/riverflow/events', eventRoutes)
 // app.use('/riverflow/payment',paymentRoutes)
