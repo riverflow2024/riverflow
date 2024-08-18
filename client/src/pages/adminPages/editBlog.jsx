@@ -1,4 +1,3 @@
-// editBlog.jsx
 // Author: zhier1114
 import React, { useState, useRef, useEffect, useCallback } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'

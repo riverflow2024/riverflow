@@ -1,4 +1,3 @@
-// AddBlog.jsx
 // Author: zhier1114
 import React, { useState, useRef, useEffect, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'

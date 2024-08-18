@@ -2,7 +2,7 @@ import React from 'react'
 import { NavLink, useMatch } from 'react-router-dom'
 import '../assets/adminPage.css'
 
-export default function LeftCol () {
+export default function LeftCol() {
   const match = useMatch('/admin/*')
 
   return (
@@ -55,7 +55,7 @@ export default function LeftCol () {
                 </NavLink>
               </li>
               <li>
-                <NavLink to='eventOrder' className='menuPage'>
+                <NavLink to='eventOrderList' className='menuPage'>
                   活動訂單
                 </NavLink>
               </li>

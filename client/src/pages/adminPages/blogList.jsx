@@ -1,4 +1,3 @@
-// blogList.jsx
 // Author: zhier1114
 import React, { useReducer, useEffect, useCallback } from 'react'
 import { Link, useMatch, useNavigate } from 'react-router-dom'
@@ -184,7 +183,11 @@ const BlogList = () => {
           </tr>
         </thead>
         {blogs.length === 0 ? (
-          <div>沒有找到相關文章</div>
+          <tbody>
+            <tr>
+              <td colSpan='6'>沒有找到相關文章</td>
+            </tr>
+          </tbody>
         ) : (
           <tbody>
             {currentBlogs.map((blog) => (

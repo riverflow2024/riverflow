@@ -34,7 +34,7 @@ export default function AdminInterface() {
         <Route path='eventList' element={<EventList />} />
         <Route path='eventList/create' element={<AddEvent />} />
         <Route path='eventOrderList' element={<EventOrderList />} />
-        <Route path='eventOrderList/edit' element={<EventOrderInfo />} />
+        <Route path='eventOrderList/edit/:id' element={<EventOrderInfo />} />
       </Routes>
     </div>
   )
