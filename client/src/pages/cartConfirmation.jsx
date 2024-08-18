@@ -45,8 +45,8 @@ const CartConfirmation = () => {
       })
 
       Swal.fire({
-        title: '前往線上付款',
-        text: '請完成線上付款程序!',
+        title: '正在前往線上付款',
+
         icon: 'info',
         confirmButtonColor: '#98d900',
         timer: 3000,
@@ -120,166 +120,166 @@ const CartConfirmation = () => {
   const updateFinalTotal = () => finalTotal
 
   return (
-    <div className="cartConfirmation-container">
+    <div className='cartConfirmation-container'>
       <Header />
-      <div className="container">
-        <div className="content-left">
-          <div className="order-steps">
-            <div className="order-detail">
-              <a href="#" style={{ color: 'gray' }}>
+      <div className='container'>
+        <div className='content-left'>
+          <div className='order-steps'>
+            <div className='order-detail'>
+              <a href='#' style={{ color: 'gray' }}>
                 訂單資訊
               </a>
-              <i style={{ color: 'gray' }} className="fa-solid fa-arrow-right-long"></i>
+              <i style={{ color: 'gray' }} className='fa-solid fa-arrow-right-long'></i>
             </div>
-            <div className="order-detail">
-              <a href="#">訂單確認</a>
-              <i className="fa-solid fa-arrow-right-long"></i>
+            <div className='order-detail'>
+              <a href='#'>訂單確認</a>
+              <i className='fa-solid fa-arrow-right-long'></i>
             </div>
-            <div className="order-detail">
-              <a href="#" style={{ color: 'gray' }}>
+            <div className='order-detail'>
+              <a href='#' style={{ color: 'gray' }}>
                 訂單完成
               </a>
-              <i className="fa-solid fa-arrow-right-long" style={{ visibility: 'hidden' }}></i>
+              <i className='fa-solid fa-arrow-right-long' style={{ visibility: 'hidden' }}></i>
             </div>
           </div>
 
-          <div className="order-info">
+          <div className='order-info'>
             <h3>訂單確認</h3>
             <p>顧客基本資料</p>
           </div>
 
-          <div className="customer-info">
-            <label htmlFor="customerName">顧客姓名</label>
+          <div className='customer-info'>
+            <label htmlFor='customerName'>顧客姓名</label>
             <br />
             <input
-              type="text"
-              id="customerName"
-              name="customerName"
+              type='text'
+              id='customerName'
+              name='customerName'
               value={customerName}
               onChange={(e) => setCustomerName(e.target.value)}
-              placeholder="請輸入姓名"
+              placeholder='請輸入姓名'
             />
             <br />
-            <label htmlFor="customerEmail">電子信箱</label>
+            <label htmlFor='customerEmail'>電子信箱</label>
             <br />
             <input
-              type="text"
-              id="customerEmail"
-              name="customerEmail"
+              type='text'
+              id='customerEmail'
+              name='customerEmail'
               value={customerEmail}
-              placeholder="請輸入電子信箱"
+              placeholder='請輸入電子信箱'
               readOnly
               style={{ cursor: 'not-allowed' }}
             />
             <br />
-            <label htmlFor="customerPhone">電話號碼</label>
+            <label htmlFor='customerPhone'>電話號碼</label>
             <br />
             <input
-              type="text"
-              id="customerPhone"
-              name="customerPhone"
+              type='text'
+              id='customerPhone'
+              name='customerPhone'
               value={customerPhone}
               onChange={(e) => setCustomerPhone(e.target.value)}
-              placeholder="請輸入電話號碼"
+              placeholder='請輸入電話號碼'
             />
             <br />
-            <label htmlFor="orderRemark">訂單備註</label>
+            <label htmlFor='orderRemark'>訂單備註</label>
             <br />
             <input
-              type="text"
-              id="orderRemark"
-              name="orderRemark"
+              type='text'
+              id='orderRemark'
+              name='orderRemark'
               value={orderRemark}
               onChange={(e) => setOrderRemark(e.target.value)}
-              placeholder="有什麼需要告訴賣家嗎?"
+              placeholder='有什麼需要告訴賣家嗎?'
             />
           </div>
         </div>
 
-        <div className="content-right">
-          <div className="payment-method">
+        <div className='content-right'>
+          <div className='payment-method'>
             <h2>選擇付款方式</h2>
 
-            <form id="order-form">
-              <div className="form-group dropdown">
-                <label className="country" htmlFor="country">
+            <form id='order-form'>
+              <div className='form-group dropdown'>
+                <label className='country' htmlFor='country'>
                   國家
                 </label>
                 <br />
                 <input
-                  className="text-border"
-                  type="text"
-                  id="country"
-                  value="台灣"
+                  className='text-border'
+                  type='text'
+                  id='country'
+                  value='台灣'
                   readOnly
                   style={{ cursor: 'not-allowed' }}
                 />
               </div>
 
-              <div className="form-group dropdown">
-                <label htmlFor="deliveryMethod">運送方式</label>
+              <div className='form-group dropdown'>
+                <label htmlFor='deliveryMethod'>運送方式</label>
                 <br />
-                <input className="text-border" value={deliveryMethod} type="text" id="deliveryMethod" readOnly />
+                <input className='text-border' value={deliveryMethod} type='text' id='deliveryMethod' readOnly />
                 {deliveryMethod === '7-ELEVEN' || deliveryMethod === '全家' ? (
-                  <div className="form-group dropdown" id="store-address-group">
-                    <label htmlFor="storeAddress">超商地址</label>
+                  <div className='form-group dropdown' id='store-address-group'>
+                    <label htmlFor='storeAddress'>超商地址</label>
                     <br />
-                    <input className="text-border" type="text" id="storeAddress" value={storeAddress} readOnly />
+                    <input className='text-border' type='text' id='storeAddress' value={storeAddress} readOnly />
                   </div>
                 ) : deliveryMethod === '宅配' ? (
-                  <div className="form-group" id="home-address-group">
-                    <label htmlFor="homeAddress">宅配地址</label>
+                  <div className='form-group' id='home-address-group'>
+                    <label htmlFor='homeAddress'>宅配地址</label>
                     <br />
-                    <input className="text-border" type="text" id="homeAddress" value={homeAddress} readOnly />
+                    <input className='text-border' type='text' id='homeAddress' value={homeAddress} readOnly />
                   </div>
                 ) : null}
               </div>
 
-              <div className="form-group dropdown">
-                <label htmlFor="paymentMethod">付款方式</label>
+              <div className='form-group dropdown'>
+                <label htmlFor='paymentMethod'>付款方式</label>
                 <br />
-                <input className="text-border" type="text" id="paymentMethod" value={paymentMethod} readOnly />
+                <input className='text-border' type='text' id='paymentMethod' value={paymentMethod} readOnly />
               </div>
 
-              <div className="invoice-promo-code">
-                <div className="form-group dropdown">
-                  <label htmlFor="invoiceType">電子發票</label>
+              <div className='invoice-promo-code'>
+                <div className='form-group dropdown'>
+                  <label htmlFor='invoiceType'>電子發票</label>
                   <br />
-                  <input className="text-border" type="text" id="invoiceType" value={invoiceType} readOnly />
+                  <input className='text-border' type='text' id='invoiceType' value={invoiceType} readOnly />
                 </div>
 
                 {invoiceType === '三聯式' ? (
-                  <div className="form-group dropdown">
-                    <label htmlFor="companyInfo">公司抬頭</label>
+                  <div className='form-group dropdown'>
+                    <label htmlFor='companyInfo'>公司抬頭</label>
                     <br />
-                    <input className="text-border" type="text" id="companyInfo" value={companyInfo} readOnly />
+                    <input className='text-border' type='text' id='companyInfo' value={companyInfo} readOnly />
                   </div>
                 ) : null}
 
                 {invoiceType === '手機條碼' ? (
-                  <div className="form-group dropdown">
-                    <label htmlFor="mobileInfo">手機條碼</label>
+                  <div className='form-group dropdown'>
+                    <label htmlFor='mobileInfo'>手機條碼</label>
                     <br />
-                    <input className="text-border" type="text" id="mobileInfo" value={mobileInfo} readOnly />
+                    <input className='text-border' type='text' id='mobileInfo' value={mobileInfo} readOnly />
                   </div>
                 ) : null}
               </div>
 
-              <div className="total-amount">
+              <div className='total-amount'>
                 <p>
                   商品金額:
-                  <span id="item-total">${cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0)}</span>
+                  <span id='item-total'>${cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0)}</span>
                 </p>
                 <p>
-                  運費金額: <span id="shipping-fee">${shippingFee}</span>
+                  運費金額: <span id='shipping-fee'>${shippingFee}</span>
                 </p>
                 <p>
-                  付款總金額: <span id="final-total">${updateFinalTotal()}</span>
+                  付款總金額: <span id='final-total'>${updateFinalTotal()}</span>
                 </p>
               </div>
 
-              <div className="submit">
-                <button type="button" className="confirm-order" onClick={handleSubmitOrder} disabled={isLoading}>
+              <div className='submit'>
+                <button type='button' className='confirm-order' onClick={handleSubmitOrder} disabled={isLoading}>
                   {isLoading ? '處理中...' : '確認訂單'}
                 </button>
               </div>
