@@ -1,5 +1,5 @@
 import React from 'react'
-import Select from 'react-select'
+import Select, { StylesConfig } from 'react-select'
 
 const MAX_SELECTIONS = 3
 
@@ -21,8 +21,21 @@ const MultiSelectDropdown = ({ selectedOptions, onChange }) => {
     }
   }
 
+  const colourStyles = {
+    control: (provided, state) => ({
+      ...provided,
+      backgroundColor: 'transparent',
+      borderColor: state.isFocused ? 'var(--main)' : 'black'
+    }),
+    options: (provided, state) => ({
+      ...provided,
+      backgroundColor: state.isSelected ? 'black': 'black',
+      color: state.isSelected ? 'var(--main)' : 'white'
+    })
+  }
+
   return (
-    <div className='infoItem'>
+    <div className='infoItem editTitle'>
       <label htmlFor='prdSort' className='editTitle'>
         商品分類：
       </label>
@@ -32,6 +45,7 @@ const MultiSelectDropdown = ({ selectedOptions, onChange }) => {
         value={selectedOptions}
         onChange={handleChange}
         placeholder="選擇商品分類"
+        styles={colourStyles}
       />
     </div>
   )
