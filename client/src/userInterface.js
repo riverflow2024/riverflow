@@ -33,8 +33,9 @@ import ProductAll from './pages/ProductAll'
 import ProductDetail from './pages/ProductDetail'
 
 import Cart from './pages/cart'
-import cartCheckOut from './pages/cartCheckOut'
-import cartConfirmation from './pages/cartConfirmation'
+import CartCheckout from './pages/cartCheckOut'
+import CartConfirmation from './pages/cartConfirmation'
+
 import PaymentSuccess from './pages/success'
 
 export default function UserInterface() {
@@ -66,8 +67,8 @@ export default function UserInterface() {
         <Route path="Product/Detail/:productId" element={<ProductDetail />} />
 
         <Route path="Order/Cart" element={<Cart />} />
-        <Route path="Order/cartCheckOut" element={<cartCheckOut />} />
-        <Route path="Order/cartConfirmation" element={<cartConfirmation />} />
+        <Route path="Order/CartCheckout" element={<CartCheckout />} />
+        <Route path="Order/CartConfirmation" element={<CartConfirmation />} />
         <Route path="Order/PaymentSuccess" element={<PaymentSuccess />} />
       </Routes>
       <Footer />

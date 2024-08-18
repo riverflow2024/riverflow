@@ -1,6 +1,5 @@
 @charset "UTF-8";
-@import url('basic.css');
-@import url('https://fonts.googleapis.com/css2?family=Just+Another+Hand&display=swap');
+@import url("basic.css");
 /* 變量設置 */
 .wrap-f .container-f .swiper {
   width: 100%;
@@ -13,10 +12,10 @@
   width: 100%;
   height: 600px;
   -o-object-fit: cover;
-  object-fit: cover;
+     object-fit: cover;
   opacity: 0.6;
   -o-object-position: center;
-  object-position: center;
+     object-position: center;
 }
 .wrap-f .container-f .swiper .swiper-slide .swiper-text {
   width: 40%;
@@ -46,10 +45,10 @@
     width: 100%;
     height: 400px;
     -o-object-fit: cover;
-    object-fit: cover;
+       object-fit: cover;
     opacity: 0.6;
     -o-object-position: center;
-    object-position: center;
+       object-position: center;
   }
 }
 @media (max-width: 768px) {
@@ -60,10 +59,10 @@
     width: 100%;
     height: 350px;
     -o-object-fit: cover;
-    object-fit: cover;
+       object-fit: cover;
     opacity: 0.6;
     -o-object-position: center;
-    object-position: center;
+       object-position: center;
   }
   .wrap-f .container-f .swiper .swiper-slide .swiper-text h1 {
     line-height: 1rem;
@@ -84,10 +83,10 @@
     width: 100%;
     height: 300px;
     -o-object-fit: cover;
-    object-fit: cover;
+       object-fit: cover;
     opacity: 0.6;
     -o-object-position: center;
-    object-position: center;
+       object-position: center;
   }
   .wrap-f .container-f .swiper .swiper-slide .swiper-text h1 {
     line-height: 1rem;
@@ -227,7 +226,7 @@
   pointer-events: none;
 }
 .wrap .container .product-list .sold-out-card::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: 0;
@@ -241,13 +240,13 @@
   width: 100%;
   height: 200px;
   -o-object-fit: cover;
-  object-fit: cover;
+     object-fit: cover;
   position: relative;
 }
 .wrap .container .product-list .product-img img {
   height: 200px;
   -o-object-fit: cover;
-  object-fit: cover;
+     object-fit: cover;
   background-color: #1d1d1d;
 }
 .wrap .container .product-list .product-img .sold-out {
@@ -456,4 +455,4 @@
     padding: 10px;
     border-radius: 20px;
   }
-} /*# sourceMappingURL=ProductAll.css.map */
+}/*# sourceMappingURL=ProductAll.css.map */

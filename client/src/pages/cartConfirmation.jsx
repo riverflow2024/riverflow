@@ -4,76 +4,123 @@ import '../assets/reset.css'
 import Header from '../components/header'
 import Swal from 'sweetalert2'
 import axios from 'axios'
+import { useLocation } from 'react-router-dom'
 
 const CartConfirmation = () => {
-  const [customerName, setCustomerName] = useState('林小美')
-  const [customerEmail] = useState('abc12345@gmail.com')
-  const [customerPhone, setCustomerPhone] = useState('0912333555')
-  const [orderRemark, setOrderRemark] = useState('')
-  const [deliveryMethod, setDeliveryMethod] = useState('7-ELEVEN')
-  const [storeAddress, setStoreAddress] = useState('台北市信義路123號')
-  const [homeAddress, setHomeAddress] = useState('台中公益路123號')
-  const [paymentMethod, setPaymentMethod] = useState('貨到付款')
-  const [invoiceType, setInvoiceType] = useState('捐贈發票')
-  const [companyInfo, setCompanyInfo] = useState('')
-  const [mobileInfo, setMobileInfo] = useState('')
-  const [shippingFee] = useState(60)
+  const location = useLocation()
+  const {
+    cartItems,
+    deliveryMethod,
+    storeAddress,
+    homeAddress,
+    paymentMethod,
+    invoiceType,
+    companyInfo,
+    mobileInfo,
+    shippingFee,
+    finalTotal,
+    initialOrderRemark,
+    initialCustomerName = '林小美',
+    initialCustomerEmail = 'abc12345@gmail.com',
+    initialCustomerPhone = '0912333555'
+  } = location.state || {}
 
-  // 假設的商品資料
-  const itemTotal = 4060
-  const finalTotal = itemTotal + shippingFee
+  const [customerName, setCustomerName] = useState(initialCustomerName)
+  const [customerEmail] = useState(initialCustomerEmail) // 信箱保持不可編輯
+  const [customerPhone, setCustomerPhone] = useState(initialCustomerPhone)
+  const [orderRemark, setOrderRemark] = useState(initialOrderRemark || '')
+  const [isLoading, setIsLoading] = useState(false)
+
+  const handleCheckout = async () => {
+    setIsLoading(true)
+    try {
+      const response = await axios.post('http://localhost:3000/riverflow/pay/create-checkout-session', {
+        items: cartItems.map((item) => ({
+          name: item.productName,
+          size: item.productOpt,
+          price: item.price,
+          quantity: item.quantity,
+          productId: item.productId
+        }))
+      })
+
+      Swal.fire({
+        title: '前往線上付款',
+        text: '請完成線上付款程序!',
+        icon: 'info',
+        confirmButtonColor: '#98d900',
+        timer: 3000,
+        timerProgressBar: true
+      }).then(() => {
+        setTimeout(() => {
+          window.location = response.data.url
+        }, 0)
+      })
+    } catch (error) {
+      console.error('創建結帳會話失敗', error)
+      alert('結帳過程中發生錯誤，請稍後再試。')
+    } finally {
+      setIsLoading(false)
+    }
+  }
 
   const handleSubmitOrder = async () => {
     try {
-      // 準備要送出的訂單資料
       const orderData = {
-        customerName,
-        customerEmail,
-        customerPhone,
-        orderRemark,
+        cartItems,
         deliveryMethod,
-        storeAddress: deliveryMethod === '7-ELEVEN' ? storeAddress : '',
-        homeAddress: deliveryMethod === '宅配' ? homeAddress : '',
+        storeAddress,
+        homeAddress,
         paymentMethod,
         invoiceType,
-        companyInfo: invoiceType === '三聯式' ? companyInfo : '',
-        mobileInfo: invoiceType === '手機載具' ? mobileInfo : '',
-        itemTotal,
+        companyInfo,
+        mobileInfo,
         shippingFee,
-        finalTotal
+        finalTotal,
+        orderRemark,
+        customerName,
+        customerEmail,
+        customerPhone
       }
 
-      // 送出資料到後端金流系統
-      const response = await axios.post('http://localhost:3000/riverflow/pay/create-checkout-session', orderData)
-
-      if (response.status === 200) {
-        Swal.fire({
-          title: '訂單完成',
-          text: '謝謝您的購買!',
-          icon: 'success',
-          confirmButtonColor: '#98d900',
-          timer: 6000,
-          timerProgressBar: true,
-          willClose: () => {
-            window.location.href = './memberOrderList.html'
-          }
-        })
+      if (paymentMethod === '線上付款') {
+        // 進行線上付款
+        await handleCheckout()
       } else {
-        throw new Error('結帳過程中發生錯誤。')
+        // 保存訂單資訊到會員訂單中
+        const response = await axios.post('http://localhost:3000/riverflow/order/save', orderData)
+
+        if (response.status === 200) {
+          Swal.fire({
+            title: '訂單已保存',
+            text: '您的訂單已成功保存。',
+            icon: 'success',
+            confirmButtonColor: '#98d900',
+            timer: 6000,
+            timerProgressBar: true,
+            willClose: () => {
+              window.location.href = '/Member/OrderList'
+            }
+          })
+        } else {
+          throw new Error('訂單保存過程中發生錯誤。')
+        }
       }
     } catch (error) {
       console.error('錯誤：', error.message)
       Swal.fire({
         title: '錯誤',
-        text: '結帳過程中發生錯誤。請稍後再試。',
+        text: '處理您的訂單過程中發生錯誤。請稍後再試。',
         icon: 'error',
         confirmButtonColor: '#d33'
       })
     }
   }
 
+  const updateFinalTotal = () => finalTotal
+
   return (
-    <div className="cartConfirmation-container ">
+    <div className="cartConfirmation-container">
       <Header />
       <div className="container">
         <div className="content-left">
@@ -133,6 +180,7 @@ const CartConfirmation = () => {
               name="customerPhone"
               value={customerPhone}
               onChange={(e) => setCustomerPhone(e.target.value)}
+              placeholder="請輸入電話號碼"
             />
             <br />
             <label htmlFor="orderRemark">訂單備註</label>
@@ -171,139 +219,69 @@ const CartConfirmation = () => {
               <div className="form-group dropdown">
                 <label htmlFor="deliveryMethod">運送方式</label>
                 <br />
-                <input
-                  className="text-border"
-                  value={deliveryMethod}
-                  type="text"
-                  id="deliveryMethod"
-                  placeholder="請選擇運送方式"
-                  readOnly
-                />
-                <div className="dropdown-content">
-                  <div onClick={() => setDeliveryMethod('7-ELEVEN')}>7-ELEVEN</div>
-                  <div onClick={() => setDeliveryMethod('全家')}>全家</div>
-                  <div onClick={() => setDeliveryMethod('宅配')}>宅配</div>
-                </div>
-              </div>
-
-              {deliveryMethod === 'store' && (
-                <div className="form-group dropdown" id="store-address-group">
-                  <label htmlFor="storeAddress">超商地址</label>
-                  <br />
-                  <input
-                    className="text-border"
-                    type="text"
-                    id="storeAddress"
-                    placeholder="請選擇地址"
-                    value={storeAddress}
-                    readOnly
-                  />
-                  <div className="dropdown-content">
-                    <div onClick={() => setStoreAddress('台北市信義路123號')}>台北市信義路123號</div>
-                    <div onClick={() => setStoreAddress('新北市中和路456號')}>新北市中和路456號</div>
-                    <div onClick={() => setStoreAddress('台中市大同路789號')}>台中市大同路789號</div>
+                <input className="text-border" value={deliveryMethod} type="text" id="deliveryMethod" readOnly />
+                {deliveryMethod === '7-ELEVEN' || deliveryMethod === '全家' ? (
+                  <div className="form-group dropdown" id="store-address-group">
+                    <label htmlFor="storeAddress">超商地址</label>
+                    <br />
+                    <input className="text-border" type="text" id="storeAddress" value={storeAddress} readOnly />
                   </div>
-                </div>
-              )}
-
-              {deliveryMethod === 'home' && (
-                <div className="form-group" id="home-address-group">
-                  <label htmlFor="homeAddress">宅配地址</label>
-                  <br />
-                  <input
-                    className="text-border"
-                    type="text"
-                    id="homeAddress"
-                    placeholder="請輸入宅配地址"
-                    value={homeAddress}
-                    onChange={(e) => setHomeAddress(e.target.value)}
-                  />
-                </div>
-              )}
+                ) : deliveryMethod === '宅配' ? (
+                  <div className="form-group" id="home-address-group">
+                    <label htmlFor="homeAddress">宅配地址</label>
+                    <br />
+                    <input className="text-border" type="text" id="homeAddress" value={homeAddress} readOnly />
+                  </div>
+                ) : null}
+              </div>
 
               <div className="form-group dropdown">
                 <label htmlFor="paymentMethod">付款方式</label>
                 <br />
-                <input
-                  className="text-border"
-                  type="text"
-                  id="paymentMethod"
-                  placeholder="請選擇付款方式"
-                  value={paymentMethod}
-                  readOnly
-                />
-                <div className="dropdown-content">
-                  <div onClick={() => setPaymentMethod('線上付款')}>線上付款</div>
-                  <div onClick={() => setPaymentMethod('貨到付款')}>貨到付款</div>
-                </div>
+                <input className="text-border" type="text" id="paymentMethod" value={paymentMethod} readOnly />
               </div>
 
               <div className="invoice-promo-code">
                 <div className="form-group dropdown">
                   <label htmlFor="invoiceType">電子發票</label>
                   <br />
-                  <input
-                    className="text-border"
-                    type="text"
-                    id="invoiceType"
-                    placeholder="請選擇發票類型"
-                    value={invoiceType}
-                    readOnly
-                  />
-                  <div className="dropdown-content">
-                    <div onClick={() => setInvoiceType('三聯式')}>三聯式</div>
-                    <div onClick={() => setInvoiceType('捐贈發票')}>捐贈發票</div>
-                    <div onClick={() => setInvoiceType('手機載具')}>手機載具</div>
+                  <input className="text-border" type="text" id="invoiceType" value={invoiceType} readOnly />
+                </div>
+
+                {invoiceType === '三聯式' ? (
+                  <div className="form-group dropdown">
+                    <label htmlFor="companyInfo">公司抬頭</label>
+                    <br />
+                    <input className="text-border" type="text" id="companyInfo" value={companyInfo} readOnly />
                   </div>
-                </div>
+                ) : null}
+
+                {invoiceType === '手機條碼' ? (
+                  <div className="form-group dropdown">
+                    <label htmlFor="mobileInfo">手機條碼</label>
+                    <br />
+                    <input className="text-border" type="text" id="mobileInfo" value={mobileInfo} readOnly />
+                  </div>
+                ) : null}
               </div>
-
-              {invoiceType === 'company' && (
-                <div className="form-group" id="company-info-group">
-                  <label htmlFor="companyInfo">公司行號</label>
-                  <br />
-                  <input
-                    className="text-border"
-                    type="text"
-                    id="companyInfo"
-                    placeholder="請輸入公司行號"
-                    value={companyInfo}
-                    onChange={(e) => setCompanyInfo(e.target.value)}
-                  />
-                </div>
-              )}
-
-              {invoiceType === 'mobile' && (
-                <div className="form-group" id="mobile-info-group">
-                  <label htmlFor="mobileInfo">手機載具</label>
-                  <br />
-                  <input
-                    className="text-border"
-                    type="text"
-                    id="mobileInfo"
-                    placeholder="請輸入手機載具"
-                    value={mobileInfo}
-                    onChange={(e) => setMobileInfo(e.target.value)}
-                  />
-                </div>
-              )}
 
               <div className="total-amount">
                 <p>
-                  商品金額: <span id="item-total">${itemTotal}</span>
+                  商品金額:
+                  <span id="item-total">${cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0)}</span>
                 </p>
                 <p>
                   運費金額: <span id="shipping-fee">${shippingFee}</span>
                 </p>
                 <p>
-                  付款總金額: <span id="final-total">${finalTotal}</span>
+                  付款總金額: <span id="final-total">${updateFinalTotal()}</span>
                 </p>
               </div>
 
               <div className="submit">
-                <a href="#" id="submit-order" onClick={handleSubmitOrder}>
-                  訂單提交
-                </a>
+                <button type="button" className="confirm-order" onClick={handleSubmitOrder} disabled={isLoading}>
+                  {isLoading ? '處理中...' : '確認訂單'}
+                </button>
               </div>
             </form>
           </div>

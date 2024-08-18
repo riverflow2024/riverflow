@@ -52,6 +52,9 @@
 .cartConfirmation-container .container .content-left .customer-info #order-note {
   padding-bottom: 9rem;
 }
+.cartConfirmation-container .container .content-left .customer-info #orderRemark {
+  padding-bottom: 11rem;
+}
 .cartConfirmation-container .container .content-right {
   width: 30%;
   border: 1px solid #baf13a;
@@ -130,20 +133,21 @@
   margin-top: 20px;
   margin-bottom: 20px;
 }
-.cartConfirmation-container .container .content-right .submit a {
+.cartConfirmation-container .container .content-right .submit button {
+  background-color: transparent;
+  border: none;
   color: #fff;
   text-align: center;
   padding: 20px;
   display: block;
+  width: 100%;
+  cursor: pointer;
+  font-size: 16px;
+  line-height: 1.5;
 }
-.cartConfirmation-container .container .content-right .submit a:hover {
+.cartConfirmation-container .container .content-right .submit button:hover {
   background-color: #fff;
   color: #98d900;
   font-weight: bold;
   transition: 2s;
-}
-.cartConfirmation-container .container .content-right .submit i {
-  padding-bottom: 5px;
-  margin: 0px;
-  display: block;
 }/*# sourceMappingURL=cartConfirmation.css.map */

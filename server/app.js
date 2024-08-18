@@ -9,14 +9,19 @@ require('dotenv').config({ path: '../config.env' })
 
 const { authenticateToken } = require('./middlewares/auth')
 const { adminAuthenticateToken } = require('./middlewares/adminAuth')
-app.use(express.static(path.join(__dirname, 'public')))
+
+// 加載購物車圖片更改的
+app.use(express.static(path.join(__dirname, '../client/public')))
+app.use('/riverflow', express.static(path.join(__dirname, '../client/public')))
+
 app.use(cookieParser())
 app.use(bodyParser.json())
 app.use(express.urlencoded({ extended: true }))
 
 app.use(
   cors({
-    origin: `http://localhost:3001`
+    origin: 'http://localhost:3001',
+    credentials: true
   })
 )
 

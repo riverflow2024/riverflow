@@ -20,7 +20,7 @@ html {
 
 .header-nav img {
   -o-object-fit: cover;
-     object-fit: cover;
+  object-fit: cover;
 }
 
 /*------> banner<------ */
@@ -182,7 +182,7 @@ html {
   height: 50vh;
   opacity: 0.5;
   -o-object-fit: cover;
-     object-fit: cover;
+  object-fit: cover;
 }
 
 .bottom-text {
