@@ -53,7 +53,7 @@ export default function PrdList () {
     <div className='main'>
       <div className='pageTitle'>商品列表</div>
       <div className='flex'>
-        <Link to='edit' className='divided'>
+        <Link to='create' className='divided'>
           <button className='btn'>新增商品</button>
         </Link>
         <div className='flex'>

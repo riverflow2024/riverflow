@@ -12,7 +12,7 @@ const PrdListItem = ({ product }) => {
   }
 
   const statusInfo = getStatusInfo(product.productStatus)
-  const imagePath = `${process.env.REACT_APP_PRDIMAGE_BASE_PATH}${product.productImg}`
+  const imagePath = `${process.env.PUBLIC_URL}/images/products/${product.productImg}`
 
   return (
     <tr className='item'>
@@ -32,7 +32,7 @@ const PrdListItem = ({ product }) => {
       <td className='prdPrice'>
         <span>NT$</span>{product.productPrice}
       </td>
-      <td className='prdStock'>60</td>
+      <td className='prdStock'>{product.totalStock}</td>
       <td className='Status' style={{color: statusInfo.color}}>
         {statusInfo.text}
       </td>
