@@ -60,11 +60,13 @@ class Login extends Component {
               <label>帳號</label>
               <input
                 type="text"
+                style={{ width: '80%' }}
                 id="email"
                 name="email"
                 value={this.state.Users.email}
                 placeholder="Enter email"
                 onChange={this.EmailChange}
+                autoComplete='off'
               />
               <br />
             </div>

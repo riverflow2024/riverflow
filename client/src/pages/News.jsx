@@ -1,433 +1,448 @@
 import React, { Component } from 'react';
 import '../assets/news.css';
+import axios from 'axios';
+import Header from '../components/header';
 
+const NewsCard = ({ newsId, image, type, date, title, description, isGreen, goArticle }) => {
+    const newsCardMap = {
+        "DJ": "DJ",
+        "streetDance": "街舞",
+        "rap": "饒舌",
+        "graffiti": "塗鴉",
+        "skate": "滑板",
+    };
+
+    const dateObj = new Date(date);
+    const year = dateObj.getFullYear();
+    const month = String(dateObj.getMonth() + 1).padStart(2, '0');
+    const day = String(dateObj.getDate()).padStart(2, '0');
+
+    return (
+        <div className="card-box" onClick={() => goArticle(newsId)}>
+            <div className={isGreen ? "newsCard-green" : "newsCard-gray"}>
+                <div className="img-box">
+                    <img src={`${process.env.PUBLIC_URL}${image}`}  alt="" />
+                </div>
+                <div className="item">
+                    <div className="wrap">
+                        <p>
+                            <span>/// </span><span>{newsCardMap[type] || type}</span>
+                        </p>
+                        <br /><br />
+                        <span>{year}</span>
+                        <span>{month}.{day}</span>
+                    </div>
+                    <div className="wrap">
+                        <h4 className="multiline-ellipsis">{title}</h4>
+                        <p className="multiline-ellipsis">{description}</p>
+                    </div>
+                    <div className="wrap">
+                        <div className="morebtn"><i className="bi bi-arrow-right"></i></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+};
 
 
 class NewsIndex extends Component {
-    state = {
-        Users: {
-           
-        },
-        
-
+    constructor(props) {
+        super(props);
+        this.state = {
+            News: [],
+            selectedType: 'All',
+            currentPage: 1,
+            cardsPerPage: 6,
+        };
+        this.goArticle = this.goArticle.bind(this);
     }
 
+    goArticle(newsId) {
+        window.location = `/News/Article/${newsId}`;
+    }
+
+    componentDidMount() {
+        this.fetchNewsData();
+    }
+
+
+    fetchNewsData = async () => {
+        try {
+            const response = await axios.get('http://localhost:3000/riverflow/news/news');
+            console.log("Fetched news data:", response.data);
+            this.setState({ News: response.data });
+        } catch (error) {
+            console.error("Error fetching news data:", error);
+        }
+    };
+
+    handleTypeChange = (type) => {
+        this.setState({ selectedType: type, currentPage: 1 });
+    };
+
+    Pagination = (direction) => {
+        this.setState(prevState => ({
+            currentPage: prevState.currentPage + direction
+        }));
+        
+    };
+
+    getCardClass = (index) => {
+        const pattern = [true, false, false, true, true, false];
+        return pattern[index % pattern.length];
+    };
+
+   
     render() {
+        const { News, selectedType, currentPage, cardsPerPage } = this.state;
+
+        // 根据选择的类型筛选新闻
+        const filteredNews = selectedType === 'All' ? News : News.filter(news => news.newsType === selectedType);
+
+        // 计算当前页的新闻卡片
+        const indexOfLastCard = currentPage * cardsPerPage;
+        const indexOfFirstCard = indexOfLastCard - cardsPerPage;
+        const currentCards = filteredNews.slice(indexOfFirstCard, indexOfLastCard);
+
+        // 计算总页数
+        const totalPages = Math.ceil(filteredNews.length / cardsPerPage);
+
+        // 生成页码
+        const pageNumbers = [];
+        for (let i = 1; i <= totalPages; i++) {
+            pageNumbers.push(i);
+        }
 
         return (
-            <section class="news">
+            <div>
+                <Header />
+                <section className="news">
+                    <div className="nav-box">
+                        <div className="tab">
+                            <button
+                                className={`tablinks ${selectedType === 'All' ? 'active' : ''}`}
+                                onClick={() => this.handleTypeChange('All')}
+                                id="defaultOpen"
+                            >
+                                <h3>全部類別</h3>
+                            </button>
+                            <button
+                                className={`tablinks ${selectedType === 'DJ' ? 'active' : ''}`}
+                                onClick={() => this.handleTypeChange('DJ')}
+                            >
+                                <h3><i className="bi bi-disc-fill"></i> DJ <span>| Disc Jockey</span></h3>
+                            </button>
+                            <button
+                                className={`tablinks ${selectedType === 'streetDance' ? 'active' : ''}`}
+                                onClick={() => this.handleTypeChange('streetDance')}
+                            >
+                                <h3><i className="fa-solid fa-people-pulling"></i> 街舞 <span>| Breaking</span></h3>
+                            </button>
+                            <button
+                                className={`tablinks ${selectedType === 'rap' ? 'active' : ''}`}
+                                onClick={() => this.handleTypeChange('rap')}
+                            >
+                                <h3><i className="fa-solid fa-microphone-lines"></i> 饒舌 <span>| Rapping</span></h3>
+                            </button>
+                            <button
+                                className={`tablinks ${selectedType === 'graffiti' ? 'active' : ''}`}
+                                onClick={() => this.handleTypeChange('graffiti')}
+                            >
+                                <h3><i className="fa-solid fa-spray-can-sparkles"></i> 塗鴉 <span>| Graffiti</span></h3>
+                            </button>
+                            <button
+                                className={`tablinks ${selectedType === 'skate' ? 'active' : ''}`}
+                                onClick={() => this.handleTypeChange('skate')}
+                            >
+                                <h3><i className="bi bi-bandaid-fill"></i> 滑板 <span>| Skate</span></h3>
+                            </button>
+                        </div>
+                    </div>
+                    <div className="content-box">
+                        <div id="All" className="tabcontent" style={{ display: selectedType === 'All' ? 'block' : 'none' }}>
+                            <div className="content">
+                                {currentCards.map((newItem, index) =>
+                                    <NewsCard
+                                        key={newItem.newsId}
+                                        newsId={newItem.newsId}
+                                        image={newItem.coverImg}// Replace with actual image name
+                                        type={newItem.newsType}
+                                        date={newItem.createdAt}
+                                        title={newItem.newsTitle}
+                                        description="Your description here" // Replace with actual description
+                                        isGreen={this.getCardClass(index)}
+                                        goArticle={this.goArticle}
+                                    />
+                                )}
+                            </div>
+                            <div className="btn-box">
+                                {currentPage > 1 && (
+                                    <button
+                                        className="btn"
+                                        onClick={() => this.Pagination(-1)}
+                                    >
+                                        <i className="bi bi-arrow-left-circle"></i>
+                                    </button>
+                                )}
 
-            <div class="nav-box">
-                <div class="tab">
-                    <button class="tablinks" onClick={(e) => this.openCity(e.currentTarget, 'All')} id="defaultOpen">
-                        <h3>全部類別</h3>
-                    </button>
-                    <button class="tablinks" onClick={(e) => this.openCity(e.currentTarget, 'DJ')}>
-                        <h3><i class="bi bi-disc-fill"></i> DJ <span>| Disc Jockey</span></h3>
-                    </button>
-                    <button class="tablinks" onClick={(e) => this.openCity(e.currentTarget, 'Breaking')}>
-                        <h3><i class="fa-solid fa-people-pulling"></i> 街舞 <span>| Breaking</span></h3>
-                    </button>
-                    <button class="tablinks" onClick={(e) => this.openCity(e.currentTarget, 'Rapping')}>
-                        <h3><i class="fa-solid fa-microphone-lines"></i> 饒舌 <span>| Rapping</span></h3>
-                    </button>
-                    <button class="tablinks" onClick={(e) => this.openCity(e.currentTarget, 'Graffiti')}>
-                        <h3><i class="fa-solid fa-spray-can-sparkles"></i> 塗鴉 <span>| Graffiti</span></h3>
-                    </button>
-                    <button class="tablinks" onClick={(e) => this.openCity(e.currentTarget, 'Skate')}>
-                        <h3><i class="bi bi-bandaid-fill"></i> 滑板 <span>| Skate</span></h3>
-                    </button>
-    
-                </div>
+                                {pageNumbers.map(number => (
+                                    <button
+                                        key={number}
+                                        className={`btn ${currentPage === number ? 'active' : ''}`}
+                                        onClick={() => this.setState({ currentPage: number })}
+                                    >
+                                        {number}
+                                    </button>
+                                ))}
+
+                                {currentPage < totalPages && (
+                                    <button
+                                        className="btn"
+                                        onClick={() => this.Pagination(1)}
+                                    >
+                                        <i className="bi bi-arrow-right-circle"></i>
+                                    </button>
+                                )}
+                            </div>
+                        </div>
+                   
+                        <div id="DJ" className="tabcontent" style={{ display: selectedType === 'DJ' ? 'block' : 'none' }}>
+                            <div className="content">
+                                {currentCards.map((newItem, index) =>
+                                    <NewsCard
+                                        key={newItem.newsId}
+                                        newsId={newItem.newsId}  
+                                        image={newItem.coverImg}
+                                        type={newItem.newsType}
+                                        date={newItem.createdAt}
+                                        title={newItem.newsTitle}
+                                        description="Your description here"
+                                        isGreen={this.getCardClass(index)}
+                                        goArticle={this.goArticle}
+                                    />
+                                )}
+                            </div>
+                            <div className="btn-box">
+                                {currentPage > 1 && (
+                                    <button
+                                        className="btn"
+                                        onClick={() => this.Pagination(-1)}
+                                    >
+                                        <i className="bi bi-arrow-left-circle"></i>
+                                    </button>
+                                )}
+
+                                {pageNumbers.map(number => (
+                                    <button
+                                        key={number}
+                                        className={`btn ${currentPage === number ? 'active' : ''}`}
+                                        onClick={() => this.setState({ currentPage: number })}
+                                    >
+                                        {number}
+                                    </button>
+                                ))}
+
+                                {currentPage < totalPages && (
+                                    <button
+                                        className="btn"
+                                        onClick={() => this.Pagination(1)}
+                                    >
+                                        <i className="bi bi-arrow-right-circle"></i>
+                                    </button>
+                                )}
+                            </div>
+                        </div>
+                        <div id="streetDance" className="tabcontent" style={{ display: selectedType === 'streetDance' ? 'block' : 'none' }}>
+                            <div className="content">
+                                {currentCards.map((newItem, index) =>
+                                    <NewsCard
+                                        key={newItem.newsId}
+                                        newsId={newItem.newsId} 
+                                        image={newItem.coverImg}
+                                        type={newItem.newsType}
+                                        date={newItem.createdAt}
+                                        title={newItem.newsTitle}
+                                        description="Your description here"
+                                        isGreen={this.getCardClass(index)}
+                                        goArticle={this.goArticle}
+                                    />
+                                )}
+                            </div>
+                            <div className="btn-box">
+                                {currentPage > 1 && (
+                                    <button
+                                        className="btn"
+                                        onClick={() => this.Pagination(-1)}
+                                    >
+                                        <i className="bi bi-arrow-left-circle"></i>
+                                    </button>
+                                )}
+
+                                {pageNumbers.map(number => (
+                                    <button
+                                        key={number}
+                                        className={`btn ${currentPage === number ? 'active' : ''}`}
+                                        onClick={() => this.setState({ currentPage: number })}
+                                    >
+                                        {number}
+                                    </button>
+                                ))}
+
+                                {currentPage < totalPages && (
+                                    <button
+                                        className="btn"
+                                        onClick={() => this.Pagination(1)}
+                                    >
+                                        <i className="bi bi-arrow-right-circle"></i>
+                                    </button>
+                                )}
+                            </div>
+                        </div>
+                        <div id="rap" className="tabcontent" style={{ display: selectedType === 'rap' ? 'block' : 'none' }}>
+                            <div className="content">
+                                {currentCards.map((newItem, index) =>
+                                    <NewsCard
+                                        key={newItem.newsId}
+                                        newsId={newItem.newsId}
+                                        image={newItem.coverImg}
+                                        type={newItem.newsType}
+                                        date={newItem.createdAt}
+                                        title={newItem.newsTitle}
+                                        description="Your description here"
+                                        isGreen={this.getCardClass(index)}
+                                        goArticle={this.goArticle}
+                                    />
+                                )}
+                            </div>
+                            <div className="btn-box">
+                                {currentPage > 1 && (
+                                    <button
+                                        className="btn"
+                                        onClick={() => this.Pagination(-1)}
+                                    >
+                                        <i className="bi bi-arrow-left-circle"></i>
+                                    </button>
+                                )}
+
+                                {pageNumbers.map(number => (
+                                    <button
+                                        key={number}
+                                        className={`btn ${currentPage === number ? 'active' : ''}`}
+                                        onClick={() => this.setState({ currentPage: number })}
+                                    >
+                                        {number}
+                                    </button>
+                                ))}
+
+                                {currentPage < totalPages && (
+                                    <button
+                                        className="btn"
+                                        onClick={() => this.Pagination(1)}
+                                    >
+                                        <i className="bi bi-arrow-right-circle"></i>
+                                    </button>
+                                )}
+                            </div>
+                        </div>
+                        <div id="graffiti" className="tabcontent" style={{ display: selectedType === 'graffiti' ? 'block' : 'none' }}>
+                            <div className="content">
+                                {currentCards.map((newItem, index) =>
+                                    <NewsCard
+                                        key={newItem.newsId}
+                                        newsId={newItem.newsId}
+                                        image={newItem.coverImg}
+                                        type={newItem.newsType}
+                                        date={newItem.createdAt}
+                                        title={newItem.newsTitle}
+                                        description="Your description here"
+                                        isGreen={this.getCardClass(index)}
+                                        goArticle={this.goArticle}
+                                    />
+                                )}
+                            </div>
+                            <div className="btn-box">
+                                {currentPage > 1 && (
+                                    <button
+                                        className="btn"
+                                        onClick={() => this.Pagination(-1)}
+                                    >
+                                        <i className="bi bi-arrow-left-circle"></i>
+                                    </button>
+                                )}
+
+                                {pageNumbers.map(number => (
+                                    <button
+                                        key={number}
+                                        className={`btn ${currentPage === number ? 'active' : ''}`}
+                                        onClick={() => this.setState({ currentPage: number })}
+                                    >
+                                        {number}
+                                    </button>
+                                ))}
+
+                                {currentPage < totalPages && (
+                                    <button
+                                        className="btn"
+                                        onClick={() => this.Pagination(1)}
+                                    >
+                                        <i className="bi bi-arrow-right-circle"></i>
+                                    </button>
+                                )}
+                            </div>
+                        </div>
+                        <div id="skate" className="tabcontent" style={{ display: selectedType === 'skate' ? 'block' : 'none' }}>
+                            <div className="content">
+                                {currentCards.map((newItem, index) =>
+                                    <NewsCard
+                                        key={newItem.newsId}
+                                        newsId={newItem.newsId}
+                                        image={newItem.coverImg}
+                                        type={newItem.newsType}
+                                        date={newItem.createdAt}
+                                        title={newItem.newsTitle}
+                                        description="Your description here"
+                                        isGreen={this.getCardClass(index)}
+                                        goArticle={this.goArticle}
+                                    />
+                                )}
+                            </div>
+                            <div className="btn-box">
+                                {currentPage > 1 && (
+                                    <button
+                                        className="btn"
+                                        onClick={() => this.Pagination(-1)}
+                                    >
+                                        <i className="bi bi-arrow-left-circle"></i>
+                                    </button>
+                                )}
+
+                                {pageNumbers.map(number => (
+                                    <button
+                                        key={number}
+                                        className={`btn ${currentPage === number ? 'active' : ''}`}
+                                        onClick={() => this.setState({ currentPage: number })}
+                                    >
+                                        {number}
+                                    </button>
+                                ))}
+
+                                {currentPage < totalPages && (
+                                    <button
+                                        className="btn"
+                                        onClick={() => this.Pagination(1)}
+                                    >
+                                        <i className="bi bi-arrow-right-circle"></i>
+                                    </button>
+                                )}
+                            </div>
+                        </div>
+                        
+                    </div>
+                </section>
             </div>
-            <div class="content-box">
-                <div id="All" class="tabcontent">
-                    <div class="content">
-                        <div class="content-left">
-    
-                            <a href="news_article.html">
-                                <img class="decorate-left" src={require('../assets/images/decor01.png')} alt=""/>
-                                <div class="newsCard-green">
-                                    
-                                    
-                                    <div class="img-box">
-                                        <img src={require("../assets/images/new_banner1.png")} alt=""/>
-                                    </div>
-                                    <div class="item">
-                                        <div class="wrap">
-                                            <p>
-                                                <span>/// </span><span>饒舌</span>
-                                            </p><br/><br/>
-                                            <span>2024.</span>
-                                            <span>08.05</span>
-    
-                                        </div>
-                                        <div class="wrap">
-                                            <h4 class="multiline-ellipsis ">來自成都集團CDC的大陸饒舌歌手王以太</h4>
-                                            <p class="multiline-ellipsis ">在2018年《中國新說唱》中取得全國前六強的好成績</p>
-                                        </div>
-                                        <div class="wrap">
-                                            <div class="morebtn"><i class="bi bi-arrow-right"></i></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </a>
-                            <a href="">
-                                <div class="newsCard-gray">
-                                    <div class="img-box">
-                                        <img src={require("../assets/images/塗鴉 用的圖.jpg")} alt=""/>
-                                    </div>
-    
-                                    <div class="item">
-                                        <div class="wrap">
-                                            <p>
-                                                <span>/// </span><span>街舞</span>
-                                            </p><br/><br/>
-                                            <span>2024.</span>
-                                            <span>07.28</span>
-    
-                                        </div>
-                                        <div class="wrap">
-                                            <h4 class="multiline-ellipsis ">台灣嘻哈的強勢分支- 台灣TRAP 台灣嘻哈的強勢分支- 台灣TRAP</h4>
-                                            <p class="multiline-ellipsis ">當陷阱音樂從美國告示牌排行榜上一路延燒至台灣</p>
-                                        </div>
-                                        <div class="wrap">
-                                            <div class="morebtn"><i class="bi bi-arrow-right"></i></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </a>
-                            <a href="">
-                                <div class="newsCard-green">
-                                    <div class="img-box">
-                                        <img src={require("../assets/images/塗鴉 用的圖.jpg")} alt=""/>
-                                    </div>
-                                    <div class="item">
-                                        <div class="wrap">
-                                            <p>
-                                                <span>/// </span><span>街舞</span>
-                                            </p><br/><br/>
-                                            <span>2024.</span>
-                                            <span>07.28</span>
-    
-                                        </div>
-                                        <div class="wrap">
-                                            <h4 class="multiline-ellipsis ">台灣嘻哈的強勢分支- 台灣TRAP 台灣嘻哈的強勢分支- 台灣TRAP</h4>
-                                            <p class="multiline-ellipsis ">當陷阱音樂從美國告示牌排行榜上一路延燒至台灣</p>
-                                        </div>
-                                        <div class="wrap">
-                                            <div class="morebtn"><i class="bi bi-arrow-right"></i></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
-    
-                        <div class="content-right">
-    
-                            <a href="">
-                                <div class="newsCard-gray">
-                                    <div class="img-box">
-                                        <img src={require("../assets/images/塗鴉 用的圖.jpg")} alt=""/>
-                                    </div>
-    
-                                    <div class="item">
-                                        <div class="wrap">
-                                            <p>
-                                                <span>/// </span><span>街舞</span>
-                                            </p><br/><br/>
-                                            <span>2024.</span>
-                                            <span>07.28</span>
-    
-                                        </div>
-                                        <div class="wrap">
-                                            <h4 class="multiline-ellipsis ">台灣嘻哈的強勢分支- 台灣TRAP 台灣嘻哈的強勢分支- 台灣TRAP</h4>
-                                            <p class="multiline-ellipsis ">當陷阱音樂從美國告示牌排行榜上一路延燒至台灣</p>
-                                        </div>
-                                        <div class="wrap">
-                                            <div class="morebtn"><i class="bi bi-arrow-right"></i></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </a>
-                            <a href="">
-                                <img class="decorate-right" src={require("../assets/images/decor05.png")} alt=""/>
-                                <div class="newsCard-green">
-                                    <div class="img-box">
-                                        <img src={require("../assets/images/塗鴉 用的圖.jpg")} alt=""/>
-                                    </div>
-                                    <div class="item">
-                                        <div class="wrap">
-                                            <p>
-                                                <span>/// </span><span>街舞</span>
-                                            </p><br/><br/>
-                                            <span>2024.</span>
-                                            <span>07.28</span>
-    
-                                        </div>
-                                        <div class="wrap">
-                                            <h4 class="multiline-ellipsis ">台灣嘻哈的強勢分支- 台灣TRAP 台灣嘻哈的強勢分支- 台灣TRAP</h4>
-                                            <p class="multiline-ellipsis ">當陷阱音樂從美國告示牌排行榜上一路延燒至台灣</p>
-                                        </div>
-                                        <div class="wrap">
-                                            <div class="morebtn"><i class="bi bi-arrow-right"></i></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </a>
-                            <a href="">
-                                <img class="decorate-right" src={require("../assets/images/decor05.png")} alt=""/>
-                                <div class="newsCard-gray">
-                                    <div class="img-box">
-                                        <img src={require("../assets/images/塗鴉 用的圖.jpg")} alt=""/>
-                                    </div>
-                                    <div class="item">
-                                        <div class="wrap">
-                                            <p>
-                                                <span>/// </span><span>街舞</span>
-                                            </p><br/><br/>
-                                            <span>2024.</span>
-                                            <span>07.28</span>
-    
-                                        </div>
-                                        <div class="wrap">
-                                            <h4 class="multiline-ellipsis ">台灣嘻哈的強勢分支- 台灣TRAP 台灣嘻哈的強勢分支- 台灣TRAP</h4>
-                                            <p class="multiline-ellipsis ">當陷阱音樂從美國告示牌排行榜上一路延燒至台灣</p>
-                                        </div>
-                                        <div class="wrap">
-                                            <div class="morebtn"><i class="bi bi-arrow-right"></i></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
-    
-                    </div>
-                    <div class="btn-box">
-                        <button class="btn"><i class="bi bi-arrow-left-circle"></i></button>
-                        <button class="btn">1</button>
-                        <button class="btn">2</button>
-                        <button class="btn">3</button>
-                        <button class="btn"><i class="bi bi-arrow-right-circle"></i></button>
-                    </div>
-                </div>
-                <div id="DJ" class="tabcontent">
-                    <div class="content">
-                        <div class="content-left">
-    
-                            <a href="news_article.html">
-                                <img class="decorate-left" src={require('../assets/images/decor01.png')} alt=""/>
-                                <div class="newsCard-green">
-                                    
-                                    
-                                    <div class="img-box">
-                                        <img src={require("../assets/images/new_banner1.png")} alt=""/>
-                                    </div>
-                                    <div class="item">
-                                        <div class="wrap">
-                                            <p>
-                                                <span>/// </span><span>饒舌</span>
-                                            </p><br/><br/>
-                                            <span>2024.</span>
-                                            <span>08.05</span>
-    
-                                        </div>
-                                        <div class="wrap">
-                                            <h4 class="multiline-ellipsis ">來自成都集團CDC的大陸饒舌歌手王以太</h4>
-                                            <p class="multiline-ellipsis ">在2018年《中國新說唱》中取得全國前六強的好成績</p>
-                                        </div>
-                                        <div class="wrap">
-                                            <div class="morebtn"><i class="bi bi-arrow-right"></i></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </a>
-                            <a href="">
-                                <div class="newsCard-gray">
-                                    <div class="img-box">
-                                        <img src={require("../assets/images/塗鴉 用的圖.jpg")} alt=""/>
-                                    </div>
-    
-                                    <div class="item">
-                                        <div class="wrap">
-                                            <p>
-                                                <span>/// </span><span>街舞</span>
-                                            </p><br/><br/>
-                                            <span>2024.</span>
-                                            <span>07.28</span>
-    
-                                        </div>
-                                        <div class="wrap">
-                                            <h4 class="multiline-ellipsis ">台灣嘻哈的強勢分支- 台灣TRAP 台灣嘻哈的強勢分支- 台灣TRAP</h4>
-                                            <p class="multiline-ellipsis ">當陷阱音樂從美國告示牌排行榜上一路延燒至台灣</p>
-                                        </div>
-                                        <div class="wrap">
-                                            <div class="morebtn"><i class="bi bi-arrow-right"></i></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </a>
-                            <a href="">
-                                <div class="newsCard-green">
-                                    <div class="img-box">
-                                        <img src={require("../assets/images/塗鴉 用的圖.jpg")} alt=""/>
-                                    </div>
-                                    <div class="item">
-                                        <div class="wrap">
-                                            <p>
-                                                <span>/// </span><span>街舞</span>
-                                            </p><br/><br/>
-                                            <span>2024.</span>
-                                            <span>07.28</span>
-    
-                                        </div>
-                                        <div class="wrap">
-                                            <h4 class="multiline-ellipsis ">台灣嘻哈的強勢分支- 台灣TRAP 台灣嘻哈的強勢分支- 台灣TRAP</h4>
-                                            <p class="multiline-ellipsis ">當陷阱音樂從美國告示牌排行榜上一路延燒至台灣</p>
-                                        </div>
-                                        <div class="wrap">
-                                            <div class="morebtn"><i class="bi bi-arrow-right"></i></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
-    
-                        <div class="content-right">
-    
-                            <a href="">
-                                <div class="newsCard-gray">
-                                    <div class="img-box">
-                                        <img src={require("../assets/images/塗鴉 用的圖.jpg")} alt=""/>
-                                    </div>
-    
-                                    <div class="item">
-                                        <div class="wrap">
-                                            <p>
-                                                <span>/// </span><span>街舞</span>
-                                            </p><br/><br/>
-                                            <span>2024.</span>
-                                            <span>07.28</span>
-    
-                                        </div>
-                                        <div class="wrap">
-                                            <h4 class="multiline-ellipsis ">台灣嘻哈的強勢分支- 台灣TRAP 台灣嘻哈的強勢分支- 台灣TRAP</h4>
-                                            <p class="multiline-ellipsis ">當陷阱音樂從美國告示牌排行榜上一路延燒至台灣</p>
-                                        </div>
-                                        <div class="wrap">
-                                            <div class="morebtn"><i class="bi bi-arrow-right"></i></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </a>
-                            <a href="">
-                                <img class="decorate-right" src={require("../assets/images/decor05.png")} alt=""/>
-                                <div class="newsCard-green">
-                                    <div class="img-box">
-                                        <img src={require("../assets/images/塗鴉 用的圖.jpg")} alt=""/>
-                                    </div>
-                                    <div class="item">
-                                        <div class="wrap">
-                                            <p>
-                                                <span>/// </span><span>街舞</span>
-                                            </p><br/><br/>
-                                            <span>2024.</span>
-                                            <span>07.28</span>
-    
-                                        </div>
-                                        <div class="wrap">
-                                            <h4 class="multiline-ellipsis ">台灣嘻哈的強勢分支- 台灣TRAP 台灣嘻哈的強勢分支- 台灣TRAP</h4>
-                                            <p class="multiline-ellipsis ">當陷阱音樂從美國告示牌排行榜上一路延燒至台灣</p>
-                                        </div>
-                                        <div class="wrap">
-                                            <div class="morebtn"><i class="bi bi-arrow-right"></i></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </a>
-                            <a href="">
-                                <img class="decorate-right" src={require("../assets/images/decor05.png")} alt=""/>
-                                <div class="newsCard-gray">
-                                    <div class="img-box">
-                                        <img src={require("../assets/images/塗鴉 用的圖.jpg")} alt=""/>
-                                    </div>
-                                    <div class="item">
-                                        <div class="wrap">
-                                            <p>
-                                                <span>/// </span><span>街舞</span>
-                                            </p><br/><br/>
-                                            <span>2024.</span>
-                                            <span>07.28</span>
-    
-                                        </div>
-                                        <div class="wrap">
-                                            <h4 class="multiline-ellipsis ">台灣嘻哈的強勢分支- 台灣TRAP 台灣嘻哈的強勢分支- 台灣TRAP</h4>
-                                            <p class="multiline-ellipsis ">當陷阱音樂從美國告示牌排行榜上一路延燒至台灣</p>
-                                        </div>
-                                        <div class="wrap">
-                                            <div class="morebtn"><i class="bi bi-arrow-right"></i></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
-    
-                    </div>
-                    <div class="btn-box">
-                        <button class="btn"><i class="bi bi-arrow-left-circle"></i></button>
-                        <button class="btn">1</button>
-                        <button class="btn">2</button>
-                        <button class="btn">3</button>
-                        <button class="btn"><i class="bi bi-arrow-right-circle"></i></button>
-                    </div>
-                </div>
-                
-                    
-    
-    
-            </div>
-    
-            
-    
-        </section>
-
-
-
-
         );
-        
-
-      
-
-
     }
-
-    openCity(evt, cityName) {
-        console.log(evt); // 檢查 evt 是否是正確的事件對象
-        console.log(cityName); // 檢查 cityName 是否是正確的值
-    
-        var i, tabcontent, tablinks;
-        tabcontent = document.getElementsByClassName("tabcontent");
-        for (i = 0; i < tabcontent.length; i++) {
-            tabcontent[i].style.display = "none";
-        }
-        tablinks = document.getElementsByClassName("tablinks");
-        for (i = 0; i < tablinks.length; i++) {
-            tablinks[i].className = tablinks[i].className.replace(" active", "");
-        }
-        const cityElement = document.getElementById(cityName);
-        if (cityElement) {
-            cityElement.style.display = "block";
-        } 
-        if (evt.currentTarget) {
-            evt.currentTarget.className += " active";
-        } 
-    }
-    
-    componentDidMount() {
-        document.getElementById("defaultOpen").click();
-    }
-
-
 }
+
 export default NewsIndex;

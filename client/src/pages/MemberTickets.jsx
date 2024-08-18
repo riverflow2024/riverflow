@@ -135,9 +135,10 @@ class MemberTickets extends Component {
 
         };
 
-        // 如果會員沒有照片就使用預設圖片
+       
+       // 如果會員沒有照片就使用預設圖片
         const { userImg } = this.state.Users;
-        const imageSrc = userImg ? `/images/users/${userImg}` : defaultImg;
+        const imageSrc = userImg ?require(`../assets/images/users/${userImg}`)  : defaultImg;
 
         return (
 

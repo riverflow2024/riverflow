@@ -1,19 +1,76 @@
-import React from 'react'
-import { useNavigate } from 'react-router-dom'
-import $ from 'jquery'
-import 'jquery-ui/ui/widgets/tabs'
+// Author: zhier1114
+import React, { useState, useEffect } from 'react'
+import { useParams, useNavigate } from 'react-router-dom'
+import axios from 'axios'
 
-export default function EventOrderInfo () {
+export default function EventOrderInfo() {
+  const { id } = useParams()
   const navigate = useNavigate()
-
-  $(function () {
-    $('.tabs').tabs()
-    $('.tabBtn').on('click', function () {
-      // console.log(this)
-      $('.tabBtn').removeClass('active')
-      $(this).addClass('active')
-    })
+  const [formData, setFormData] = useState({
+    createdAt: '',
+    rcptName: '',
+    sex: '',
+    email: '',
+    phone: '',
+    receiptType: '',
+    receiptInfo: '',
+    eventName: '',
+    quantity: 0,
+    ticketType: '',
+    randNum: '',
+    tdPrice: 0,
+    tdStatus: ''
   })
+
+  const fetchEventOrderDetails = async () => {
+    try {
+      const response = await axios.get(`http://localhost:3000/riverflow/admin/event-orders/${id}`)
+      const eventOrderData = response.data[0]
+
+      // 處理時間格式
+      const formatDate = (dateString) => {
+        if (!dateString) return ''
+        const date = new Date(dateString)
+        const year = date.getFullYear()
+        const month = String(date.getMonth() + 1).padStart(2, '0')
+        const day = String(date.getDate()).padStart(2, '0')
+        const hours = String(date.getHours()).padStart(2, '0')
+        const minutes = String(date.getMinutes()).padStart(2, '0')
+        const seconds = String(date.getSeconds()).padStart(2, '0')
+        return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`
+      }
+      const createDate = formatDate(eventOrderData.createdAt)
+      eventOrderData.createdAt = createDate
+
+      setFormData(eventOrderData)
+    } catch (error) {
+      console.error('獲取活動訂單詳細內容失敗：', error)
+    }
+  }
+
+  useEffect(() => {
+    fetchEventOrderDetails()
+  }, [id])
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value
+    }))
+  }
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    try {
+      await axios.put(`http://localhost:3000/riverflow/admin/event-orders/${id}`, formData)
+      alert('訂單已成功更新')
+      navigate(-1)
+    } catch (error) {
+      console.error('更新訂單失敗：', error)
+      alert('更新訂單失敗，請稍後再試')
+    }
+  }
 
   return (
     <div className='main'>
@@ -29,39 +86,39 @@ export default function EventOrderInfo () {
 
         {/* <!-- tabContent 活動訂單資訊--> */}
         <div id='orderDetail' className='tabContent'>
-          <form action='' className='prdOrderForm'>
+          <form onSubmit={handleSubmit} className='prdOrderForm'>
             <div className='orderInfoList flex'>
               <div className='details'>
                 <div className='orderItem'>
                   <div>訂單成立時間：</div>
                   <div id='orderTime' className='orderItemInfo'>
-                    2024.07.14 23:02
+                    {formData.createdAt}
                   </div>
                 </div>
                 <div className='orderItemList flex'>
                   <div className='orderItem half'>
                     <div>訂購人名稱：</div>
                     <div id='orderUserName' className='orderItemInfo'>
-                      王大明
+                      {formData.rcptName}
                     </div>
                   </div>
                   <div className='orderItem half'>
                     <div>訂購人性別：</div>
                     <div id='orderUserGender' className='orderItemInfo'>
-                      男
+                      ${formData.sex}
                     </div>
                   </div>
                 </div>
                 <div className='orderItem'>
                   <div>訂購人e-mail：</div>
                   <div id='orderUserEmail' className='orderItemInfo'>
-                    wangdaming@test.com
+                    {formData.email}
                   </div>
                 </div>
                 <div className='orderItem'>
                   <div>訂購人電話：</div>
                   <div id='orderUserPhone' className='orderItemInfo'>
-                    0900-100100
+                    {formData.phone}
                   </div>
                 </div>
                 <div className='orderItem'>
@@ -79,10 +136,10 @@ export default function EventOrderInfo () {
                 <div className='orderItem'>
                   <div>電子發票：</div>
                   <div id='eventOrderReceipt' className='orderItemInfo'>
-                    手機載具
+                    {formData.receiptType}
                   </div>
                   <div id='eventCarrier' className='orderItemInfo'>
-                    /SVSVSVS
+                    {formData.receiptInfo}
                   </div>
                 </div>
               </div>
@@ -90,41 +147,45 @@ export default function EventOrderInfo () {
                 <div className='orderItem'>
                   <div>購買場次：</div>
                   <div id='orderEventName' className='orderItemInfo'>
-                    第八屆【台北盃街舞大賽】
+                    {formData.eventName}
                   </div>
                 </div>
                 <div className='orderItem'>
                   <div>購買票數</div>
                   <div id='orderTicketNum' className='orderItemInfo'>
-                    4
+                    {formData.quantity}
                   </div>
                 </div>
                 <div className='orderItem'>
-                  <div>購買區域</div>
+                  <div>購買票種</div>
                   <div id='orderEventArea' className='orderItemInfo'>
-                    1F搖滾區
+                    {formData.ticketType}
                   </div>
                 </div>
                 <div className='orderItem'>
                   <div>取票序號</div>
                   <div id='orderRandonNum' className='orderItemInfo'>
-                    04759365
+                    {formData.randNum}
                   </div>
                 </div>
                 <div className='orderItem'>
                   <div>訂單金額：</div>
                   <div className='orderItemInfo flex'>
                     <span>NT$</span>
-                    <span id='orderSumPrice'>4720</span>
+                    <span id='orderSumPrice'>{formData.tdPrice}</span>
                   </div>
                 </div>
                 <div className='orderItem'>
-                  <label for='eventOrderStatus'>訂單狀態：</label>
-                  <select name='eventOrderStatus' id='eventOrderStatus' className='statusEdit'>
-                    <option value='processing'>處理中</option>
-                    <option value='completed'>已完成</option>
-                    <option value='cancelled'>已取消</option>
-                    <option value='refunded'>已退款</option>
+                  <label>訂單狀態：</label>
+                  <select
+                    name='tdStatus'
+                    value={formData.tdStatus}
+                    id='eventOrderStatus'
+                    className='statusEdit'
+                    onChange={handleInputChange}
+                  >
+                    <option value='已付款'>已付款</option>
+                    <option value='已退款'>已退款</option>
                   </select>
                 </div>
               </div>
@@ -133,10 +194,10 @@ export default function EventOrderInfo () {
         </div>
       </div>
       <div className='btnList flex'>
-        <button classNameName='btn' onClick={() => navigate(-1)}>
+        <button className='btn' onClick={() => navigate(-1)}>
           <i className='fa-solid fa-angle-left' /> 返回
         </button>
-        <button className='btn' type='submit'>
+        <button onClick={handleSubmit} className='btn' type='submit'>
           <i className='fa-solid fa-floppy-disk' /> 儲存
         </button>
       </div>

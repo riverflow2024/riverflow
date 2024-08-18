@@ -10,21 +10,88 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+    <style>
+        #navbar{
+            position: fixed;
+            top: 0;
+        }
+    </style>
 </head>
 
 <body class="w-bg scrollCust">
-    <header>
-        <img src="../assets/images/indexImg/nav.jpg" alt="">
+    <header id="navbar">
+        <div class="flex container ">
+            <a href="#">
+                <img class="logo" src="../assets/images/riverflow_logo.png" alt="logo">
+            </a>
+            <div class="flex header-right">
+                <ul class="headerLink flex">
+                    <li><a href="index.html">首頁</a></li>
+                    <li class="cultureListName dropdown">
+                        <a class="dropdownToggle" href="#">嘻哈文化<i class="bi bi-caret-down-fill"></i></a>                        
+                        <div id="dropdownMenu" class="">
+                            <ul class="cultureList flex">
+                                <li><a href="#" class="cultureOpt">DJ</a></li>
+                                <li><a href="#" class="cultureOpt">街舞</a></li>
+                                <li><a href="#" class="cultureOpt">饒舌</a></li>
+                                <li><a href="#" class="cultureOpt">塗鴉</a></li>
+                                <li><a href="#" class="cultureOpt">滑板</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li><a href="news.html">嘻哈專欄</a></li>
+                    <li><a href="#">into flow</a></li>
+                    <li><a href="#">商店</a></li>
+                </ul>
+                <div class="functionIcons flex">
+                    <a href="memberTickets.html" class="headerIcon">
+                        <i class="bi bi-ticket-perforated"></i>
+                    </a>
+                    <a href="#" class="headerIcon">
+                        <i class="bi bi-cart"></i>
+                    </a>
+                    <a href="login.html" class="headerIcon">
+                        <i class="bi bi-person"></i>
+                    </a>
+                    <div class="headerIcon mobOnly">
+                        <input id="menuBtn" class="menuBtn" type="checkbox">
+                        <label for="menuBtn" class="menuIcon">
+                            <span class="navigation"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="mobMenu">
+            <ul class="headerLink mob flex">
+                <li><a href="#">首頁</a></li>
+                <li class="cultureListName dropdown dropdown_mob">
+                    <a class="dropdownToggle" href="#">嘻哈文化<i class="bi bi-caret-down-fill bi-caret-down-fill_mob"></i></a>
+                    <div id="dropdownMenu">
+                        <ul class="cultureList cultureList_mob flex">
+                            <li><a href="#" class="cultureOpt">DJ</a></li>
+                            <li><a href="#" class="cultureOpt">街舞</a></li>
+                            <li><a href="#" class="cultureOpt">饒舌</a></li>
+                            <li><a href="#" class="cultureOpt">塗鴉</a></li>
+                            <li><a href="#" class="cultureOpt">滑板</a></li>
+                        </ul>
+                    </div>
+                </li>
+                <li><a href="#">嘻哈專欄</a></li>
+                <li><a href="#">into flow</a></li>
+                <li><a href="#">商店</a></li>
+            </ul>
+        </div>
     </header>
 
     <section class="rap">
         <div class="gtitle">
             <h1>Rap Music</h1>
         </div>
-        <p>
+        <!-- <p>
             「嘻哈音樂」也譯「饒舌音樂」（Hip-hop Music、hip-hop、rap music）是一種跟著伴奏、帶著韻律吟誦即饒舌的音樂風格。所用的伴奏多產生於音樂取樣的方式。
             嘻哈音樂及嘻哈文化首先在1970年代美國貧民區的青年中出現，其中大多數是紐約的美國黑人。嘻哈文化包含饒舌、DJ、塗鴉、街舞及節奏口技(Beatbox)五大要素。而嘻哈音樂至今已經衍伸出各種流派與風格，也成了當今音樂市場的主流。
-        </p>
+        </p> -->
 
         <div class="rap-container">
             <div class="beatmaker-box">
@@ -146,11 +213,11 @@
 
         </div>
 
-        <p>
+        <!-- <p>
             現在音樂曲風的界線越來越模糊，
             有很多無法被歸類是哪種風格的曲風都陸續出現，因為大家都喜歡自己喜歡的音樂，所以也常常會發生兩派擁護者在爭執到底哪一方的音樂才是正統，世代的交替似乎總是這樣，當屬於新一輩的「東西」在年輕群體間擴散時，觀念截然不同的老一輩經常在第一時間給岀批評或是大力抨擊。如果所有人只想活在某個過去年代的榮景中，那麼整個世界絕對不可能往前邁進；但反過來說，如果只一昧追求最新的、最前面的事物，而對於過往皆不屑一顧，則容易喪失了文化底蘊。從以往的Old
             School 演變成 New School，兩者雖有不小的差異，但是精采程度不相上下。
-        </p>
+        </p> -->
 
 
 

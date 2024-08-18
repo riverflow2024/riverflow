@@ -1,167 +1,177 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import { PlusCircle, MinusCircle, Trash2 } from 'lucide-react';
+import React, { useState, useEffect } from 'react'
+import axios from 'axios'
+import { useNavigate } from 'react-router-dom' // 引入 useNavigate
+import '../assets/cart.css'
+import Header from '../components/header'
 
+// 單個購物車項目元件
 const CartItem = ({ item, onQuantityChange, onDelete }) => {
   const handleQuantityChange = (change) => {
-    onQuantityChange(item.ciid, item.quantity + change);
-  };
+    onQuantityChange(item.ciid, item.quantity + change)
+  }
 
   return (
-    <div className="flex items-center justify-between py-4 border-b">
-      <div className="flex items-center space-x-4">
-        <img
-          src={`https://example.com/products/${item.productId}/image`}
-          alt={item.productName}
-          className="w-16 h-16 object-cover"
-        />
-        <div>
-          <h4 className="font-semibold">{item.productName}</h4>
-          <p className="text-sm text-gray-600">{item.productOpt}</p>
+    <tr className="cart-item">
+      <td>
+        <div className="cart-item-left-content">
+          <img
+            src={`http://localhost:3000${item.productImg}`}
+            alt={item.productName}
+            onError={(e) => {
+              e.target.src = '/images/products/default.jpg' // 預設圖片路徑
+            }}
+          />
+          <div className="cart-item-content">
+            <h4>{item.productName}</h4>
+            <h5>{item.productOpt}</h5>
+          </div>
         </div>
-      </div>
-      <div className="text-center">
-        <p className="font-semibold">NT${item.price}</p>
-      </div>
-      <div className="flex items-center space-x-2">
-        <button
-          onClick={() => handleQuantityChange(-1)}
-          disabled={item.quantity === 1}
-          className="text-gray-500 disabled:opacity-50"
+      </td>
+      <td className="price">NT${item.price}</td>
+      <td>
+        <div className="quantity-plus-minus">
+          <a
+            href="#"
+            onClick={(e) => {
+              e.preventDefault()
+              handleQuantityChange(-1)
+            }}
+            className="quantity-minus"
+            aria-disabled={item.quantity === 1 ? 'true' : 'false'}
+          >
+            <i className="fa-solid fa-circle-minus"></i>
+          </a>
+          <p className="quantity">{item.quantity}</p>
+          <a
+            href="#"
+            onClick={(e) => {
+              e.preventDefault()
+              handleQuantityChange(1)
+            }}
+            className="quantity-plus"
+          >
+            <i className="fa-solid fa-circle-plus"></i>
+          </a>
+        </div>
+      </td>
+      <td className="total">NT${item.price * item.quantity}</td>
+      <td>
+        <a
+          href="#"
+          onClick={(e) => {
+            e.preventDefault()
+            onDelete(item.ciid)
+          }}
+          className="delete"
         >
-          <MinusCircle size={20} />
-        </button>
-        <span className="w-8 text-center">{item.quantity}</span>
-        <button
-          onClick={() => handleQuantityChange(1)}
-          className="text-gray-500"
-        >
-          <PlusCircle size={20} />
-        </button>
-      </div>
-      <div className="text-center">
-        <p className="font-semibold">NT${item.price * item.quantity}</p>
-      </div>
-      <button onClick={() => onDelete(item.ciid)} className="text-red-500">
-        <Trash2 size={20} />
-      </button>
-    </div>
-  );
-};
+          <i className="fa-regular fa-trash-can"></i>
+        </a>
+      </td>
+    </tr>
+  )
+}
 
 const Cart = () => {
-  const [cartItems, setCartItems] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const [cartItems, setCartItems] = useState([])
+  const [isLoading, setIsLoading] = useState(false)
+  const navigate = useNavigate() // 使用 useNavigate
 
   useEffect(() => {
-    axios.defaults.withCredentials = true;
-    fetchCartItems();
-  }, []);
+    axios.defaults.withCredentials = true
+    fetchCartItems()
+  }, [])
 
   const fetchCartItems = () => {
-    axios.get(`http://localhost:3000/riverflow/cart/`)
+    axios
+      .get('http://localhost:3000/riverflow/cart/')
       .then((response) => {
-        setCartItems(response.data);
+        setCartItems(response.data)
       })
       .catch((error) => {
-        console.error('獲取購物車項目失敗', error);
+        console.error('獲取購物車項目失敗', error)
         if (error.response && error.response.status === 401) {
-          console.error('Token 可能已過期或無效，需要重新登入');
+          console.error('Token 可能已過期或無效，需要重新登入')
         }
-      });
-  };
+      })
+  }
 
   const updateCart = (ciid, newQuantity) => {
-    axios.put('http://localhost:3000/riverflow/cart/update', { ciid, quantity: newQuantity })
+    if (newQuantity <= 0) return
+    axios
+      .put('http://localhost:3000/riverflow/cart/update', { ciid, quantity: newQuantity })
       .then(() => {
-        setCartItems(
-          cartItems.map((item) =>
-            item.ciid === ciid ? { ...item, quantity: newQuantity } : item
-          )
-        );
+        setCartItems(cartItems.map((item) => (item.ciid === ciid ? { ...item, quantity: newQuantity } : item)))
       })
       .catch((error) => {
-        console.error('更新購物車項目失敗', error);
-      });
-  };
+        console.error('更新購物車項目失敗', error)
+      })
+  }
 
   const deleteItem = (ciid) => {
-    axios.delete(`http://localhost:3000/riverflow/cart/remove/${ciid}`)
+    axios
+      .delete(`http://localhost:3000/riverflow/cart/remove/${ciid}`)
       .then(() => {
-        setCartItems(cartItems.filter((item) => item.ciid !== ciid));
+        setCartItems(cartItems.filter((item) => item.ciid !== ciid))
       })
       .catch((error) => {
-        console.error('刪除購物車項目失敗', error);
-      });
-  };
+        console.error('刪除購物車項目失敗', error)
+      })
+  }
 
-  const handleCheckout = async () => {
-    setIsLoading(true);
-    try {
-      const response = await axios.post('http://localhost:3000/riverflow/pay/create-checkout-session', {
-        items: cartItems.map(item => ({
-          name: item.productName,
-          size: item.productOpt,
-          price: item.price,
-          quantity: item.quantity,
-          productId: item.productId
-        }))
-      });
-      window.location = response.data.url;
-    } catch (error) {
-      console.error('創建結帳會話失敗', error);
-      alert('結帳過程中發生錯誤，請稍後再試。');
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  const handleCheckout = () => {
+    navigate('/Order/cartCheckOut', { state: { cartItems } }) // 導航到指定的 Checkout 頁面並傳遞數據
+  }
 
-  const totalItems = cartItems.reduce((acc, item) => acc + item.quantity, 0);
-  const totalPrice = cartItems.reduce(
-    (acc, item) => acc + item.price * item.quantity,
-    0
-  );
+  const totalItems = cartItems.reduce((acc, item) => acc + item.quantity, 0)
+  const totalPrice = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0)
 
   return (
-    <div className="max-w-4xl mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-6">River Flow | 購物車</h1>
-      <div className="bg-white shadow-md rounded-lg overflow-hidden">
-        <div className="grid grid-cols-5 gap-4 p-4 bg-gray-100 font-semibold">
-          <div className="col-span-2">商品</div>
-          <div className="text-center">單價</div>
-          <div className="text-center">數量</div>
-          <div className="text-center">總金額</div>
-        </div>
-        <div className="p-4">
-          {cartItems.map((item) => (
-            <CartItem
-              key={item.ciid}
-              item={item}
-              onQuantityChange={updateCart}
-              onDelete={deleteItem}
-            />
-          ))}
-        </div>
-      </div>
-      <div className="mt-6 flex justify-between items-center">
-        <p className="text-lg">
-          已選購 <span className="font-bold">{totalItems}</span> 項商品
-        </p>
-        <div className="text-right">
-          <p className="text-xl mb-2">
-            總金額: <span className="font-bold">NT${totalPrice}</span>
-          </p>
-          <button
-            onClick={handleCheckout}
-            disabled={isLoading || cartItems.length === 0}
-            className="bg-green-500 text-white px-6 py-2 rounded-full hover:bg-green-600 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed"
-          >
-            {isLoading ? '處理中...' : '前往結帳'}
-          </button>
+    <div className="cart-wrap-f">
+      <Header />
+      <div className="container-f">
+        <div className="cart-wrap">
+          <div className="container">
+            <div className="top">
+              <h3>River Flow | 購物車</h3>
+            </div>
+            <div className="cart-border">
+              <table className="cart-table">
+                <thead>
+                  <tr>
+                    <th className="shop-push">商品</th>
+                    <th>單價</th>
+                    <th>數量</th>
+                    <th>總金額</th>
+                    <th>刪除</th>
+                  </tr>
+                </thead>
+              </table>
+            </div>
+            <div className="cart-border-inner">
+              <table className="cart-table">
+                <tbody id="cart-items">
+                  {cartItems.map((item) => (
+                    <CartItem key={item.ciid} item={item} onQuantityChange={updateCart} onDelete={deleteItem} />
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            <div className="checkButton">
+              <p>
+                已選購 <span id="item-count">{totalItems}</span> 項商品
+              </p>
+              <div className="rightCheckButton">
+                總金額: NT$<span id="total-amount">{totalPrice}</span>
+                <button onClick={handleCheckout} disabled={isLoading || cartItems.length === 0} className="GoBtn">
+                  {isLoading ? '處理中...' : '前往訂單'}
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Cart;
+export default Cart

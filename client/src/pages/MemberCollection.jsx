@@ -17,53 +17,56 @@ class MemberCollection extends Component {
         },
         ProductFavorite: [
             {
-                "productName": "王以太 演說家 幸存者 專輯",
-                "productDesc": "演說家不用多說封神專輯 裡面的歌幾本都很頂，每天都還是會聽阿斯匹林，內涵CD+超長拉頁拼圖"
-
+                "productId": "",
+                "productName": "名字",
+                "productDesc": "描述",
+                "productPrice": 250,
+                "productImg": "../assets/images/products/product1_1.jpeg"
             },
         ],
-
 
         isLoading: true,      // 加载状态
         error: null
     }
-
+    // 執行程式碼
     componentDidMount() {
         this.fetchUserData();
-        this.fetchOrderData();
-
+        this.fetchFavoritesData();
     }
 
+    // 取得會員資料
     fetchUserData = async () => {
         try {
             const response = await axios.get('http://localhost:3000/riverflow/user', {
                 withCredentials: true // 确保请求带上 Cookie
             });
-            console.log("Fetched user data:", response.data); // 打印返回的数据
+            // check會員資料
+            console.log("Fetched user data:", response.data); 
             this.setState({
                 Users: response.data,
                 isLoading: false
             });
         } catch (error) {
             console.error("Error fetching user data:", error);
-            // 清除本地存储中的 Token，并重定向到登录页面
+            
             localStorage.removeItem('token');
             this.setState({
                 isLoading: false,
                 error: 'Failed to fetch user data. Please log in again.'
             });
-            // window.location.href = '/login';
+            
         }
     };
 
-    fetchOrderData = async () => {
+    // 獲取喜愛商品的資料
+    fetchFavoritesData = async () => {
         try {
-            const response = await axios.get('http://localhost:3000/riverflow/user/products/', {
+            const response = await axios.get('http://localhost:3000/riverflow/user/favorites', {
                 withCredentials: true
             });
-            console.log("Fetched order data:", response.data); // 打印返回的数据
+            console.log("Fetched order data:", response.data);
             this.setState({
-                Order: response.data
+                ProductFavorite: response.data
             });
         } catch (error) {
             console.error("Error fetching order data:", error);
@@ -74,9 +77,10 @@ class MemberCollection extends Component {
 
 
     };
+    
 
-     // 登出
-     Logout = async () => {
+    // 登出
+    Logout = async () => {
         try {
             await axios.get('http://localhost:3000/riverflow/user/logout', {
                 withCredentials: true // 确保请求带上 Cookie
@@ -90,6 +94,9 @@ class MemberCollection extends Component {
             // 可以显示错误消息或者其他处理
         }
     };
+
+
+
     render() {
         const { Users, isLoading, error } = this.state;
         if (isLoading) {
@@ -101,7 +108,7 @@ class MemberCollection extends Component {
         }
         // 如果會員沒有照片就使用預設圖片
         const { userImg } = this.state.Users;
-        const imageSrc = userImg ? `/images/users/${userImg}` : defaultImg;
+        const imageSrc = userImg ? require(`../assets/images/users/${userImg}`) : defaultImg;
         return (
             <div>
                 <Header />
@@ -139,29 +146,29 @@ class MemberCollection extends Component {
                         </div>
 
                         <div id="Collection" class="tabcontent">
-                            {this.state.ProductFavorite.map(productItem =>
-                                <div class="order">
+                            {this.state.ProductFavorite.map((productItem, index) => (
+                                <div class="order" key={index}>
 
                                     <div class="Img-box">
-                                        <img src={require("../assets/images/memberCollection.png")} alt="" />
+                                        <img src={productItem.productImg} alt="" />
                                     </div>
                                     <div class="container">
                                         <div class="wrap">
                                             <h3>{productItem.productName}</h3>
-                                            <button class="closebtn"><i class="bi bi-x"></i></button>
+                                            <button class="closebtn" onClick={() => this.Delete(productItem.productId)}><i class="bi bi-x"></i></button>
                                         </div>
                                         <div class="wrap">
                                             <p>{productItem.productDesc}</p>
                                         </div>
                                         <div class="wrap">
-                                            <span>金額  NT. $880</span>
-                                            <button class="orderbtn">加入購物車</button>
+                                            <span>NT${productItem.productPrice}</span>
+                                            <button class="orderbtn" onClick={() => this.goProduct(productItem.productId)}>前往商品頁</button>
                                         </div>
                                     </div>
 
                                 </div>
 
-                            )}
+                            ))}
                         </div>
 
 
@@ -218,6 +225,29 @@ class MemberCollection extends Component {
     goOrder = async () => {
         window.location = "/Member/Order";
     }
+
+    //  前往商品頁
+    goProduct = (productId) => {
+        window.location = `/Product/Detail/${productId}`;
+    };
+    // 刪除商品
+    Delete = async (productId) => {
+        try {
+            const response = await axios.delete(`http://localhost:3000/riverflow/user/favorites/${productId}`, {
+                withCredentials: true
+            });
+            if (response.status === 200) {
+                console.log("商品已成功刪除");
+                 // 更新商品列表
+                 this.setState(prevState => ({
+                    ProductFavorite: prevState.ProductFavorite.filter(product => product.productId !== productId)
+                }));
+            }
+        } catch (error) {
+            console.error("刪除商品時出錯:", error);
+        }
+    };
+
 
 
 

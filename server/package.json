@@ -17,6 +17,8 @@
   },
   "homepage": "https://github.com/zhier1114/RiverFlow#readme",
   "dependencies": {
+    "@ckeditor/ckeditor5-build-classic": "^43.0.0",
+    "@ckeditor/ckeditor5-react": "^9.0.0",
     "axios": "^1.7.3",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.20.2",
@@ -39,7 +41,9 @@
     "open": "^10.1.0",
     "path": "^0.12.7",
     "stripe": "^16.7.0",
-    "util": "^0.12.5"
+    "util": "^0.12.5",
+    "sweetalert2": "^11.12.4",
+    "sweetalert2-react-content": "^5.0.7"
   },
   "keywords": []
 }
