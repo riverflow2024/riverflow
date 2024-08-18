@@ -265,6 +265,30 @@ exports.launchNews = async (req, res) => {
     res.status(500).json({ message: err.message })
   }
 }
+// 編輯
+exports.editNews = async (req, res) => {
+  try {
+    const newsId = req.params.newsId
+    const updateData = {
+      newsType: req.body.newsType,
+      newsTitle: req.body.newsTitle,
+      newsContent: req.body.newsContent,
+      newsAuthor: req.body.newsAuthor,
+      newsStatus: req.body.newsStatus
+    }
+
+    req.body.pubTime !== undefined ? (updateData.pubTime = new Date(req.body.pubTime)) : (updateData.pubTime = null)
+
+    // 如果有新的封面圖片上傳
+    req.file ? (updateData.coverImg = req.file.filename) : (updateData.coverImg = req.body.coverImg)
+
+    const updatedNews = await adminModel.updateNews(newsId, updateData)
+    res.json(updatedNews)
+  } catch (err) {
+    console.error('文章更新失敗：', err)
+    res.status(500).json({ message: err.message })
+  }
+}
 // 搜尋
 exports.searchNews = async (req, res) => {
   try {
@@ -382,14 +406,21 @@ exports.createNews = async (req, res) => {
 }
 // 新增：圖片處理
 exports.createNewsImages = async (req, res) => {
-  const projectRoot = path.join(__dirname, '..', '..')
-  const uploadDirectory = path.join(projectRoot, 'client', 'src', 'assets', 'images', 'news')
-  if (!req.file) {
-    return res.status(400).send({ error: 'No file uploaded' })
-  }
-  const imageUrl = `${uploadDirectory}/${req.file.filename}`
+  try {
+    if (!req.file) {
+      return res.status(400).send({ error: '沒有上傳檔案' })
+    }
+    console.log('File details:', req.file)
 
-  res.status(200).json({ url: imageUrl })
+    // 構建前端可以使用的 URL
+    const imageUrl = `/images/news/${req.file.filename}`
+    console.log('圖片已保存，URL:', imageUrl)
+
+    res.status(200).json({ url: imageUrl })
+  } catch (error) {
+    console.error('圖片上傳處理錯誤:', error)
+    res.status(500).json({ error: '圖片上傳處理過程中發生錯誤' })
+  }
 }
 // 刪除
 exports.deleteNews = async (req, res) => {
