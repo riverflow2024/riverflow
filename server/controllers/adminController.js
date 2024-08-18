@@ -2,6 +2,10 @@
 const adminModel = require('../models/adminModel')
 const dbConnect = require('../models/dbConnect')
 const util = require('util')
+const multer = require('multer')
+const { JSDOM } = require('jsdom')
+const fs = require('fs').promises
+const path = require('path')
 
 // 商品
 
@@ -11,15 +15,18 @@ exports.getAllProducts = async (req, res) => {
     const allProducts = await adminModel.getAllProducts()
     const productCategories = await adminModel.getProductCategories()
 
-    const productsWithCategories = allProducts.map((product) => {
+    const results = allProducts.map((product) => {
+      const options = JSON.parse(product.productOpt)
+      const totalStock = options.reduce((sum, option) => sum + option.stock, 0)
+
       const categories = productCategories
         .filter((category) => category.productId === product.productId)
         .map((category) => category.categoryName)
 
-      return { ...product, categories }
+      return { ...product, categories, totalStock }
     })
 
-    res.json(productsWithCategories)
+    res.json(results)
   } catch (err) {
     console.error('取得所所有商品資訊：', err)
     res.status(500).json({ message: err.message })
@@ -258,10 +265,38 @@ exports.launchNews = async (req, res) => {
     res.status(500).json({ message: err.message })
   }
 }
+// 編輯
+exports.editNews = async (req, res) => {
+  try {
+    const newsId = req.params.newsId
+    const updateData = {
+      newsType: req.body.newsType,
+      newsTitle: req.body.newsTitle,
+      newsContent: req.body.newsContent,
+      newsAuthor: req.body.newsAuthor,
+      newsStatus: req.body.newsStatus
+    }
+
+    req.body.pubTime !== undefined ? (updateData.pubTime = new Date(req.body.pubTime)) : (updateData.pubTime = null)
+
+    // 如果有新的封面圖片上傳
+    req.file ? (updateData.coverImg = req.file.filename) : (updateData.coverImg = req.body.coverImg)
+
+    const updatedNews = await adminModel.updateNews(newsId, updateData)
+    res.json(updatedNews)
+  } catch (err) {
+    console.error('文章更新失敗：', err)
+    res.status(500).json({ message: err.message })
+  }
+}
 // 搜尋
 exports.searchNews = async (req, res) => {
   try {
-    const searchNews = await adminModel.searchNews(req.query.keyword)
+    const keyword = req.query.keyword || req.query.search // 添加備選參數名稱
+    if (!keyword) {
+      return res.redirect('riverflow/admin/news')
+    }
+    const searchNews = await adminModel.searchNews(keyword)
 
     res.json(searchNews)
   } catch (err) {
@@ -271,15 +306,120 @@ exports.searchNews = async (req, res) => {
 }
 // 新增
 exports.createNews = async (req, res) => {
-  try {
-    const created = await adminModel.createNews(req.body)
-    if (!created) {
-      return res.status(500).json({ message: '建立文章失敗' })
+  const projectRoot = path.join(__dirname, '..', '..')
+  const uploadDirectory = path.join(projectRoot, 'client', 'src', 'assets', 'images', 'news')
+
+  const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+      cb(null, uploadDirectory)
+    },
+    filename: (req, file, cb) => {
+      const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9)
+      cb(null, file.fieldname + '-' + uniqueSuffix + path.extname(file.originalname))
     }
-    res.status(201).json({ message: '文章已建立', newsId: created.insertId })
-  } catch (err) {
-    console.error('建立文章失敗：', err)
-    res.status(500).json({ message: err.message })
+  })
+
+  const fileFilter = (req, file, cb) => {
+    const allowedExtensions = ['.jpg', '.jpeg', '.png']
+    const ext = path.extname(file.originalname).toLowerCase()
+    if (allowedExtensions.includes(ext)) {
+      cb(null, true)
+    } else {
+      cb(new Error('Invalid file type. Only JPG, JPEG AND PNG are allowed.'))
+    }
+  }
+
+  const upload = multer({ storage, fileFilter }).single('coverImg')
+
+  // 處理CKEditor內容中的圖片
+  async function processBase64Images(content) {
+    const dom = new JSDOM(content)
+    const images = dom.window.document.querySelectorAll('img')
+
+    for (let img of images) {
+      if (img.src.startsWith('data:image')) {
+        const base64Data = img.src.split(',')[1]
+        const buffer = Buffer.from(base64Data, 'base64')
+        const filename = 'image-' + Date.now() + '.png'
+        const filepath = path.join(uploadDirectory, filename)
+
+        await fs.writeFile(filepath, buffer)
+
+        img.src = `/assets/images/news/${filename}`
+      }
+    }
+    return dom.window.document.body.innerHTML
+  }
+
+  upload(req, res, async (err) => {
+    if (err instanceof multer.MulterError) {
+      return res.status(400).json({ message: 'File upload error: ' + err.message })
+    } else if (err) {
+      return res.status(400).json({ message: err.message })
+    }
+
+    try {
+      const { newsTitle, newsType, newsAuthor, newsContent, pubTime } = req.body
+
+      // 解析 JSON 格式的 newsContent
+      // const parsedContent = JSON.parse(newsContent)
+
+      // 處理封面圖片
+      const coverImgFilename = req.file ? req.file.filename : null
+
+      // 處理編輯器內容
+      const processedContent = await processBase64Images(newsContent)
+
+      // 判斷 pubTime 和設置 newsStatus
+      const currentTime = new Date()
+      let newsStatus = 1
+      let finalPubTime = null
+
+      if (pubTime && new Date(pubTime) > currentTime) {
+        newsStatus = 0
+        finalPubTime = new Date(pubTime)
+      }
+
+      // 準備要插入資料庫的數據
+      const newsData = {
+        newsTitle,
+        newsType,
+        newsAuthor,
+        newsContent: processedContent,
+        coverImg: coverImgFilename,
+        pubTime: finalPubTime,
+        newsStatus
+      }
+
+      const created = await adminModel.createNews(newsData)
+
+      if (!created) {
+        return res.status(500).json({ message: '建立文章失敗' })
+      }
+
+      res.status(201).json({ message: '文章已建立', newsId: created.insertId })
+    } catch (err) {
+      console.error('建立文章失敗：', err)
+      res.status(500).json({ message: err.message })
+    }
+  })
+}
+// 新增：圖片處理
+exports.createNewsImages = async (req, res) => {
+  try {
+    if (!req.file) {
+      return res.status(400).send({ error: '沒有上傳檔案' })
+    }
+    console.log('File details:', req.file)
+
+    // 構建前端可以使用的 URL
+    const imageUrl = `/images/news/${req.file.filename}`
+    console.log('圖片已保存，URL:', imageUrl)
+
+    res.status(200).json({ url: imageUrl })
+  } catch (error) {
+    console.error('圖片上傳處理錯誤:', error)
+    res.status(500).json({ error: '圖片上傳處理過程中發生錯誤' })
   }
 }
 // 刪除

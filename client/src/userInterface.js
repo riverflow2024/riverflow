@@ -5,10 +5,14 @@ import Footer from './components/footer'
 
 import Index from './pages/Index'
 import AboutUs from './pages/about'
+
 import News from './pages/News'
 import NewsArticle from './pages/NewsArticle'
 
+
+// 介紹頁
 import Skate from './pages/skate'
+import Rap from './pages/HippopRap'
 
 import Login from './pages/Login'
 import LoginVerify from './pages/LoginVerify'
@@ -37,6 +41,7 @@ import CartCheckout from './pages/cartCheckOut'
 import CartConfirmation from './pages/cartConfirmation'
 
 import PaymentSuccess from './pages/success'
+import Graffiti from './pages/graffiti'
 
 export default function UserInterface() {
   return (
@@ -44,6 +49,12 @@ export default function UserInterface() {
       <Routes>
         <Route index element={<Index />} />
         <Route path="aboutUs" element={<AboutUs />} />
+
+        <Route path="Rap" element={<Rap />} />
+
+        <Route path="News/Index" element={<News />} />
+        <Route path="News/Article/:id" element={<NewsArticle />} />
+
         <Route path="Login/Index" element={<Login />} />
         <Route path="Login/Verify" element={<LoginVerify />} />
         <Route path="Login/Register" element={<LoginRegister />} />
@@ -62,6 +73,8 @@ export default function UserInterface() {
         <Route path="Event/ConfirmNoseat" element={<EventConfirmNoseat />} />
         <Route path="Event/ConfirmSeat/:id" element={<EventConfirmSeat />} />
         <Route path="Event/ConfirmInfo" element={<EventConfirmInfo />} />
+        <Route path="Graffiti" element={<Graffiti />} />
+        
 
         <Route path="Product/All" element={<ProductAll />} />
         <Route path="Product/Detail/:productId" element={<ProductDetail />} />

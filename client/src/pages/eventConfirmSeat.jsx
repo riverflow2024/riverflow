@@ -40,7 +40,7 @@ function EventConfirmSeat() {
 
   useEffect(() => {
     setupJQuery()
-    console.log('Component mounted. Event ID:', id)
+    // console.log('Component mounted. Event ID:', id);
     if (id) {
       fetchEventDetails(id)
     } else {
@@ -62,7 +62,7 @@ function EventConfirmSeat() {
 
   const fetchEventDetails = async (eventId) => {
     try {
-      console.log('Fetching event details for ID:', eventId)
+      // console.log('Fetching event details for ID:', eventId);
       const response = await axios.get(`http://localhost:3000/riverflow/events/${eventId}`)
       console.log('API Response:', response.data)
       if (response.data && response.data.length > 0) {
@@ -90,7 +90,10 @@ function EventConfirmSeat() {
   }
 
   const toggleTicket = (ticketType) => {
-    setOpenTicketType((prevType) => (prevType === ticketType ? null : ticketType))
+    console.log('toggleTicket', ticketType)
+    setOpenTicketType((prevType) => {
+      prevType === ticketType ? null : ticketType
+    })
   }
 
   //  購買票數上限為4張
@@ -125,30 +128,43 @@ function EventConfirmSeat() {
   }
   // 存取資料到下一頁
   const handleNextStep = () => {
-    const selectedTickets = event.ticketType.filter((ticket) => ticket.quantity > 0)
-    navigate('/Event/ConfirmInfo', {
-      state: {
-        selectedTickets,
-        eventDetails: {
-          eventName: event.eventName,
-          eventDate: event.eventDate,
-          location: event.location,
-          eventImg: event.eventImg
+    const selectedTickets = event.ticketType
+      .filter((ticket) => ticket.quantity > 0)
+      .map((ticket) => ({
+        type: ticket.type,
+        area: '一般票', // 固定為 "一般票"
+        price: ticket.price,
+        quantity: ticket.quantity
+      }))
+
+    if (selectedTickets.length > 0) {
+      navigate('/Event/ConfirmInfo', {
+        state: {
+          selectedTickets,
+          eventDetails: {
+            eventId: event.eventId,
+            eventName: event.eventName,
+            eventDate: event.eventDate,
+            location: event.location,
+            eventImg: event.eventImg
+          }
         }
-      }
-    })
+      })
+    } else {
+      alert('請選擇至少一張票')
+    }
   }
 
   return (
-    <div className="w-bg scrollCust">
+    <div className='w-bg scrollCust'>
       <Header />
-      <div className="framWrap">
+      <div className='framWrap'>
         {/* 活動明細 */}
-        <div className="eventName">
-          <div className="eventImg">
-            <img src={event.eventImg} alt="" />
+        <div className='eventName'>
+          <div className='eventImg'>
+            <img src={event.eventImg} alt='' />
           </div>
-          <div className="eventTitle">
+          <div className='eventTitle'>
             <h1>{event.eventName}</h1>
             <p>日期：{new Date(event.eventDate).toLocaleDateString()}</p>
             <p>時間：{new Date(event.eventDate).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</p>
@@ -157,14 +173,14 @@ function EventConfirmSeat() {
         </div>
 
         {/* 中間的線 */}
-        <div className="middleLine">
+        <div className='middleLine'>
           <p></p>
         </div>
 
         {/* 購買順序 */}
-        <div className="order">
-          <div className="ticketOrder">
-            <div className="ticketOrder1">
+        <div className='order'>
+          <div className='ticketOrder'>
+            <div className='ticketOrder1'>
               <span>1</span>
             </div>
             <div>
@@ -173,7 +189,7 @@ function EventConfirmSeat() {
             <p></p>
           </div>
 
-          <div class="ticketOrder">
+          <div class='ticketOrder'>
             <div>
               <span>2</span>
             </div>
@@ -183,7 +199,7 @@ function EventConfirmSeat() {
             <p></p>
           </div>
 
-          <div className="ticketOrder">
+          <div className='ticketOrder'>
             <div>
               <span>3</span>
             </div>
@@ -195,20 +211,20 @@ function EventConfirmSeat() {
         </div>
 
         {/* 選擇票種數量 */}
-        <div className="ticketChoose">
-          <div className="ticketText">
+        <div className='ticketChoose'>
+          <div className='ticketText'>
             <h3>票區一覽</h3>
           </div>
           {/* 選擇票種 */}
-          <div className="ticketSeat">
-            <div className="seatImage">
-              <img src={seatImg} alt="" />
+          <div className='ticketSeat'>
+            <div className='seatImage'>
+              <img src={seatImg} alt='' />
             </div>
 
-            <div className="seat ">
+            <div className='seat'>
               {event.ticketType.map((ticket, index) => (
                 <div key={ticket.type} className={`${['first', 'second', 'third', 'forth'][index]}Floor`}>
-                  <div className="seatName" onClick={() => toggleTicket(ticket.type)}>
+                  <div className='seatName' onClick={() => toggleTicket(ticket.type)}>
                     <div>
                       <span>{ticket.type}</span>
                       <div>
@@ -221,27 +237,27 @@ function EventConfirmSeat() {
                     </div>
                   </div>
                   <div className={`ticketName ${openTicketType === ticket.type ? 'active' : ''}`}>
-                    <div className="ticketCotent">
+                    <div className='ticketCotent'>
                       <div>
                         <span>一般票</span>
                       </div>
-                      <div className="ticketBtn">
+                      <div className='ticketBtn'>
                         <button
-                          className="decrement"
+                          className='decrement'
                           onClick={() => handleQuantityChange(ticket.type, -1)}
                           data-target={`#quantity${ticket.type}`}
                           data-remaining={`#remaining${ticket.type}`}
                         >
-                          <i className="fa-solid fa-circle-minus"></i>
+                          <i className='fa-solid fa-circle-minus'></i>
                         </button>
                         <span id={`quantity${ticket.type}`}>{ticket.quantity || 0}</span>
                         <button
-                          className="increment"
+                          className='increment'
                           onClick={() => handleQuantityChange(ticket.type, 1)}
                           data-target={`#quantity${ticket.type}`}
                           data-remaining={`#remaining${ticket.type}`}
                         >
-                          <i className="fa-solid fa-circle-plus"></i>
+                          <i className='fa-solid fa-circle-plus'></i>
                         </button>
                       </div>
                     </div>
@@ -252,8 +268,8 @@ function EventConfirmSeat() {
           </div>
         </div>
         {/* 下一步按鍵 */}
-        <div className="nextBtn">
-          <Link to={`/Event/ConfirmInfo`}>下一步</Link>
+        <div className='nextBtn'>
+          <button onClick={handleNextStep}>下一步</button>
         </div>
       </div>
     </div>

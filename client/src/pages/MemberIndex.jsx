@@ -26,7 +26,7 @@ class MemberIndex extends Component {
         this.fetchUserData();
     }
 
-    // 將 UTC 日期轉換為本地日期
+    // 將生日的 UTC 日期轉換為本地日期
     formatDate = (dateString) => {
         const date = new Date(dateString);
         const year = date.getFullYear();
@@ -35,6 +35,7 @@ class MemberIndex extends Component {
         return `${year}-${month}-${day}`;
     };
 
+    // 取的會員資料
     fetchUserData = async () => {
     try {
         const response = await axios.get('http://localhost:3000/riverflow/user', {
@@ -94,7 +95,7 @@ class MemberIndex extends Component {
 
         // 如果會員沒有照片就使用預設圖片
         const { userImg } = this.state.Users;
-        const imageSrc = userImg ? `/images/users/${userImg}` : defaultImg;
+        const imageSrc = userImg ?require(`../assets/images/users/${userImg}`)  : defaultImg;
         return (
 
             <div>
@@ -192,13 +193,11 @@ class MemberIndex extends Component {
 
 
     editClick = async () => {
-        // var id = this.props.match.params.id;
-        // await axios.delete(`http://localhost:8000/todo/delete/${id}`)
+       
         window.location = "/Member/Edit";
     }
     verifyClick = async () => {
-        // var id = this.props.match.params.id;
-        // await axios.delete(`http://localhost:8000/todo/delete/${id}`)
+     
         window.location = "/Login/Verify";
     }
 

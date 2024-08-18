@@ -38,14 +38,8 @@ exports.updateUserInfo = async (req, res) => {
 }
 
 // 更新會員照片
-const ensureDirectoryExists = (directory) => {
-  if (!fs.existsSync(directory)) {
-    fs.mkdirSync(directory, { recursive: true })
-  }
-}
 const projectRoot = path.join(__dirname, '..', '..')
 const uploadDirectory = path.join(projectRoot, 'client', 'src', 'assets', 'images', 'users')
-ensureDirectoryExists(uploadDirectory)
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, uploadDirectory)
@@ -144,26 +138,24 @@ exports.getFavorites = async (req, res) => {
     const favorites = await userModel.findFavorites(req.userId)
     console.log(favorites)
 
-    // const processData = (data) => {
-    //   return data.map((data) => {
-    //     const productOpt = JSON.parse(data.productOpt)
-
-    //     const firstOption = productOpt[0]
-
-    //     return {
-    //       productName: data.productName,
-    //       productOpt: firstOption.name,
-    //       price: firstOption.price,
-    //       productImg: data.productImg || null
-    //     }
-    //   })
-    // }
-    // const favoriteData = processData(favorites)
-    // console.log(favoriteData)
-
     res.json(favorites)
   } catch (err) {
     console.error('獲取最愛商品失敗：', err)
+    res.status(500).json({ message: err.message })
+  }
+}
+
+// 會員刪除最愛商品
+exports.deleteFavorite = async (req, res) => {
+  try {
+    const productId = req.params.productId
+    const result = await userModel.deleteFavorite(req.userId, productId)
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ message: '找不到此最愛商品' })
+    }
+    res.json({ message: '移除最愛商品成功' })
+  } catch (err) {
+    console.error('移除最愛商品失敗：', err)
     res.status(500).json({ message: err.message })
   }
 }

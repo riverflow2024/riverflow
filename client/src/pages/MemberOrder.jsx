@@ -5,7 +5,7 @@ import Header from '../components/header'
 import defaultImg from '../assets/images/defaultphoto.jpg'; // 預設會員圖片
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 
-// 自定义 withRouter 高阶组件
+// 這是是因為orderId所加的程式碼
 
 function withRouter(Component) {
     return function (props) {
@@ -31,6 +31,11 @@ class MemberOrder extends Component {
             // 去看資料庫怎麼寫!
             { "orderId": "", "createdAt": "", "payMethod": "", "totalPrice": "", "orderStatus": "" },
         ],
+        OrderList: [
+            // 去看資料庫怎麼寫!
+            { "orderId": "", "createdAt": "", "payMethod": "", "totalPrice": "", "orderStatus": "" },
+        ],
+
 
         isLoading: true,      // 加载状态
         error: null,        // 错误信息
@@ -53,7 +58,7 @@ class MemberOrder extends Component {
     fetchUserData = async () => {
         try {
             const response = await axios.get('http://localhost:3000/riverflow/user', {
-                withCredentials: true // 确保请求带上 Cookie
+                withCredentials: true //保持 Cookie
             });
             console.log("Fetched user data:", response.data); // 打印返回的数据
             this.setState({
@@ -71,25 +76,26 @@ class MemberOrder extends Component {
             // window.location.href = '/login';
         }
     };
-    // fetchOrderData = async () => {
-    //     try {
-    //         const response = await axios.get('http://localhost:3000/riverflow/user/products/', {
-    //             withCredentials: true
-    //         });
-    //         console.log("Fetched order data:", response.data); // 打印返回的数据
-    //         this.setState({
-    //             Order: response.data
-    //         });
-    //     } catch (error) {
-    //         console.error("Error fetching order data:", error);
-    //         this.setState({
-    //             error: 'Failed to fetch order data.'
-    //         });
-    //     }
+    // OrderList 訂單查詢
+    fetchOrderListData = async () => {
+        try {
+            const response = await axios.get('http://localhost:3000/riverflow/user/products/', {
+                withCredentials: true
+            });
+            console.log("Fetched order data:", response.data); // 打印返回的数据
+            this.setState({
+                OrderList: response.data
+            });
+        } catch (error) {
+            console.error("Error fetching order data:", error);
+            this.setState({
+                error: 'Failed to fetch order data.'
+            });
+        }
 
 
-    // };
-
+    };
+    // 單個詳細訂單
     fetchOrderData = async (id) => {
         try {
             const response = await axios.get(`http://localhost:3000/riverflow/user/products/${id}`, {
@@ -145,12 +151,21 @@ class MemberOrder extends Component {
             "cash": "現金付款",
         };
 
+        // 變更寄送方式名稱
+        const shipMethodMap = {
+            "7-11": "7-11",
+            "OKMart": "OKMart",
+            "FamilyMart": "FamilyMart",
+            "delivery":"宅配",
+        };
+
+
 
         // 根據訂單篩選，用filter過濾
-        const unpaidOrders = this.state.Order.filter(order => order.orderStatus === 'processing');
-        const paymentOrders = this.state.Order.filter(order => order.orderStatus === 'pending');
-        const completedOrders = this.state.Order.filter(order => order.orderStatus === 'complete');
-        const notYetCompletedOrders = this.state.Order.filter(order => order.orderStatus === 'cancelled');
+        // const unpaidOrders = this.state.Order.filter(order => order.orderStatus === 'processing');
+        const paymentOrders = this.state.OrderList.filter(order => order.orderStatus === 'pending');
+        const completedOrders = this.state.OrderList.filter(order => order.orderStatus === 'complete');
+        const notYetCompletedOrders = this.state.OrderList.filter(order => order.orderStatus === 'cancelled');
 
         // 篩選近一個月的訂單 已完成 ＆ 未完成
         const recentCompletedOrders = completedOrders.filter(order => new Date(order.createdAt) >= oneMonthAgo);
@@ -164,8 +179,10 @@ class MemberOrder extends Component {
 
 
         // 如果會員沒有照片就使用預設圖片
+
+        // 如果會員沒有照片就使用預設圖片
         const { userImg } = this.state.Users;
-        const imageSrc = userImg ? `/images/users/${userImg}` : defaultImg;
+        const imageSrc = userImg ?require(`../assets/images/users/${userImg}`)  : defaultImg;
 
         return (
 
@@ -205,81 +222,86 @@ class MemberOrder extends Component {
                         </div>
 
                         <div id="Unpaid" className="tabcontent">
-                            {unpaidOrders.map((order, index) =>
-                                <div className="order" key={order.orderId}>
-                                    <div className="wrap">
-                                        <span>訂單編號：{order.orderId}</span>
-                                    </div>
+                            {/* {this.state.Order.map((order, index) => */}
+                            <div className="order" key={this.state.Order.orderId} >
+                                <div className="wrap">
+                                    <span>訂單編號：{this.state.Order.orderId}</span>
+                                </div>
 
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>日期</th>
+                                            <th>總金額</th>
+                                            <th>付款方式</th>
+                                            <th>狀態</th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+                                        <tr>
+                                            <td>{this.formatDate(this.state.Order.createdAt)}</td>
+                                            <td>NT${this.state.Order.totalPrice}</td>
+                                            <td>{payMethodMap[this.state.Order.payMethod] || this.state.Order.payMethod}</td>
+                                            <td>{statusMap[this.state.Order.orderStatus] || this.state.Order.orderStatus}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                                <div className="accordion">
+                                    <div className={`container ${this.state.activeAccordion === this.state.Order.orderId ? 'active' : ''}`}>
+                                        <div className="label" onClick={() => this.toggleAccordion(this.state.Order.orderId)}>收件人資訊</div>
+
+                                        <div className="content">
+                                            <span>收件人：{this.state.Users.firstName}{this.state.Users.lastName}</span><br />
+                                            <span>聯絡電話：{this.state.Users.phone}</span><br />
+                                            <span>寄送方式：{shipMethodMap[Order.shipMethod] || Order.shipMethod}</span><br />
+                                            <span>收件地址：{Order.shipMethod === "delivery" ? Order.rcptAddr : Order.convAddr}</span><br />
+                                        </div>
+                                    </div>
                                     <table>
                                         <thead>
                                             <tr>
-                                                <th>日期</th>
-                                                <th>總金額</th>
-                                                <th>付款方式</th>
-                                                <th>狀態</th>
+                                                <th colspan="2">商品名稱</th>
+                                                <th>數量</th>
+                                                <th></th>
+                                                <th>小計</th>
                                             </tr>
                                         </thead>
-
                                         <tbody>
+                                            {Array.isArray(Order.orderItem) && Order.orderItem.length > 0 ? (
+                                                Order.orderItem.map((productItem, index) => (
+                                                    <tr key={index}>
+                                                        <td colSpan="2">{productItem.productName} / {productItem.productOpt}</td>
+                                                        <td>{productItem.quantity}</td>
+                                                        <td></td>
+                                                        <td>{productItem.price}</td>
+                                                    </tr>
+                                                ))
+                                            ) : (
+                                                <tr>
+                                                    <td colSpan="5">沒有訂單項目</td>
+                                                </tr>
+                                            )}
+
+                                            <tr style={{ borderBottom: '0.5px solid var(--main)' }}>
+                                                <td colspan="2">運費</td>
+                                                <td></td>
+                                                <td></td>
+                                                <td>$60</td>
+                                            </tr>
+
                                             <tr>
-                                                <td>{this.formatDate(order.createdAt)}</td>
-                                                <td>NT${order.totalPrice + 60}</td>
-                                                <td>{payMethodMap[order.payMethod] || order.payMethod}</td>
-                                                <td>{statusMap[order.orderStatus] || order.orderStatus}</td>
+                                                <td colspan="2" style={{ fontWeight: "bold" }}>應付金額</td>
+                                                <td></td>
+                                                <td></td>
+                                                <td style={{ fontWeight: "bold" }}>${Order.totalPrice}</td>
                                             </tr>
                                         </tbody>
                                     </table>
-
-                                    <div className="accordion">
-                                        <div className={`container ${this.state.activeAccordion === index ? 'active' : ''}`}>
-                                            <div className="label" onClick={() => this.toggleAccordion(index)}>收件人資訊</div>
-
-                                            <div className="content">
-                                                <span>收件人：{this.state.Users.firstName}{this.state.Users.lastName}</span><br />
-                                                <span>聯絡電話：{this.state.Users.phone}</span><br />
-                                                <span>寄送方式：{order.shipMethod}</span><br />
-                                                <span>收件地址：{order.convAddr}</span><br />
-                                            </div>
-                                        </div>
-                                        <table>
-                                            <thead>
-                                                <tr>
-                                                    <th colspan="2">商品名稱</th>
-                                                    <th>數量</th>
-                                                    <th></th>
-                                                    <th>小計</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                {this.state.Order.map(productItem =>
-                                                    <tr>
-                                                        <td colspan="2">{productItem.productName} / {productItem.productOpt}</td>
-                                                        <td>{productItem.quantity}</td>
-                                                        <td></td>
-                                                        <td>{productItem.priceOpt}</td>
-                                                    </tr>
-
-                                                )}
-
-                                                <tr style={{ borderBottom: '0.5px solid var(--main)' }}>
-                                                    <td colspan="2">運費</td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td>$60</td>
-                                                </tr>
-
-                                                <tr>
-                                                    <td colspan="2" style={{ fontWeight: "bold" }}>應付金額</td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td style={{ fontWeight: "bold" }}>${order.totalPrice + 60}</td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
                                 </div>
-                            )}
+                            </div>
+                            {/* )} */}
                         </div>
 
                         <div id="Payment" className="tabcontent">
@@ -389,9 +411,9 @@ class MemberOrder extends Component {
         );
     }
 
-    toggleAccordion = (index) => {
+    toggleAccordion = (orderId) => {
         this.setState(prevState => ({
-            activeAccordion: prevState.activeAccordion === index ? null : index
+            activeAccordion: prevState.activeAccordion === orderId ? null : orderId
         }));
     }
 

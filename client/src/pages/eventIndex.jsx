@@ -1,16 +1,16 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import '../utils/EventIndex.js';
-import '../assets/event/eventPage1.css';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Pagination, Autoplay, Navigation, EffectCoverflow } from 'swiper/modules';
+import React, { useState, useEffect } from 'react'
+import { Link } from 'react-router-dom'
+import '../utils/EventIndex.js'
+import '../assets/event/eventPage1.css'
+import { Swiper, SwiperSlide } from 'swiper/react'
+import { Pagination, Autoplay, Navigation, EffectCoverflow } from 'swiper/modules'
 import 'swiper/css/bundle'
-import 'swiper/css';
-import 'swiper/css/navigation';
-import 'swiper/css/pagination';
-import 'swiper/css/scrollbar';
+import 'swiper/css'
+import 'swiper/css/navigation'
+import 'swiper/css/pagination'
+import 'swiper/css/scrollbar'
 import Header from '../components/header'
-import axios from 'axios';
+import axios from 'axios'
 
 import yitaiImg from '../assets/images/events/event-yitai.jpg'
 import galiImg from '../assets/images/events/event-gali.jpg'
@@ -49,8 +49,8 @@ const eventData = [
     title: 'GALI 《STRIPELIVE》IN TAIPEI',
     date: '2024-09-14 至 2024-09-14',
     link: '#'
-  },
-];
+  }
+]
 
 const EventSwiper = () => {
   return (
@@ -59,104 +59,142 @@ const EventSwiper = () => {
       autoplay={true}
       direction={'horizontal'}
       loop={true}
-      slidesPerView={1}
-      effect="coverflow"
+      navigation
+      slidesPerView={1.5}
+      effect='coverflow'
       centeredSlides={true}
       coverflowEffect={{
         rotate: 0,
         stretch: 0,
-        depth: 0,
+        depth: 200,
         modifier: 1,
-        slideShadows: true,
+        slideShadows: true
       }}
-      className="swiper"
+      className='swiper'
     >
       <SwiperSlide>
-        <a href="#"><img src={yitaiImg} alt="DJ Contest" /></a>
+        <a href='#'>
+          <img src={yitaiImg} alt='DJ Contest' />
+        </a>
       </SwiperSlide>
       <SwiperSlide>
-        <a href="#"><img src={galiImg} alt="Street Dancers Performing" /></a>
+        <a href='#'>
+          <img src={galiImg} alt='Street Dancers Performing' />
+        </a>
       </SwiperSlide>
       <SwiperSlide>
-        <a href="#"><img src={yeemaoImg} alt="Street Dance Crew" /></a>
+        <a href='#'>
+          <img src={yeemaoImg} alt='Street Dance Crew' />
+        </a>
       </SwiperSlide>
       <SwiperSlide>
-        <a href="#"><img src={lunarfaceImg} alt="Street Dancers" /></a>
+        <a href='#'>
+          <img src={lunarfaceImg} alt='Street Dancers' />
+        </a>
       </SwiperSlide>
     </Swiper>
-  );
-};
+  )
+}
 
 const EventIndex = () => {
-  const [filter, setFilter] = useState('all');
-  const [searchTerm, setSearchTerm] = useState('');
-  
-  const [apiEventData, setApiEventData] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [filter, setFilter] = useState('all')
+  const [searchTerm, setSearchTerm] = useState('')
+
+  const [apiEventData, setApiEventData] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
 
   useEffect(() => {
     const fetchEvents = async () => {
       try {
-        setLoading(true);
-        const response = await axios.get('http://localhost:3000/riverflow/events');
-        setApiEventData(response.data);
-        setLoading(false);
+        setLoading(true)
+        const response = await axios.get('http://localhost:3000/riverflow/events')
+        setApiEventData(response.data)
+        setLoading(false)
       } catch (err) {
-        console.error('獲取事件數據時出錯：', err);
-        setApiEventData(eventData);
-        setLoading(false);
+        console.error('獲取事件數據時出錯：', err)
+        setApiEventData(eventData)
+        setLoading(false)
       }
-    };
+    }
 
-    fetchEvents();
-  }, []);
+    fetchEvents()
+  }, [])
 
-  const dataToUse = apiEventData.length > 0 ? apiEventData : eventData;
+  const dataToUse = apiEventData.length > 0 ? apiEventData : eventData
 
-  const filteredEvents = dataToUse.filter(event => 
-    (filter === 'all' || event.category === filter || event.eventType === filter) &&
-    (event.title || event.eventName).toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const filteredEvents = dataToUse.filter(
+    (event) =>
+      (filter === 'all' || event.category === filter || event.eventType === filter) &&
+      (event.title || event.eventName).toLowerCase().includes(searchTerm.toLowerCase())
+  )
 
-  if (loading) return <div>載入中...</div>;
+  if (loading) return <div>載入中...</div>
 
   return (
-    <div className="w-bg scrollCust">
-      <Header/>
-      <div className="wrap container">
-        <div className="header">
-          <img src="../../src/assets/images/indexImg/nav.jpg" alt="" />
+    <div className='w-bg scrollCust'>
+      <Header />
+      <div className='wrap container'>
+        <div className='header'>
+          <img src='../../src/assets/images/indexImg/nav.jpg' alt='' />
         </div>
 
-        <div className="carousel">
+        <div className='carousel'>
           <EventSwiper />
         </div>
 
-        <div className="event">
-          <div className="eventFilter">
+        <div className='event'>
+          <div className='eventFilter'>
             <div>
-              <input 
-                type="text" 
-                placeholder="搜尋活動"
+              <input
+                type='text'
+                placeholder='搜尋活動'
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
             </div>
-            <div className="titleSelect">
-              <div><a href="#" onClick={() => setFilter('all')}>全部</a></div>
-              <div><a href="#" onClick={() => setFilter('DJ')}>DJ | Disc Jockey</a></div>
-              <div><a href="#" onClick={() => setFilter('streetdance')}>街舞 | Street Dance</a></div>
-              <div><a href="#" onClick={() => setFilter('rap')}>饒舌 | Rap</a></div>
-              <div><a href="#" onClick={() => setFilter('graffiti')}>塗鴉 | Graffiti</a></div>
-              <div><a href="#" onClick={() => setFilter('skate')}>滑板 | Skate</a></div>
+            <div className='titleSelect'>
+              <div>
+                <a href='#' onClick={() => setFilter('all')}>
+                  全部
+                </a>
+              </div>
+              <div>
+                <a href='#' onClick={() => setFilter('DJ')}>
+                  DJ | Disc Jockey
+                </a>
+              </div>
+              <div>
+                <a href='#' onClick={() => setFilter('streetdance')}>
+                  街舞 | Street Dance
+                </a>
+              </div>
+              <div>
+                <a href='#' onClick={() => setFilter('rap')}>
+                  饒舌 | Rap
+                </a>
+              </div>
+              <div>
+                <a href='#' onClick={() => setFilter('graffiti')}>
+                  塗鴉 | Graffiti
+                </a>
+              </div>
+              <div>
+                <a href='#' onClick={() => setFilter('skate')}>
+                  滑板 | Skate
+                </a>
+              </div>
             </div>
           </div>
 
-          <div className="eventList">
-            <div className="eventProduct">
-              {filteredEvents.map(event => (
-                <div key={event.id || event.eventId} className="eventCard" data-category={event.category || event.eventType}>
+          <div className='eventList'>
+            <div className='eventProduct'>
+              {filteredEvents.map((event) => (
+                <div
+                  key={event.id || event.eventId}
+                  className='eventCard'
+                  data-category={event.category || event.eventType}
+                >
                   <Link to={`/Event/Detail/${event.eventId}`}>
                     <img src={event.image || event.eventImg} alt={event.title || event.eventName} />
                     <p>{event.title || event.eventName}</p>
@@ -165,14 +203,14 @@ const EventIndex = () => {
                 </div>
               ))}
             </div>
-            <div className="eventListBtn">
+            <div className='eventListBtn'>
               <button>查看更多活動</button>
             </div>
           </div>
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default EventIndex;
+export default EventIndex

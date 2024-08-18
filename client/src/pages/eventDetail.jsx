@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react' // 修改：使用 React Hooks
-import { Link, useParams } from 'react-router-dom' // 修改：移除 withRouter，添加 useParams
+import { Link, useParams, useNavigate } from 'react-router-dom' // 修改：移除 withRouter，添加 useParams
 import axios from 'axios'
 import '../assets/event/eventPage2.css'
 import '../utils/eventDetail.js'
@@ -7,6 +7,7 @@ import Header from '../components/header'
 
 function EventDetail() {
   const { id } = useParams();
+  const navigate = useNavigate();
 
   // 修改：使用 useState 鉤子管理狀態
   const [event, setEvent] = useState({
@@ -18,8 +19,10 @@ function EventDetail() {
     location: '台北市中山區濱江街5號',
     seat: 0,
     ticketType: [
-      { type: '一般票', price: 3000, stock: 500 },
-      { type: '愛心票', price: 1500, stock: 100 }
+      { "type": "1F搖滾區", "price": 2900, "stock": 30 }, 
+      { "type": "2F座席區", "price": 2300, "stock": 100 },
+      { "type": "2F站席區", "price": 2300, "stock": 100 },
+      { "type": "1F身障區", "price": 1190, "stock": 100 }
     ],
     launchDate: '2024-07-25T12:00:00.000Z',
     launchStatus: 1,
@@ -32,27 +35,35 @@ function EventDetail() {
 
   // 修改：使用 useEffect 鉤子替代 componentDidMount
   useEffect(() => {
-    fetchEventDetails(id);
-  }, [id]); // 依賴數組中加入 id，確保 id 改變時重新獲取數據
+    const fetchEventDetails = async () => {
+      try {
+        const response = await axios.get(`http://localhost:3000/riverflow/events/${id}`)
+        console.log('response.data:', response.data)
+        const eventData = response.data[0];
+        setEvent(eventData);
+        setLoading(false);
+      } catch (error) {
+        console.error('獲取活動詳情時出錯：', error);
+        setLoading(false);
+        setError('獲取活動詳情時出錯');
+      }
+    };
+
+    fetchEventDetails();
+  }, [id]);
 
   
-
-  // 修改：將 fetchEventDetails 改為普通函數
-  const fetchEventDetails = async (eventId) => {
-    try {
-      const response = await axios.get(`http://localhost:3000/riverflow/events/${eventId}`)
-      console.log('response.data:', response.data)
-      setEvent(response.data[0]); // 修改：使用 setEvent 更新狀態
-      setLoading(false);
-    } catch (error) {
-      console.error('獲取活動詳情時出錯：', error);
-      setLoading(false);
-      setError('獲取活動詳情時出錯'); // 新增：設置錯誤狀態
+  const handleBuyTicket = () => {
+    if (event.seat === 0) {
+      navigate(`/Event/ConfirmSeat/${event.eventId}`);
+    } else if (event.seat === 1) {
+      navigate(`/Event/ConfirmSeat/${event.eventId}`);
+    } else {
+      // 如果 seat 不是 0 或 1，可以顯示錯誤消息
+      setError('無效的座位狀態');
     }
   }
 
-  
-    
 
     // 新增：加載中和錯誤處理
     if (loading) return <div>載入中...</div>
@@ -115,9 +126,7 @@ function EventDetail() {
                 <div>{new Date(event.eventDate).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
                 <div>{event.location}</div>
                 <div>
-                  <Link to={`/Event/ConfirmSeat/${event.eventId}`}>
-                    <button class="buyNowBtn">立即購買</button>
-                  </Link>
+                <button className="buyNowBtn" onClick={handleBuyTicket}>立即購買</button>
                 </div>
               </div>
             </div>

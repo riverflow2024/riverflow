@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import '../../src/assets/basic.css';
 import '../../src/assets/event/eventPage4.css';
-import yitaiImg from '../assets/images/events/event-yitai.jpg'
+import Header from '../components/header'
 
 const EventConfirmInfo = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
     const [eventDetails, setEventDetails] = useState({
       eventImg: "",
         title: "",
@@ -16,26 +18,47 @@ const EventConfirmInfo = () => {
       const [tickets, setTickets] = useState([]);
     
       useEffect(() => {
-        // 模擬數據獲取
-        setEventDetails({
-          image: yitaiImg,
-          title: "王以太 《Love Me Later》 台北站",
-          date: "2024-09-14",
-          time: "19:30",
-          location: "Legacy Max 台北市信義區松壽路11號6樓"
-        });
+        if (location.state) {
+          const { eventDetails, selectedTickets } = location.state;
+          setEventDetails({
+            id: eventDetails.eventId,
+            image: eventDetails.eventImg,
+            title: eventDetails.eventName,
+            date: new Date(eventDetails.eventDate).toLocaleDateString(),
+            time: new Date(eventDetails.eventDate).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+            location: eventDetails.location
+          });
+          console.log('selectedTickets : ',selectedTickets)
+          const expandedTickets = selectedTickets.flatMap(ticket => 
+            Array(ticket.quantity).fill().map(() => ({
+              quantity: ticket.quantity,
+              area: ticket.area,
+              type: ticket.type,
+              price: ticket.price
+            }))
+          );
+          console.log('expandedTickets : ',expandedTickets)
+          setTickets(expandedTickets);
+        }
+      }, [location]);
     
-        setTickets([
-          { area: "1F搖滾區", type: "一般票", price: 2800, quantity: 1 },
-          { area: "1F搖滾區", type: "一般票", price: 2800, quantity: 1 }
-        ]);
-      }, []);
-    
-      const totalTickets = tickets.reduce((sum, ticket) => sum + ticket.quantity, 0);
-      const totalCost = tickets.reduce((sum, ticket) => sum + ticket.price * ticket.quantity, 0);
+      const totalTickets = tickets.length;
+  const totalCost = tickets.reduce((sum, ticket) => sum + ticket.price, 0);
+
+  const handleNextStep = () => {
+    navigate('/Event/Order', {
+      state: {
+        eventDetails,
+        tickets,
+        totalTickets,
+        totalCost
+      }
+    });
+  };
     
       return (
         <div className="w-bg">
+          <Header />
           <div className="framWrap">
             <div className="header"><img src="../../src/assets/images/indexImg/nav.jpg" alt="" /></div>
     
@@ -62,7 +85,7 @@ const EventConfirmInfo = () => {
                 <p></p>
               </div>
               <div className="ticketOrder">
-                <div className="ticketOrder"><span>2</span></div>
+                <div className="ticketOrder2"><span>2</span></div>
                 <div><span>確認明細</span></div>
                 <p></p>
               </div>
@@ -129,7 +152,7 @@ const EventConfirmInfo = () => {
             </div>
     
             <div className="nextBtn">
-            <Link to={`/Event/Order`}>下一步</Link>
+            <button onClick={handleNextStep}>下一步</button>
             </div>
           </div>
         </div>

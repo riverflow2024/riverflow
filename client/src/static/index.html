@@ -12,7 +12,12 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="icon" href="../assets/images/riverflow_logo_f.png"> 
-    
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+    </style>
 
 
 
@@ -396,7 +401,7 @@
                         <img class="titlebg" src="../assets/images/indexImg/gitlebg.png" alt="">
                         <span>Rapping</span>
                         <span class="title_sub"> &nbsp; &nbsp; &nbsp;| &nbsp;饒舌</span>
-                        <a href="../pages/rap.html">
+                        <a href="rap.html">
                             <button class="read_moreBtn">
                                 <span class="circle" aria-hidden="true">
                                     <span class="icon arrow"></span>
@@ -607,18 +612,18 @@
     <script>
         window.onscroll = function () { myFunction() };
 
-        var navbar = document.getElementById("navbar");
+        // var navbar = document.getElementById("navbar");
         var ontop = document.getElementById("ontop");
         var sectionBtn = document.getElementById("sectionBtn");
         var sticky = navbar.offsetTop;
 
         function myFunction() {
             if (window.pageYOffset >= sticky) {
-                navbar.classList.add("sticky")
+                // navbar.classList.add("sticky")
                 ontop.classList.add("ontop")
                 sectionBtn.classList.add("sectionBtn")
             } else {
-                navbar.classList.remove("sticky");
+                // navbar.classList.remove("sticky");
                 ontop.classList.remove("ontop");
                 sectionBtn.classList.remove("sectionBtn");
             }

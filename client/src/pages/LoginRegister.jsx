@@ -48,64 +48,65 @@ class LoginRegister extends Component {
     } = this.state
 
     return (
-      <div className="loginPage">
+      <div className='loginPage'>
         <Header />
-        <section className="register">
-          <div className="form">
+        <section className='register'>
+          <div className='form'>
             <h4>註冊新帳號</h4>
-            <div class="input-text">
+            <div class='input-text'>
               <label>姓</label>
               <input
-                type="text"
+                type='text'
                 value={this.state.Users.firstName}
-                name="firstName"
-                id="firstName"
-                placeholder="林"
+                name='firstName'
+                id='firstName'
+                placeholder='First Name'
                 required
-                autoComplete="off"
+                autoComplete='off'
                 onChange={this.handleInputChange}
               />
               <label>名</label>
               <input
-                type="text"
+                type='text'
                 value={this.state.Users.lastName}
-                name="lastName"
-                id="lastName"
-                placeholder="小美"
+                name='lastName'
+                id='lastName'
+                placeholder='Last Name'
                 required
-                autoComplete="off"
+                autoComplete='off'
                 onChange={this.handleInputChange}
               />
             </div>
-            <span className="tips" dangerouslySetInnerHTML={{ __html: nameError }}></span>
+            <span className='tips' dangerouslySetInnerHTML={{ __html: nameError }}></span>
 
-            <div class="input-text">
+            <div class='input-text'>
               <label>帳號</label>
               <input
-                type="text"
-                id="email"
-                name="email"
+                type='text'
+                id='email'
+                name='email'
+                style={{ width: '80%' }}
                 value={this.state.Users.email}
-                placeholder="Enter email"
-                autoComplete="off"
+                placeholder='Enter Email'
+                autoComplete='off'
                 onChange={this.EmailChange}
               />
               <br />
             </div>
-            <span className="tips" id="" dangerouslySetInnerHTML={{ __html: emailError }}></span>
+            <span className='tips' id='' dangerouslySetInnerHTML={{ __html: emailError }}></span>
 
-            <div className="input-text input-password">
+            <div className='input-text input-password'>
               <label>密碼</label>
               <input
                 type={isNewPasswordVisible ? 'text' : 'password'}
                 style={{ width: '80%' }}
-                name="newPassword"
-                id="newPassword"
+                name='newPassword'
+                id='newPassword'
                 value={this.state.Users.secret}
-                placeholder="Enter password"
+                placeholder='Enter Password'
                 required
                 onChange={this.NewPassword}
-                autoComplete="new-password"
+                autoComplete='new-password'
               />
               <div>
                 <i
@@ -114,18 +115,18 @@ class LoginRegister extends Component {
                 ></i>
               </div>
             </div>
-            <span className="tips" dangerouslySetInnerHTML={{ __html: passwordError || '含英數至少六個字元' }}></span>
+            <span className='tips' dangerouslySetInnerHTML={{ __html: passwordError || '含英數至少六個字元' }}></span>
             <br />
 
-            <div className="input-text input-password">
+            <div className='input-text input-password'>
               <label style={{ width: '75px' }}>確認密碼</label>
               <input
                 type={isConfirmPasswordVisible ? 'text' : 'password'}
                 style={{ width: '80%' }}
-                name="confirmPassword"
-                id="checkPassword"
+                name='confirmPassword'
+                id='checkPassword'
                 value={confirmPassword}
-                placeholder="Check password"
+                placeholder='Check password'
                 onChange={this.handleConfirmPasswordChange}
               />
               <div>
@@ -135,14 +136,14 @@ class LoginRegister extends Component {
                 ></i>
               </div>
             </div>
-            <span className="tips" dangerouslySetInnerHTML={{ __html: checkPasswordError }}></span>
+            <span className='tips' dangerouslySetInnerHTML={{ __html: checkPasswordError }}></span>
             <br />
 
             {/* <input type="button" className="btn" value="Login" onClick={this.SentBtn} /> */}
             <input
-              type="button"
-              className="btn"
-              value="註冊"
+              type='button'
+              className='btn'
+              value='註冊'
               onClick={this.registerUser}
               disabled={!this.state.agreeToPrivacy}
               style={{
@@ -150,8 +151,8 @@ class LoginRegister extends Component {
                 cursor: this.state.agreeToPrivacy ? 'pointer' : 'not-allowed'
               }}
             />
-            <label class="input-checkbox">
-              <input type="checkbox" onChange={this.handleCheckboxChange} />
+            <label class='input-checkbox'>
+              <input type='checkbox' onChange={this.handleCheckboxChange} />
               <span>我已詳閱並同意</span>
               <button onClick={this.openPrivacy}>隱私權政策</button>
             </label>
@@ -162,16 +163,16 @@ class LoginRegister extends Component {
           </div>
 
           {/* 隱私權 彈跳視窗 */}
-          <div class="privacy" id="privacy">
-            <div class="privacy-wrap">
-              <div class="privacy-header">
+          <div class='privacy' id='privacy'>
+            <div class='privacy-wrap'>
+              <div class='privacy-header'>
                 <h3>服務條款與隱私權</h3>
-                <button class="closebtn" onClick={this.cancelPrivacy}>
-                  <i class="bi bi-x"></i>
+                <button class='closebtn' onClick={this.cancelPrivacy}>
+                  <i class='bi bi-x'></i>
                 </button>
               </div>
-              <div class="privacy-body scrollCust">
-                <div class="privacy-container">
+              <div class='privacy-body scrollCust'>
+                <div class='privacy-container'>
                   <h3>RIVERFLOW 服務條款</h3>
                   <p>
                     歡迎您使用 RIVERFLOW
@@ -264,8 +265,8 @@ class LoginRegister extends Component {
                 </div>
               </div>
 
-              <div class="privacy-footer">
-                <button class="btn" onClick={this.cancelPrivacy}>
+              <div class='privacy-footer'>
+                <button class='btn' onClick={this.cancelPrivacy}>
                   同意
                 </button>
               </div>
@@ -274,10 +275,10 @@ class LoginRegister extends Component {
 
           {/* Loading */}
           {this.state.isLoading && (
-            <div className="loading-overlay">
-              <div className="spinner"></div> {/* 你可以用CSS或图片来实现转动的加载效果 */}
-              <p className="loading-text">
-                Loading<span className="dots"></span>
+            <div className='loading-overlay'>
+              <div className='spinner'></div> {/* 你可以用CSS或图片来实现转动的加载效果 */}
+              <p className='loading-text'>
+                Loading<span className='dots'></span>
               </p>
             </div>
           )}
@@ -479,7 +480,7 @@ class LoginRegister extends Component {
 
         MySwal.fire({
           title: '註冊成功',
-          text: 'Welcome to visit RiverFlow!',
+          text: '請至信箱，收取驗證信！',
           width: '300px',
           background: 'var(--bk2)',
           color: 'var(--gr1)',

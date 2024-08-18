@@ -27,7 +27,7 @@ class MemberEdit extends Component {
     this.fetchUserData()
   }
 
-  // 將 UTC 日期轉換為本地日期
+  // 將會員生日 UTC 日期轉換為本地日期
   formatDate = (dateString) => {
     const date = new Date(dateString)
     const year = date.getFullYear()
@@ -36,6 +36,7 @@ class MemberEdit extends Component {
     return `${year}-${month}-${day}`
   }
 
+  // 取得會員資料
   fetchUserData = async () => {
     try {
       const response = await axios.get('http://localhost:3000/riverflow/user', {
@@ -64,7 +65,7 @@ class MemberEdit extends Component {
   }
 
   //上傳大頭貼到前端顯示
-  handleUpload = async () => {
+  UploadImg = async () => {
     const { selectedFile } = this.state
     if (!selectedFile) return
 
@@ -72,7 +73,7 @@ class MemberEdit extends Component {
     formData.append('image', selectedFile)
 
     try {
-      const response = await axios.post('http://localhost:3000/riverflow/upload', formData, {
+      const response = await axios.post('http://localhost:3000/riverflow/user/update/img', formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
@@ -93,18 +94,6 @@ class MemberEdit extends Component {
   }
 
   handleSave = async (e) => {
-    e.preventDefault() // 防止表单自动提交
-
-    // 首先上傳大頭貼
-    const fileName = await this.handleUpload()
-    if (fileName) {
-      this.setState((prevState) => ({
-        Users: {
-          ...prevState.Users,
-          userImg: fileName
-        }
-      }))
-    }
     try {
       const { Users } = this.state
       await axios.put('http://localhost:3000/riverflow/user/update', Users, {
@@ -120,9 +109,9 @@ class MemberEdit extends Component {
         confirmButtonColor: 'var(--main)',
         confirmButtonText: 'OK',
         customClass: {
-          title: 'custom-title', // 自定义标题的 class
-          htmlContainer: 'custom-text', // 自定义内文的 class
-          confirmButton: 'swal2-confirm' // 应用自定义按钮类
+          title: 'custom-title', // 自訂標題的class
+          htmlContainer: 'custom-text', // 自訂内文的 class
+          confirmButton: 'swal2-confirm' // 按鈕class
         }
       })
     } catch (error) {
@@ -149,122 +138,131 @@ class MemberEdit extends Component {
 
   render() {
     const { Users, phoneError } = this.state
+
     // 如果會員沒有照片就使用預設圖片
     const { userImg } = this.state.Users
-    const imageSrc = userImg ? `/images/users/${userImg}` : defaultImg
+    const imageSrc = userImg ? require(`../assets/images/users/${userImg}`) : defaultImg
 
     return (
       <div>
         <Header />
 
-        <section className="Member">
-          <div className="nav-box" flex="1">
-            <div className="wrap">
-              <div className="member">
-                <div className="member-img">
-                  <img className="member-img img" src={imageSrc} alt="Profile" />
-                  <label className="prettier-input">
-                    <input type="file" onChange={this.handleFileChange} />
-                    <div onClick={this.handleUpload}>
+        <section className='Member'>
+          <div className='nav-box' flex='1'>
+            <div className='wrap'>
+              <div className='member'>
+                <div className='member-img'>
+                  <img className='member-img img' src={imageSrc} alt='Profile' />
+                  <label className='prettier-input'>
+                    <input type='file' onChange={this.handleFileChange} />
+                    <div onClick={this.UploadImg}>
                       上傳
                       <br />
                       大頭貼
                     </div>
                   </label>
                 </div>
-                <div className="profile">
+                <div className='profile'>
                   <h3>Hey！{this.state.Users.lastName} </h3>
                   <a onClick={this.backMember}>個人資料</a>
                 </div>
               </div>
-              <div className="nav">
+              <div className='nav'>
                 <ul>
                   <li>
                     <a onClick={this.backOrderList}>
-                      <i className="bi bi-clipboard"></i> 訂單查詢
+                      <i className='bi bi-clipboard'></i> 訂單查詢
                     </a>
                   </li>
                   <li>
                     <a onClick={this.backTickets}>
-                      <i className="bi bi-ticket-perforated"></i> 活動票券
+                      <i className='bi bi-ticket-perforated'></i> 活動票券
                     </a>
                   </li>
                   <li>
                     <a onClick={this.backCollection}>
-                      <i className="bi bi-heart"></i> 我的最愛
+                      <i className='bi bi-heart'></i> 我的最愛
                     </a>
                   </li>
                 </ul>
-                <button className="btn" onClick={this.Logout}>
+                <button className='btn' onClick={this.Logout}>
                   會員登出
                 </button>
               </div>
             </div>
           </div>
-          <div className="profile-box" flex="2" id="profile">
-            <div className="wrap">
-              <div className="item">
+          <div className='profile-box' flex='2' id='profile'>
+            <div className='wrap'>
+              <div className='item'>
                 <h3>個人資料</h3>
               </div>
-              <div className="input-card">
+              <div className='input-card'>
                 <label>您的姓氏</label>
                 <br />
                 <input
-                  type="text"
-                  name="firstName"
-                  id="firstName"
+                  type='text'
+                  name='firstName'
+                  id='firstName'
                   placeholder={Users.firstName}
                   value={Users.firstName}
+                  onChange={this.handleInputChange}
                 />
               </div>
-              <div className="input-card">
+              <div className='input-card'>
                 <label>您的名字</label>
                 <br />
-                <input type="text" name="lastName" id="lastName" placeholder={Users.lastName} value={Users.lastName} />
+                <input
+                  type='text'
+                  name='lastName'
+                  id='lastName'
+                  placeholder={Users.lastName}
+                  value={Users.lastName}
+                  onChange={this.handleInputChange}
+                />
               </div>
-              <div className="input-card">
+              <div className='input-card'>
                 <label>聯絡電話</label>
                 <br />
                 <input
-                  type="tel"
-                  id="phone"
-                  name="phone"
+                  type='tel'
+                  id='phone'
+                  name='phone'
                   onChange={this.handlePhoneChange}
                   value={Users.phone}
                   placeholder={Users.phone}
                   required
                 />
               </div>
-              <span className="tips" id="" dangerouslySetInnerHTML={{ __html: this.state.phoneError }}></span>
-              <div className="input-card">
+              <span className='tips' id='' dangerouslySetInnerHTML={{ __html: this.state.phoneError }}></span>
+              <div className='input-card'>
                 <label>您的帳號</label>
                 <br />
-                <input type="email" name="" id="" placeholder={Users.email} disabled />
+                <input type='email' name='' id='' placeholder={Users.email} disabled />
               </div>
-              <div className="input-date">
+              <div className='input-date'>
                 <label>您的生日</label>
                 <br />
                 <input
-                  type="date"
-                  name="birth"
-                  id="birth"
+                  type='date'
+                  name='birth'
+                  id='birth'
                   placeholder={Users.birth}
                   value={Users.birth}
                   onChange={this.handleInputChange}
                 />
               </div>
-              <div className="input-card">
+              <div className='input-card'>
                 <label>您的性別</label>
                 <br />
-                <select name="sex" id="sex" value={Users.sex} onChange={this.handleInputChange}>
-                  <option value="Male">男</option>
-                  <option value="Female">女</option>
+                <select name='sex' id='sex' value={Users.sex} onChange={this.handleInputChange}>
+                  <option value='Male'>男</option>
+                  <option value='Female'>女</option>
                 </select>
               </div>
-              <div className="btn-box">
-                <input type="button" value="查看個人資料" onClick={this.backMember} />
-                <input type="button" value="修改密碼" onClick={this.verifyClick} />
-                <input type="button" value="儲存" onClick={this.handleSave} />
+              <div className='btn-box'>
+                <input type='button' value='查看個人資料' onClick={this.backMember} />
+                <input type='button' value='修改密碼' onClick={this.verifyClick} />
+                <input type='button' value='儲存' onClick={this.handleSave} />
               </div>
             </div>
           </div>
