@@ -193,13 +193,11 @@ class MemberIndex extends Component {
 
 
     editClick = async () => {
-        // var id = this.props.match.params.id;
-        // await axios.delete(`http://localhost:8000/todo/delete/${id}`)
+       
         window.location = "/Member/Edit";
     }
     verifyClick = async () => {
-        // var id = this.props.match.params.id;
-        // await axios.delete(`http://localhost:8000/todo/delete/${id}`)
+     
         window.location = "/Login/Verify";
     }
 

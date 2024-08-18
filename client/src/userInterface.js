@@ -9,7 +9,10 @@ import AboutUs from './pages/about'
 import News from './pages/News'
 import NewsArticle from './pages/NewsArticle'
 
+
+// 介紹頁
 import Skate from './pages/skate'
+import Rap from './pages/HippopRap'
 
 import Login from './pages/Login'
 import LoginVerify from './pages/LoginVerify'
@@ -45,6 +48,9 @@ export default function UserInterface() {
       <Routes>
         <Route index element={<Index />} />
         <Route path="aboutUs" element={<AboutUs />} />
+
+        <Route path="Rap" element={<Rap />} />
+
         <Route path="News/Index" element={<News />} />
         <Route path="News/Article/:id" element={<NewsArticle />} />
 

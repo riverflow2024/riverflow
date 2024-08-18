@@ -451,14 +451,12 @@ class Index extends Component {
                   <img class="titlebg" src={require('../assets/images/indexImg/gitlebg.png')} alt="" />
                   <span>Rapping</span>
                   <span class="title_sub"> &nbsp; &nbsp; &nbsp;| &nbsp;饒舌</span>
-                  <a href="../pages/rap.html">
-                    <button class="read_moreBtn">
+                    <button class="read_moreBtn" onClick={this.goRap}>
                       <span class="circle" aria-hidden="true">
                         <span class="icon arrow"></span>
                       </span>
                       <span class="button-text">READ MORE</span>
                     </button>
-                  </a>
                 </h2>
                 <p class="content">
                   作為音樂風格，以吐詞為詞、R&B及其他音樂取樣為曲的嘻哈樂在幾十年裏發展成了美國流行樂的一種主要風格，也影響到了包括亞洲在內的世界流行樂，許多流行歌曲都會加入饒舌元素。
@@ -673,6 +671,10 @@ class Index extends Component {
         </div>
       </div>
     )
+  }
+  // Read More
+  goRap=async()=>{
+    window.location="/rap";
   }
 }
 export default Index

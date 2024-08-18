@@ -22,6 +22,10 @@ header {
   height: auto;
   padding-top: 100px;
 }
+.rap .gtitle {
+  z-index: 99;
+  position: relative;
+}
 .rap .gtitle h1 {
   font-size: 64px;
   text-align: center;
