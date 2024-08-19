@@ -18,7 +18,7 @@ const query = (sql, params) => {
 
 
 //新增商品付款Session
-const createCheckoutSession = async (items) => {
+const createCheckoutSession = async (items , finalTotal) => {
     const session = await stripe.checkout.sessions.create({
         payment_method_types: ['card'],
         mode: 'payment',
@@ -29,7 +29,7 @@ const createCheckoutSession = async (items) => {
                     name: `${item.name}`,
                     description: `尺寸: ${item.size}`,
                 },
-                unit_amount: item.price * 100,
+                unit_amount: finalTotal * 100,
             },
             quantity: item.quantity,
         })),
