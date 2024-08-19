@@ -210,7 +210,7 @@
   margin-right: 2rem;
 }
 
-.nextBtn a:hover {
+.nextBtn button:hover {
   background-color: var(--main2);
 }
 

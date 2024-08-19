@@ -152,6 +152,7 @@ function EventConfirmSeat() {
   }
   // 存取資料到下一頁
   const handleNextStep = () => {
+    window.scrollTo(0, 0);
     const selectedTickets = event.ticketType
       .filter((ticket) => ticket.quantity > 0)
       .map((ticket) => ({

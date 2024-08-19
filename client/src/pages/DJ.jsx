@@ -3,7 +3,7 @@ import $ from 'jquery'
 import 'jquery.marquee'
 import '../assets/Dj.css'
 import Header from '../components/header'
-
+import Footer from '../components/footer'
 import recordImg from '../assets/images/DJ/Record Player Vector.png'
 import djImg from '../assets/images/DJ/DJ.png'
 import recordBarImg from '../assets/images/DJ/Record Player Community.png'
@@ -17,6 +17,9 @@ import img2000 from '../assets/images/DJ/DJ2000.webp'
 
 const DJ = () => {
   useEffect(() => {
+    // 當組件加入，移除 body 的背景
+    document.body.classList.remove('w-bg')
+
     const link = document.createElement('link')
     link.href = 'https://fonts.googleapis.com/css2?family=Kanit:wght@100;200;300;400;500;600;700;800;900&display=swap'
     link.rel = 'stylesheet'
@@ -35,6 +38,11 @@ const DJ = () => {
       startVisible: true,
       speed: 15
     })
+
+    // 當組件刪掉時，恢復 body 的背景
+    return () => {
+      document.body.classList.add('w-bg')
+    }
   }, [])
 
   return (
@@ -147,6 +155,7 @@ const DJ = () => {
           </p>
         </div>
       </div>
+      <Footer />
     </div>
   )
 }

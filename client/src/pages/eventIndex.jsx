@@ -17,6 +17,7 @@ import yitaiImg from '../assets/images/events/event-yitai.jpg'
 import galiImg from '../assets/images/events/event-gali.jpg'
 import yeemaoImg from '../assets/images/events/event-yeemao.png'
 import lunarfaceImg from '../assets/images/events/event-LUNARFACE.jpg'
+import gordonImg from '../assets/images/events/event-gordon.jpg'
 
 const eventData = [
   {
@@ -74,24 +75,24 @@ const EventSwiper = () => {
       className='swiper'
     >
       <SwiperSlide>
-        <a href='#'>
+        <Link to={`/Event/Detail/13`}>
           <img src={yitaiImg} alt='DJ Contest' />
-        </a>
+        </Link>
       </SwiperSlide>
       <SwiperSlide>
-        <a href='#'>
+        <Link to={`/Event/Detail/8`}>
           <img src={galiImg} alt='Street Dancers Performing' />
-        </a>
+        </Link>
       </SwiperSlide>
       <SwiperSlide>
-        <a href='#'>
-          <img src={yeemaoImg} alt='Street Dance Crew' />
-        </a>
+        <Link to={`/Event/Detail/2`}>
+          <img src={gordonImg} alt='Street Dance Crew' />
+        </Link>
       </SwiperSlide>
       <SwiperSlide>
-        <a href='#'>
+        <Link to={`/Event/Detail/9`}>
           <img src={lunarfaceImg} alt='Street Dancers' />
-        </a>
+        </Link>
       </SwiperSlide>
     </Swiper>
   )
@@ -130,6 +131,11 @@ const EventIndex = () => {
       (event.title || event.eventName).toLowerCase().includes(searchTerm.toLowerCase())
   )
 
+  const handleFilterClick = (e, filterValue) => {
+    e.preventDefault();
+    setFilter(filterValue);
+  }
+
   if (loading) return <div>載入中...</div>
 
   return (
@@ -154,32 +160,32 @@ const EventIndex = () => {
             </div>
             <div className='titleSelect'>
               <div>
-                <a href='#' onClick={() => setFilter('all')}>
+                <a href='#' onClick={(e) => handleFilterClick(e,'all')}>
                   全部
                 </a>
               </div>
               <div>
-                <a href='#' onClick={() => setFilter('DJ')}>
+                <a href='#' onClick={(e) => handleFilterClick(e,'DJ')}>
                   DJ | Disc Jockey
                 </a>
               </div>
               <div>
-                <a href='#' onClick={() => setFilter('streetdance')}>
+                <a href='#' onClick={(e) => handleFilterClick(e,'streetdance')}>
                   街舞 | Street Dance
                 </a>
               </div>
               <div>
-                <a href='#' onClick={() => setFilter('rap')}>
+                <a href='#' onClick={(e) => handleFilterClick(e,'rap')}>
                   饒舌 | Rap
                 </a>
               </div>
               <div>
-                <a href='#' onClick={() => setFilter('graffiti')}>
+                <a href='#' onClick={(e) => handleFilterClick(e,'graffiti')}>
                   塗鴉 | Graffiti
                 </a>
               </div>
               <div>
-                <a href='#' onClick={() => setFilter('skate')}>
+                <a href='#' onClick={(e) => handleFilterClick(e,'skate')}>
                   滑板 | Skate
                 </a>
               </div>
