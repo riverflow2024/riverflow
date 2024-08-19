@@ -272,7 +272,7 @@ const EventOrder = () => {
             <React.Fragment key={index}>
               <div className="contentTitle">
                 <div>
-                  <span>{eventDetails.seat !== 0 ? ticket.type : ''}</span>
+                  <span>{eventDetails.seat !== 0 ? ticket.type : '無'}</span>
                 </div>
                 <div>
                   <span>{eventDetails.seat !== 0 ? ticket.area : ticket.type}</span>
