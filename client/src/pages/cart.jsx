@@ -14,13 +14,7 @@ const CartItem = ({ item, onQuantityChange, onDelete }) => {
     <tr className='cart-item'>
       <td>
         <div className='cart-item-left-content'>
-          <img
-            src={`/images/products/${item.productImg}`}
-            alt={item.productName}
-            onError={(e) => {
-              e.target.src = '/images/products/default.jpg' // 預設圖片路徑
-            }}
-          />
+          <img src={`/images/products/${item.productImg}`} alt={item.productName} />
           <div className='cart-item-content'>
             <h4>{item.productName}</h4>
             <h5>{item.productOpt}</h5>

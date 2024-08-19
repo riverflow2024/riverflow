@@ -350,8 +350,8 @@ const ProductDetail = () => {
                 onQuantityChange={handleQuantityChange}
                 onAddToCart={handleAddToCart}
                 totalPrice={totalPrice}
-                isNew={isNew} // 傳遞 isNew
-                isOnSale={isOnSale} // 傳遞 isOnSale
+                isNew={isNew}
+                isOnSale={isOnSale}
               />
             </>
           )}
