@@ -19,7 +19,9 @@ export default function PrdOrderList() {
 
   const fetchProductOrders = useCallback(async () => {
     try {
-      const response = await axios.get('http://localhost:3000/riverflow/admin/product-orders')
+      const response = await axios.get('http://localhost:3000/riverflow/admin/product-orders', {
+        withCredentials: true
+      })
 
       const sortedOrders = sortOrders(response.data)
       setProductOrders(sortedOrders)
@@ -53,7 +55,8 @@ export default function PrdOrderList() {
         await fetchProductOrders()
       } else {
         const response = await axios.get(
-          `http://localhost:3000/riverflow/admin/product-orders/search?keyword=${searchTerm}`
+          `http://localhost:3000/riverflow/admin/product-orders/search?keyword=${searchTerm}`,
+          { withCredentials: true }
         )
         const sortedResults = sortOrders(response.data)
         setFilteredProductOrders(sortedResults)

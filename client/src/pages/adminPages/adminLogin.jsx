@@ -1,146 +1,65 @@
-import React, { Component } from 'react'
+import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
-import '../../assets/login.css'
 
-class AdminLogin extends Component {
-  state = {
-    Users: {
-      firstName: '林',
-      lastName: '小美',
-      phone: '0912-333-555',
-      email: '',
-      secret: '',
-      birth: '1995/10/10',
-      sex: '女'
-    },
-    isPasswordVisible: false
-  }
+const AdminLogin = () => {
+  const [account, setAccount] = useState('')
+  const [secret, setSecret] = useState('')
+  const navigate = useNavigate()
 
-  Login = async () => {
+  const handleLogin = async (e) => {
+    e.preventDefault()
     try {
-      let dataToserver = {
-        email: this.state.Users.email,
-        secret: this.state.Users.secret
-      }
-
-      const result = await axios.post('http://localhost:3000/riverflow/admin/login', JSON.stringify(dataToserver), {
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        withCredentials: true // 發送請求包含 Cookie
-      })
-
-      // 檢查
-      console.log('Login response:', result)
-
-      // 檢查是否登入成功
-      if (result.data.message === '管理員登入成功') {
-        window.location = '/admin/prdlist'
-      } else {
-        console.error('Login failed:', result.data.message)
+      const response = await axios.post(
+        'http://localhost:3000/riverflow/admin/login',
+        { account, secret },
+        { withCredentials: true }
+      )
+      if (response.data.message === '管理員登入成功') {
+        // 如果後端在響應中也返回了 token，可以在這裡存儲
+        // localStorage.setItem('adminToken', response.data.token);
+        navigate('/admin/dashboard')
       }
     } catch (error) {
-      console.error('Login error:', error)
-      this.setState({ error: true })
+      console.error('登入失敗:', error)
+      // 處理登入錯誤，例如顯示錯誤消息
     }
   }
 
-  render() {
-    const { isPasswordVisible } = this.state
-
-    return (
-      <div className='adminLogin'>
-        <section className="login">
-          <div className="form">
-            <h4>管理員登入</h4>
-            <div className="input-text">
-              <label>帳號</label>
-              <input
-                type="text"
-                id="email"
-                name="email"
-                value={this.state.Users.email}
-                placeholder="Enter account"
-                onChange={this.EmailChange}
-              />
-              <br />
-            </div>
-
-            <span className="tips" id="" dangerouslySetInnerHTML={{ __html: this.state.emailError }}></span>
-
-            <div className="input-text">
-              <label>密碼</label>
-              <input
-                type={isPasswordVisible ? 'text' : 'password'}
-                style={{ width: '80%' }}
-                name="password"
-                id="password"
-                value={this.state.Users.secret}
-                placeholder="Enter password"
-                pattern="^(?=.*[a-zA-Z])(?=.*[0-9]).{6,}$"
-                required
-                autoComplete="new-password"
-                onChange={this.PasswordChange}
-              />
-              <div>
-                <i
-                  id="showBtn"
-                  className={`bi ${isPasswordVisible ? 'bi-eye-fill' : 'bi-eye-slash-fill'}`}
-                  onClick={this.handlePasswordToggle}
-                ></i>
-              </div>
-            </div>
-            {/* <a onClick={this.goPassword}>忘記密碼？</a> */}
-            <input type="button" className="btn" value="Login" onClick={this.Login} />
-            {/* <span>
-              沒有River Flow帳號嗎？
-              <a onClick={this.goRegister}>前往註冊</a>
-            </span> */}
+  return (
+    <div className='adminLogin'>
+      <section className='login'>
+        <form onSubmit={handleLogin} className='form'>
+          <h4>管理員登入</h4>
+          <div className='input-text'>
+            <label htmlFor='account'>帳號</label>
+            <input
+              type='text'
+              id='account'
+              name='account'
+              value={account}
+              onChange={(e) => setAccount(e.target.value)}
+              required
+              placeholder='輸入管理員帳號'
+            />
           </div>
-
-          {/* 無法登入 彈跳視窗 */}
-
-          {this.state.error && (
-            <div className="nolongin" id="nolongin">
-              <div className="nolongin-wrap">
-                <h4>無法登入</h4>
-                <p>請確認輸入的資料及大小寫是否正確。若不是 RiverFlow 會員請前往註冊。</p>
-                <button className="btn" onClick={() => this.setState({ error: false })}>
-                  確認
-                </button>
-              </div>
-            </div>
-          )}
-        </section>
-      </div>
-    )
-  }
-
-  handlePasswordToggle = () => {
-    this.setState((prevState) => ({ isPasswordVisible: !prevState.isPasswordVisible }))
-  }
-  PasswordChange = (e) => {
-    var newState = { ...this.state }
-    newState.Users.secret = e.target.value
-    this.setState(newState)
-  }
-
-  EmailChange = (event) => {
-    const email = event.target.value
-    const emailPattern = /^[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$/i
-    let emailError = ''
-
-    // if (!email.match(emailPattern)) {
-    //   emailError = `<i className="bi bi-asterisk"></i> 不符合email規則，請確認是否包含[@]`
-    // }
-
-    this.setState((prevState) => ({
-      Users: {
-        ...prevState.Users,
-        email
-      },
-      emailError
-    }))
-  }
+          <div className='input-text'>
+            <label htmlFor='secret'>密碼</label>
+            <input
+              type='password'
+              id='secret'
+              value={secret}
+              name='secret'
+              onChange={(e) => setSecret(e.target.value)}
+              required
+              placeholder='輸入管理員密碼'
+            />
+          </div>
+          <input type='submit' className='btn' value='登入' />
+        </form>
+      </section>
+    </div>
+  )
 }
+
 export default AdminLogin

@@ -29,7 +29,9 @@ export default function PrdOrderInfo() {
 
   const fetchProductOrderDetails = async () => {
     try {
-      const response = await axios.get(`http://localhost:3000/riverflow/admin/product-orders/${id}`)
+      const response = await axios.get(`http://localhost:3000/riverflow/admin/product-orders/${id}`, {
+        withCredentials: true
+      })
       const productOrderData = response.data[0]
 
       const formatDate = (dateString) => {
@@ -70,7 +72,9 @@ export default function PrdOrderInfo() {
   const handleSubmit = async (e) => {
     e.preventDefault()
     try {
-      await axios.put(`http://localhost:3000/riverflow/admin/product-orders/${id}`, formData)
+      await axios.put(`http://localhost:3000/riverflow/admin/product-orders/${id}`, formData, {
+        withCredentials: true
+      })
       alert('訂單已成功更新')
       navigate(-1)
     } catch (error) {

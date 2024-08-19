@@ -104,7 +104,9 @@ export default function AddEvent() {
   const fetchEventData = useCallback(async () => {
     setIsLoading(true)
     try {
-      const response = await axios.get(`http://localhost:3000/riverflow/admin/events/${id}`)
+      const response = await axios.get(`http://localhost:3000/riverflow/admin/events/${id}`, {
+        withCredentials: true
+      })
       const eventData = response.data[0]
 
       // 處理時間格式
@@ -157,7 +159,6 @@ export default function AddEvent() {
         seat: newFormData.seat,
         ticketType: [...newFormData.ticketType]
       })
-      console.log('Updated formData:', newFormData) // 調試日誌
     } catch (error) {
       console.error('獲取數據時出錯:', error)
     } finally {
@@ -476,10 +477,9 @@ export default function AddEvent() {
             'Content-Type': 'multipart/form-data'
           },
           maxContentLength: Infinity,
-          maxRedirects: 0
+          maxRedirects: 0,
+          withCredentials: true
         })
-
-        console.log('圖片上傳成功:', uploadResponse.data.url)
 
         if (editor) {
           const newContent = editor.getData().replace(base64String, uploadResponse.data.url)
@@ -595,9 +595,9 @@ export default function AddEvent() {
           'Content-Type': 'multipart/form-data'
         },
         maxContentLength: Infinity,
-        maxRedirects: 0
+        maxRedirects: 0,
+        withCredentials: true
       })
-      console.log('活動已更新:', response.data)
       navigate(-1)
     } catch (error) {
       console.error('更新活動時出錯:', error)

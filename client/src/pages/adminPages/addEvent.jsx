@@ -140,7 +140,6 @@ export default function AddEvent() {
         ...prevState,
         [name]: value
       }))
-      console.log(`${name}: ${value}`)
     }
   }
 
@@ -395,10 +394,9 @@ export default function AddEvent() {
             'Content-Type': 'multipart/form-data'
           },
           maxContentLength: Infinity,
-          maxRedirects: 0
+          maxRedirects: 0,
+          withCredentials: true
         })
-
-        console.log('圖片上傳成功:', uploadResponse.data.url)
 
         if (editor) {
           const newContent = editor.getData().replace(base64String, uploadResponse.data.url)
@@ -493,9 +491,9 @@ export default function AddEvent() {
           'Content-Type': 'multipart/form-data'
         },
         maxContentLength: Infinity,
-        maxRedirects: 0
+        maxRedirects: 0,
+        withCredentials: true
       })
-      console.log('活動已創建:', response.data)
       navigate(-1)
     } catch (error) {
       console.error('創建活動時出錯:', error)

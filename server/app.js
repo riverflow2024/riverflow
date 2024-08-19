@@ -33,8 +33,6 @@ const stripeRoutes = require('./routes/stripe')
 const cartRoutes = require('./routes/cartRoutes')
 const adminRoutes = require('./routes/admin')
 
-
-
 // Use routes
 app.use('/riverflow', require('./routes/public'))
 app.use('/riverflow/user', authenticateToken, userRoutes)
@@ -45,8 +43,7 @@ app.use('/riverflow/cart', authenticateToken, cartRoutes)
 app.use('/riverflow/pay', authenticateToken, stripeRoutes)
 app.use('/riverflow/events/Tobuy', authenticateToken, stripeRoutes)
 
-
 // backstage routes
-app.use('/riverflow/admin', adminRoutes)
+app.use('/riverflow/admin', adminAuthenticateToken, adminRoutes)
 
 module.exports = app

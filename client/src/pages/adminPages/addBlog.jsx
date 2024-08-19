@@ -325,7 +325,6 @@ export default function AddBlog() {
   useEffect(() => {
     if (editor) {
       editor.model.document.on('change:data', () => {
-        console.log('編輯器內容已更改')
         const data = editor.getData()
         checkForImages(data)
       })
@@ -360,10 +359,9 @@ export default function AddBlog() {
             'Content-Type': 'multipart/form-data'
           },
           maxContentLength: Infinity,
-          maxRedirects: 0
+          maxRedirects: 0,
+          withCredentials: true
         })
-
-        console.log('圖片上傳成功:', uploadResponse.data.url)
 
         if (editor) {
           const newContent = editor.getData().replace(base64String, uploadResponse.data.url)
@@ -448,9 +446,9 @@ export default function AddBlog() {
           'Content-Type': 'multipart/form-data'
         },
         maxContentLength: Infinity, // 不限制请求体大小
-        maxRedirects: 0 // 不允许重定向
+        maxRedirects: 0, // 不允许重定向,
+        withCredentials: true
       })
-      console.log('部落格文章已創建:', response.data)
       navigate(-1)
     } catch (error) {
       console.error('創建部落格文章時出錯:', error)

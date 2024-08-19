@@ -95,7 +95,9 @@ export default function AddBlog() {
   const fetchBlogData = useCallback(async () => {
     setIsLoading(true)
     try {
-      const response = await axios.get(`http://localhost:3000/riverflow/admin/news/${id}`)
+      const response = await axios.get(`http://localhost:3000/riverflow/admin/news/${id}`, {
+        withCredentials: true
+      })
       const blogData = response.data[0]
 
       // 處理時間格式
@@ -136,8 +138,6 @@ export default function AddBlog() {
 
   // 封面圖片處理
   const handleFileChange = (e) => {
-    console.log('開始處理封面圖片')
-
     const file = e.target.files[0]
 
     if (file) {
@@ -376,7 +376,6 @@ export default function AddBlog() {
   useEffect(() => {
     if (editor) {
       editor.model.document.on('change:data', () => {
-        console.log('編輯器內容已更改')
         const data = editor.getData()
         checkForImages(data)
       })
@@ -412,10 +411,9 @@ export default function AddBlog() {
             'Content-Type': 'multipart/form-data'
           },
           maxContentLength: Infinity,
-          maxRedirects: 0
+          maxRedirects: 0,
+          withCredentials: true
         })
-
-        console.log('圖片上傳成功:', uploadResponse.data.url)
 
         if (editor) {
           const newContent = editor.getData().replace(base64String, uploadResponse.data.url)
@@ -477,7 +475,6 @@ export default function AddBlog() {
       const data = editor.getData()
       setFormData((prevState) => {
         const newState = { ...prevState, newsContent: data }
-        console.log('formData after editor change:', newState)
         return newState
       })
 
@@ -485,6 +482,14 @@ export default function AddBlog() {
     },
     [debouncedCheckForImages]
   )
+
+  function formatDateForMySQL(date) {
+    if (!(date instanceof Date) || isNaN(date)) {
+      console.error('Invalid date:', date)
+      return null
+    }
+    return date.toISOString().slice(0, 19).replace('T', ' ')
+  }
 
   // 送出資料更新
   const handleSubmit = async (e) => {
@@ -502,8 +507,8 @@ export default function AddBlog() {
         }
       } else if (key === 'pubTime') {
         // 將本地時間轉換回 ISO 格式
-        const date = new Date(formData[key])
-        postData.append(key, date.toISOString())
+        const formattedDate = formatDateForMySQL(new Date(formData[key]))
+        postData.append(key, formattedDate)
       } else {
         postData.append(key, formData[key])
       }
@@ -515,9 +520,9 @@ export default function AddBlog() {
           'Content-Type': 'multipart/form-data'
         },
         maxContentLength: Infinity,
-        maxRedirects: 0
+        maxRedirects: 0,
+        withCredentials: true
       })
-      console.log('文章已更新:', response.data)
       navigate(-1)
     } catch (error) {
       console.error('更新文章時出錯:', error)
