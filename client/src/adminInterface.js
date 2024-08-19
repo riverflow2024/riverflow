@@ -1,6 +1,7 @@
 import React from 'react'
 import { Route, Routes, useMatch } from 'react-router-dom'
 
+import AdminLogin from './pages/adminPages/adminLogin'
 import LeftCol from './components/adminLeftCol'
 
 import PrdList from './pages/adminPages/prdList'
@@ -24,6 +25,7 @@ export default function AdminInterface() {
     <div className='admin-page'>
       <LeftCol />
       <Routes>
+        <Route index element={<AdminLogin />}></Route>
         <Route path='prdList' element={<PrdList />} />
         <Route path='prdList/create' element={<AddPrd />} />
         <Route path='prdOrderList' element={<PrdOrderList />} />

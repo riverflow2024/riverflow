@@ -20,7 +20,7 @@ export default function EventList () {
     <div class='main'>
       <div class='pageTitle'>活動列表</div>
       <div class='flex'>
-        <Link to='edit' class='divided'>
+        <Link to='create' class='divided'>
           <button class='btn'>新增活動</button>
         </Link>
         <div class='flex'>
