@@ -1,3 +1,4 @@
+//Author: YuFu
 const stripe = require('stripe')(process.env.STRIPE_PRIVATE_KEY);
 const dbconnect = require('./dbConnect');
 
@@ -241,7 +242,7 @@ const saveOrderDetails = async (sessionId, userId) => {
                         `INSERT INTO ticketdetails
                                 (userId, eventId, ticketType, quantity, tdStatus, tdPrice, randNum, payTime, receiptType, receiptInfo, createdAt, updatedAt)
                                 VALUES (?, ?, ?, ?, ?, ?, ?, NOW(), ?, ?, NOW(), NOW())`,
-                        [userId, eventId, ticket.type, ticket.quantity, 'pending', ticket.price, randNum, 'dupInvoice', '/123K456']
+                        [userId, eventId, ticket.type, ticket.quantity, '已付款', ticket.price, randNum, '手機載具', '/123K456']
                     );
                 }
 
