@@ -129,7 +129,7 @@ class MemberOrderList extends Component {
 
         // 變更訂單狀態名稱
         const statusMap = {
-            "processing": "待出貨",
+            "已付款": "待出貨",
             "pending": "未付款",
             "completed": "已完成",
             "canceled": "未完成",
@@ -146,7 +146,7 @@ class MemberOrderList extends Component {
 
 
         // 根據訂單篩選，用filter過濾
-        const unpaidOrders = this.state.Order.filter(order => order.orderStatus === 'processing');
+        const unpaidOrders = this.state.Order.filter(order => order.orderStatus === '已付款');
         const paymentOrders = this.state.Order.filter(order => order.orderStatus === 'pending');
         const completedOrders = this.state.Order.filter(order => order.orderStatus === 'completed');
         const notYetCompletedOrders = this.state.Order.filter(order => order.orderStatus === 'cancelled');

@@ -3,6 +3,10 @@ import axios from 'axios'
 import '../assets/login.css'
 import '../assets/customSwalStyles.css'
 import Header from '../components/header'
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
+
+const MySwal = withReactContent(Swal);
 
 class LoginRegister extends Component {
   state = {

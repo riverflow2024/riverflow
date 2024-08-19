@@ -17,12 +17,10 @@ app.use('/riverflow', express.static(path.join(__dirname, '../client/public')))
 app.use(cookieParser())
 app.use(bodyParser.json())
 app.use(express.urlencoded({ extended: true }))
-app.use(
-  cors({
-    origin: 'http://localhost:3001',
-    credentials: true
-  })
-)
+app.use(cors({
+  origin: `http://localhost:${process.env.CLIENT_PORT}`, // 使用反引号
+  credentials: true // 带凭证的请求
+}));
 
 // Routers
 const userRoutes = require('./routes/users')
