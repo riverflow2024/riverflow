@@ -204,7 +204,7 @@ class MemberOrderList extends Component {
 
                         <div id="Unpaid" className="tabcontent">
                             {unpaidOrders.map(order =>
-                                <div className="order" key={order.orderId}>
+                                <div className="member-order" key={order.orderId}>
                                     <div className="wrap">
                                         <span>訂單編號：{order.orderId}</span>
                                         <button className="orderbtn" onClick={() => this.goOrder(order.orderId)}>訂單明細</button>
@@ -233,7 +233,7 @@ class MemberOrderList extends Component {
 
                         <div id="Payment" className="tabcontent">
                             {paymentOrders.map(order =>
-                                <div className="order" key={order.orderId}>
+                                <div className="member-order" key={order.orderId}>
                                     <div className="wrap">
                                         <span>訂單編號：{order.orderId}</span>
                                         <a href="memberOrder.html">
@@ -265,7 +265,7 @@ class MemberOrderList extends Component {
 
                         <div id="Completed" className="tabcontent">
                             {displayedCompletedOrders.map(order =>
-                                <div className="order" key={order.orderId}>
+                                <div className="member-order" key={order.orderId}>
                                     <div className="wrap">
                                         <span>訂單編號：{order.orderId}</span>
                                         <a href="memberOrder.html">
@@ -299,7 +299,7 @@ class MemberOrderList extends Component {
 
                         <div id="NotYetCompleted" className="tabcontent">
                             {displayedrecentnotYetCompletedOrders.map(order =>
-                                <div className="order" key={order.orderId}>
+                                <div className="member-order" key={order.orderId}>
                                     <div className="wrap">
                                         <span>訂單編號：{order.orderId}</span>
                                         <a href="memberOrder.html">

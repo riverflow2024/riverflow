@@ -1,83 +1,43 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { useParams, useNavigate } from 'react-router-dom';
 import '../assets/login.css';
 import Header from '../components/header';
 
-class LoginVerify extends Component {
-    state = {
-        newPassword: '',
-        confirmPassword: '',
-        passwordError: '',
-        checkPasswordError: '',
-        isNewPasswordVisible: false,
-        isConfirmPasswordVisible: false,
-        token: new URLSearchParams(window.location.search).get('authToken'),
-    };
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
 
-    componentDidMount() {
-        // 从 URL 中提取重置令牌
-        const params = new URLSearchParams(window.location.search);
-        const token = params.get('authToken');
-        
-        console.log('Full URL:', window.location.href); // 打印完整的 URL
-        console.log('Extracted Token:', token); // 打印提取到的令牌
-    
+const MySwal = withReactContent(Swal);
+
+const LoginVerify = () => {
+    const [newPassword, setNewPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
+    const [passwordError, setPasswordError] = useState('');
+    const [checkPasswordError, setCheckPasswordError] = useState('');
+    const [isNewPasswordVisible, setIsNewPasswordVisible] = useState(false);
+    const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] = useState(false);
+    const [resetToken, setResetToken] = useState('');
+    const [resetSuccess, setResetSuccess] = useState('');
+    const [resetError, setResetError] = useState('');
+
+    const { token } = useParams();
+    const navigate = useNavigate();
+
+    useEffect(() => {
         if (token) {
-            this.setState({ token });
-        } else {
-            console.error('Token is missing from the URL');
+            setResetToken(token);
         }
-    }
-    
-    resetPassword = async () => {
-        const { newPassword, confirmPassword, token } = this.state;
-    
-        if (newPassword !== confirmPassword) {
-            this.setState({ checkPasswordError: '<i className="bi bi-asterisk"></i> 密碼不吻合' });
-            return;
-        }
-    
-        // 打印请求数据以进行调试
-        console.log('Sending request with:', { newSecret: newPassword, token });
-    
-        // 检查 token 是否有效
-        if (!token) {
-            console.error('Token is missing');
-            this.setState({ passwordError: '无效或过期的重置令牌' });
-            return;
-        }
-    
-        try {
-            const response = await fetch(`http://localhost:3000/riverflow/reset-password/${token}`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ newSecret: newPassword }),
-            });
-    
-            if (!response.ok) {
-                const errorData = await response.json();
-                console.error('Error response:', errorData.message);
-                this.setState({ passwordError: errorData.message || '重置密碼時出錯，請稍後再試。' });
-                return;
-            }
-    
-            alert('密碼重置成功');
-            window.location.href = '/login';
-        } catch (error) {
-            console.error('重置密碼時出錯:', error);
-            this.setState({ passwordError: '重置密碼時出錯，請稍後再試。' });
+    }, [token]);
+
+    const handlePasswordToggle = (type) => {
+        if (type === 'isNewPasswordVisible') {
+            setIsNewPasswordVisible(prev => !prev);
+        } else if (type === 'isConfirmPasswordVisible') {
+            setIsConfirmPasswordVisible(prev => !prev);
         }
     };
-    
 
-    handlePasswordToggle = (type) => {
-        this.setState((prevState) => ({
-            [type]: !prevState[type],
-        }));
-    };
-
-    NewPassword = (event) => {
+    const NewPassword = (event) => {
         const newPassword = event.target.value;
         const passwordPattern = /^(?=.*[a-zA-Z])(?=.*[0-9]).{6,}$/;
         let passwordError = '';
@@ -90,14 +50,12 @@ class LoginVerify extends Component {
             passwordError = '';
         }
 
-        this.setState({
-            newPassword,
-            passwordError
-        }, this.CheckPassword);
+        setNewPassword(newPassword);
+        setPasswordError(passwordError);
+        CheckPassword();
     };
 
-    CheckPassword = () => {
-        const { newPassword, confirmPassword } = this.state;
+    const CheckPassword = () => {
         let checkPasswordError = '';
 
         if (confirmPassword && newPassword !== confirmPassword) {
@@ -108,77 +66,112 @@ class LoginVerify extends Component {
             checkPasswordError = '';
         }
 
-        this.setState({ checkPasswordError });
+        setCheckPasswordError(checkPasswordError);
     };
 
-    handleConfirmPasswordChange = (event) => {
+    const handleConfirmPasswordChange = (event) => {
         const confirmPassword = event.target.value;
-        this.setState({ confirmPassword }, this.CheckPassword);
+        setConfirmPassword(confirmPassword);
+        CheckPassword();
     };
 
-    render() {
-        const { isNewPasswordVisible, isConfirmPasswordVisible, passwordError, checkPasswordError, newPassword, confirmPassword } = this.state;
+    const resetPassword = async () => {
+        try {
+            if (!newPassword || !resetToken) {
+                throw new Error('新密码或重置令牌缺失');
+            }
 
-        return (
-            <div>
-                <Header />
-                <section className="verify">
-                    <div className="form">
-                        <h4>修改密碼</h4>
-                        <div className="input-text input-password">
-                            <label>新密碼</label>
-                            <input
-                                type={isNewPasswordVisible ? 'text' : 'password'}
-                                name="newPassword"
-                                id="newPassword"
-                                value={newPassword}
-                                placeholder="Enter new password"
-                                autoComplete="new-password"
-                                required
-                                onChange={this.NewPassword}
-                            />
-                            <div>
-                                <i
-                                    className={`bi ${isNewPasswordVisible ? 'bi-eye-fill' : 'bi-eye-slash-fill'}`}
-                                    onClick={() => this.handlePasswordToggle('isNewPasswordVisible')}
-                                ></i>
-                            </div>
-                        </div>
-                        <span className="tips" dangerouslySetInnerHTML={{ __html: passwordError || '含英數至少六個字元' }}></span>
-                        <br />
+            const response = await axios.post(
+                `http://localhost:3000/riverflow/reset-password/${resetToken}`,
+                { newSecret: newPassword }
+            );
+            MySwal.fire({
+                title: "密碼重置成功",
+                text: "密碼已開通，請登入會員！",
+                width: "300px",
+                background: "var(--bk2)",
+                color: "var(--gr1)",
+                confirmButtonColor: "var(--main)",
+                confirmButtonText: "OK",
+                customClass: {
+                    title: 'custom-title',  // 標題的class
+                    htmlContainer: 'custom-text',  // 內文的class
+                    confirmButton: 'swal2-confirm' // 按鈕的樣式
+                },
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location = "/Login/Index";
+                }
+            });
+        } catch (error) {
+            console.error('Error resetting password:', error);
+            setResetError('密码重置失败，请稍后再试。');
+            setResetSuccess('');
+        }
+    };
 
-                        <div className="input-text input-password">
-                            <label>確認密碼</label>
-                            <input
-                                type={isConfirmPasswordVisible ? 'text' : 'password'}
-                                name="confirmPassword"
-                                id="checkPassword"
-                                value={confirmPassword}
-                                placeholder="Enter password"
-                                autoComplete="new-password"
-                                onChange={this.handleConfirmPasswordChange}
-                            />
-                            <div>
-                                <i
-                                    className={`bi ${isConfirmPasswordVisible ? 'bi-eye-fill' : 'bi-eye-slash-fill'}`}
-                                    onClick={() => this.handlePasswordToggle('isConfirmPasswordVisible')}
-                                ></i>
-                            </div>
-                        </div>
-                        <span className="tips" dangerouslySetInnerHTML={{ __html: checkPasswordError }}></span>
-                        <br />
-
+    return (
+        <div>
+            <Header />
+            <section className="verify">
+                <div className="form">
+                    <h4>修改密碼</h4>
+                    <div className="input-text input-password">
+                        <label>新密碼</label>
                         <input
-                            type="button"
-                            className="btn"
-                            onClick={this.resetPassword}
-                            value="確認"
+                            type={isNewPasswordVisible ? 'text' : 'password'}
+                            name="newPassword"
+                            id="newPassword"
+                            value={newPassword}
+                            placeholder="Enter new password"
+                            autoComplete="new-password"
+                            required
+                            onChange={NewPassword}
                         />
+                        <div>
+                            <i
+                                className={`bi ${isNewPasswordVisible ? 'bi-eye-fill' : 'bi-eye-slash-fill'}`}
+                                onClick={() => handlePasswordToggle('isNewPasswordVisible')}
+                            ></i>
+                        </div>
                     </div>
-                </section>
-            </div>
-        );
-    }
-}
+                    <span className="tips" dangerouslySetInnerHTML={{ __html: passwordError || '含英數至少六個字元' }}></span>
+                    <br />
+
+                    <div className="input-text input-password">
+                        <label>確認密碼</label>
+                        <input
+                            type={isConfirmPasswordVisible ? 'text' : 'password'}
+                            name="confirmPassword"
+                            id="checkPassword"
+                            value={confirmPassword}
+                            placeholder="Enter password"
+                            autoComplete="new-password"
+                            onChange={handleConfirmPasswordChange}
+                        />
+                        <div>
+                            <i
+                                className={`bi ${isConfirmPasswordVisible ? 'bi-eye-fill' : 'bi-eye-slash-fill'}`}
+                                onClick={() => handlePasswordToggle('isConfirmPasswordVisible')}
+                            ></i>
+                        </div>
+                    </div>
+                    <span className="tips" dangerouslySetInnerHTML={{ __html: checkPasswordError }}></span>
+                    <br />
+
+                    <input
+                        type="button"
+                        className="btn"
+                        onClick={resetPassword}
+                        value="確認"
+                    />
+
+                    {resetSuccess && <p className="success-message">{resetSuccess}</p>}
+                    {resetError && <p className="error-message">{resetError}</p>}
+                </div>
+            </section>
+        </div>
+    );
+};
 
 export default LoginVerify;

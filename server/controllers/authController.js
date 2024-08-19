@@ -236,7 +236,8 @@ exports.requestPasswordReset = async (req, res) => {
     // 發送郵件
     await transporter.sendMail(mailOptions)
 
-    res.json({ message: '密碼重置連結已發送到您的信箱' })
+    // res.json({ message: '密碼重置連結已發送到您的信箱' })
+    res.json({ message: '密碼重置連結已發送到您的信箱', token: resetToken });
   } catch (error) {
     console.error('請求密碼重置錯誤:', error)
     if (error.code === 'EAUTH') {
