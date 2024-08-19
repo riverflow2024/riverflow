@@ -1,5 +1,7 @@
+//Author: YuFu
 const cartModel = require('../models/cartModel');
 
+//加入購物車
 exports.addToCart = async (req, res) => {
   try {
     const  userId = req.userId;
@@ -11,6 +13,7 @@ exports.addToCart = async (req, res) => {
   }
 };
 
+//取得購物車
 exports.getCart = async (req, res) => {
   try {
     const userId  = req.userId;
@@ -21,6 +24,8 @@ exports.getCart = async (req, res) => {
   }
 };
 
+
+//更新購物車數量
 exports.updateCartItem = async (req, res) => {
   try {
     const { ciid, quantity } = req.body;
@@ -31,6 +36,7 @@ exports.updateCartItem = async (req, res) => {
   }
 };
 
+//刪除購物車項目
 exports.removeFromCart = async (req, res) => {
   try {
     const { ciid } = req.params;

@@ -1,7 +1,8 @@
+//Author: YuFu
 const dbConnect = require('./dbConnect')
 
 
-// 取得所有產品
+// 取得所有活動
 exports.getAllEvents = () => {
   return new Promise((resolve, reject) => {
     dbConnect.query(
@@ -17,7 +18,7 @@ exports.getAllEvents = () => {
   })
 }
 
-// 取得單個產品
+// 取得單個活動
 exports.getEvents = (id) => {
   return new Promise((resolve, reject) => {
     dbConnect.query(`
@@ -35,7 +36,7 @@ exports.getEvents = (id) => {
   })
 }
 
-// 新增產品
+// 新增活動
 exports.createEvents = (eventData) => {
   return new Promise((resolve, reject) => {
     dbConnect.query('INSERT INTO events SET ?', eventData, (err, result) => {
@@ -45,7 +46,7 @@ exports.createEvents = (eventData) => {
   })
 }
 
-// 更新產品
+// 更新活動
 exports.updateEvents = (id, eventData) => {
   return new Promise((resolve, reject) => {
     dbConnect.query('UPDATE events SET ? WHERE eventid = ?', [eventData, id], (err, result) => {
@@ -55,7 +56,7 @@ exports.updateEvents = (id, eventData) => {
   })
 }
 
-// 刪除產品
+// 刪除活動
 exports.deleteEvents = (id) => {
   return new Promise((resolve, reject) => {
     dbConnect.query('DELETE FROM events WHERE eventid = ?', [id], (err, result) => {

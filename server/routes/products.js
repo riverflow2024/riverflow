@@ -1,8 +1,9 @@
+//Author: YuFu
 const express = require('express')
 const router = express.Router()
 
-// 假設這些控制器函數已經定義
 
+// 解構取得函式
 const {
   getProductById,
   getAllProducts,
@@ -17,7 +18,7 @@ router.post('/', createProduct)
 router.put('/:id', updateProduct)
 //刪除
 router.delete('/:id', deleteProduct)
-
+//取得
 router.get('/', getAllProducts)
 router.get('/:id', getProductById)
 module.exports = router
