@@ -6,8 +6,10 @@ const stripeModel = require('../models/stripeModel');
 const createCheckoutSession = async (req, res) => {
     try {
         const items = req.body.items;
+        const finalTotal = req.body.finalTotal;
         console.log('訂單項目:', items);
-        const session = await stripeModel.createCheckoutSession(items);
+        console.log('整體',req.body);
+        const session = await stripeModel.createCheckoutSession(items , finalTotal);
         res.json({ url: session.url });
     } catch (e) {
         console.error('創建結帳會話時發生錯誤:', e);
