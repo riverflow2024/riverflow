@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import '../assets/index.css';
 import Header from '../components/header'
+import Footer from '../components/footer'
 
 class Index extends Component {
 
@@ -13,14 +14,11 @@ class Index extends Component {
   componentDidMount() {
     this.checkLoginStatus();
     document.body.classList.remove('w-bg');
-    // 添加滚动事件监听器
     window.addEventListener('scroll', this.Scroll);
   }
 
   componentWillUnmount() {
-    // 在组件卸载时恢复 body 上的 `w-bg` 类
     document.body.classList.add('w-bg');
-    // 移除滚动事件监听器
     window.removeEventListener('scroll', this.Scroll);
   }
 
@@ -368,7 +366,7 @@ class Index extends Component {
                   <span>Disc Jockey</span>
                   <span class="title_sub"> &nbsp; &nbsp; &nbsp;| &nbsp;DJ</span>
 
-                  <button class="read_moreBtn">
+                  <button class="read_moreBtn" onClick={this.goDj}>
                     <span class="circle" aria-hidden="true">
                       <span class="icon arrow"></span>
                     </span>
@@ -493,7 +491,7 @@ class Index extends Component {
                   <span>Graffiti</span>
                   <span class="title_sub"> &nbsp; &nbsp; &nbsp;| &nbsp;塗鴉</span>
 
-                  <button class="read_moreBtn">
+                  <button class="read_moreBtn" onClick={this.goGraffiti}>
                     <span class="circle" aria-hidden="true">
                       <span class="icon arrow"></span>
                     </span>
@@ -623,7 +621,7 @@ class Index extends Component {
                   <span>Skate</span>
                   <span class="title_sub"> &nbsp; &nbsp;| &nbsp;滑板</span>
 
-                  <button class="read_moreBtn">
+                  <button class="read_moreBtn" onClick={this.goSkate}>
                     <span class="circle" aria-hidden="true">
                       <span class="icon arrow"></span>
                     </span>
@@ -669,12 +667,22 @@ class Index extends Component {
             <img class="goup" src={require('../assets/images/goup.png')} alt="" />
           </a>
         </div>
+        <Footer />
       </div>
     )
   }
   // Read More
+  goDj=async()=>{
+    window.location="/DJ";
+  }
   goRap=async()=>{
     window.location="/rap";
+  }
+  goGraffiti=async()=>{
+    window.location="/Graffiti";
+  }
+  goSkate=async()=>{
+    window.location="/Skate";
   }
 }
 export default Index

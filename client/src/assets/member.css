@@ -289,25 +289,25 @@
   padding: 20px 0px;
   height: 100%;
 }
-.OrderList .order-box .tabcontent .order {
+.OrderList .order-box .tabcontent .member-order {
   padding: 20px;
   border: 0.5px solid var(--main);
   border-radius: 20px;
   margin: 20px 0px;
   color: var(--main);
 }
-.OrderList .order-box .tabcontent .order .wrap {
+.OrderList .order-box .tabcontent .member-order .wrap {
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin-bottom: 30px;
 }
-.OrderList .order-box .tabcontent .order .wrap span {
+.OrderList .order-box .tabcontent .member-order .wrap span {
   font-size: 16px;
   font-weight: 200;
   letter-spacing: 1px;
 }
-.OrderList .order-box .tabcontent .order .wrap .orderbtn {
+.OrderList .order-box .tabcontent .member-order .wrap .orderbtn {
   border: none;
   background: transparent;
   border: 0.5px solid var(--main);
@@ -318,35 +318,35 @@
   font-weight: 200;
   letter-spacing: 1px;
 }
-.OrderList .order-box .tabcontent .order .wrap .orderbtn:hover {
+.OrderList .order-box .tabcontent .member-order .wrap .orderbtn:hover {
   background: var(--main);
   color: var(--bk1);
   font-weight: 400;
 }
-.OrderList .order-box .tabcontent .order table {
+.OrderList .order-box .tabcontent .member-order table {
   width: 100%;
   border-collapse: collapse;
   table-layout: fixed;
 }
-.OrderList .order-box .tabcontent .order table thead {
+.OrderList .order-box .tabcontent .member-order table thead {
   background-color: var(--bk2);
 }
-.OrderList .order-box .tabcontent .order th,
-.OrderList .order-box .tabcontent .order td {
+.OrderList .order-box .tabcontent .member-order th,
+.OrderList .order-box .tabcontent .member-order td {
   font-size: 16px;
   font-weight: 200;
   text-align: center;
   padding: 10px;
 }
-.OrderList .order-box .tabcontent .order th {
+.OrderList .order-box .tabcontent .member-order th {
   border-bottom: 0.5px solid var(--main);
 }
-.OrderList .order-box .tabcontent .order th:nth-of-type(1),
-.OrderList .order-box .tabcontent .order td:nth-of-type(1) {
+.OrderList .order-box .tabcontent .member-order th:nth-of-type(1),
+.OrderList .order-box .tabcontent .member-order td:nth-of-type(1) {
   text-align: justify;
 }
-.OrderList .order-box .tabcontent .order th:nth-of-type(4),
-.OrderList .order-box .tabcontent .order td:nth-of-type(4) {
+.OrderList .order-box .tabcontent .member-order th:nth-of-type(4),
+.OrderList .order-box .tabcontent .member-order td:nth-of-type(4) {
   text-align: right;
 }
 .OrderList .order-box .tabcontent .btn {
@@ -458,7 +458,7 @@
   padding: 20px 0px;
   height: 100%;
 }
-.Order .order-box .tabcontent .order {
+.Order .order-box .tabcontent .member-order {
   display: flex;
   flex-direction: column;
   align-items: stretch;
@@ -467,19 +467,19 @@
   border-radius: 20px;
   margin: 20px 0px;
 }
-.Order .order-box .tabcontent .order .wrap {
+.Order .order-box .tabcontent .member-order .member-wrap {
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin-bottom: 30px;
 }
-.Order .order-box .tabcontent .order .wrap span {
+.Order .order-box .tabcontent .member-order .member-wrap span {
   font-size: 16px;
   font-weight: 200;
   letter-spacing: 1px;
   color: var(--main);
 }
-.Order .order-box .tabcontent .order .wrap .orderbtn {
+.Order .order-box .tabcontent .member-order .member-wrap .orderbtn {
   border: none;
   background: transparent;
   border: 0.5px solid var(--main);
@@ -490,52 +490,52 @@
   font-weight: 200;
   letter-spacing: 1px;
 }
-.Order .order-box .tabcontent .order .wrap .orderbtn:hover {
+.Order .order-box .tabcontent .member-order .member-wrap .orderbtn:hover {
   background: var(--main);
   color: var(--bk1);
   font-weight: 400;
 }
-.Order .order-box .tabcontent .order table {
+.Order .order-box .tabcontent .member-order table {
   width: 100%;
   border-collapse: collapse;
   table-layout: fixed;
   color: var(--main);
 }
-.Order .order-box .tabcontent .order table thead {
+.Order .order-box .tabcontent .member-order table thead {
   background-color: var(--bk2);
 }
-.Order .order-box .tabcontent .order table th,
-.Order .order-box .tabcontent .order table td {
+.Order .order-box .tabcontent .member-order table th,
+.Order .order-box .tabcontent .member-order table td {
   font-size: 16px;
   font-weight: 200;
   text-align: center;
   padding: 10px;
 }
-.Order .order-box .tabcontent .order table th {
+.Order .order-box .tabcontent .member-order table th {
   border-bottom: 0.5px solid var(--main);
 }
-.Order .order-box .tabcontent .order table th:nth-of-type(1),
-.Order .order-box .tabcontent .order table td:nth-of-type(1) {
+.Order .order-box .tabcontent .member-order table th:nth-of-type(1),
+.Order .order-box .tabcontent .member-order table td:nth-of-type(1) {
   text-align: justify;
 }
-.Order .order-box .tabcontent .order table th:nth-of-type(4),
-.Order .order-box .tabcontent .order table td:nth-of-type(4) {
+.Order .order-box .tabcontent .member-order table th:nth-of-type(4),
+.Order .order-box .tabcontent .member-order table td:nth-of-type(4) {
   text-align: right;
 }
-.Order .order-box .tabcontent .order .accordion {
+.Order .order-box .tabcontent .member-order .accordion {
   width: 100%;
   color: var(--main);
   font-size: 16px;
   font-weight: 300;
   transition: 0.5s;
 }
-.Order .order-box .tabcontent .order .accordion .container {
+.Order .order-box .tabcontent .member-order .accordion .container {
   max-width: 100% !important;
   position: relative;
   margin: 10px 0px;
   padding: 0px;
 }
-.Order .order-box .tabcontent .order .accordion .container .label {
+.Order .order-box .tabcontent .member-order .accordion .container .label {
   position: relative;
   padding: 15px 10px;
   font-size: 16px;
@@ -543,7 +543,7 @@
   border-bottom: 0.5px solid var(--main);
   cursor: pointer;
 }
-.Order .order-box .tabcontent .order .accordion .container .label::before {
+.Order .order-box .tabcontent .member-order .accordion .container .label::before {
   content: "+";
   color: var(--main);
   position: absolute;
@@ -552,14 +552,14 @@
   font-size: 18px;
   transform: translateY(-50%);
 }
-.Order .order-box .tabcontent .order .accordion .container.active .content {
+.Order .order-box .tabcontent .member-order .accordion .container.active .member-content {
   height: 150px;
 }
-.Order .order-box .tabcontent .order .accordion .container.active .label::before {
+.Order .order-box .tabcontent .member-order .accordion .container.active .label::before {
   content: "-";
   font-size: 30px;
 }
-.Order .order-box .tabcontent .order .accordion .container .content {
+.Order .order-box .tabcontent .member-order .accordion .container .member-content {
   height: 0;
   position: relative;
   margin: 20px 0px;
@@ -569,7 +569,7 @@
   overflow: hidden;
   transition: 0.5s;
 }
-.Order .order-box .tabcontent .order .accordion .container .content span {
+.Order .order-box .tabcontent .member-order .accordion .container .member-content span {
   display: block;
   padding: 3px 0px;
 }
@@ -682,25 +682,25 @@
   padding: 20px 0px;
   height: 100%;
 }
-.Tickets .order-box .tabcontent .order {
+.Tickets .order-box .tabcontent .member-order {
   padding: 20px;
   border: 0.5px solid var(--main);
   border-radius: 20px;
   margin: 20px 0px;
   color: var(--main);
 }
-.Tickets .order-box .tabcontent .order .wrap {
+.Tickets .order-box .tabcontent .member-order .wrap {
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin-bottom: 30px;
 }
-.Tickets .order-box .tabcontent .order .wrap span {
+.Tickets .order-box .tabcontent .member-order .wrap span {
   font-size: 16px;
   font-weight: 200;
   letter-spacing: 1px;
 }
-.Tickets .order-box .tabcontent .order .wrap .orderbtn {
+.Tickets .order-box .tabcontent .member-order .wrap .orderbtn {
   border: none;
   background: transparent;
   border: 0.5px solid var(--main);
@@ -711,40 +711,40 @@
   font-weight: 200;
   letter-spacing: 1px;
 }
-.Tickets .order-box .tabcontent .order .wrap .orderbtn:hover {
+.Tickets .order-box .tabcontent .member-order .wrap .orderbtn:hover {
   background: var(--main);
   color: var(--bk1);
   font-weight: 400;
 }
-.Tickets .order-box .tabcontent .order table {
+.Tickets .order-box .tabcontent .member-order table {
   width: 100%;
   border-collapse: collapse;
   table-layout: fixed;
 }
-.Tickets .order-box .tabcontent .order table thead {
+.Tickets .order-box .tabcontent .member-order table thead {
   background-color: var(--bk2);
 }
-.Tickets .order-box .tabcontent .order th,
-.Tickets .order-box .tabcontent .order td {
+.Tickets .order-box .tabcontent .member-order th,
+.Tickets .order-box .tabcontent .member-order td {
   font-size: 16px;
   font-weight: 200;
   line-height: 25px;
   text-align: center;
   padding: 10px;
 }
-.Tickets .order-box .tabcontent .order th {
+.Tickets .order-box .tabcontent .member-order th {
   border-bottom: 0.5px solid var(--main);
 }
-.Tickets .order-box .tabcontent .order th:nth-of-type(1),
-.Tickets .order-box .tabcontent .order td:nth-of-type(1) {
+.Tickets .order-box .tabcontent .member-order th:nth-of-type(1),
+.Tickets .order-box .tabcontent .member-order td:nth-of-type(1) {
   text-align: justify;
 }
-.Tickets .order-box .tabcontent .order th:nth-of-type(2),
-.Tickets .order-box .tabcontent .order td:nth-of-type(2) {
+.Tickets .order-box .tabcontent .member-order th:nth-of-type(2),
+.Tickets .order-box .tabcontent .member-order td:nth-of-type(2) {
   text-align: justify;
 }
-.Tickets .order-box .tabcontent .order th:nth-of-type(6),
-.Tickets .order-box .tabcontent .order td:nth-of-type(6) {
+.Tickets .order-box .tabcontent .member-order th:nth-of-type(6),
+.Tickets .order-box .tabcontent .member-order td:nth-of-type(6) {
   text-align: right;
 }
 .Tickets .order-box .tabcontent .btn {
@@ -863,7 +863,7 @@
   padding: 20px 0px;
   height: 100%;
 }
-.Collection .order-box .tabcontent .order {
+.Collection .order-box .tabcontent .member-order {
   border: 0.5px solid var(--main);
   border-radius: 20px;
   padding: 20px;
@@ -872,41 +872,41 @@
   position: relative;
   display: flex;
 }
-.Collection .order-box .tabcontent .order .Img-box {
+.Collection .order-box .tabcontent .member-order .Img-box {
   flex: 1;
   padding: 10px;
 }
-.Collection .order-box .tabcontent .order .Img-box img {
+.Collection .order-box .tabcontent .member-order .Img-box img {
   -o-object-fit: cover;
      object-fit: cover;
   width: 200px;
   height: 200px;
   border-radius: 5px;
 }
-.Collection .order-box .tabcontent .order .container {
+.Collection .order-box .tabcontent .member-order .container {
   flex: 2;
   display: flex;
   gap: 20px;
   flex-direction: column;
 }
-.Collection .order-box .tabcontent .order .container .wrap:nth-of-type(2) {
+.Collection .order-box .tabcontent .member-order .container .wrap:nth-of-type(2) {
   padding-right: 50px;
   color: var(--main2);
 }
-.Collection .order-box .tabcontent .order .container .wrap {
+.Collection .order-box .tabcontent .member-order .container .wrap {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
-.Collection .order-box .tabcontent .order .container .wrap h3 {
+.Collection .order-box .tabcontent .member-order .container .wrap h3 {
   line-height: normal;
   padding-top: 30px;
   padding-right: 50px;
 }
-.Collection .order-box .tabcontent .order .container .wrap p {
+.Collection .order-box .tabcontent .member-order .container .wrap p {
   text-align: justify;
 }
-.Collection .order-box .tabcontent .order .container .wrap .closebtn {
+.Collection .order-box .tabcontent .member-order .container .wrap .closebtn {
   height: auto;
   border: none;
   background: transparent;
@@ -920,12 +920,12 @@
   text-align: center;
   padding: 0px 5px;
 }
-.Collection .order-box .tabcontent .order .container .wrap .closebtn:hover {
+.Collection .order-box .tabcontent .member-order .container .wrap .closebtn:hover {
   background: var(--main);
   color: var(--bk1);
   font-weight: 400;
 }
-.Collection .order-box .tabcontent .order .container .wrap .orderbtn {
+.Collection .order-box .tabcontent .member-order .container .wrap .orderbtn {
   border: none;
   background: transparent;
   border: 0.5px solid var(--main);
@@ -936,8 +936,8 @@
   font-weight: 200;
   letter-spacing: 1px;
 }
-.Collection .order-box .tabcontent .order .container .wrap .orderbtn:hover,
-.Collection .order-box .tabcontent .order .container .wrap .closebtn:hover {
+.Collection .order-box .tabcontent .member-order .container .wrap .orderbtn:hover,
+.Collection .order-box .tabcontent .member-order .container .wrap .closebtn:hover {
   background: var(--main);
   color: var(--bk1);
   font-weight: 400;

@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import axios from 'axios'
-import '../assets/login.css';
 import '../assets/login.css';
 import Header from '../components/header'
 
@@ -36,12 +34,12 @@ class LoginPassword extends Component {
             this.setState({ emailError: '請輸入電子郵件地址' });
             return;
         }
-
+    
         if (!this.validateEmail(email)) {
             this.setState({ emailError: '請輸入有效的電子郵件地址' });
             return;
         }
-        this.setState({ isLoading: true }); // 开始加载
+        this.setState({ isLoading: true }); 
         try {
             const response = await fetch('http://localhost:3000/riverflow/reset-password', {
                 method: 'POST',
@@ -50,11 +48,15 @@ class LoginPassword extends Component {
                 },
                 body: JSON.stringify({ email }),
             });
-
+    
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
-
+    
+            // 假设后端返回一个包含令牌的JSON响应
+            const data = await response.json();
+            const resetToken = data.token;
+    
             MySwal.fire({
                 title: "驗證信已發送",
                 text: "密碼重置連結已發送到您的信箱！",
@@ -64,13 +66,14 @@ class LoginPassword extends Component {
                 confirmButtonColor: "var(--main)",
                 confirmButtonText: "OK",
                 customClass: {
-                    title: 'custom-title',  // 標題的class
-                    htmlContainer: 'custom-text',  // 內文的class
-                    confirmButton: 'swal2-confirm' // 按鈕的樣式
+                    title: 'custom-title',
+                    htmlContainer: 'custom-text',
+                    confirmButton: 'swal2-confirm'
                 },
             }).then((result) => {
                 if (result.isConfirmed) {
-                    window.location = "/Login/Verify";
+                    // 重定向到带有令牌的路径
+                    window.location = `/Login/Verify/reset-password/${resetToken}`;
                 }
             });
         } catch (error) {
@@ -80,6 +83,7 @@ class LoginPassword extends Component {
             this.setState({ isLoading: false }); // 请求完成或出错后停止加载
         }
     };
+    
 
 
 

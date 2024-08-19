@@ -38,7 +38,7 @@ const NewsCard = ({ newsId, image, type, date, title, description, isGreen, goAr
           </div>
           <div className='wrap'>
             <h4 className='multiline-ellipsis'>{title}</h4>
-            <p className='multiline-ellipsis'>{description}</p>
+            <p className='multiline-ellipsis' dangerouslySetInnerHTML={{ __html: description }}/>
           </div>
           <div className='wrap'>
             <div className='morebtn'>
@@ -173,7 +173,7 @@ class NewsIndex extends Component {
           </div>
           <div className='content-box'>
             <div id='All' className='tabcontent' style={{ display: selectedType === 'All' ? 'block' : 'none' }}>
-              <div className='content'>
+              <div className='newsContent'>
                 {currentCards.map((newItem, index) => (
                   <NewsCard
                     key={newItem.newsId}
@@ -182,7 +182,7 @@ class NewsIndex extends Component {
                     type={newItem.newsType}
                     date={newItem.createdAt}
                     title={newItem.newsTitle}
-                    description='Your description here' // Replace with actual description
+                    description= {newItem.newsContent} // Replace with actual description
                     isGreen={this.getCardClass(index)}
                     goArticle={this.goArticle}
                   />
@@ -214,7 +214,7 @@ class NewsIndex extends Component {
             </div>
 
             <div id='DJ' className='tabcontent' style={{ display: selectedType === 'DJ' ? 'block' : 'none' }}>
-              <div className='content'>
+              <div className='newsContent'>
                 {currentCards.map((newItem, index) => (
                   <NewsCard
                     key={newItem.newsId}
@@ -223,7 +223,7 @@ class NewsIndex extends Component {
                     type={newItem.newsType}
                     date={newItem.createdAt}
                     title={newItem.newsTitle}
-                    description='Your description here'
+                    description= {newItem.newsContent}
                     isGreen={this.getCardClass(index)}
                     goArticle={this.goArticle}
                   />
@@ -258,7 +258,7 @@ class NewsIndex extends Component {
               className='tabcontent'
               style={{ display: selectedType === 'streetDance' ? 'block' : 'none' }}
             >
-              <div className='content'>
+              <div className='newsContent'>
                 {currentCards.map((newItem, index) => (
                   <NewsCard
                     key={newItem.newsId}
@@ -267,7 +267,7 @@ class NewsIndex extends Component {
                     type={newItem.newsType}
                     date={newItem.createdAt}
                     title={newItem.newsTitle}
-                    description='Your description here'
+                    description= {newItem.newsContent}
                     isGreen={this.getCardClass(index)}
                     goArticle={this.goArticle}
                   />
@@ -298,7 +298,7 @@ class NewsIndex extends Component {
               </div>
             </div>
             <div id='rap' className='tabcontent' style={{ display: selectedType === 'rap' ? 'block' : 'none' }}>
-              <div className='content'>
+              <div className='newsContent'>
                 {currentCards.map((newItem, index) => (
                   <NewsCard
                     key={newItem.newsId}
@@ -307,7 +307,7 @@ class NewsIndex extends Component {
                     type={newItem.newsType}
                     date={newItem.createdAt}
                     title={newItem.newsTitle}
-                    description='Your description here'
+                    description= {newItem.newsContent}
                     isGreen={this.getCardClass(index)}
                     goArticle={this.goArticle}
                   />
@@ -342,7 +342,7 @@ class NewsIndex extends Component {
               className='tabcontent'
               style={{ display: selectedType === 'graffiti' ? 'block' : 'none' }}
             >
-              <div className='content'>
+              <div className='newsContent'>
                 {currentCards.map((newItem, index) => (
                   <NewsCard
                     key={newItem.newsId}
@@ -351,7 +351,7 @@ class NewsIndex extends Component {
                     type={newItem.newsType}
                     date={newItem.createdAt}
                     title={newItem.newsTitle}
-                    description='Your description here'
+                    description={newItem.newsContent}
                     isGreen={this.getCardClass(index)}
                     goArticle={this.goArticle}
                   />
@@ -382,7 +382,7 @@ class NewsIndex extends Component {
               </div>
             </div>
             <div id='skate' className='tabcontent' style={{ display: selectedType === 'skate' ? 'block' : 'none' }}>
-              <div className='content'>
+              <div className='newsContent'>
                 {currentCards.map((newItem, index) => (
                   <NewsCard
                     key={newItem.newsId}
@@ -391,7 +391,7 @@ class NewsIndex extends Component {
                     type={newItem.newsType}
                     date={newItem.createdAt}
                     title={newItem.newsTitle}
-                    description='Your description here'
+                    description= {newItem.newsContent}
                     isGreen={this.getCardClass(index)}
                     goArticle={this.goArticle}
                   />

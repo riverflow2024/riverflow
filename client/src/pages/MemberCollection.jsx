@@ -147,7 +147,7 @@ class MemberCollection extends Component {
 
                         <div id="Collection" class="tabcontent">
                             {this.state.ProductFavorite.map((productItem, index) => (
-                                <div class="order" key={index}>
+                                <div class="member-order" key={index}>
 
                                     <div class="Img-box">
                                         <img src={productItem.productImg} alt="" />

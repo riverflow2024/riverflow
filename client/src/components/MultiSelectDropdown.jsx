@@ -5,13 +5,13 @@ const MAX_SELECTIONS = 3
 
 // 選項
 const options = [
-  { value: 'dj', label: 'DJ' },
-  { value: 'streetDance', label: '街舞' },
-  { value: 'rap', label: '饒舌' },
-  { value: 'graffiti', label: '塗鴉' },
-  { value: 'skate', label: '滑板' },
-  { value: 'new', label: '新上市' },
-  { value: 'discount', label: '優惠' }
+  { value: '1', label: 'DJ' },
+  { value: '2', label: '街舞' },
+  { value: '3', label: '饒舌' },
+  { value: '4', label: '塗鴉' },
+  { value: '5', label: '滑板' },
+  { value: '6', label: '新品' },
+  { value: '7', label: '優惠' }
 ]
 
 const MultiSelectDropdown = ({ selectedOptions, onChange }) => {
@@ -47,6 +47,7 @@ const MultiSelectDropdown = ({ selectedOptions, onChange }) => {
         placeholder="選擇商品分類"
         styles={colourStyles}
       />
+      <span className='required'>※請選擇至多三個分類</span>
     </div>
   )
 }
