@@ -608,6 +608,7 @@ exports.createEvent = async (eventData) => {
   const values = [
     eventData.eventType,
     eventData.eventName,
+    eventData.coverImg,
     eventData.eventAnoc,
     eventData.eventDesc,
     eventData.eventDate,
@@ -620,7 +621,7 @@ exports.createEvent = async (eventData) => {
   ]
   return new Promise((resolve, reject) => {
     db.query(
-      'INSERT INTO Events (eventType, eventName, eventAnoc, eventDesc, eventDate, location, seat, ticketType, launchDate, launchStatus, saleDate) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+      'INSERT INTO Events (eventType, eventName, coverImg, eventAnoc, eventDesc, eventDate, location, seat, ticketType, launchDate, launchStatus, saleDate) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
       values,
       (error, results) => {
         if (error) {
@@ -633,23 +634,23 @@ exports.createEvent = async (eventData) => {
     )
   })
 }
-// 新增圖片
-exports.createEventImages = async (eventId, eventImg, imgType) => {
-  return new Promise((resolve, reject) => {
-    db.query(
-      'INSERT INTO EventImages (eventId, eventImg, imgType) VALUES (?, ?, ?) ',
-      [eventId, eventImg, imgType],
-      (error, results) => {
-        if (error) {
-          console.error('新增活動圖片失敗:', error)
-          reject(error)
-        } else {
-          resolve(results)
-        }
-      }
-    )
-  })
-}
+// // 新增圖片
+// exports.createEventImages = async (eventId, eventImg, imgType) => {
+//   return new Promise((resolve, reject) => {
+//     db.query(
+//       'INSERT INTO EventImages (eventId, eventImg, imgType) VALUES (?, ?, ?) ',
+//       [eventId, eventImg, imgType],
+//       (error, results) => {
+//         if (error) {
+//           console.error('新增活動圖片失敗:', error)
+//           reject(error)
+//         } else {
+//           resolve(results)
+//         }
+//       }
+//     )
+//   })
+// }
 // 刪除
 exports.deleteEvent = async (eventId) => {
   return new Promise((resolve, reject) => {

@@ -1,3 +1,4 @@
+//Author: YuFu
 const stripe = require('stripe')(process.env.STRIPE_PRIVATE_KEY)
 const dbconnect = require('./dbConnect')
 

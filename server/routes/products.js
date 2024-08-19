@@ -1,5 +1,8 @@
+//Author: YuFu
 const express = require('express')
 const router = express.Router()
+
+// 解構取得函式
 const {
   getProductById,
   getAllProducts,
@@ -15,10 +18,7 @@ router.post('/', createProduct)
 router.put('/:id', updateProduct)
 // 刪除
 router.delete('/:id', deleteProduct)
-// 新增刪除我的最愛的路由
-router.delete('/favorite', removeFavoriteProduct)
-
-// 獲取所有產品
+//取得
 router.get('/', getAllProducts)
 // 根據ID獲取產品
 router.get('/:id', getProductById)

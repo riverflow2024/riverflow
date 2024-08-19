@@ -2,9 +2,7 @@
 const express = require('express')
 const router = express.Router()
 const adminController = require('../controllers/adminController')
-const multer = require('multer')
-const path = require('path')
-const fs = require('fs')
+const imageUploader = require('../middlewares/imageUploader')
 
 // 首頁：導引至商品管理列表
 router.get('/', (req, res, next) => {
@@ -46,31 +44,17 @@ router.put('/product-orders/:orderId', adminController.updateProductOrderStatus)
 
 // 嘻哈專欄
 
+const newsUpload = imageUploader('news')
 // 列表
 router.get('/news', adminController.getAllNews)
 // 搜尋
 router.get(`/news/search`, adminController.searchNews)
 // 詳細內容
 router.get('/news/:newsId', adminController.getNewsDetail)
-const uploadDirectory = path.join(__dirname, '..', '..', 'client', 'public', 'images', 'news')
-if (!fs.existsSync(uploadDirectory)) {
-  fs.mkdirSync(uploadDirectory, { recursive: true })
-  console.log(`Created upload directory: ${uploadDirectory}`)
-}
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    console.log(`目標目錄: ${uploadDirectory}`)
-    cb(null, uploadDirectory)
-  },
-  filename: (req, file, cb) => {
-    console.log(`正在上傳檔案: ${file.originalname}`)
-    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9)
-    cb(null, file.fieldname + '-' + uniqueSuffix + path.extname(file.originalname))
-  }
-})
-const upload = multer({ storage, limits: { fileSize: 10 * 1024 * 1024 } })
+
 // 編輯
-router.put('/news/:newsId', upload.single('coverImg'), adminController.editNews)
+
+router.put('/news/:newsId', newsUpload.single('coverImg'), adminController.editNews)
 // 下架
 router.put('/news/:newsId/remove', adminController.removeNews)
 // 上架
@@ -81,14 +65,15 @@ router.get('/news/:newsId/review', (req, res) => {
   res.redirect(`/riverflow/news/${newsId}`)
 })
 // 新增
-router.post('/news/create', adminController.createNews)
+router.post('/news/create', newsUpload.single('coverImg'), adminController.createNews)
 // 編輯器圖片處理
-router.post('/news/imgUpload', upload.single('upload'), adminController.createNewsImages)
+router.post('/news/imgUpload', newsUpload.single('upload'), adminController.createNewsImages)
 // 刪除
 router.delete('/news/:newsId', adminController.deleteNews)
 
-// 活動售票
+// 活動
 
+const eventsUpload = imageUploader('events')
 // 列表
 router.get('/events', adminController.getAllEvents)
 // 搜尋
@@ -106,6 +91,8 @@ router.get('/events/:eventId/review', (req, res) => {
 })
 // 新增
 router.post('/events/create', adminController.createEvent)
+// 編輯器圖片處理
+router.post('/events/imgUpload', eventsUpload.single('upload'), adminController.createEventImages)
 // 刪除
 router.delete('/events/:eventId', adminController.deleteEvent)
 

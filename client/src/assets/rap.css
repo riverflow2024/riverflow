@@ -20,7 +20,7 @@ header {
 .rap {
   width: 100%;
   height: auto;
-  padding-top: 100px;
+  padding-top: 25px;
 }
 .rap .gtitle {
   z-index: 99;
@@ -58,7 +58,7 @@ header {
   width: 100%;
   height: auto;
   display: flex;
-  padding: 50px 10vw;
+  padding: 100px 10vw;
   box-sizing: border-box;
 }
 .rap .rap-container .beatmaker-box {

@@ -1,6 +1,9 @@
+//Author: YuFu
 const dbConnect = require('./dbConnect')
 
-// 取得所有產品圖片
+// 取得所有產品
+
+//產品圖
 exports.getAllProductImg = () => {
   return new Promise((resolve, reject) => {
     dbConnect.query(
@@ -18,16 +21,16 @@ exports.getAllProductImg = () => {
   })
 }
 
-// 取得所有產品收藏
+// 全部產品收藏
 exports.getAllProductFavorite = () => {
   return new Promise((resolve, reject) => {
     dbConnect.query(
       `
         SELECT 
-        products.productId, products.productName,
-        productfavorite.userId, users.firstName, users.lastName
+        products.productId,products.productName,
+        productfavorite.userId,users.firstName,users.lastName
         FROM 
-        products, productfavorite, users
+        products , productfavorite ,users
         WHERE products.productId = productfavorite.productId
         AND productfavorite.userId = users.userId
         ORDER BY products.productId, users.userId
@@ -40,16 +43,17 @@ exports.getAllProductFavorite = () => {
   })
 }
 
-// 取得所有產品資訊
+//全部產品資訊
 exports.getAllProductInfo = () => {
   return new Promise((resolve, reject) => {
     dbConnect.query(
       `
         SELECT * 
         FROM 
-        products, productcategories, categories
+        products , productcategories,categories
         WHERE products.productId = productcategories.productId
         AND productcategories.categoryId = categories.categoryId
+
       `,
       (err, products) => {
         if (err) return reject(err)
@@ -68,12 +72,13 @@ exports.getProductImg = (id) => {
     dbConnect.query(
       `
         SELECT 
-        products.productId, products.productName, productimages.productImg
+        products.productId, products.productName,productimages.productImg
         FROM 
         products, productimages
         WHERE 
-        products.productId = ? 
+        products.productid = ? 
         AND products.productId = productimages.productId
+
       `,
       [id],
       (err, product) => {
@@ -90,12 +95,12 @@ exports.getProductFavorite = (id) => {
     dbConnect.query(
       `
         SELECT 
-        products.productId, products.productName, productfavorite.userId, users.firstName, users.lastName
+        products.productId,products.productName,productfavorite.userId,users.firstName,users.lastName
         FROM 
-        products, productfavorite, users
+        products, productfavorite,users
         WHERE 
-        products.productId = ? 
-        AND products.productId = productfavorite.productId
+        products.productid = ? 
+        AND products.productid = productfavorite.productid
         AND users.userId = productfavorite.userId
       `,
       [id],
@@ -115,11 +120,11 @@ exports.getProductInfo = (id) => {
         SELECT 
         *
         FROM 
-        products, productcategories, categories 
+        products, productcategories ,categories 
         WHERE 
-        products.productId = ? 
-        AND products.productId = productcategories.productId 
-        AND productcategories.categoryId = categories.categoryId 
+        products.productid = ? 
+        AND products.productid = productcategories.productid 
+        AND productcategories.categoryid = categories.categoryid 
       `,
       [id],
       (err, product) => {
@@ -162,70 +167,3 @@ exports.deleteProduct = (id) => {
     })
   })
 }
-
-// 刪除我的最愛中的產品 0819 lahok++
-exports.removeFavoriteProduct = async (productId, userId) => {
-  const query = 'DELETE FROM ProductFavorite WHERE productId = ? AND userId = ?'
-  dbConnect.query(query, [productId, userId], (err, result) => {
-    if (err) {
-      console.error('Database query error:', err)
-      return false
-    }
-    return result.affectedRows > 0
-  })
-}
-
-// 取得單個產品（完整資訊）
-// exports.getProduct = (id) => {
-//   return new Promise((resolve, reject) => {
-//     dbConnect.query(
-//       `
-//         SELECT
-//         *
-//         FROM
-//         products, productcategories, categories, productoptions, productratings, productfavorite, productimages
-//         WHERE
-//         products.productId = ?
-//         AND products.productId = productcategories.productId
-//         AND productcategories.categoryId = categories.categoryId
-//         AND products.productId = productoptions.productId
-//         AND products.productId = productratings.productId
-//         AND products.productId = productfavorite.productId
-//         AND products.productId = productimages.productId
-//       `,
-//       [id],
-//       (err, product) => {
-//         if (err) return reject(err)
-//         resolve(product)
-//       }
-//     )
-//   })
-// }
-
-// 取得所有產品（完整資訊）
-// exports.getAllProduct = () => {
-//   return new Promise((resolve, reject) => {
-//     dbConnect.query(
-//       `
-//         SELECT
-//         products.productId, productName,
-//         categories.categoryName ,
-//         productoptions.productPrice, productfavorite.userId,
-//         users.firstName, users.lastName,
-//         productimages.productImg, productoptions.optName
-//         FROM
-//         products, productcategories, categories, productoptions, productfavorite, productimages, users
-//         WHERE
-//         products.productId = productcategories.productId
-//         AND products.productId = productoptions.productId
-//         AND products.productId = productfavorite.productId
-//         AND products.productId = productimages.productId
-//         AND productfavorite.userId = users.userId
-//       `,
-//       (err, products) => {
-//         if (err) return reject(err)
-//         resolve(products)
-//       }
-//     )
-//   })
-// }

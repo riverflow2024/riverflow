@@ -184,7 +184,7 @@ class MemberTickets extends Component {
 
                         <div id="Ticket" class="tabcontent">
                             {Ticket.map(ticket =>
-                                <div class="order" key={ticket.Id}>
+                                <div class="member-order" key={ticket.Id}>
                                     <div class="wrap">
                                         <span>訂單編號：{ticket.tdId}</span>
                                         <span>取票號：{ticket.randNum}</span>
@@ -214,7 +214,7 @@ class MemberTickets extends Component {
                         </div>
                         <div id="Unpaid" class="tabcontent">
                             {Unpaid.map(ticket =>
-                                <div class="order">
+                                <div class="member-order">
                                     <div class="wrap">
                                         <span>訂單編號：{ticket.tdId}</span>
                                         <span>取票號：{ticket.randNum}</span>
@@ -246,7 +246,7 @@ class MemberTickets extends Component {
                         </div>
                         <div id="OrderDone" class="tabcontent">
                             {OrderDone.map(ticket =>
-                                <div class="order">
+                                <div class="member-order">
                                     <div class="wrap">
                                         <span>訂單編號：{ticket.tdId}</span>
                                         <span>取票號：{ticket.randNum}</span>

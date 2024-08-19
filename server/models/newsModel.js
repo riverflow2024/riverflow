@@ -8,7 +8,7 @@ const db = require('./dbConnect')
 exports.getAllNews = async () => {
     return new Promise((resolve, reject) => {
       db.query(
-        'SELECT n.newsId, n.newsType, n.newsTitle, n.coverImg, n.newsAuthor, n.createdAt, n.newsStatus FROM News AS n ORDER BY n.createdAt DESC',
+        'SELECT n.newsId, n.newsType, n.newsTitle, n.coverImg, n.newsContent, n.newsAuthor, n.createdAt, n.newsStatus FROM News AS n ORDER BY n.createdAt DESC',
         (error, results) => {
           if (error) {
             console.error('取得嘻哈專欄錯誤:', error)

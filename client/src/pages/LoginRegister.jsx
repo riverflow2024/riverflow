@@ -387,52 +387,6 @@ class LoginRegister extends Component {
     }))
   }
 
-  //     const { Users } = this.state;
-  //     const { firstName, lastName, email, secret } = Users;
-
-  //     console.log('Sending data:', { firstName, lastName, email, secret });
-
-  //     let nameError = '';
-  //     let passwordError = '';
-  //     let emailError = '';
-
-  //     if (!firstName || !lastName) {
-  //         nameError = '<i class="bi bi-asterisk"></i> 請輸入姓名';
-  //     }
-
-  //     if (!secret) {
-  //         passwordError = '<i class="bi bi-asterisk"></i> 請輸入密碼';
-  //     }
-
-  //     if (!email) {
-  //         emailError = `<i class="bi bi-asterisk"></i> 請輸入email`;
-  //     }
-
-  //     this.setState({ nameError, passwordError, emailError });
-
-  //     if (!nameError && !passwordError && !this.state.checkPasswordError && !emailError) {
-  //         try {
-  //             const response = await axios.post('http://localhost:3000/riverflow/user/register', {
-  //                 firstName,
-  //                 lastName,
-  //                 email,
-  //                 secret
-  //             }, {
-  //                 headers: {
-  //                     'Content-Type': 'application/json'
-  //                 }
-  //             });
-
-  //             console.log('Response data:', response.data);
-  //             alert('註冊成功！');
-  //             window.location = "/Login/Index";
-  //         } catch (error) {
-  //             debugger; // 在此行设置断点
-  //             console.error('註冊失敗:', error.response ? error.response.data : error.message);
-  //             alert(`註冊失敗！錯誤信息：${error.response ? error.response.data : error.message}`);
-  //         }
-  //     }
-  // };
 
   registerUser = async () => {
     const { Users, agreeToPrivacy } = this.state

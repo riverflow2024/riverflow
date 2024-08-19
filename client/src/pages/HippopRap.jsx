@@ -1,8 +1,45 @@
 import React, { Component } from 'react'
 import '../assets/rap.css'
 import Header from '../components/header'
+import Footer from '../components/footer'
 
 class Rap extends Component {
+
+    componentDidMount() {
+        document.body.classList.remove('w-bg');
+
+        const buttons = document.querySelectorAll('.tablinks');
+        const audio = document.getElementById('audio');
+
+        buttons.forEach(button => {
+            button.addEventListener('click', function () {
+                console.log("Button clicked:", this.getAttribute('data-audio'));
+                if (!audio.paused) {
+                    audio.pause();
+                }
+                audio.currentTime = 0;
+                audio.src = this.getAttribute('data-audio');
+                console.log("Audio source set to:", audio.src);
+                audio.load();
+                audio.oncanplaythrough = () => {
+                    console.log("Audio can play through, starting playback...");
+                    audio.play().catch(error => {
+                        console.error("播放音频时出错：", error);
+                    });
+                };
+            });
+        });
+        
+
+        const stopbtn = document.getElementById('stopbtn');
+        stopbtn.onclick = function () {
+            audio.pause();
+            audio.currentTime = 0; // 将播放进度设置为开始位置
+        };
+    }
+    componentWillUnmount() {
+        document.body.classList.add('w-bg');
+    }
     render() {
         return (
             <div>
@@ -20,33 +57,41 @@ class Rap extends Component {
                                 </div>
                                 <div class="keyboard">
                                     <div class="keyboard-btn">
-                                        <button class="tablinks" data-audio="../assets/rapmusic/boombap.mp3"
-                                            onclick="openBeat(event, 'Boombap')">Boombap</button>
+                                        <button class="tablinks" data-audio="/rapmusic/boombap.mp3"
+                                            onClick={(e) => this.openBeat(e, 'Boombap')}>Boombap</button>
+
                                     </div>
                                     <div class="keyboard-btn">
-                                        <button class="tablinks" data-audio="../assets/rapmusic/jazz.mp3"
-                                            onclick="openBeat(event, 'Jazz')">Jazz</button>
+                                        <button class="tablinks" data-audio="/rapmusic/jazz.mp3"
+                                            onClick={(e) => this.openBeat(e, 'Jazz')}>Jazz</button>
                                     </div>
                                     <div class="keyboard-btn">
-                                        <button class="tablinks" data-audio="../assets/rapmusic/GFunk.mp3" onclick="openBeat(event, 'GFunk')">G-Funk</button>
+                                        <button class="tablinks" data-audio="/rapmusic/GFunk.mp3"
+                                            onClick={(e) => this.openBeat(e, 'GFunk')}>G-Funk</button>
                                     </div>
                                     <div class="keyboard-btn">
-                                        <button class="tablinks" data-audio="../assets/rapmusic/Trap.mp3" onclick="openBeat(event, 'Trap')">Trap</button>
+                                        <button class="tablinks" data-audio="/rapmusic/Trap.mp3"
+                                            onClick={(e) => this.openBeat(e, 'Trap')}>Trap</button>
                                     </div>
                                     <div class="keyboard-btn">
-                                        <button class="tablinks" data-audio="../assets/rapmusic/Drill.mp3" onclick="openBeat(event, 'Drill')">Drill</button>
+                                        <button class="tablinks" data-audio="/rapmusic/Drill.mp3"
+                                            onClick={(e) => this.openBeat(e, 'Drill')}>Drill</button>
                                     </div>
                                     <div class="keyboard-btn">
-                                        <button class="tablinks" data-audio="../assets/rapmusic/Emo.mp3" onclick="openBeat(event, 'Emo')">Emo</button>
+                                        <button class="tablinks" data-audio="/rapmusic/Emo.mp3"
+                                            onClick={(e) => this.openBeat(e, 'Emo')}>Emo</button>
                                     </div>
                                     <div class="keyboard-btn">
-                                        <button class="tablinks" data-audio="../assets/rapmusic/Mumble.mp3" onclick="openBeat(event, 'Mumble')">Mumble</button>
+                                        <button class="tablinks" data-audio="/rapmusic/Mumble.mp3"
+                                            onClick={(e) => this.openBeat(e, 'Mumble')}>Mumble</button>
                                     </div>
                                     <div class="keyboard-btn">
-                                        <button class="tablinks" data-audio="../assets/rapmusic/Hardcore.mp3" onclick="openBeat(event, 'Hardcore')">Hardcore</button>
+                                        <button class="tablinks" data-audio="/rapmusic/Hardcore.mp3"
+                                            onClick={(e) => this.openBeat(e, 'Hardcore')}>Hardcore</button>
                                     </div>
                                     <div class="keyboard-btn">
-                                        <button class="tablinks" data-audio="../assets/rapmusic/Alternative.mp3" onclick="openBeat(event, 'Alternative')">Alternative</button>
+                                        <button class="tablinks" data-audio="/rapmusic/Alternative.mp3"
+                                            onClick={(e) => this.openBeat(e, 'Alternative')}>Alternative</button>
                                     </div>
 
                                 </div>
@@ -54,7 +99,7 @@ class Rap extends Component {
                                 <div class="stopbtn">
                                     <button id="stopbtn">STOP</button>
                                 </div>
-                                <audio id="audio"></audio>
+                                <audio id="audio" volume="1.0"></audio>
                             </div>
 
                         </div>
@@ -126,20 +171,37 @@ class Rap extends Component {
                         </div>
 
 
-
-
-
-
                     </div>
 
-
-
-
-
                 </section>
+                <Footer/>
             </div>
         )
     }
+
+    openBeat(evt, BeatName) {
+        var i, tabcontent, tablinks;
+        tabcontent = document.getElementsByClassName("tabcontent");
+        for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].style.display = "none";
+
+        }
+        tablinks = document.getElementsByClassName("tablinks");
+        for (i = 0; i < tablinks.length; i++) {
+            tablinks[i].className = tablinks[i].className.replace(" active", "");
+        }
+        document.getElementById(BeatName).style.display = "block";
+        evt.currentTarget.className += " active";
+
+        const beatname = document.getElementById("beatname");
+        beatname.innerText = BeatName
+    }
+
+    componentDidUpdate() {
+        document.getElementById("defaultOpen").click();
+    }
+
+
 
 }
 
