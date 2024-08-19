@@ -425,6 +425,34 @@ exports.launchEvent = async (req, res) => {
     res.status(500).json({ message: err.message })
   }
 }
+// 編輯
+exports.editEvent = async (req, res) => {
+  try {
+    const eventId = req.params.eventId
+    const updateData = {
+      eventType: req.body.eventType,
+      eventName: req.body.eventName,
+      eventAnoc: req.body.eventAnoc,
+      eventDesc: req.body.eventDesc,
+      eventDate: req.body.eventDate,
+      location: req.body.location,
+      seat: req.body.seat,
+      ticketType: req.body.ticketType,
+      launchDate: req.body.launchDate,
+      launchStatus: req.body.launchStatus,
+      saleDate: req.body.saleDate
+    }
+
+    // 如果有新的封面圖片上傳
+    req.file ? (updateData.coverImg = req.file.filename) : (updateData.coverImg = req.body.coverImg)
+
+    const updatedEvent = await adminModel.updateEvent(eventId, updateData)
+    res.json(updatedEvent)
+  } catch (err) {
+    console.error('活動更新失敗：', err)
+    res.status(500).json({ message: err.message })
+  }
+}
 // 搜尋
 exports.searchEvents = async (req, res) => {
   try {
@@ -438,30 +466,59 @@ exports.searchEvents = async (req, res) => {
 }
 // 新增
 exports.createEvent = async (req, res) => {
-  const query = util.promisify(dbConnect.query).bind(dbConnect)
-
-  // 開始事務
-  await query('START TRANSACTION')
   try {
-    const result = await adminModel.createEvent(req.body)
-    if (!result || !result.insertId) {
-      await query('ROLLBACK')
+    const {
+      eventType,
+      eventName,
+      eventAnoc,
+      eventDesc,
+      eventDate,
+      location,
+      seat,
+      ticketType,
+      launchDate,
+      launchStatus,
+      saleDate
+    } = req.body
+
+    // 處理封面圖片
+    const coverImgFilename = req.file ? req.file.filename : null
+
+    // 判斷 launchDate 和設置 launchStatus
+    const currentTime = new Date()
+    let finalLaunchTime = null
+
+    if (launchDate && new Date(launchDate) > currentTime) {
+      launchStatus = 0
+      finalLaunchTime = new Date(launchDate)
+    }
+
+    // 準備要插入資料庫的數據
+    const eventData = {
+      eventType,
+      eventName,
+      coverImg: coverImgFilename,
+      eventAnoc,
+      eventDesc,
+      eventDate,
+      location,
+      seat,
+      ticketType,
+      launchDate: finalLaunchTime || launchDate,
+      launchStatus,
+      saleDate
+    }
+
+    const created = await adminModel.createEvent(eventData)
+
+    if (!created) {
       return res.status(500).json({ message: '建立活動失敗' })
     }
-    const eventId = result.insertId
 
-    // for (const { eventImg, imgType } of req.body.eventImgs) {
-    //   await adminModel.createEventImages(eventId, eventImg, imgType)
-    // }
-
-    // 提交事務
-    await query('COMMIT')
-    res.status(201).json({ message: '活動已建立', eventId: eventId.insertId })
+    res.status(201).json({ message: '活動已建立', eventId: created.insertId })
   } catch (err) {
-    // 如果出現錯誤，回滾事務
-    await query('ROLLBACK')
-    console.error('建立活動時發生錯誤:', err)
-    res.status(500).json({ message: '建立活動失敗', error: err.message })
+    console.error('建立活動失敗：', err)
+    res.status(500).json({ message: err.message })
   }
 }
 // 新增：圖片處理

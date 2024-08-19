@@ -80,6 +80,8 @@ router.get('/events', adminController.getAllEvents)
 router.get('/events/search', adminController.searchEvents)
 // 詳細內容
 router.get('/events/:eventId', adminController.getEventDetail)
+// 編輯
+router.put('/events/:eventId', eventsUpload.single('coverImg'), adminController.editEvent)
 // 下架
 router.put('/events/:eventId/remove', adminController.removeEvent)
 // 上架
@@ -90,7 +92,7 @@ router.get('/events/:eventId/review', (req, res) => {
   res.redirect(`/riverflow/events/${eventId}`)
 })
 // 新增
-router.post('/events/create', adminController.createEvent)
+router.post('/events/create', eventsUpload.single('coverImg'), adminController.createEvent)
 // 編輯器圖片處理
 router.post('/events/imgUpload', eventsUpload.single('upload'), adminController.createEventImages)
 // 刪除

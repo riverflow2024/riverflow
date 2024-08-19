@@ -73,30 +73,39 @@ import {
 import 'ckeditor5/ckeditor5.css'
 import translations from 'ckeditor5/translations/zh.js'
 
-export default function AddBlog() {
+export default function AddEvent() {
   const { id } = useParams()
   const navigate = useNavigate()
   const fileInputRef = useRef(null)
   // 儲存的資料格式
+  const [fileName, setFileName] = useState('未選擇任何檔案')
+  const [isLoading, setIsLoading] = useState(true)
   const [formData, setFormData] = useState({
-    newsType: '',
-    newsTitle: '',
-    coverImg: '',
-    newsContent: '',
-    newsAuthor: '',
-    newsStatus: 1,
-    pubTime: ''
+    eventType: 'dj',
+    eventName: '',
+    coverImg: null,
+    eventAnoc: '',
+    eventDesc: '',
+    eventDate: '',
+    location: '',
+    seat: '1', // 預設為室內-對號入座
+    ticketType: [],
+    launchDate: '',
+    launchStatus: 1,
+    saleDate: ''
   })
 
-  const [isLoading, setIsLoading] = useState(true)
-  const [fileName, setFileName] = useState()
+  const [originalData, setOriginalData] = useState({
+    seat: '1',
+    ticketType: []
+  })
 
   // 獲取資料數據
-  const fetchBlogData = useCallback(async () => {
+  const fetchEventData = useCallback(async () => {
     setIsLoading(true)
     try {
-      const response = await axios.get(`http://localhost:3000/riverflow/admin/news/${id}`)
-      const blogData = response.data[0]
+      const response = await axios.get(`http://localhost:3000/riverflow/admin/events/${id}`)
+      const eventData = response.data[0]
 
       // 處理時間格式
       const formatDate = (dateString) => {
@@ -108,21 +117,47 @@ export default function AddBlog() {
         const hours = String(date.getHours()).padStart(2, '0')
         const minutes = String(date.getMinutes()).padStart(2, '0')
         const seconds = String(date.getSeconds()).padStart(2, '0')
-        return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}`
+        return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`
+      }
+      // 處理票種json格式
+      let ticketType = []
+      if (typeof eventData.ticketType === 'string') {
+        try {
+          ticketType = JSON.parse(eventData.ticketType)
+        } catch (error) {
+          console.error('解析 ticketType 時出錯:', error)
+        }
+      } else if (Array.isArray(eventData.ticketType)) {
+        ticketType = eventData.ticketType
+      }
+
+      // 確保 ticketType 是一個數組
+      if (!Array.isArray(ticketType)) {
+        ticketType = []
       }
 
       const newFormData = {
-        newsType: blogData.newsType || '',
-        newsTitle: blogData.newsTitle || '',
-        coverImg: blogData.coverImg || '',
-        newsContent: blogData.newsContent || '',
-        newsAuthor: blogData.newsAuthor || '',
-        newsStatus: blogData.newsStatus || 1,
-        pubTime: blogData.pubTime ? formatDate(blogData.pubTime) : undefined
+        eventType: eventData.eventType || '',
+        eventName: eventData.eventName || '',
+        coverImg: eventData.coverImg || '',
+        eventAnoc: eventData.eventAnoc || '',
+        eventDesc: eventData.eventDesc || '',
+        eventDate: formatDate(eventData.eventDate),
+        location: eventData.location || '',
+        seat: eventData.seat.toString(),
+        ticketType: ticketType || [],
+        launchDate: formatDate(eventData.launchDate),
+        launchStatus: eventData.launchStatus || 1,
+        saleDate: formatDate(eventData.saleDate)
       }
 
       setFormData(newFormData)
-      setFileName(blogData.coverImg)
+      setFileName(eventData.coverImg)
+      setOriginalData({
+        seat: newFormData.seat,
+        ticketType: [...newFormData.ticketType]
+      })
+      console.log('Updated formData:', newFormData) // 調試日誌
     } catch (error) {
       console.error('獲取數據時出錯:', error)
     } finally {
@@ -131,40 +166,70 @@ export default function AddBlog() {
   }, [id])
 
   useEffect(() => {
-    fetchBlogData()
-  }, [fetchBlogData])
+    fetchEventData()
+  }, [fetchEventData])
 
   // 封面圖片處理
   const handleFileChange = (e) => {
-    console.log('開始處理封面圖片')
-
     const file = e.target.files[0]
-
     if (file) {
-      setFileName(file.name)
       setFormData((prevState) => ({
         ...prevState,
         coverImg: file
       }))
+      setFileName(file.name)
     }
   }
 
-  // // 發布時間處理
-  // const [minDateTime, setMinDateTime] = useState('')
-  // useEffect(() => {
-  //   const now = new Date()
-  //   const offset = now.getTimezoneOffset()
-  //   now.setMinutes(now.getMinutes() - offset)
-  //   setMinDateTime(now.toISOString().slice(0, 16))
-  // }, [])
+  const handleUploadClick = () => {
+    fileInputRef.current.click()
+  }
 
   // 輸入框處理
   const handleInputChange = (e) => {
     const { name, value } = e.target
-    setFormData((prevState) => {
-      const newState = { ...prevState, [name]: value }
-      return newState
-    })
+    if (name === 'seat') {
+      setFormData((prevState) => {
+        let newTicketType
+        if (value === originalData.seat) {
+          // 如果切換回原始 seat 值，恢復原始 ticketType 數據
+          newTicketType = [...originalData.ticketType]
+        } else {
+          // 否則，使用默認的 ticketType 結構
+          newTicketType =
+            value === '1'
+              ? [
+                  { type: '1F搖滾區', price: 0, stock: 0 },
+                  { type: '2F坐席區', price: 0, stock: 0 },
+                  { type: '2F站席區', price: 0, stock: 0 },
+                  { type: '1F身障區', price: 0, stock: 0 }
+                ]
+              : [
+                  { type: '一般票', price: 0, stock: 0 },
+                  { type: '愛心票', price: 0, stock: 0 }
+                ]
+        }
+        return {
+          ...prevState,
+          [name]: value,
+          ticketType: newTicketType
+        }
+      })
+    } else {
+      setFormData((prevState) => ({
+        ...prevState,
+        [name]: value
+      }))
+    }
+  }
+
+  const handleTicketTypeChange = (index, field, value) => {
+    setFormData((prevState) => ({
+      ...prevState,
+      ticketType: prevState.ticketType.map((ticket, i) =>
+        i === index ? { ...ticket, [field]: Number(value) } : ticket
+      )
+    }))
   }
 
   // CKEditor 相關設定
@@ -376,7 +441,6 @@ export default function AddBlog() {
   useEffect(() => {
     if (editor) {
       editor.model.document.on('change:data', () => {
-        console.log('編輯器內容已更改')
         const data = editor.getData()
         checkForImages(data)
       })
@@ -407,7 +471,7 @@ export default function AddBlog() {
         const formData = new FormData()
         formData.append('upload', blob, 'image.jpg')
 
-        const uploadResponse = await axios.post('http://localhost:3000/riverflow/admin/news/imgUpload', formData, {
+        const uploadResponse = await axios.post('http://localhost:3000/riverflow/admin/events/imgUpload', formData, {
           headers: {
             'Content-Type': 'multipart/form-data'
           },
@@ -475,136 +539,258 @@ export default function AddBlog() {
   const handleEditorChange = useCallback(
     (event, editor) => {
       const data = editor.getData()
-      setFormData((prevState) => {
-        const newState = { ...prevState, newsContent: data }
-        console.log('formData after editor change:', newState)
-        return newState
-      })
+      setEditorContent(data)
+      setFormData((prevState) => ({
+        ...prevState,
+        eventDesc: data
+      }))
 
       debouncedCheckForImages(data)
     },
     [debouncedCheckForImages]
   )
 
+  // 時間處理
+  function formatDateForMySQL(date) {
+    if (!(date instanceof Date) || isNaN(date)) {
+      console.error('Invalid date:', date)
+      return null
+    }
+    return date.toISOString().slice(0, 19).replace('T', ' ')
+  }
+
   // 送出資料更新
   const handleSubmit = async (e) => {
     e.preventDefault()
     const postData = new FormData()
-
     // for (const key in formData) {
-    //   if (key === 'coverImg' && !formData[key]) continue // 如果沒有新的封面圖片，不傳送
-    //   postData.append(key, formData[key])
+    //   if (key === 'ticketType') {
+    //     postData.append(key, JSON.stringify(formData[key]))
+    //   } else if (key === 'coverImg') {
+    //     postData.append(key, formData[key], formData[key].name)
+    //   } else {
+    //     postData.append(key, formData[key])
+    //   }
     // }
     Object.keys(formData).forEach((key) => {
-      if (key === 'coverImg' && !formData[key]) {
-        if (formData[key] instanceof File) {
-          postData.append(key, formData[key])
+      if (key === 'eventDate' || key === 'launchDate' || key === 'saleDate') {
+        const formattedDate = formatDateForMySQL(new Date(formData[key]))
+        if (formattedDate) {
+          postData.append(key, formattedDate)
+        } else {
+          console.error(`Invalid date for ${key}`)
         }
-      } else if (key === 'pubTime') {
-        // 將本地時間轉換回 ISO 格式
-        const date = new Date(formData[key])
-        postData.append(key, date.toISOString())
+      } else if (key === 'ticketType') {
+        postData.append(key, JSON.stringify(formData[key]))
+      } else if (key === 'coverImg' && formData[key] instanceof File) {
+        postData.append(key, formData[key], formData[key].name)
       } else {
         postData.append(key, formData[key])
       }
     })
 
     try {
-      const response = await axios.put(`http://localhost:3000/riverflow/admin/news/${id}`, postData, {
+      const response = await axios.put(`http://localhost:3000/riverflow/admin/events/${id}`, postData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         },
         maxContentLength: Infinity,
         maxRedirects: 0
       })
-      console.log('文章已更新:', response.data)
+      console.log('活動已更新:', response.data)
       navigate(-1)
     } catch (error) {
-      console.error('更新文章時出錯:', error)
+      console.error('更新活動時出錯:', error)
     }
   }
 
-  if (isLoading) {
-    return <div>加載中...</div>
+  const [activeTab, setActiveTab] = useState('eventIntro')
+  const handleTabChange = (tabId) => {
+    setActiveTab(tabId)
   }
 
   return (
     <div className='main'>
-      <div className='pageTitle'>專欄編輯</div>
-      <form onSubmit={handleSubmit}>
+      <div className='pageTitle'>新增活動</div>
+      <form onSubmit={handleSubmit} id='eventForm' encType='multipart/form-data'>
         <div className='tabs'>
           <ul className='tabBtnList'>
             <li>
-              <a href='#infoBlog' id='defaultOpen' className='tabBtn active'>
-                專欄資訊
-              </a>
+              <button
+                type='button'
+                onClick={() => handleTabChange('eventIntro')}
+                id='defaultOpen'
+                className={`tabBtn ${activeTab === 'eventIntro' ? 'active' : ''}`}
+              >
+                活動資訊
+              </button>
+            </li>
+            <li>
+              <button
+                type='button'
+                onClick={() => handleTabChange('eventInfo')}
+                className={`tabBtn ${activeTab === 'eventInfo' ? 'active' : ''}`}
+              >
+                活動介紹
+              </button>
             </li>
           </ul>
 
-          <div id='infoBlog' className='tabContent'>
+          {/* tabContent 商品資訊 */}
+          <div id='eventIntro' className={`tabContent ${activeTab === 'eventIntro' ? '' : 'hidden'}`}>
             <div className='infoItem'>
-              <label htmlFor='newsTitle' className='editTitle'>
-                文章標題：
+              <label htmlFor='eventName' className='editTitle'>
+                活動名稱：
               </label>
               <input
-                id='newsTitle'
-                name='newsTitle'
+                onChange={handleInputChange}
+                value={formData.eventName}
+                id='eventName'
+                name='eventName'
                 type='text'
                 required
-                value={formData.newsTitle}
-                onChange={handleInputChange}
               />
-              <span className='required'>※此欄位為必填</span>
             </div>
             <div className='infoItem'>
               <label className='editTitle'>主要圖片：</label>
               <div className='picItem'>
-                <label htmlFor='coverImg' className='custUpload'>
-                  <i className='fa-solid fa-upload' /> 上傳圖片
-                </label>
                 <input
-                  id='coverImg'
-                  name='coverImg'
-                  type='file'
-                  accept='image/png, image/jpeg'
                   ref={fileInputRef}
-                  onChange={handleFileChange}
+                  type='file'
+                  accept='image/*'
                   style={{ display: 'none' }}
+                  className='fileInput'
+                  name='coverImg'
+                  onChange={handleFileChange}
                 />
-                <span id='fileChosen' value={formData.coverImg}>
-                  {fileName}
-                </span>
+                <button type='button' onClick={handleUploadClick} className='custUpload'>
+                  <i className='fa-solid fa-upload' /> 上傳圖片
+                </button>
+                <span id='fileChosen'>{fileName}</span>
               </div>
             </div>
             <div className='infoItem'>
-              <label htmlFor='newsType' className='editTitle'>
-                文章分類：
+              <label htmlFor='eventSort' className='editTitle'>
+                商品分類：
               </label>
-              <select name='newsType' id='newsType' required value={formData.newsType} onChange={handleInputChange}>
-                <option value='DJ'>刷碟 Disc Jockey</option>
-                <option value='塗鴉'>塗鴉 Graffiti</option>
-                <option value='饒舌'>饒舌 Rap</option>
-                <option value='街舞'>街舞 Street Dance</option>
-                <option value='滑板'>滑板 Skate</option>
+              <select onChange={handleInputChange} value={formData.eventType} name='eventSort' id='eventSort'>
+                <option value='dj'>刷碟 Disc Jockey</option>
+                <option value='graffiti'>塗鴉 Graffiti</option>
+                <option value='rap'>饒舌 Rap</option>
+                <option value='streetDance'>街舞 Street Dance</option>
+                <option value='skate'>滑板 Skate</option>
               </select>
             </div>
             <div className='infoItem'>
-              <label htmlFor='newsAuthor' className='editTitle'>
-                文章作者：
+              <label htmlFor='launchDate' className='editTitle'>
+                活動上架時間：
               </label>
               <input
-                id='newsAuthor'
-                name='newsAuthor'
-                type='text'
-                required
-                value={formData.newsAuthor}
                 onChange={handleInputChange}
+                id='launchDate'
+                name='launchDate'
+                type='datetime-local'
+                value={formData.launchDate}
+                step={1}
+                required
               />
             </div>
+            <div className='infoItem itemflexList'>
+              <div>
+                <label htmlFor='eventSell' className='editTitle'>
+                  活動開賣時間：
+                </label>
+                <input
+                  onChange={handleInputChange}
+                  id='eventSell'
+                  name='saleDate'
+                  type='datetime-local'
+                  value={formData.saleDate}
+                  step={1}
+                  required
+                />
+              </div>
+              <div>
+                <label htmlFor='eventStart' className='editTitle'>
+                  活動開始時間：
+                </label>
+                <input
+                  onChange={handleInputChange}
+                  id='eventStart'
+                  name='eventDate'
+                  type='datetime-local'
+                  value={formData.eventDate}
+                  step={1}
+                  required
+                />
+              </div>
+              <div>
+                <label htmlFor='location' className='editTitle'>
+                  活動地點：
+                </label>
+                <input
+                  onChange={handleInputChange}
+                  value={formData.location}
+                  id='location'
+                  name='location'
+                  type='text'
+                  required
+                />
+              </div>
+            </div>
+            <div className='infoItem'>
+              <label className='editTitle'>活動場館：</label>
+              <select value={formData.seat} onChange={handleInputChange} name='seat' id='eventPlace'>
+                <option value='1'>室內-對號入座</option>
+                <option value='0'>戶外-自由座</option>
+              </select>
+            </div>
+
+            <div id='ticketTypeInputs'>
+              {formData.ticketType.map((ticket, index) => (
+                <div key={index} className='ticketTypeItem flex multiSect'>
+                  <label className='editTitle'>{ticket.type}：</label>
+                  <div className='itemPrice'>
+                    <span className='priceMark event'>NT$</span>
+                    <input
+                      type='number'
+                      min='0'
+                      value={ticket.price}
+                      onChange={(e) => handleTicketTypeChange(index, 'price', e.target.value)}
+                      required
+                    />
+                  </div>
+                  <div className='itemStock'>
+                    <label>庫存：</label>
+                    <input
+                      type='number'
+                      min='0'
+                      value={ticket.stock}
+                      onChange={(e) => handleTicketTypeChange(index, 'stock', e.target.value)}
+                      required
+                    />
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* tabContent 活動介紹 */}
+          <div id='eventInfo' className={`tabContent ${activeTab === 'eventInfo' ? '' : 'hidden'}`}>
             <div className='introItem'>
-              <label htmlFor='newsContent' className='editTitle'>
-                專欄內文：
-              </label>
+              <label className='editTitle'>最新公告：</label>
+              <div className='itemInfo'>
+                <textarea
+                  onChange={handleInputChange}
+                  name='eventAnoc'
+                  id='eventAnoc'
+                  value={formData.eventAnoc}
+                  placeholder='最新公告'
+                ></textarea>
+              </div>
+            </div>
+            <div className='introItem'>
+              <label className='editTitle'>活動介紹：</label>
               <div className='itemInfo main-container'>
                 <div className='editor-container editor-container_classic-editor' ref={editorContainerRef}>
                   <div className='editor-container__editor'>
@@ -613,10 +799,10 @@ export default function AddBlog() {
                         <CKEditor
                           editor={ClassicEditor}
                           config={editorConfig}
+                          data={formData.eventDesc}
                           onReady={(editorInstance) => {
                             setEditor(editorInstance)
                           }}
-                          data={formData.newsContent}
                           onChange={handleEditorChange}
                         />
                       )}
@@ -625,28 +811,14 @@ export default function AddBlog() {
                 </div>
               </div>
             </div>
-            <div className='infoItem'>
-              <label htmlFor='pubTime' className='editTitle'>
-                發布時間：
-              </label>
-              <input
-                id='pubTime'
-                name='pubTime'
-                type='datetime-local'
-                onChange={handleInputChange}
-                // min={minDateTime}
-                value={formData.pubTime}
-                step='1' // 這允許秒數的輸入
-              />
-            </div>
           </div>
         </div>
         <div className='btnList flex'>
-          <button className='btn' type='button' onClick={() => navigate(-1)}>
-            <i className='fa-solid fa-angle-left' /> 返回
+          <button type='button' className='btn' onClick={() => navigate(-1)}>
+            <i className='fa-solid fa-angle-left'></i> 返回
           </button>
           <button className='btn' type='submit'>
-            <i className='fa-solid fa-floppy-disk' /> 更新
+            <i className='fa-solid fa-floppy-disk'></i> 更新
           </button>
         </div>
       </form>

@@ -529,13 +529,13 @@ exports.deleteNews = async (newsId) => {
   })
 }
 
-// 活動售票
+// 活動
 
 // 列表
 exports.getAllEvents = async () => {
   return new Promise((resolve, reject) => {
     db.query(
-      'SELECT e.eventId, e.eventType, e.eventName, e.eventDate, e.saleDate, e.seat, e.launchStatus FROM Events AS e',
+      'SELECT e.eventId, e.eventType, e.eventName, e.eventDate, e.saleDate, e.location, e.seat, e.launchStatus FROM Events AS e',
       (error, results) => {
         if (error) {
           console.error('取得活動售票錯誤:', error)
@@ -586,6 +586,38 @@ exports.launchEvent = async (eventId) => {
     })
   })
 }
+// 編輯
+exports.updateEvent = async (eventId, eventData) => {
+  const values = [
+    eventData.eventType,
+    eventData.eventName,
+    eventData.coverImg,
+    eventData.eventAnoc,
+    eventData.eventDesc,
+    eventData.eventDate,
+    eventData.location,
+    eventData.seat,
+    eventData.ticketType,
+    eventData.launchDate,
+    eventData.launchStatus,
+    eventData.saleDate,
+    eventId
+  ]
+  return new Promise((resolve, reject) => {
+    db.query(
+      'UPDATE Events SET eventType =?, eventName =?, coverImg =?, eventAnoc =?, eventDesc =?, eventDate =?, location =?, seat =?, ticketType =?, launchDate =?, launchStatus =?, saleDate =? WHERE eventId =?',
+      values,
+      (error, results) => {
+        if (error) {
+          console.error('更新活動失敗', error)
+          reject(error)
+        } else {
+          resolve(results)
+        }
+      }
+    )
+  })
+}
 // 搜尋
 exports.searchEvents = async (searchKeywords) => {
   return new Promise((resolve, reject) => {
@@ -614,7 +646,7 @@ exports.createEvent = async (eventData) => {
     eventData.eventDate,
     eventData.location,
     eventData.seat,
-    JSON.stringify(eventData.ticketType),
+    eventData.ticketType,
     eventData.launchDate,
     eventData.launchStatus,
     eventData.saleDate
