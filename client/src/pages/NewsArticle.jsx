@@ -208,7 +208,7 @@ class NewsArticle extends Component {
                 <div className="progress-container">
                     <div className="progress-bar" id="myBar"></div>
                 </div>
-                <section className="newsArticle content">
+                <section className="newsArticle newsContent">
                     <div className="news-banner">
                         <img src={this.state.Article.coverImg} alt="" />
                     </div>
@@ -223,7 +223,7 @@ class NewsArticle extends Component {
                     </article>
                     <article>
                         <div className="wrap">
-                            <p>{this.state.Article.newsContent}</p>
+                        <p dangerouslySetInnerHTML={{ __html: Article.newsContent }} />
                         </div>
                     </article>
                 </section>

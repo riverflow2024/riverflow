@@ -223,8 +223,8 @@ class MemberOrder extends Component {
 
                         <div id="Unpaid" className="tabcontent">
                             {/* {this.state.Order.map((order, index) => */}
-                            <div className="order" key={this.state.Order.orderId} >
-                                <div className="wrap">
+                            <div className="member-order" key={this.state.Order.orderId} >
+                                <div className="member-wrap">
                                     <span>訂單編號：{this.state.Order.orderId}</span>
                                 </div>
 
@@ -252,7 +252,7 @@ class MemberOrder extends Component {
                                     <div className={`container ${this.state.activeAccordion === this.state.Order.orderId ? 'active' : ''}`}>
                                         <div className="label" onClick={() => this.toggleAccordion(this.state.Order.orderId)}>收件人資訊</div>
 
-                                        <div className="content">
+                                        <div className="member-content">
                                             <span>收件人：{this.state.Users.firstName}{this.state.Users.lastName}</span><br />
                                             <span>聯絡電話：{this.state.Users.phone}</span><br />
                                             <span>寄送方式：{shipMethodMap[Order.shipMethod] || Order.shipMethod}</span><br />
@@ -306,7 +306,7 @@ class MemberOrder extends Component {
 
                         <div id="Payment" className="tabcontent">
                             {paymentOrders.map(order =>
-                                <div className="order" key={order.orderId}>
+                                <div className="member-order" key={order.orderId}>
                                     <div className="wrap">
                                         <span>訂單編號：{order.orderId}</span>
                                         <a href="memberOrder.html">
@@ -337,7 +337,7 @@ class MemberOrder extends Component {
 
                         <div id="Completed" className="tabcontent">
                             {displayedCompletedOrders.map(order =>
-                                <div className="order" key={order.orderId}>
+                                <div className="member-order" key={order.orderId}>
                                     <div className="wrap">
                                         <span>訂單編號：{order.orderId}</span>
                                         <a href="memberOrder.html">
@@ -371,7 +371,7 @@ class MemberOrder extends Component {
 
                         <div id="NotYetCompleted" className="tabcontent">
                             {displayedrecentnotYetCompletedOrders.map(order =>
-                                <div className="order" key={order.orderId}>
+                                <div className="member-order" key={order.orderId}>
                                     <div className="wrap">
                                         <span>訂單編號：{order.orderId}</span>
                                         <a href="memberOrder.html">
