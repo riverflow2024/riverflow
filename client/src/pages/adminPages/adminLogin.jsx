@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import axios from 'axios'
-// import '../assets/login.css'
+import '../../assets/login.css'
 
 class AdminLogin extends Component {
   state = {
@@ -23,7 +23,7 @@ class AdminLogin extends Component {
         secret: this.state.Users.secret
       }
 
-      const result = await axios.post('http://localhost:3000/riverflow/user/login', JSON.stringify(dataToserver), {
+      const result = await axios.post('http://localhost:3000/riverflow/admin/login', JSON.stringify(dataToserver), {
         headers: {
           'Content-Type': 'application/json'
         },
@@ -34,8 +34,8 @@ class AdminLogin extends Component {
       console.log('Login response:', result)
 
       // 檢查是否登入成功
-      if (result.data.message === '登入成功') {
-        window.location = '/'
+      if (result.data.message === '管理員登入成功') {
+        window.location = '/admin/prdlist'
       } else {
         console.error('Login failed:', result.data.message)
       }
@@ -49,12 +49,10 @@ class AdminLogin extends Component {
     const { isPasswordVisible } = this.state
 
     return (
-      <div>
-        <Header />
-
+      <div className='adminLogin'>
         <section className="login">
           <div className="form">
-            <h4>會員登入</h4>
+            <h4>管理員登入</h4>
             <div className="input-text">
               <label>帳號</label>
               <input
@@ -62,7 +60,7 @@ class AdminLogin extends Component {
                 id="email"
                 name="email"
                 value={this.state.Users.email}
-                placeholder="Enter email"
+                placeholder="Enter account"
                 onChange={this.EmailChange}
               />
               <br />
@@ -92,12 +90,12 @@ class AdminLogin extends Component {
                 ></i>
               </div>
             </div>
-            <a onClick={this.goPassword}>忘記密碼？</a>
+            {/* <a onClick={this.goPassword}>忘記密碼？</a> */}
             <input type="button" className="btn" value="Login" onClick={this.Login} />
-            <span>
+            {/* <span>
               沒有River Flow帳號嗎？
               <a onClick={this.goRegister}>前往註冊</a>
-            </span>
+            </span> */}
           </div>
 
           {/* 無法登入 彈跳視窗 */}
@@ -118,13 +116,6 @@ class AdminLogin extends Component {
     )
   }
 
-  goRegister = () => {
-    window.location = '/Login/Register'
-  }
-  goPassword = () => {
-    window.location = '/Login/Password'
-  }
-
   handlePasswordToggle = () => {
     this.setState((prevState) => ({ isPasswordVisible: !prevState.isPasswordVisible }))
   }
@@ -139,9 +130,9 @@ class AdminLogin extends Component {
     const emailPattern = /^[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$/i
     let emailError = ''
 
-    if (!email.match(emailPattern)) {
-      emailError = `<i className="bi bi-asterisk"></i> 不符合email規則，請確認是否包含[@]`
-    }
+    // if (!email.match(emailPattern)) {
+    //   emailError = `<i className="bi bi-asterisk"></i> 不符合email規則，請確認是否包含[@]`
+    // }
 
     this.setState((prevState) => ({
       Users: {
@@ -152,4 +143,4 @@ class AdminLogin extends Component {
     }))
   }
 }
-export default Login
+export default AdminLogin

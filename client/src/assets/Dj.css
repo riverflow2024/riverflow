@@ -6,7 +6,7 @@ html {
   padding: 0;
 }
 
-.wrap {
+.DJ-wrap {
   width: 100%;
 }
 
@@ -26,47 +26,46 @@ html {
 /*------> banner<------ */
 /* 跑馬燈海報區域位置調整 */
 .banner {
-  margin-top: 0px;
+  margin-top: 0;
   height: 100vh;
   position: relative;
-  z-index: -999;
-  /* 跑馬燈上的圖片 */
+  z-index: -1000;
+  overflow: hidden;
+  /* 跑馬燈文字調整 */
+  /* 跑馬燈文字的间距调整 */
+  /* 跑馬燈錯位調整 */
 }
-
-/* 跑馬燈文字調整 */
-.marquee {
-  height: 100vh;
+.banner .marquee {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  transform: translateY(-50%);
 }
-
-.marquee p {
+.banner .marquee p {
   margin: 10px;
-  font-family: "Kanit", sans-serif;
+  font-family: "Kanit", sans-serif !important;
   font-weight: 800;
   font-style: italic;
   font-size: 230px;
   color: var(--main2);
   line-height: 190px;
+  white-space: nowrap;
 }
-
-.marquee span {
+.banner .marquee span {
   padding-right: 2rem;
-  margin: 0px 10px;
+  margin: 0 10px;
 }
-
-/* 跑馬燈錯位調整 */
-.marquee p:nth-of-type(1) {
-  transform: translateX(0%);
+.banner .marquee p:nth-of-type(1) {
+  transform: translateX(0);
 }
-
-.marquee p:nth-of-type(2) {
+.banner .marquee p:nth-of-type(2) {
   transform: translateX(-20%);
 }
-
-.marquee p:nth-of-type(3) {
+.banner .marquee p:nth-of-type(3) {
   transform: translateX(10%);
 }
-
-.marquee p:nth-of-type(4) {
+.banner .marquee p:nth-of-type(4) {
   transform: translateX(-15%);
 }
 
@@ -109,6 +108,7 @@ html {
 /* -----介紹內容----- */
 /* 確保圖片和文字在同一個區塊中 */
 .content {
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
