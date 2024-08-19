@@ -1,6 +1,7 @@
 import React from 'react'
 import { NavLink, useMatch } from 'react-router-dom'
 import '../assets/adminPage.css'
+import axios from 'axios'
 
 export default function LeftCol() {
   const match = useMatch('/admin/*')
@@ -17,7 +18,7 @@ export default function LeftCol() {
         <ul>
           <li className='sideMenuOpt'>
             <label className='menuTitle flex'>
-              <i className='fa-solid fa-bag-shopping'> </i>商品管理
+              <i className='fa-solid fa-bag-shopping' />商品管理
             </label>
             <ul className='secMenu'>
               <li>
@@ -34,7 +35,7 @@ export default function LeftCol() {
           </li>
           <li className='sideMenuOpt'>
             <label className='menuTitle flex'>
-              <i className='fa-solid fa-newspaper'> </i>專欄管理
+              <i className='fa-solid fa-newspaper' />專欄管理
             </label>
             <ul className='secMenu'>
               <li>
@@ -46,7 +47,7 @@ export default function LeftCol() {
           </li>
           <li className='sideMenuOpt'>
             <label className='menuTitle flex'>
-              <i className='fa-solid fa-calendar-days'> </i>活動管理
+              <i className='fa-solid fa-calendar-days' />活動管理
             </label>
             <ul className='secMenu'>
               <li>
