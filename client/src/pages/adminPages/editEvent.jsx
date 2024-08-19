@@ -1,10 +1,8 @@
 // Author: zhier1114
 import React, { useState, useRef, useEffect, useCallback } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import debounce from 'lodash/debounce'
-import $ from 'jquery'
-import 'jquery-ui/ui/widgets/tabs'
 // CKEditor套件
 import { CKEditor } from '@ckeditor/ckeditor5-react'
 import {
@@ -75,29 +73,73 @@ import {
 import 'ckeditor5/ckeditor5.css'
 import translations from 'ckeditor5/translations/zh.js'
 
-export default function AddEvent() {
+export default function AddBlog() {
+  const { id } = useParams()
   const navigate = useNavigate()
   const fileInputRef = useRef(null)
   // 儲存的資料格式
   const [formData, setFormData] = useState({
-    eventType: '',
-    eventName: '',
+    newsType: '',
+    newsTitle: '',
     coverImg: '',
-    eventAnoc: null,
-    eventDesc: '',
-    eventDate: '',
-    location: '',
-    seat: 0,
-    ticketType: [],
-    launchDate: '',
-    launchStatus: 1,
-    saleDate: ''
+    newsContent: '',
+    newsAuthor: '',
+    newsStatus: 1,
+    pubTime: ''
   })
 
+  const [isLoading, setIsLoading] = useState(true)
+  const [fileName, setFileName] = useState()
+
+  // 獲取資料數據
+  const fetchBlogData = useCallback(async () => {
+    setIsLoading(true)
+    try {
+      const response = await axios.get(`http://localhost:3000/riverflow/admin/news/${id}`)
+      const blogData = response.data[0]
+
+      // 處理時間格式
+      const formatDate = (dateString) => {
+        if (!dateString) return ''
+        const date = new Date(dateString)
+        const year = date.getFullYear()
+        const month = String(date.getMonth() + 1).padStart(2, '0')
+        const day = String(date.getDate()).padStart(2, '0')
+        const hours = String(date.getHours()).padStart(2, '0')
+        const minutes = String(date.getMinutes()).padStart(2, '0')
+        const seconds = String(date.getSeconds()).padStart(2, '0')
+        return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}`
+      }
+
+      const newFormData = {
+        newsType: blogData.newsType || '',
+        newsTitle: blogData.newsTitle || '',
+        coverImg: blogData.coverImg || '',
+        newsContent: blogData.newsContent || '',
+        newsAuthor: blogData.newsAuthor || '',
+        newsStatus: blogData.newsStatus || 1,
+        pubTime: blogData.pubTime ? formatDate(blogData.pubTime) : undefined
+      }
+
+      setFormData(newFormData)
+      setFileName(blogData.coverImg)
+    } catch (error) {
+      console.error('獲取數據時出錯:', error)
+    } finally {
+      setIsLoading(false)
+    }
+  }, [id])
+
+  useEffect(() => {
+    fetchBlogData()
+  }, [fetchBlogData])
+
   // 封面圖片處理
-  const [fileName, setFileName] = useState('未選擇任何檔案')
   const handleFileChange = (e) => {
+    console.log('開始處理封面圖片')
+
     const file = e.target.files[0]
+
     if (file) {
       setFileName(file.name)
       setFormData((prevState) => ({
@@ -107,13 +149,22 @@ export default function AddEvent() {
     }
   }
 
+  // // 發布時間處理
+  // const [minDateTime, setMinDateTime] = useState('')
+  // useEffect(() => {
+  //   const now = new Date()
+  //   const offset = now.getTimezoneOffset()
+  //   now.setMinutes(now.getMinutes() - offset)
+  //   setMinDateTime(now.toISOString().slice(0, 16))
+  // }, [])
+
   // 輸入框處理
   const handleInputChange = (e) => {
     const { name, value } = e.target
-    setFormData((prevState) => ({
-      ...prevState,
-      [name]: value
-    }))
+    setFormData((prevState) => {
+      const newState = { ...prevState, [name]: value }
+      return newState
+    })
   }
 
   // CKEditor 相關設定
@@ -321,6 +372,7 @@ export default function AddEvent() {
   const editorRef = useRef(null)
   const [editor, setEditor] = useState(null)
   const [isLayoutReady, setIsLayoutReady] = useState(false)
+
   useEffect(() => {
     if (editor) {
       editor.model.document.on('change:data', () => {
@@ -330,6 +382,7 @@ export default function AddEvent() {
       })
     }
   }, [editor])
+
   useEffect(() => {
     setIsLayoutReady(true)
     return () => setIsLayoutReady(false)
@@ -354,7 +407,7 @@ export default function AddEvent() {
         const formData = new FormData()
         formData.append('upload', blob, 'image.jpg')
 
-        const uploadResponse = await axios.post('http://localhost:3000/riverflow/admin/events/imgUpload', formData, {
+        const uploadResponse = await axios.post('http://localhost:3000/riverflow/admin/news/imgUpload', formData, {
           headers: {
             'Content-Type': 'multipart/form-data'
           },
@@ -422,268 +475,178 @@ export default function AddEvent() {
   const handleEditorChange = useCallback(
     (event, editor) => {
       const data = editor.getData()
-      setEditorContent(data)
-      setFormData((prevState) => ({
-        ...prevState,
-        eventDesc: data
-      }))
+      setFormData((prevState) => {
+        const newState = { ...prevState, newsContent: data }
+        console.log('formData after editor change:', newState)
+        return newState
+      })
 
       debouncedCheckForImages(data)
     },
     [debouncedCheckForImages]
   )
-  // $(function () {
-  //   $('.tabs').tabs()
-  //   $('.tabBtn').on('click', function () {
-  //     // console.log(this)
-  //     $('.tabBtn').removeClass('active')
-  //     $(this).addClass('active')
-  //   })
-  // })
 
-  // // 圖片上傳
-  // $('#prdPic').on('change', function () {
-  //   // console.log($(this).prop('files'))
-  //   $('#fileChosen').text($(this).prop('files')[0].name)
-  // })
+  // 送出資料更新
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    const postData = new FormData()
 
-  // $('#priceSingle').css('display', 'none') // 預設
-  // $('#eventPlace').on('change', function () {
-  //   if ($('#eventPlace').val() == 1) {
-  //     // 對號座顯示
-  //     $('#priceSingle').css('display', 'none')
-  //     $('#priceMulti').css('display', 'flex')
-  //   } else {
-  //     // 單一區顯示
-  //     $('#priceSingle').css('display', 'block')
-  //     $('#priceMulti').css('display', 'none')
-  //   }
-  // })
+    // for (const key in formData) {
+    //   if (key === 'coverImg' && !formData[key]) continue // 如果沒有新的封面圖片，不傳送
+    //   postData.append(key, formData[key])
+    // }
+    Object.keys(formData).forEach((key) => {
+      if (key === 'coverImg' && !formData[key]) {
+        if (formData[key] instanceof File) {
+          postData.append(key, formData[key])
+        }
+      } else if (key === 'pubTime') {
+        // 將本地時間轉換回 ISO 格式
+        const date = new Date(formData[key])
+        postData.append(key, date.toISOString())
+      } else {
+        postData.append(key, formData[key])
+      }
+    })
+
+    try {
+      const response = await axios.put(`http://localhost:3000/riverflow/admin/news/${id}`, postData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        },
+        maxContentLength: Infinity,
+        maxRedirects: 0
+      })
+      console.log('文章已更新:', response.data)
+      navigate(-1)
+    } catch (error) {
+      console.error('更新文章時出錯:', error)
+    }
+  }
+
+  if (isLoading) {
+    return <div>加載中...</div>
+  }
 
   return (
-    <div class='main'>
-      <div class='pageTitle'>新增活動</div>
-      <form action='' id='eventForm' enctype='multipart/form-data'>
-        <div class='tabs'>
-          <ul class='tabBtnList'>
+    <div className='main'>
+      <div className='pageTitle'>專欄編輯</div>
+      <form onSubmit={handleSubmit}>
+        <div className='tabs'>
+          <ul className='tabBtnList'>
             <li>
-              <a href='#eventIntro' id='defaultOpen' class='tabBtn active'>
-                活動資訊
-              </a>
-            </li>
-            <li>
-              <a href='#eventInfo' class='tabBtn'>
-                活動介紹
+              <a href='#infoBlog' id='defaultOpen' className='tabBtn active'>
+                專欄資訊
               </a>
             </li>
           </ul>
 
-          {/* tabContent 商品資訊 */}
-          <div id='eventIntro' class='tabContent'>
-            <div class='infoItem'>
-              <label for='eventName' class='editTitle'>
-                活動名稱：
+          <div id='infoBlog' className='tabContent'>
+            <div className='infoItem'>
+              <label htmlFor='newsTitle' className='editTitle'>
+                文章標題：
               </label>
-              <input id='eventName' name='eventName' type='text' required />
+              <input
+                id='newsTitle'
+                name='newsTitle'
+                type='text'
+                required
+                value={formData.newsTitle}
+                onChange={handleInputChange}
+              />
+              <span className='required'>※此欄位為必填</span>
             </div>
-            <div class='infoItem'>
-              <label class='editTitle'>主要圖片：</label>
-              <div class='picItem'>
-                <label for='eventPic' class='custUpload'>
-                  <i class='fa-solid fa-upload' /> 上傳圖片
+            <div className='infoItem'>
+              <label className='editTitle'>主要圖片：</label>
+              <div className='picItem'>
+                <label htmlFor='coverImg' className='custUpload'>
+                  <i className='fa-solid fa-upload' /> 上傳圖片
                 </label>
                 <input
-                  id='eventPic'
-                  name='eventPic'
-                  class='fileInput'
-                  type='file'
-                  required
-                  accept='image/png, image/jpeg'
-                />
-                <span id='fileChosen'>未選擇任何檔案</span>
-              </div>
-            </div>
-            <div class='infoItem'>
-              <label for='eventSort' class='editTitle'>
-                商品分類：
-              </label>
-              <select name='eventSort' id='eventSort'>
-                <option value='dj'>刷碟 Disc Jockey</option>
-                <option value='graffiti'>塗鴉 Graffiti</option>
-                <option value='rap'>饒舌 Rap</option>
-                <option value='streetDance'>街舞 Street Dance</option>
-                <option value='skate'>滑板 Skate</option>
-              </select>
-            </div>
-            <div class='infoItem'>
-              <label for='launchDate' class='editTitle'>
-                活動上架時間：
-              </label>
-              <input id='launchDate' name='launchDate' type='datetime-local' required />
-            </div>
-            <div class='infoItem itemflexList'>
-              <div>
-                <label for='eventSell' class='editTitle'>
-                  活動開賣時間：
-                </label>
-                <input id='eventSell' name='eventSell' type='datetime-local' required />
-              </div>
-              <div>
-                <label for='eventStart' class='editTitle'>
-                  活動開始時間：
-                </label>
-                <input id='eventStart' name='eventStart' type='datetime-local' required />
-              </div>
-            </div>
-            <div class='infoItem'>
-              <label for='eventPlace' class='editTitle'>
-                活動場館：
-              </label>
-              <select name='eventPlace' id='eventPlace'>
-                <option value='1'>室內-對號入座</option>
-                <option value='0'>戶外-自由座</option>
-              </select>
-            </div>
-            <div id='priceMulti' class='flex multiSect'>
-              <div class='infoList'>
-                <label for='eventPrice_multi' class='editTitle'>
-                  活動票價：
-                </label>
-                <div class='descInfo'>
-                  <div class='descItem'>
-                    <label for='sec1Price' class='editTitle'>
-                      1F搖滾區：
-                    </label>
-                    <div class='itemPrice'>
-                      <span class='priceMark event'>NT$</span>
-                      <input id='sec1Price' name='sec1Price' type='number' min='0' step='1' required />
-                    </div>
-                  </div>
-                  <div class='descItem'>
-                    <label for='sec2Price' class='editTitle'>
-                      2F坐席區：
-                    </label>
-                    <div class='itemPrice'>
-                      <span class='priceMark event'>NT$</span>
-                      <input id='sec2Price' name='sec2Price' type='number' min='0' required />
-                    </div>
-                  </div>
-                  <div class='descItem'>
-                    <label for='sec3Price' class='editTitle'>
-                      2F站席區：
-                    </label>
-                    <div class='itemPrice'>
-                      <span class='priceMark event'>NT$</span>
-                      <input id='sec3Price' type='number' min='0' required />
-                    </div>
-                  </div>
-                  <div class='descItem'>
-                    <label for='sec4Price' class='editTitle'>
-                      1F身障區：
-                    </label>
-                    <div class='itemPrice'>
-                      <span class='priceMark event'>NT$</span>
-                      <input id='sec4Price' type='number' min='0' required />
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div id='stockMulti' class='infoList'>
-                <label for='eventPrice_multi' class='editTitle'>
-                  票券庫存：
-                </label>
-                <div class='descInfo'>
-                  <div class='descItem'>
-                    <label for='sec1Stock' class='editTitle'>
-                      1F搖滾區：
-                    </label>
-                    <input id='sec1Stock' class='tktStock' name='sec1Stock' type='number' min='0' step='1' required />
-                  </div>
-                  <div class='descItem'>
-                    <label for='sec2Stock' class='editTitle'>
-                      2F坐席區：
-                    </label>
-                    <input id='sec2Stock' class='tktStock' name='sec2Stock' type='number' min='0' step='1' required />
-                  </div>
-                  <div class='descItem'>
-                    <label for='sec3Stock' class='editTitle'>
-                      2F站席區：
-                    </label>
-                    <input id='sec3Stock' class='tktStock' name='sec3Stock' type='number' min='0' step='1' required />
-                  </div>
-                  <div class='descItem'>
-                    <label for='sec4Stock' class='editTitle'>
-                      1F身障區：
-                    </label>
-                    <input id='sec4Stock' class='tktStock' name='sec4Stock' type='number' min='0' step='1' required />
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div id='priceSingle'>
-              <div class='infoItem'>
-                <label for='eventPrice_single' class='editTitle'>
-                  活動票價：
-                </label>
-                <div class='itemPrice'>
-                  <span class='priceMark event'>NT$</span>
-                  <input id='eventPrice_single' type='number' min='0' required />
-                </div>
-              </div>
-              <div class='infoItem'>
-                <label for='eventSingleStock' class='editTitle'>
-                  票券庫存：
-                </label>
-                <input id='secSingleStock' name='secSingleStock' type='number' min='0' step='1' required />
-              </div>
-            </div>
-          </div>
-
-          {/* tabContent 活動介紹 */}
-          <div id='eventInfo' class='tabContent'>
-            <div class='infoItem'>
-              <label class='editTitle'>介紹圖片：</label>
-              <div class='picItem'>
-                <label for='eventInfoPic' class='custUpload'>
-                  <i class='fa-solid fa-upload'></i>
-                  上傳圖片
-                </label>
-                <input
-                  id='eventInfoPic'
-                  name='eventInfoPic'
-                  class='fileInput'
+                  id='coverImg'
+                  name='coverImg'
                   type='file'
                   accept='image/png, image/jpeg'
+                  ref={fileInputRef}
+                  onChange={handleFileChange}
+                  style={{ display: 'none' }}
                 />
-                <span id='infoPicsChosen' class='fileChosen'>
-                  未選擇任何檔案
+                <span id='fileChosen' value={formData.coverImg}>
+                  {fileName}
                 </span>
               </div>
             </div>
-            <div class='introItem'>
-              <label for='eventDesc' class='editTitle'>
-                活動介紹：
+            <div className='infoItem'>
+              <label htmlFor='newsType' className='editTitle'>
+                文章分類：
               </label>
-              <div class='itemInfo'>
-                <textarea name='eventDesc' id='eventDesc' placeholder='活動介紹' required></textarea>
+              <select name='newsType' id='newsType' required value={formData.newsType} onChange={handleInputChange}>
+                <option value='DJ'>刷碟 Disc Jockey</option>
+                <option value='塗鴉'>塗鴉 Graffiti</option>
+                <option value='饒舌'>饒舌 Rap</option>
+                <option value='街舞'>街舞 Street Dance</option>
+                <option value='滑板'>滑板 Skate</option>
+              </select>
+            </div>
+            <div className='infoItem'>
+              <label htmlFor='newsAuthor' className='editTitle'>
+                文章作者：
+              </label>
+              <input
+                id='newsAuthor'
+                name='newsAuthor'
+                type='text'
+                required
+                value={formData.newsAuthor}
+                onChange={handleInputChange}
+              />
+            </div>
+            <div className='introItem'>
+              <label htmlFor='newsContent' className='editTitle'>
+                專欄內文：
+              </label>
+              <div className='itemInfo main-container'>
+                <div className='editor-container editor-container_classic-editor' ref={editorContainerRef}>
+                  <div className='editor-container__editor'>
+                    <div ref={editorRef}>
+                      {isLayoutReady && (
+                        <CKEditor
+                          editor={ClassicEditor}
+                          config={editorConfig}
+                          onReady={(editorInstance) => {
+                            setEditor(editorInstance)
+                          }}
+                          data={formData.newsContent}
+                          onChange={handleEditorChange}
+                        />
+                      )}
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
-            <div class='introItem'>
-              <label for='eventAnnoc' class='editTitle'>
-                最新公告：
+            <div className='infoItem'>
+              <label htmlFor='pubTime' className='editTitle'>
+                發布時間：
               </label>
-              <div class='itemInfo'>
-                <textarea name='eventAnnoc' id='eventAnnoc' placeholder='最新公告'></textarea>
-              </div>
+              <input
+                id='pubTime'
+                name='pubTime'
+                type='datetime-local'
+                onChange={handleInputChange}
+                // min={minDateTime}
+                value={formData.pubTime}
+                step='1' // 這允許秒數的輸入
+              />
             </div>
           </div>
         </div>
-        <div class='btnList flex'>
-          <button className='btn' onClick={() => navigate(-1)}>
-            <i class='fa-solid fa-angle-left'></i> 返回
+        <div className='btnList flex'>
+          <button className='btn' type='button' onClick={() => navigate(-1)}>
+            <i className='fa-solid fa-angle-left' /> 返回
           </button>
-          <button class='btn' type='submit'>
-            <i class='fa-solid fa-floppy-disk'></i> 儲存
+          <button className='btn' type='submit'>
+            <i className='fa-solid fa-floppy-disk' /> 更新
           </button>
         </div>
       </form>
