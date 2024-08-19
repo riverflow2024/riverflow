@@ -138,7 +138,7 @@ class MemberOrder extends Component {
 
         // 變更訂單狀態名稱
         const statusMap = {
-            "processing": "待出貨",
+            "已付款": "待出貨",
             "pending": "未付款",
             "complete": "已完成",
             "canceled": "未完成",
