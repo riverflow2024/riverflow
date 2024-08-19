@@ -1,6 +1,6 @@
 @charset "UTF-8";
-@import url("https://fonts.googleapis.com/css2?family=Just+Another+Hand&display=swap");
-@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css");
+@import url('https://fonts.googleapis.com/css2?family=Just+Another+Hand&display=swap');
+@import url('https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css');
 /*------- 個人資料--------- */
 .Member {
   width: 100%;
@@ -33,7 +33,7 @@
   height: 88px;
   border-radius: 50%;
   -o-object-fit: cover;
-     object-fit: cover;
+  object-fit: cover;
   overflow: hidden;
   position: relative;
 }
@@ -124,7 +124,7 @@
 .Member .profile-box .input-card {
   padding: 15px 0;
 }
-.Member .profile-box .input-card input[type=text] {
+.Member .profile-box .input-card input[type='text'] {
   margin-left: 0;
 }
 .Member .profile-box .input-card:has(input:focus-visible) {
@@ -155,7 +155,7 @@
 .Member .profile-box .input-date label {
   color: var(--main);
 }
-.Member .profile-box input[type=date]::-webkit-calendar-picker-indicator {
+.Member .profile-box input[type='date']::-webkit-calendar-picker-indicator {
   background-color: var(--main);
   padding: 5px;
   border-radius: 5px;
@@ -170,7 +170,7 @@
   padding: 40px 0;
   gap: 20px;
 }
-.Member .profile-box .btn-box input[type=button] {
+.Member .profile-box .btn-box input[type='button'] {
   background-color: var(--main);
   border: 0;
   border-radius: 10px;
@@ -180,7 +180,7 @@
   padding: 10px;
   text-align: center;
 }
-.Member .profile-box .btn-box input[type=button]:hover {
+.Member .profile-box .btn-box input[type='button']:hover {
   background-color: var(--main2);
 }
 .Member .profile-box.active {
@@ -220,7 +220,7 @@
   height: 88px;
   border-radius: 50%;
   -o-object-fit: cover;
-     object-fit: cover;
+  object-fit: cover;
 }
 .OrderList .nav-box .member .profile {
   padding: 10px;
@@ -389,7 +389,7 @@
   height: 88px;
   border-radius: 50%;
   -o-object-fit: cover;
-     object-fit: cover;
+  object-fit: cover;
 }
 .Order .nav-box .member .profile {
   padding: 10px;
@@ -544,7 +544,7 @@
   cursor: pointer;
 }
 .Order .order-box .tabcontent .member-order .accordion .container .label::before {
-  content: "+";
+  content: '+';
   color: var(--main);
   position: absolute;
   top: 50%;
@@ -556,7 +556,7 @@
   height: 150px;
 }
 .Order .order-box .tabcontent .member-order .accordion .container.active .label::before {
-  content: "-";
+  content: '-';
   font-size: 30px;
 }
 .Order .order-box .tabcontent .member-order .accordion .container .member-content {
@@ -613,7 +613,7 @@
   height: 88px;
   border-radius: 50%;
   -o-object-fit: cover;
-     object-fit: cover;
+  object-fit: cover;
 }
 .Tickets .nav-box .member .profile {
   padding: 10px;
@@ -794,7 +794,7 @@
   height: 88px;
   border-radius: 50%;
   -o-object-fit: cover;
-     object-fit: cover;
+  object-fit: cover;
 }
 .Collection .nav-box .member .profile {
   padding: 10px;
@@ -878,7 +878,7 @@
 }
 .Collection .order-box .tabcontent .member-order .Img-box img {
   -o-object-fit: cover;
-     object-fit: cover;
+  object-fit: cover;
   width: 200px;
   height: 200px;
   border-radius: 5px;
@@ -996,4 +996,4 @@
   .btn-box .btn {
     width: 100% !important;
   }
-}/*# sourceMappingURL=member.css.map */
+} /*# sourceMappingURL=member.css.map */

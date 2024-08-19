@@ -10,7 +10,7 @@ router.get('/', (req, res, next) => {
 })
 
 // 商品
-
+const prdUpload = imageUploader('products')
 // 列表
 router.get('/products', adminController.getAllProducts)
 // 搜尋
@@ -27,7 +27,7 @@ router.get('/products/:productId/review', (req, res) => {
   res.redirect(`/riverflow/products/${productId}`)
 })
 // 新增
-router.post('/products/create', adminController.createProduct)
+router.post('/products/create', prdUpload.single('productImgs'), adminController.createProduct)
 // 刪除
 router.delete('/products/:productId/delete', adminController.deleteProduct)
 

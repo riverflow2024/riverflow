@@ -7,10 +7,10 @@ const stripeModel = require('../models/stripeModel');
 const createCheckoutSession = async (req, res) => {
     try {
         const items = req.body.items;
-        const finalTotal = req.body.finalTotal;
+        const shippingFee = req.body.shippingFee
         console.log('訂單項目:', items);
-        console.log('整體',req.body);
-        const session = await stripeModel.createCheckoutSession(items , finalTotal);
+
+        const session = await stripeModel.createCheckoutSession(items ,shippingFee);
         res.json({ url: session.url });
     } catch (e) {
         console.error('創建結帳會話時發生錯誤:', e);
@@ -24,8 +24,7 @@ const createCheckoutSession = async (req, res) => {
 const createEventCheckoutSession = async (req, res) => {
     try {
         
-        const event = req.body;
-        console.log(typeof(event));
+        const event = req.body;       
         console.log('活動訂單項目:', event);
 
         // 檢查票券庫存
@@ -33,7 +32,7 @@ const createEventCheckoutSession = async (req, res) => {
         if (!availabilityCheck.success) {
             return res.status(400).json({ error: availabilityCheck.message });
         }
-        console.log(event)
+
         const session = await stripeModel.createEventCheckoutSession(event);
         res.json({ url: session.url });
     } catch (e) {

@@ -22,6 +22,10 @@ export default function AddPrd() {
     discountRate: '',
     discountStart: '',
     discountEnd: '',
+    productRating: null,
+    productStatus: 'Discontinued',
+    launchDate: null,
+    removeDate: null
   })
 
   // tab
@@ -119,7 +123,7 @@ export default function AddPrd() {
     formDataToSend.append('productOpt', JSON.stringify(productOpt))
 
     if (productImage) {
-      formDataToSend.append('image', productImage)
+      formDataToSend.append('productImgs', productImage.name)
     }
 
     console.log("FormData contents:")
@@ -175,7 +179,7 @@ export default function AddPrd() {
   return (
     <div className="main">
       <div className="pageTitle">商品編輯</div>
-      <form action="" id="prdForm">
+      <form action="" id="prdForm" enctype='multipart/form-data'>
         <div className="tabs">
           <ul className="tabBtnList">
             <li>

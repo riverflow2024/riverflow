@@ -19,29 +19,47 @@ const query = (sql, params) => {
 
 
 //新增商品付款Session
-const createCheckoutSession = async (items , finalTotal) => {
+const createCheckoutSession = async (items, shippingFee) => {
+    const lineItems = items.map(item => ({
+        price_data: {
+            currency: 'twd',
+            product_data: {
+                name: `${item.name}`,
+                description: `尺寸: ${item.size}`,
+            },
+            unit_amount: Math.round(item.price * 100),
+        },
+        quantity: item.quantity,
+    }));
+
+    // 添加運費作為單獨的 line item
+    lineItems.push({
+        price_data: {
+            currency: 'twd',
+            product_data: {
+                name: '運費',
+                description: '商品運送費用',
+            },
+            unit_amount: Math.round(shippingFee * 100),
+        },
+        quantity: 1,
+    });
+
     const session = await stripe.checkout.sessions.create({
         payment_method_types: ['card'],
         mode: 'payment',
-        line_items: items.map(item => ({
-            price_data: {
-                currency: 'twd',
-                product_data: {
-                    name: `${item.name}`,
-                    description: `尺寸: ${item.size}`,
-                },
-                unit_amount: finalTotal * 100,
-            },
-            quantity: item.quantity,
-        })),
+        line_items: lineItems,
         success_url: `${process.env.CLIENT_URL}/Order/PaymentSuccess?session_id={CHECKOUT_SESSION_ID}`,
         cancel_url: `${process.env.CLIENT_URL}/cancel.html`,
         metadata: {
-            order_details: JSON.stringify(items)
+            order_details: JSON.stringify(items),
+            shipping_fee: shippingFee.toString()
         }
     });
+
     console.log('orderID :', session.id);
     console.log('orderData :', session.metadata);
+
     return session;
 };
 
@@ -51,7 +69,7 @@ const createCheckoutSession = async (items , finalTotal) => {
 
 //新增活動付款Session
 const createEventCheckoutSession = async (event) => {
-    console.log('event',event)
+    console.log('event', event)
     const session = await stripe.checkout.sessions.create({
         payment_method_types: ['card'],
         mode: 'payment',
@@ -108,8 +126,11 @@ const saveOrderDetails = async (sessionId, userId) => {
         //商品資料送資料庫
         if (sessionMetadata.order_details) {
             const orderDetails = JSON.parse(session.metadata.order_details);
-
-            const totalPrice = orderDetails.reduce((sum, item) => sum + item.price * item.quantity, 0);
+            console.log('運費: ', typeof(sessionMetadata.shipping_fee))
+            const priceSum = orderDetails.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            const totalPrice = priceSum + + parseInt(sessionMetadata.shipping_fee)
+            console.log('totalPrice: ', totalPrice);
+            
 
             // 開始資料庫
             await query('START TRANSACTION');
@@ -129,7 +150,7 @@ const saveOrderDetails = async (sessionId, userId) => {
                 // 插入訂單表
                 const result = await query(
                     'INSERT INTO `order` (userId, totalPrice, orderStatus, shipMethod, convAddr, rcptName, rcptPhone, rcptAddr, payMethod, payTime, receiptType, receiptInfo, orderRemark, createdAt) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), ?, ?, ?, NOW())',
-                    [userId, totalPrice, '已付款', '7-11', '台北市信義路123號', '小美', '0912333555', '小美家', 'card', '手機載具', 'Z1234567', '備註']
+                    [userId, totalPrice, '已付款', '7-11', '台北市信義路123號', '林小美', '0912333555', '小美家', 'card', '手機載具', 'Z1234567', '備註']
                 );
                 const orderId = result.insertId;
                 console.log('插入訂單主表成功，orderId:', orderId);
@@ -221,7 +242,7 @@ const saveOrderDetails = async (sessionId, userId) => {
                         `INSERT INTO ticketdetails
                                 (userId, eventId, ticketType, quantity, tdStatus, tdPrice, randNum, payTime, receiptType, receiptInfo, createdAt, updatedAt)
                                 VALUES (?, ?, ?, ?, ?, ?, ?, NOW(), ?, ?, NOW(), NOW())`,
-                        [userId, eventId, ticket.type, ticket.quantity, 'pending', ticket.price, randNum, 'dupInvoice', '/123K456']
+                        [userId, eventId, ticket.type, ticket.quantity, '已付款', ticket.price, randNum, '手機載具', '/123K456']
                     );
                 }
 
@@ -248,6 +269,7 @@ const saveOrderDetails = async (sessionId, userId) => {
 //檢查票券庫存數量
 const checkTicketAvailability = async (event) => {
     try {
+        console.log()
         const [dbEvent] = await query(
             'SELECT ticketType FROM events WHERE eventId = ?',
             [event.eventId]

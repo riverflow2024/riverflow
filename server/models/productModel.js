@@ -9,7 +9,7 @@ exports.getAllProductImg = () => {
     dbConnect.query(
       `
         SELECT
-        products.productId,products.productName,productimages.productImg
+        products.productId, products.productName, productimages.productImg
         FROM products, productimages
         WHERE products.productId = productimages.productId
       `,
@@ -66,7 +66,7 @@ exports.getAllProductInfo = () => {
 // 選取單個產品
 //------------------------------------------------------------------------------------------------
 
-//產品圖
+// 取得單個產品圖片
 exports.getProductImg = (id) => {
   return new Promise((resolve, reject) => {
     dbConnect.query(
@@ -89,7 +89,7 @@ exports.getProductImg = (id) => {
   })
 }
 
-// 產品收藏
+// 取得單個產品收藏
 exports.getProductFavorite = (id) => {
   return new Promise((resolve, reject) => {
     dbConnect.query(
@@ -112,7 +112,7 @@ exports.getProductFavorite = (id) => {
   })
 }
 
-//產品資訊
+// 取得單個產品資訊
 exports.getProductInfo = (id) => {
   return new Promise((resolve, reject) => {
     dbConnect.query(
@@ -138,8 +138,6 @@ exports.getProductInfo = (id) => {
   })
 }
 
-
-
 // 新增產品
 exports.createProduct = (productData) => {
   return new Promise((resolve, reject) => {
@@ -153,7 +151,7 @@ exports.createProduct = (productData) => {
 // 更新產品
 exports.updateProduct = (id, productData) => {
   return new Promise((resolve, reject) => {
-    dbConnect.query('UPDATE products SET ? WHERE productid = ?', [productData, id], (err, result) => {
+    dbConnect.query('UPDATE products SET ? WHERE productId = ?', [productData, id], (err, result) => {
       if (err) return reject(err)
       resolve({ message: 'Product updated', changed: result.changedRows })
     })
@@ -163,7 +161,7 @@ exports.updateProduct = (id, productData) => {
 // 刪除產品
 exports.deleteProduct = (id) => {
   return new Promise((resolve, reject) => {
-    dbConnect.query('DELETE FROM products WHERE productid = ?', [id], (err, result) => {
+    dbConnect.query('DELETE FROM products WHERE productId = ?', [id], (err, result) => {
       if (err) return reject(err)
       resolve({ message: 'Product deleted', deleted: result.affectedRows })
     })
