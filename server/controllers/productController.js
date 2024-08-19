@@ -88,3 +88,27 @@ module.exports = {
   updateProduct,
   deleteProduct
 }
+
+// 刪除我的最愛中的產品 0819lahok++
+const removeFavoriteProduct = async (req, res) => {
+  try {
+    const { productId, userId } = req.body
+    const removedFavorite = await productModel.removeFavoriteProduct(productId, userId)
+
+    if (!removedFavorite) {
+      return res.status(404).json({ message: 'Favorite product not found' })
+    }
+    res.json({ message: 'Favorite product removed' })
+  } catch (error) {
+    res.status(500).json({ message: error.message })
+  }
+}
+
+module.exports = {
+  getAllProducts,
+  getProductById,
+  createProduct,
+  updateProduct,
+  deleteProduct,
+  removeFavoriteProduct // 新增這個導出
+}

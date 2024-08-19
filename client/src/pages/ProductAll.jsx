@@ -5,9 +5,8 @@ import 'swiper/css/pagination'
 import Swiper from 'swiper/bundle'
 import 'swiper/css/bundle'
 import resetStyles from '../assets/reset.module.css'
-
 import '../assets/ProductAll.css'
-// import '@fortawesome/fontawesome-free/css/all.min.css'
+// import '@fortawesome/fontawesome-free/css/all.min.css';
 import Header from '../components/header'
 import axios from 'axios'
 import { Link } from 'react-router-dom'
@@ -24,47 +23,47 @@ const Banner = () => {
   }, [])
 
   return (
-    <div className="swiper">
-      <div className="swiper-wrapper">
-        <section className="swiper-slide">
+    <div className='swiper'>
+      <div className='swiper-wrapper'>
+        <section className='swiper-slide'>
           <img
-            src="https://vibrancefestival-live-83932ec24f1845258-f0d579e.divio-media.com/images/PXL_20210325_221726325.fddd6140.fill-900x420.jpg"
-            alt="塗鴉"
+            src='https://vibrancefestival-live-83932ec24f1845258-f0d579e.divio-media.com/images/PXL_20210325_221726325.fddd6140.fill-900x420.jpg'
+            alt='塗鴉'
           />
-          <div className="swiper-text">
+          <div className='swiper-text'>
             <h1>絕對塗鴉行</h1>
             <p>
               絕對塗鴉行是專為塗鴉藝術家、街頭藝術愛好者和創意達人打造的專業噴漆用品商店。無論你是初學者還是資深塗鴉藝術家，這裡都有你需要的一切。
             </p>
           </div>
         </section>
-        <section className="swiper-slide">
+        <section className='swiper-slide'>
           <img
-            src="https://cdn.shopify.com/s/files/1/0530/0695/8744/t/22/assets/skate-shops-1683383358868.jpg?v=1683383359"
-            alt="skate"
+            src='https://cdn.shopify.com/s/files/1/0530/0695/8744/t/22/assets/skate-shops-1683383358868.jpg?v=1683383359'
+            alt='skate'
           />
-          <div className="swiper-text">
+          <div className='swiper-text'>
             <h1>自由滑行</h1>
             <p>
               自由滑行是滑板愛好者的天堂，無論你是初學者還是資深滑板玩家，這裡都能滿足你的需求。我們致力於提供最優質的滑板、配件及裝備，助你在滑行中展現最佳狀態。
             </p>
           </div>
         </section>
-        <section className="swiper-slide">
-          <img src="https://web.cheers.com.tw/event/2019fwf/assets/img/article/009.jpg" alt="DJ" />
-          <div className="swiper-text">
+        <section className='swiper-slide'>
+          <img src='https://web.cheers.com.tw/event/2019fwf/assets/img/article/009.jpg' alt='DJ' />
+          <div className='swiper-text'>
             <h1>唱片騎師</h1>
             <p>
               DJ，即唱片騎師，是派對和音樂節的靈魂。他們掌握著音樂的節奏，創造獨特的聽覺體驗，點燃現場的每一個角落。
             </p>
           </div>
         </section>
-        <section className="swiper-slide">
+        <section className='swiper-slide'>
           <img
-            src="https://media.gq.com.tw/photos/5dbcbd532551d400086a9647/master/w_1600%2Cc_limit/2015052266764869.jpg"
-            alt="RAP"
+            src='https://media.gq.com.tw/photos/5dbcbd532551d400086a9647/master/w_1600%2Cc_limit/2015052266764869.jpg'
+            alt='RAP'
           />
-          <div className="swiper-text">
+          <div className='swiper-text'>
             <h1>Beans & Beats Records</h1>
             <p>
               身為嘻哈音樂廠牌的顏社，在實體唱片逐漸沒落情況下，還放膽在咖啡店樓下成立一間唱片行「Beans & Beats
@@ -72,12 +71,12 @@ const Banner = () => {
             </p>
           </div>
         </section>
-        <section className="swiper-slide">
+        <section className='swiper-slide'>
           <img
-            src="https://d1j71ui15yt4f9.cloudfront.net/wp-content/uploads/2023/07/18203055/71004a-20230718141533714-0.jpg"
-            alt="Street Dance"
+            src='https://d1j71ui15yt4f9.cloudfront.net/wp-content/uploads/2023/07/18203055/71004a-20230718141533714-0.jpg'
+            alt='Street Dance'
           />
-          <div className="swiper-text">
+          <div className='swiper-text'>
             <h1>街舞</h1>
             <p>
               街舞是一種充滿能量和創意的舞蹈形式，起源於嘻哈文化。街舞不僅是一種表演藝術，更是一種文化象徵，代表了年輕人的自由和活力。
@@ -85,26 +84,26 @@ const Banner = () => {
           </div>
         </section>
       </div>
-      <div className="swiper-scrollbar"></div>
+      <div className='swiper-scrollbar'></div>
     </div>
   )
 }
 
-const Filter = ({ onFilterChange, selectedCategory }) => (
-  <aside className="shop-filter">
-    <div className="filter-text">
+const Filter = ({ onFilterChange, selectedCategory, setSearchQuery }) => (
+  <aside className='shop-filter'>
+    <div className='filter-text'>
       <h3>商品搜尋欄</h3>
       <input
-        type="text"
-        id="searchInput"
-        placeholder="請輸入商品名稱"
-        onChange={(e) => onFilterChange(e.target.value)}
+        type='text'
+        id='searchInput'
+        placeholder='請輸入商品名稱'
+        onChange={(e) => setSearchQuery(e.target.value)}
       />
     </div>
-    <ul id="categoryFilter">
-      <li className="shop-filter-item">
+    <ul id='categoryFilter'>
+      <li className='shop-filter-item'>
         <a
-          href="#"
+          href='#'
           onClick={(e) => {
             e.preventDefault()
             onFilterChange('all')
@@ -114,9 +113,9 @@ const Filter = ({ onFilterChange, selectedCategory }) => (
           全部類別
         </a>
       </li>
-      <li className="shop-filter-item">
+      <li className='shop-filter-item'>
         <a
-          href="#"
+          href='#'
           onClick={(e) => {
             e.preventDefault()
             onFilterChange('刷碟')
@@ -126,9 +125,9 @@ const Filter = ({ onFilterChange, selectedCategory }) => (
           DJ | Disc Jockey
         </a>
       </li>
-      <li className="shop-filter-item">
+      <li className='shop-filter-item'>
         <a
-          href="#"
+          href='#'
           onClick={(e) => {
             e.preventDefault()
             onFilterChange('街舞')
@@ -138,9 +137,9 @@ const Filter = ({ onFilterChange, selectedCategory }) => (
           街舞 | Street Dance
         </a>
       </li>
-      <li className="shop-filter-item">
+      <li className='shop-filter-item'>
         <a
-          href="#"
+          href='#'
           onClick={(e) => {
             e.preventDefault()
             onFilterChange('饒舌')
@@ -150,9 +149,9 @@ const Filter = ({ onFilterChange, selectedCategory }) => (
           饒舌 | Rap
         </a>
       </li>
-      <li className="shop-filter-item">
+      <li className='shop-filter-item'>
         <a
-          href="#"
+          href='#'
           onClick={(e) => {
             e.preventDefault()
             onFilterChange('塗鴉')
@@ -162,9 +161,9 @@ const Filter = ({ onFilterChange, selectedCategory }) => (
           塗鴉 | Graffiti
         </a>
       </li>
-      <li className="shop-filter-item">
+      <li className='shop-filter-item'>
         <a
-          href="#"
+          href='#'
           onClick={(e) => {
             e.preventDefault()
             onFilterChange('滑板')
@@ -175,9 +174,9 @@ const Filter = ({ onFilterChange, selectedCategory }) => (
         </a>
       </li>
       <br />
-      <li className="shop-filter-item">
+      <li className='shop-filter-item'>
         <a
-          href="#"
+          href='#'
           onClick={(e) => {
             e.preventDefault()
             onFilterChange('new')
@@ -187,9 +186,9 @@ const Filter = ({ onFilterChange, selectedCategory }) => (
           新品 | New
         </a>
       </li>
-      <li className="shop-filter-item">
+      <li className='shop-filter-item'>
         <a
-          href="#"
+          href='#'
           onClick={(e) => {
             e.preventDefault()
             onFilterChange('sale')
@@ -204,11 +203,11 @@ const Filter = ({ onFilterChange, selectedCategory }) => (
 )
 
 const RwdFilter = ({ onFilterChange, selectedCategory }) => (
-  <aside className="RWD-shop-filter">
-    <ul id="categoryFilter">
-      <li className="shop-filter-item">
+  <aside className='RWD-shop-filter'>
+    <ul id='categoryFilter'>
+      <li className='shop-filter-item'>
         <a
-          href="#"
+          href='#'
           onClick={(e) => {
             e.preventDefault()
             onFilterChange('all')
@@ -218,9 +217,9 @@ const RwdFilter = ({ onFilterChange, selectedCategory }) => (
           全部
         </a>
       </li>
-      <li className="shop-filter-item">
+      <li className='shop-filter-item'>
         <a
-          href="#"
+          href='#'
           onClick={(e) => {
             e.preventDefault()
             onFilterChange('刷碟')
@@ -230,9 +229,9 @@ const RwdFilter = ({ onFilterChange, selectedCategory }) => (
           刷碟 Disc Jockey (DJ)
         </a>
       </li>
-      <li className="shop-filter-item">
+      <li className='shop-filter-item'>
         <a
-          href="#"
+          href='#'
           onClick={(e) => {
             e.preventDefault()
             onFilterChange('街舞')
@@ -242,9 +241,9 @@ const RwdFilter = ({ onFilterChange, selectedCategory }) => (
           街舞 Street Dance
         </a>
       </li>
-      <li className="shop-filter-item">
+      <li className='shop-filter-item'>
         <a
-          href="#"
+          href='#'
           onClick={(e) => {
             e.preventDefault()
             onFilterChange('饒舌')
@@ -254,9 +253,9 @@ const RwdFilter = ({ onFilterChange, selectedCategory }) => (
           饒舌 Rap
         </a>
       </li>
-      <li className="shop-filter-item">
+      <li className='shop-filter-item'>
         <a
-          href="#"
+          href='#'
           onClick={(e) => {
             e.preventDefault()
             onFilterChange('塗鴉')
@@ -266,9 +265,9 @@ const RwdFilter = ({ onFilterChange, selectedCategory }) => (
           塗鴉 Graffiti
         </a>
       </li>
-      <li className="shop-filter-item">
+      <li className='shop-filter-item'>
         <a
-          href="#"
+          href='#'
           onClick={(e) => {
             e.preventDefault()
             onFilterChange('滑板')
@@ -284,10 +283,10 @@ const RwdFilter = ({ onFilterChange, selectedCategory }) => (
 
 const ProductItem = ({ product, toggleFavorite }) => (
   <div className={`product-item ${product.isSoldOut ? 'sold-out-card' : ''}`} data-category={`${product.categoryName}`}>
-    <div className="product-img">
-      <img src={product.image} alt={product.alt} />
+    <div className='product-img'>
+      <img src={`/images/products/${product.image}`} alt={product.alt} />
       <a
-        href="#"
+        href='#'
         className={`favorite ${product.isFavorited ? 'selected' : ''}`}
         onClick={(e) => {
           e.preventDefault()
@@ -296,22 +295,22 @@ const ProductItem = ({ product, toggleFavorite }) => (
       >
         <i className={`fa-regular fa-heart ${product.isFavorited ? 'selected' : ''}`}></i>
       </a>
-      {product.isSoldOut && <div className="sold-out">SOLD OUT</div>}
+      {product.isSoldOut && <div className='sold-out'>SOLD OUT</div>}
     </div>
-    <div className="labels">
-      <span className="label">{product.categoryName}</span>
+    <div className='labels'>
+      <span className='label'>{product.categoryName}</span>
       {product.label !== 'normal' && (
         <span className={`label ${product.label === '新品' ? 'new' : ''} ${product.label === '優惠' ? 'sale' : ''}`}>
           {product.label}
         </span>
       )}
     </div>
-    <div className="product-info">
+    <div className='product-info'>
       <h4>{product.title}</h4>
-      <div className="product-text">
+      <div className='product-text'>
         {product.oldPrice && <p style={{ textDecoration: 'line-through' }}>{product.oldPrice}</p>}
         <p className={product.oldPrice ? 'discount-price' : ''}>{product.price}</p>
-        <Link to={`/Product/Detail/${product.productId}`} className="look-btn">
+        <Link to={`/Product/Detail/${product.productId}`} className='look-btn'>
           查看商品
         </Link>
       </div>
@@ -319,7 +318,7 @@ const ProductItem = ({ product, toggleFavorite }) => (
   </div>
 )
 
-const ProductList = ({ filterCategory }) => {
+const ProductList = ({ filterCategory, searchQuery }) => {
   const [products, setProducts] = useState([])
 
   useEffect(() => {
@@ -328,10 +327,9 @@ const ProductList = ({ filterCategory }) => {
       .then((response) => {
         const allProducts = response.data.getAllProductInfo.map((product) => {
           const productImages = response.data.getAllProductImg.filter((img) => img.productId === product.productId)
-          const isFavorited = false
+          const isFavorited = response.data.getAllProductFavorite.some((fav) => fav.productId === product.productId)
 
-          const isNewProduct =
-            new Date(product.launchDate) > new Date('2024-07-01') && product.productStatus === 'Available'
+          const isNewProduct = product.productStatus === 'New'
 
           return {
             productId: product.productId,
@@ -354,20 +352,32 @@ const ProductList = ({ filterCategory }) => {
   }, [])
 
   const toggleFavorite = (product) => {
-    setProducts((prevProducts) =>
-      prevProducts.map((p) => (p.title === product.title ? { ...p, isFavorited: !p.isFavorited } : p))
+    const updatedProducts = products.map((p) =>
+      p.productId === product.productId ? { ...p, isFavorited: !p.isFavorited } : p
     )
+    setProducts(updatedProducts)
+
+    const apiUrl = product.isFavorited
+      ? 'http://localhost:3000/riverflow/removeFavorite' // 取消收藏
+      : 'http://localhost:3000/riverflow/addFavorite' // 加入收藏
+
+    axios
+      .post(apiUrl, { productId: product.productId })
+      .then(() => console.log('Favorite updated'))
+      .catch((error) => console.error('Error updating favorite:', error))
   }
 
-  const filteredProducts = products.filter((product) => {
-    if (filterCategory === 'all') return true
-    if (filterCategory === 'new') return product.label === '新品'
-    if (filterCategory === 'sale') return product.label === '優惠'
-    return product.categoryName === filterCategory
-  })
+  const filteredProducts = products
+    .filter((product) => {
+      if (filterCategory === 'all') return true
+      if (filterCategory === 'new') return product.label === '新品'
+      if (filterCategory === 'sale') return product.label === '優惠'
+      return product.categoryName === filterCategory
+    })
+    .filter((product) => product.title.toLowerCase().includes(searchQuery.toLowerCase()))
 
   return (
-    <main className="product-list">
+    <main className='product-list'>
       {filteredProducts.map((product, index) => (
         <ProductItem key={index} product={product} toggleFavorite={toggleFavorite} />
       ))}
@@ -377,20 +387,25 @@ const ProductList = ({ filterCategory }) => {
 
 const ProductAll = () => {
   const [filterCategory, setFilterCategory] = useState('all')
+  const [searchQuery, setSearchQuery] = useState('')
 
   return (
     <>
       <Header />
       <section className={`wrap-f ${resetStyles.reset}`}>
-        <div className="container-f">
+        <div className='container-f'>
           <Banner />
         </div>
       </section>
       <section className={`wrap ${resetStyles.reset}`}>
-        <div className="container">
-          <Filter onFilterChange={setFilterCategory} selectedCategory={filterCategory} />
+        <div className='container'>
+          <Filter
+            onFilterChange={setFilterCategory}
+            selectedCategory={filterCategory}
+            setSearchQuery={setSearchQuery}
+          />
           <RwdFilter onFilterChange={setFilterCategory} selectedCategory={filterCategory} />
-          <ProductList filterCategory={filterCategory} />
+          <ProductList filterCategory={filterCategory} searchQuery={searchQuery} />
         </div>
       </section>
     </>
