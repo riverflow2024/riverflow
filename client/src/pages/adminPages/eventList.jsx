@@ -1,34 +1,176 @@
-import React from 'react'
-import $ from 'jquery'
-import { Link, useMatch } from 'react-router-dom'
+// Author: zhier1114
+import React, { useReducer, useEffect, useCallback } from 'react'
+// import $ from 'jquery'
+import { Link, useMatch, useNavigate } from 'react-router-dom'
+import axios from 'axios'
+import EventItem from '../../components/eventItem'
 
-export default function EventList () {
-  const match = useMatch('/admin/eventList/*')
+const initialState = {
+  events: [],
+  loading: true,
+  error: null,
+  currentPage: 1,
+  searchTerm: '',
+  eventsPerPage: 5
+}
 
-  $(function () {
-    $('.Status').each(function (index, elem) {
-      // console.log(elem.innerText)
-      if (elem.innerText == '上架') {
-        $(this).css('color', 'var(--side)')
-      } else if (elem.innerText == '下架') {
-        $(this).css('color', 'var(--err)')
+const reducer = (state, action) => {
+  switch (action.type) {
+    case 'SET_EVENTS':
+      return { ...state, events: action.payload, loading: false }
+    case 'SET_ERROR':
+      return { ...state, error: action.payload, loading: false }
+    case 'SET_LOADING':
+      return { ...state, loading: action.payload }
+    case 'UPDATE_EVENT':
+      return {
+        ...state,
+        events: state.events.map((event) =>
+          event.newsId === action.payload.newsId ? { ...event, ...action.payload } : event
+        )
       }
-    })
-  })
+    case 'DELETE_EVENT':
+      return {
+        ...state,
+        events: state.events.filter((event) => event.newsId !== action.payload)
+      }
+    case 'SET_SEARCH_TERM':
+      return { ...state, searchTerm: action.payload, currentPage: 1 }
+    case 'SET_CURRENT_PAGE':
+      return { ...state, currentPage: action.payload }
+    default:
+      return state
+  }
+}
+
+const EventList = () => {
+  useMatch('/admin/eventList/*')
+  const navigate = useNavigate()
+
+  const [state, dispatch] = useReducer(reducer, initialState)
+  const { events, loading, error, currentPage, searchTerm, eventsPerPage } = state
+
+  const fetchEvents = useCallback(async () => {
+    console.log('Fetching events...')
+    dispatch({ type: 'SET_LOADING', payload: true })
+    try {
+      const response = await axios.get('http://localhost:3000/riverflow/admin/events')
+
+      dispatch({ type: 'SET_EVENTS', payload: response.data })
+    } catch (err) {
+      console.error('獲取活動數據錯誤：', err)
+      dispatch({ type: 'SET_ERROR', payload: '獲取活動數據時出錯' })
+    }
+  }, [])
+
+  useEffect(() => {
+    fetchEvents()
+  }, [fetchEvents])
+
+  useEffect(() => {
+    const updateStatusColors = () => {
+      document.querySelectorAll('.Status').forEach((elem) => {
+        if (elem.innerText === '上架') {
+          elem.style.color = 'var(--side)'
+        } else if (elem.innerText === '下架') {
+          elem.style.color = 'var(--err)'
+        }
+      })
+    }
+    updateStatusColors()
+  }, [events, currentPage])
+
+  const reloadEventItem = useCallback(async (eventId, newStatus) => {
+    try {
+      const response = await axios.get(`http://localhost:3000/riverflow/admin/events/${eventId}`)
+      console.log('reload results:', response.data)
+      dispatch({ type: 'UPDATE_EVENT', payload: response.data })
+    } catch (err) {
+      console.error('重新加載活動資料錯誤：', err)
+    }
+  }, [])
+
+  const handleEdit = useCallback(
+    (eventId) => {
+      navigate(`/admin/eventList/edit/${eventId}`)
+    },
+    [navigate]
+  )
+
+  const handleDelete = useCallback(async (eventId) => {
+    if (window.confirm('確定要刪除這個活動嗎？')) {
+      try {
+        await axios.delete(`http://localhost:3000/riverflow/admin/news/${eventId}`)
+        dispatch({ type: 'DELETE_EVENT', payload: eventId })
+      } catch (err) {
+        console.error('刪除活動錯誤：', err)
+      }
+    }
+  }, [])
+
+  const formatDate = (dateString) => {
+    if (!dateString) return ''
+    const date = new Date(dateString)
+    const year = date.getFullYear()
+    const month = String(date.getMonth() + 1).padStart(2, '0')
+    const day = String(date.getDate()).padStart(2, '0')
+    const hours = String(date.getHours()).padStart(2, '0')
+    const minutes = String(date.getMinutes()).padStart(2, '0')
+    const seconds = String(date.getSeconds()).padStart(2, '0')
+    return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`
+  }
+
+  const indexOfLastEvent = currentPage * eventsPerPage
+  const indexOfFirstEvent = indexOfLastEvent - eventsPerPage
+  const currentEvents = events.slice(indexOfFirstEvent, indexOfLastEvent)
+  const totalPages = Math.ceil(events.length / eventsPerPage)
+
+  const paginate = (pageNumber) => dispatch({ type: 'SET_CURRENT_PAGE', payload: pageNumber })
+
+  const handleSearch = useCallback(
+    async (e) => {
+      e.preventDefault()
+      const keyword = e.target.eventSearch.value || ''
+      console.log('Searching with keyword:', keyword)
+      dispatch({ type: 'SET_SEARCH_TERM', payload: keyword })
+      dispatch({ type: 'SET_LOADING', payload: true })
+      try {
+        if (keyword === '' || undefined) {
+          await fetchEvents()
+        } else {
+          const response = await axios.get(`http://localhost:3000/riverflow/admin/events/search?keyword=${keyword}`)
+          console.log('Search results:', response.data)
+          dispatch({ type: 'SET_EVENTS', payload: response.data })
+        }
+      } catch (err) {
+        console.error('搜尋活動錯誤：', err)
+        dispatch({ type: 'SET_ERROR', payload: '搜尋活動錯誤' })
+      } finally {
+        dispatch({ type: 'SET_LOADING', payload: false })
+      }
+    },
+    [fetchEvents]
+  )
+  console.log('Current state:', state)
+
+  if (loading) return <div>加載中...</div>
+  if (error) return <div>{error}</div>
 
   return (
-    <div class='main'>
-      <div class='pageTitle'>活動列表</div>
-      <div class='flex'>
-        <Link to='create' class='divided'>
-          <button class='btn'>新增活動</button>
+    <div className='main'>
+      <div className='pageTitle'>活動列表</div>
+      <div className='flex'>
+        <Link to='create' className='divided'>
+          <button className='btn'>新增活動</button>
         </Link>
-        <div class='flex'>
-          <input type='text' name='' id='pdtSearch' class='search' placeholder='活動搜尋' />
-          <input type='submit' value='搜尋' />
+        <div className='flex'>
+          <form onSubmit={handleSearch} className='flex'>
+            <input type='text' name='' id='pdtSearch' className='search' placeholder='活動搜尋' />
+            <input type='submit' value='搜尋' />
+          </form>
         </div>
       </div>
-      <table page='1' itemshowing='5' class='listTable'>
+      <table className='listTable'>
         <thead>
           <tr>
             <td>類別</td>
@@ -40,190 +182,36 @@ export default function EventList () {
             <td>操作</td>
           </tr>
         </thead>
-        <tbody>
-          <tr class='item'>
-            <td class='eventSort'>
-              <div class='sort'>DJ</div>
-              <br />
-            </td>
-            <td class='eventTitle'>王以太《Love Me Later》台北站</td>
-            <td class='time'>
-              2024/09/12
-              <br />
-              19:00:00
-            </td>
-            <td class='time'>
-              2024/09/14
-              <br />
-              22:00:00
-            </td>
-            <td class='prdId'>Legacy Max</td>
-            <td class='Status'>上架</td>
-            <td class='itemOpt'>
-              <div class='flex'>
-                <a href='addEvent.html'>
-                  <button id='btnEdit' class='btn itemOpr inline-flex'>
-                    <i class='fa-solid fa-pen' />編輯
-                  </button>
-                </a>
-                <a href='#'>
-                  <button id='btnView' class='btn itemOpr inline-flex'>
-                    <i class='fa-solid fa-eye' />檢視
-                  </button>
-                </a>
-              </div>
-              <div class='flex'>
-                <button id='btnSta' class='btn itemOpr inline-flex'>
-                  <i class='fa-solid fa-arrow-down' />下架
-                </button>
-                <button class='btn itemOpr inline-flex'>
-                  <i class='fa-solid fa-trash' />刪除
-                </button>
-              </div>
-            </td>
-          </tr>
-          <tr class='item'>
-            <td class='eventSort'>
-              <div class='sort'>DJ</div>
-              <br />
-            </td>
-            <td class='eventTitle'>GALI《STRIPELIVE》IN TAIPEI</td>
-            <td class='time'>
-              2024/09/14
-              <br />
-              19:00:00
-            </td>
-            <td class='time'>
-              2024/09/17
-              <br />
-              22:00:00
-            </td>
-            <td class='prdId'>Legacy Max</td>
-            <td class='Status'>上架</td>
-            <td class='itemOpt'>
-              <div class='flex'>
-                <a href='#'>
-                  <button id='btnEdit' class='btn itemOpr inline-flex'>
-                    <i class='fa-solid fa-pen' />編輯
-                  </button>
-                </a>
-                <a href='#'>
-                  <button id='btnView' class='btn itemOpr inline-flex'>
-                    <i class='fa-solid fa-eye' />檢視
-                  </button>
-                </a>
-              </div>
-              <div class='flex'>
-                <button id='btnSta' class='btn itemOpr inline-flex'>
-                  <i class='fa-solid fa-arrow-down' />下架
-                </button>
-                <button class='btn itemOpr inline-flex'>
-                  <i class='fa-solid fa-trash' />刪除
-                </button>
-              </div>
-            </td>
-          </tr>
-          <tr class='item'>
-            <td class='eventSort'>
-              <div class='sort'>DJ</div>
-              <br />
-            </td>
-            <td class='eventTitle'>趙翊帆《LUNARFACE公測巡演》</td>
-            <td class='time'>2024/08/30</td>
-            <td class='time'>2024/08/31</td>
-            <td class='prdId'>場館A</td>
-            <td class='Status'>上架</td>
-            <td class='itemOpt'>
-              <div class='flex'>
-                <a href='#'>
-                  <button id='btnEdit' class='btn itemOpr inline-flex'>
-                    <i class='fa-solid fa-pen' />編輯
-                  </button>
-                </a>
-                <a href='#'>
-                  <button id='btnView' class='btn itemOpr inline-flex'>
-                    <i class='fa-solid fa-eye' />檢視
-                  </button>
-                </a>
-              </div>
-              <div class='flex'>
-                <button id='btnSta' class='btn itemOpr inline-flex'>
-                  <i class='fa-solid fa-arrow-down' />下架
-                </button>
-                <button class='btn itemOpr inline-flex'>
-                  <i class='fa-solid fa-trash' />刪除
-                </button>
-              </div>
-            </td>
-          </tr>
-          <tr class='item'>
-            <td class='eventSort'>
-              <div class='sort'>DJ</div>
-              <br />
-            </td>
-            <td class='eventTitle'>夜貓組《啊是在Halloween？》</td>
-            <td class='time'>2024/10/30</td>
-            <td class='time'>2024/10/31</td>
-            <td class='prdId'>場館A</td>
-            <td class='Status'>上架</td>
-            <td class='itemOpt'>
-              <div class='flex'>
-                <a href='#'>
-                  <button id='btnEdit' class='btn itemOpr inline-flex'>
-                    <i class='fa-solid fa-pen' />編輯
-                  </button>
-                </a>
-                <a href='#'>
-                  <button id='btnView' class='btn itemOpr inline-flex'>
-                    <i class='fa-solid fa-eye' />檢視
-                  </button>
-                </a>
-              </div>
-              <div class='flex'>
-                <button id='btnSta' class='btn itemOpr inline-flex'>
-                  <i class='fa-solid fa-arrow-down' />下架
-                </button>
-                <button class='btn itemOpr inline-flex'>
-                  <i class='fa-solid fa-trash' />刪除
-                </button>
-              </div>
-            </td>
-          </tr>
-          <tr class='item'>
-            <td class='eventSort'>
-              <div class='sort'>DJ</div>
-              <br />
-            </td>
-            <td class='eventTitle'>Orbit《NBA全明星陣容》</td>
-            <td class='time'>2024/09/19</td>
-            <td class='time'>2024/09/20</td>
-            <td class='prdId'>場館A</td>
-            <td class='Status'>上架</td>
-            <td class='itemOpt'>
-              <div class='flex'>
-                <a href='#'>
-                  <button id='btnEdit' class='btn itemOpr inline-flex'>
-                    <i class='fa-solid fa-pen' />編輯
-                  </button>
-                </a>
-                <a href='#'>
-                  <button id='btnView' class='btn itemOpr inline-flex'>
-                    <i class='fa-solid fa-eye' />檢視
-                  </button>
-                </a>
-              </div>
-              <div class='flex'>
-                <button id='btnSta' class='btn itemOpr inline-flex'>
-                  <i class='fa-solid fa-arrow-down' />下架
-                </button>
-                <button class='btn itemOpr inline-flex'>
-                  <i class='fa-solid fa-trash' />刪除
-                </button>
-              </div>
-            </td>
-          </tr>
-        </tbody>
+
+        {events.length === 0 ? (
+          <tbody>
+            <tr>
+              <td colSpan='7'>沒有找到相關活動</td>
+            </tr>
+          </tbody>
+        ) : (
+          <tbody>
+            {currentEvents.map((event) => (
+              <EventItem
+                key={event.eventId}
+                event={{ ...event, saleDate: formatDate(event.saleDate), eventDate: formatDate(event.eventDate) }}
+                onStatusChange={reloadEventItem}
+                handleEdit={handleEdit}
+                handleDelete={handleDelete}
+              />
+            ))}
+          </tbody>
+        )}
       </table>
+      <div className='pagination'>
+        {Array.from({ length: totalPages }, (_, i) => (
+          <button key={i} onClick={() => paginate(i + 1)} className={currentPage === i + 1 ? 'active' : ''}>
+            {i + 1}
+          </button>
+        ))}
+      </div>
     </div>
   )
 }
+
+export default EventList

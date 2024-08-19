@@ -1,8 +1,9 @@
+//Author: YuFu
 const express = require('express')
 const router = express.Router()
 
-// 假設這些控制器函數已經定義
 
+// 解構取得函式
 const {
   getAllEvents,
   getEventsById,
@@ -11,15 +12,15 @@ const {
   deleteEvents,
 } = require('../controllers/eventController')
 
-//新增
+//新增活動
 router.post('/', createEvents)
-//更新
+//更新活動
 router.put('/:id', updateEvents)
-//刪除
+//刪除活動
 router.delete('/:id', deleteEvents)
-//取全部
+//取全部活動
 router.get('/', getAllEvents)
-//取單個
+//取單個活動
 router.get('/:id', getEventsById)
 
 module.exports = router

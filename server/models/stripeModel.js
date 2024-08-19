@@ -1,3 +1,4 @@
+//Author: YuFu
 const stripe = require('stripe')(process.env.STRIPE_PRIVATE_KEY);
 const dbconnect = require('./dbConnect');
 
@@ -247,7 +248,6 @@ const saveOrderDetails = async (sessionId, userId) => {
 //檢查票券庫存數量
 const checkTicketAvailability = async (event) => {
     try {
-        console.log()
         const [dbEvent] = await query(
             'SELECT ticketType FROM events WHERE eventId = ?',
             [event.eventId]
