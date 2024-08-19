@@ -126,7 +126,8 @@ const saveOrderDetails = async (sessionId, userId) => {
         if (sessionMetadata.order_details) {
             const orderDetails = JSON.parse(session.metadata.order_details);
             console.log('運費: ', typeof(sessionMetadata.shipping_fee))
-            const totalPrice = orderDetails.reduce((sum, item) => sum + (item.price * item.quantity) + parseInt(sessionMetadata.shipping_fee), 0);
+            const priceSum = orderDetails.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            const totalPrice = priceSum + + parseInt(sessionMetadata.shipping_fee)
             console.log('totalPrice: ', totalPrice);
             
 
