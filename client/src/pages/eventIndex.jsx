@@ -17,6 +17,7 @@ import yitaiImg from '../assets/images/events/event-yitai.jpg'
 import galiImg from '../assets/images/events/event-gali.jpg'
 import yeemaoImg from '../assets/images/events/event-yeemao.png'
 import lunarfaceImg from '../assets/images/events/event-LUNARFACE.jpg'
+import gordonImg from '../assets/images/events/event-gordon.jpg'
 
 const eventData = [
   {
@@ -74,24 +75,24 @@ const EventSwiper = () => {
       className='swiper'
     >
       <SwiperSlide>
-        <a href='#'>
+        <Link to={`/Event/Detail/13`}>
           <img src={yitaiImg} alt='DJ Contest' />
-        </a>
+        </Link>
       </SwiperSlide>
       <SwiperSlide>
-        <a href='#'>
+        <Link to={`/Event/Detail/8`}>
           <img src={galiImg} alt='Street Dancers Performing' />
-        </a>
+        </Link>
       </SwiperSlide>
       <SwiperSlide>
-        <a href='#'>
-          <img src={yeemaoImg} alt='Street Dance Crew' />
-        </a>
+        <Link to={`/Event/Detail/2`}>
+          <img src={gordonImg} alt='Street Dance Crew' />
+        </Link>
       </SwiperSlide>
       <SwiperSlide>
-        <a href='#'>
+        <Link to={`/Event/Detail/9`}>
           <img src={lunarfaceImg} alt='Street Dancers' />
-        </a>
+        </Link>
       </SwiperSlide>
     </Swiper>
   )
