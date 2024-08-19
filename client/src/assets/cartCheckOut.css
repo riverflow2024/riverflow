@@ -56,18 +56,22 @@
      object-fit: cover;
 }
 .cartCheckOut .container .content-left .cart-items .cart-item-content {
+  width: 25%;
   margin-left: 20px;
   line-height: 30px;
 }
 .cartCheckOut .container .content-left .cart-items .cart-item-content h4 {
-  font-size: 1.3rem;
+  font-size: 1.2rem;
 }
 .cartCheckOut .container .content-left .cart-items .quantity-plus-minus {
+  margin: 0;
+  width: 10%;
   display: flex;
   align-items: center;
   gap: 15px;
   margin-right: 6rem;
   margin-left: 6rem;
+  pointer-events: none;
 }
 .cartCheckOut .container .content-left .cart-items .quantity-plus-minus .quantity {
   font-size: 1.3rem;
@@ -81,6 +85,15 @@
 }
 .cartCheckOut .container .content-left .cart-items .total {
   font-size: 1.3rem;
+}
+.cartCheckOut .container .content-left .cart-items .minus-button,
+.cartCheckOut .container .content-left .cart-items .plus-button {
+  background: none;
+  border: none;
+  outline: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
 }
 .cartCheckOut .container .content-left .customer-info {
   margin-top: 10px;
@@ -103,10 +116,10 @@
 .cartCheckOut .container .content-right {
   width: 30%;
   position: sticky;
-  bottom: 0px;
+  top: 0;
   border: 1px solid #baf13a;
   border-radius: 10px;
-  margin-top: 20px;
+  margin-top: 80px;
   padding: 0px 40px;
   background-color: #333;
 }
@@ -132,10 +145,10 @@
   cursor: pointer;
 }
 .cartCheckOut .container .content-right .dropdown .dropdown-content {
-  display: none;
+  display: block;
   position: absolute;
   background-color: #333;
-  z-index: 1;
+  z-index: 999;
   box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
   width: 100%;
 }
@@ -145,9 +158,6 @@
 }
 .cartCheckOut .container .content-right .dropdown .dropdown-content div:hover {
   background-color: #1d1d1d;
-}
-.cartCheckOut .container .content-right .dropdown.active .dropdown-content {
-  display: block;
 }
 .cartCheckOut .container .content-right .text-border {
   color: #fff;
@@ -174,26 +184,30 @@
 .cartCheckOut .container .content-right .total-amount p span {
   float: right;
 }
+.cartCheckOut .container .content-right .total-amount #home-address {
+  color: #fff;
+}
 .cartCheckOut .container .content-right .submit {
   border: 1px solid #fff;
   border-radius: 4px;
   margin-top: 20px;
   margin-bottom: 20px;
 }
-.cartCheckOut .container .content-right .submit a {
+.cartCheckOut .container .content-right .submit button {
+  background-color: transparent;
+  border: none;
   color: #fff;
   text-align: center;
   padding: 20px;
   display: block;
+  width: 100%;
+  cursor: pointer;
+  font-size: 16px;
+  line-height: 1.5;
 }
-.cartCheckOut .container .content-right .submit a:hover {
+.cartCheckOut .container .content-right .submit button:hover {
   background-color: #fff;
-  color: #98d900;
+  color: #98d900; /* 原本 $main2 的色碼 */
   font-weight: bold;
   transition: 2s;
-}
-.cartCheckOut .container .content-right .submit i {
-  padding-bottom: 5px;
-  margin: 0px;
-  display: block;
 }/*# sourceMappingURL=cartCheckOut.css.map */

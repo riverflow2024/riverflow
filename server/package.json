@@ -41,7 +41,9 @@
     "open": "^10.1.0",
     "path": "^0.12.7",
     "stripe": "^16.7.0",
-    "util": "^0.12.5"
+    "util": "^0.12.5",
+    "sweetalert2": "^11.12.4",
+    "sweetalert2-react-content": "^5.0.7"
   },
   "keywords": []
 }

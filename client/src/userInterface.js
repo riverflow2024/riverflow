@@ -37,8 +37,9 @@ import ProductAll from './pages/ProductAll'
 import ProductDetail from './pages/ProductDetail'
 
 import Cart from './pages/cart'
-import cartCheckOut from './pages/cartCheckOut'
-import cartConfirmation from './pages/cartConfirmation'
+import CartCheckout from './pages/cartCheckOut'
+import CartConfirmation from './pages/cartConfirmation'
+
 import PaymentSuccess from './pages/success'
 import Graffiti from './pages/graffiti'
 
@@ -69,7 +70,7 @@ export default function UserInterface() {
         <Route path="Event/Order" element={<EventOrder />} />
         <Route path="Event/Index" element={<EventIndex />} />
         <Route path="Event/Detail/:id" element={<EventDetail />} />
-        <Route path="Event/ConfirmNoseat" element={<EventConfirmNoseat />} />
+        <Route path="Event/ConfirmNoseat/:id" element={<EventConfirmNoseat />} />
         <Route path="Event/ConfirmSeat/:id" element={<EventConfirmSeat />} />
         <Route path="Event/ConfirmInfo" element={<EventConfirmInfo />} />
         <Route path="Graffiti" element={<Graffiti />} />
@@ -79,11 +80,11 @@ export default function UserInterface() {
         <Route path="Product/Detail/:productId" element={<ProductDetail />} />
 
         <Route path="Order/Cart" element={<Cart />} />
-        <Route path="Order/cartCheckOut" element={<cartCheckOut />} />
-        <Route path="Order/cartConfirmation" element={<cartConfirmation />} />
+        <Route path="Order/CartCheckout" element={<CartCheckout />} />
+        <Route path="Order/CartConfirmation" element={<CartConfirmation />} />
         <Route path="Order/PaymentSuccess" element={<PaymentSuccess />} />
       </Routes>
-      <Footer />
+      
     </div>
   )
 }

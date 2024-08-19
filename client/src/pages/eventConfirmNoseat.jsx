@@ -1,74 +1,178 @@
-import React, { Component } from 'react'
-import styles from '../assets/event/eventPage3-1.module.css'
-// import '../utils/eventConfirmSeat.js'
+import React, { useState, useEffect } from 'react'
+import { useParams, useNavigate } from 'react-router-dom'
+import axios from 'axios'
+import Swal from 'sweetalert2'
+import Header from '../components/header'
+import Footer from '../components/footer'
+import '../assets/event/eventPage3-1.css'
 
-class EventConfirmNoseat extends Component {
-  state = {
-    quantities: { quantity1: 0, quantity2: 0 },
-    isNextButtonDisabled: true
+function EventConfirmNoseat() {
+  const [event, setEvent] = useState({
+    eventId: 1,
+    eventName: '默認活動名稱',
+    eventDate: new Date(),
+    location: '默認地點',
+    eventImg: '默認圖片URL',
+    ticketType: [
+      { type: '全票', price: 300, stock: 100, quantity: 0 },
+      { type: '身心障礙票', price: 200, stock: 50, quantity: 0 }
+    ]
+  })
+
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
+
+  const { id } = useParams()
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    if (id) {
+      fetchEventDetails(id)
+    } else {
+      console.error('No ID provided in URL')
+      setError('未提供活動ID')
+      setLoading(false)
+    }
+  }, [id])
+
+  const fetchEventDetails = async (eventId) => {
+    try {
+      const response = await axios.get(`http://localhost:3000/riverflow/events/${eventId}`)
+      if (response.data && response.data.length > 0) {
+        const eventData = response.data[0]
+        if (typeof eventData.ticketType === 'string') {
+          try {
+            eventData.ticketType = JSON.parse(eventData.ticketType)
+          } catch (parseError) {
+            console.error('解析 ticketType 時發生錯誤：', parseError)
+            eventData.ticketType = []
+          }
+        }
+        eventData.ticketType = Array.isArray(eventData.ticketType) ? eventData.ticketType : []
+        setEvent(eventData)
+        setLoading(false)
+      } else {
+        throw new Error('No event data received')
+      }
+    } catch (error) {
+      console.error('獲取活動詳情時出錯：', error)
+      setLoading(false)
+      setError('無法獲取活動詳情')
+      setEvent((prevEvent) => ({ ...prevEvent, ticketType: [] }))
+    }
   }
 
-  handleIncrement = (target) => {
-    this.setState((prevState) => {
-      const newQuantities = { ...prevState.quantities }
-      newQuantities[target] = newQuantities[target] < 4 ? newQuantities[target] + 1 : newQuantities[target]
-      return { quantities: newQuantities }
-    }, this.updateButtonState)
+  const handleQuantityChange = (ticketType, change) => {
+    setEvent((prevEvent) => {
+      const updatedTicketType = prevEvent.ticketType.map((ticket) => {
+        if (ticket.type === ticketType) {
+          const currentQuantity = ticket.quantity || 0
+          const currentStock = ticket.stock
+          const maxAllowedPurchase = 4
+
+          let newQuantity = Math.max(0, Math.min(maxAllowedPurchase, currentQuantity + change))
+
+          if (currentStock - (newQuantity - currentQuantity) < 0) {
+            newQuantity = currentQuantity + currentStock
+          }
+
+          return {
+            ...ticket,
+            quantity: newQuantity,
+            stock: currentStock - (newQuantity - currentQuantity)
+          }
+        }
+        return ticket
+      })
+
+      const selectedTicket = updatedTicketType.find((ticket) => ticket.type === ticketType)
+      if (selectedTicket.quantity > 0) {
+        updatedTicketType.forEach((ticket) => {
+          if (ticket.type !== ticketType) {
+            ticket.stock += ticket.quantity || 0
+            ticket.quantity = 0
+          }
+        })
+      }
+
+      return { ...prevEvent, ticketType: updatedTicketType }
+    })
   }
 
-  handleDecrement = (target) => {
-    this.setState((prevState) => {
-      const newQuantities = { ...prevState.quantities }
-      newQuantities[target] = newQuantities[target] > 0 ? newQuantities[target] - 1 : newQuantities[target]
-      return { quantities: newQuantities }
-    }, this.updateButtonState)
+  const handleNextStep = () => {
+    const selectedTickets = event.ticketType
+      .filter((ticket) => ticket.quantity > 0)
+      .map((ticket) => ({
+        type: ticket.type,
+        area: '一般票',
+        price: ticket.price,
+        quantity: ticket.quantity
+      }))
+
+    if (selectedTickets.length > 0) {
+      navigate('/Event/ConfirmInfo', {
+        state: {
+          selectedTickets,
+          eventDetails: {
+            eventId: event.eventId,
+            eventName: event.eventName,
+            eventDate: event.eventDate,
+            location: event.location,
+            eventImg: `/images/events/${event.eventImg}`,
+            eventSeat: event.seat
+          }
+        }
+      })
+    } else {
+      Swal.fire({
+        title: '錯誤',
+        text: '請至少選擇一張票',
+        icon: 'error',
+        confirmButtonColor: '#98d900',
+        timer: 3000,
+        timerProgressBar: true
+      })
+    }
   }
 
-  updateButtonState = () => {
-    const totalQuantity = Object.values(this.state.quantities).reduce((a, b) => a + b, 0)
-    this.setState({ isNextButtonDisabled: totalQuantity === 0 })
-  }
+  if (loading) return <div>載入中...</div>
+  if (error) return <div>錯誤: {error}</div>
 
-  componentDidMount() {
-    this.updateButtonState()
-  }
-  render() {
-    return (
-      <div className={styles.wrap}>
-        <div className="header">
-          <img src="../../src/assets/images/indexImg/nav.jpg" alt="" />
-        </div>
-
+  return (
+    <div className='w-bg scrollCust'>
+      <Header />
+      <div className='framWrap'>
         {/* 活動明細 */}
-        <div className={styles.eventName}>
-        <div className={styles.eventImg}>
-          <img src={eventData.eventImg} alt={eventData.eventName} />
+        <div className='eventName'>
+          <div className='eventImg'>
+            <img src={`/images/events/${event.eventImg}`} alt={event.eventName} />
+          </div>
+          <div className='eventTitle'>
+            <h1>{event.eventName}</h1>
+            <p>日期：{new Date(event.eventDate).toLocaleDateString()}</p>
+            <p>時間：{new Date(event.eventDate).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</p>
+            <p>場次地點：{event.location}</p>
+          </div>
         </div>
-        <div className={styles.eventTitle}>
-          <h1>{eventData.eventName}</h1>
-          <p>日期：{new Date(eventData.eventDate).toLocaleDateString()}</p>
-          <p>時間：{new Date(eventData.eventDate).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</p>
-          <p>場次地點：{eventData.location}</p>
-        </div>
-      </div>
 
         {/* 中間的線 */}
-        <div className={styles.middleLine}>
+        <div className='middleLine'>
           <p></p>
         </div>
 
-        <div className={styles.order}>
-          <div className={styles.ticketOrder}>
-            <div>
+        {/* 購買順序 */}
+        <div className='order'>
+          <div className='ticketOrder'>
+            <div className='ticketOrder1'>
               <span>1</span>
             </div>
             <div>
-              <span>選擇票區</span>
+              <span>選擇票種</span>
             </div>
             <p></p>
           </div>
 
-          <div className={styles.ticketOrder}>
+          <div className='ticketOrder'>
             <div>
               <span>2</span>
             </div>
@@ -78,7 +182,7 @@ class EventConfirmNoseat extends Component {
             <p></p>
           </div>
 
-          <div className={styles.ticketOrder}>
+          <div className='ticketOrder'>
             <div>
               <span>3</span>
             </div>
@@ -90,57 +194,44 @@ class EventConfirmNoseat extends Component {
         </div>
 
         {/* 選擇票種數量 */}
-        <div className={styles.ticketChoose}>
-          <div className={styles.ticketText}>
+        <div className='ticketChoose'>
+          <div className='ticketText'>
             <h3>選擇票種</h3>
           </div>
-          <div className={styles.ticketMan}>
-            <div>
-              <p>全票</p>
+          {event.ticketType.map((ticket) => (
+            <div key={ticket.type} className='ticketMan'>
+              <div>
+                <span>{ticket.type}</span>
+                <span>剩餘</span>
+                <span>{ticket.stock}</span>
+              </div>
+              <div>
+                <p>NT${ticket.price}</p>
+              </div>
+              <div className='ticketNumber'>
+                <button className='decrement' onClick={() => handleQuantityChange(ticket.type, -1)}>
+                  <i className='fa-solid fa-circle-minus'></i>
+                </button>
+                <p>{ticket.quantity || 0}</p>
+                <button className='increment' onClick={() => handleQuantityChange(ticket.type, 1)}>
+                  <i className='fa-solid fa-circle-plus'></i>
+                </button>
+              </div>
+              <div className='ticketMiddle'>
+                <p></p>
+              </div>
             </div>
-            <div>
-              <p>NT.300</p>
-            </div>
-            <div className={styles.ticketNumber}>
-              <button className={styles.decrement} onClick={() => this.handleDecrement('quantity1')}>
-                <i className="fa-solid fa-circle-minus"></i>
-              </button>
-              <p>{this.state.quantities.quantity1}</p>
-              <button className={styles.increment} onClick={() => this.handleIncrement('quantity1')}>
-                <i className="fa-solid fa-circle-plus"></i>
-              </button>
-            </div>
-          </div>
-          <div className={styles.ticketMiddle}>
-            <p></p>
-          </div>
-          <div className={styles.ticketSpec}>
-            <div>
-              <p>身心障礙票</p>
-            </div>
-            <div>
-              <p>NT.200</p>
-            </div>
-            <div className={styles.ticketNumber}>
-              <button className={styles.decrement} onClick={() => this.handleDecrement('quantity2')}>
-                <i className="fa-solid fa-circle-minus"></i>
-              </button>
-              <p>{this.state.quantities.quantity2}</p>
-              <button className={styles.increment} onClick={() => this.handleIncrement('quantity2')}>
-                <i className="fa-solid fa-circle-plus"></i>
-              </button>
-            </div>
-          </div>
+          ))}
         </div>
+
         {/* 下一步按鍵 */}
-        <div className={styles.ticketBtn}>
-          <a href="#" id="nextBtn" className={this.state.isNextButtonDisabled ? styles['link-disabled'] : ''}>
-            下一步
-          </a>
+        <div className='nextBtn'>
+          <button onClick={handleNextStep}>下一步</button>
         </div>
       </div>
-    )
-  }
+      <Footer/>
+    </div>
+  )
 }
 
 export default EventConfirmNoseat
