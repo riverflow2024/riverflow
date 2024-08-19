@@ -45,7 +45,7 @@ class MemberOrder extends Component {
     componentDidMount() {
 
         this.fetchUserData();
-        // this.fetchOrderData();
+        this.fetchOrderListData();
         const { params } = this.props;
 
         if (params && params.id) {
@@ -82,7 +82,7 @@ class MemberOrder extends Component {
             const response = await axios.get('http://localhost:3000/riverflow/user/products/', {
                 withCredentials: true
             });
-            console.log("Fetched order data:", response.data); // 打印返回的数据
+            console.log("Fetched orderList data:", response.data); 
             this.setState({
                 OrderList: response.data
             });
@@ -101,7 +101,7 @@ class MemberOrder extends Component {
             const response = await axios.get(`http://localhost:3000/riverflow/user/products/${id}`, {
                 withCredentials: true
             });
-            console.log("Fetched order data:", response.data); // 打印返回的数据
+            console.log("Fetched order data:", response.data); 
             this.setState({
                 Order: response.data
             });

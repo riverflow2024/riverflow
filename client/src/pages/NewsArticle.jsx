@@ -123,7 +123,7 @@ class NewsArticle extends Component {
     getRandomNews(newsArray, count) {
         let shuffled = newsArray.slice(0);
         let i = newsArray.length, temp, randomIndex;
-        
+
         // Fisher-Yates shuffle algorithm
         while (i !== 0) {
             randomIndex = Math.floor(Math.random() * i);
@@ -184,6 +184,9 @@ class NewsArticle extends Component {
         return pattern[index % pattern.length];
     };
 
+    goArticle(newsId) {
+        window.location = `/News/Article/${newsId}`
+      }
 
 
 
@@ -223,7 +226,7 @@ class NewsArticle extends Component {
                     </article>
                     <article>
                         <div className="wrap">
-                        <p dangerouslySetInnerHTML={{ __html: Article.newsContent }} />
+                            <p dangerouslySetInnerHTML={{ __html: Article.newsContent }} />
                         </div>
                     </article>
                 </section>
@@ -242,8 +245,7 @@ class NewsArticle extends Component {
                                         type={newItem.newsType}
                                         date={newItem.createdAt}
                                         title={newItem.newsTitle}
-                                        description="Your description here" // Replace with actual description
-                                        isGreen={this.getCardClass(index)}
+                                        description={newItem.newsContent}
                                         goArticle={this.goArticle}
                                     />
                                 )
