@@ -123,13 +123,13 @@ class MemberTickets extends Component {
         }
 
         // 根據訂單篩選，用filter過濾
-        const Ticket = this.state.TicketsDetails.filter(ticket => ticket.tdStatus === 'processing');
+        const Ticket = this.state.TicketsDetails.filter(ticket => ticket.tdStatus === '已付款');
         const Unpaid = this.state.TicketsDetails.filter(ticket => ticket.tdStatus === 'pending');
         const OrderDone = this.state.TicketsDetails.filter(ticket => ticket.tdStatus === 'complete');
 
         // 變更訂單狀態名稱
         const tdStatusMap = {
-            "processing": "活動中",
+            "已付款": "活動中",
             "pending": "未付款",
             "complete": "已結束",
 
