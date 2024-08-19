@@ -28,6 +28,8 @@ router.get('/products/:productId/review', (req, res) => {
 })
 // 新增
 router.post('/products/create', prdUpload.single('productImgs'), adminController.createProduct)
+// 圖片
+router.post('/products/imgUpload', prdUpload.single('productImgs'), adminController.createProductImage)
 // 刪除
 router.delete('/products/:productId/delete', adminController.deleteProduct)
 

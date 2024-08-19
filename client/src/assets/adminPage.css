@@ -315,8 +315,15 @@ body .admin-page .itemOpr {
 /* input:invalid .required {
     display: inline-block;
 } */
-.picItem {
-  margin-left: 5px;
+.imgInfoItem {
+  align-items: flex-start;
+  flex-direction: column;
+}
+.imgInfoItem .picItem {
+  margin-top: 10px;
+}
+.imgInfoItem .picItem:nth-of-type(1) {
+  margin-top: 0;
 }
 .custUpload {
   background-color: var(--main);
