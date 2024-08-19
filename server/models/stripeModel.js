@@ -44,45 +44,6 @@ const createCheckoutSession = async (items, finalTotal) => {
 
 //新增活動付款Session
 const createEventCheckoutSession = async (event) => {
-<<<<<<< HEAD
-
-    const session = await stripe.checkout.sessions.create({
-        payment_method_types: ['card'],
-        mode: 'payment',
-        line_items: event.ticketType.map(ticket => ({
-            price_data: {
-                currency: 'twd',
-                product_data: {
-                    name: `${event.eventName} - ${ticket.type}`,
-                    description: event.eventDesc,
-                },
-                unit_amount: ticket.price * 100,
-            },
-            quantity: 1, 
-        })),
-        success_url: `${process.env.CLIENT_URL}/Order/PaymentSuccess?session_id={CHECKOUT_SESSION_ID}`,
-        cancel_url: `${process.env.CLIENT_URL}/cancel.html`,
-        metadata: {
-            event_id: event.eventId.toString(),
-            event_name: event.eventName,
-            // 將票券信息轉換為 JSON 字符串存儲在 metadata 中
-            tickets: JSON.stringify(event.ticketType.map(ticket => ({
-                type: ticket.type,
-                quantity: ticket.quantity,
-                totalquantity: ticket.totalquantity,
-                price: ticket.price
-            })))
-        }
-    });
-    console.log('eventOrderID:', session.id);
-    console.log('eventOrderData:', session.metadata);
-    return session;
-};
-
-
-
-
-=======
   console.log('event', event)
   const session = await stripe.checkout.sessions.create({
     payment_method_types: ['card'],
@@ -117,7 +78,6 @@ const createEventCheckoutSession = async (event) => {
   console.log('eventOrderData:', session.metadata)
   return session
 }
->>>>>>> 5ea191cc3a2fbc31dcdb61993b27de8eca2de60e
 
 //取得SessionId
 const retrieveSession = async (sessionId) => {
@@ -180,14 +140,8 @@ const saveOrderDetails = async (sessionId, userId) => {
           )
         }
 
-<<<<<<< HEAD
-            const eventId = session.metadata.event_id;
-            const ticketType = JSON.parse(session.metadata.tickets);
-            console.log('TicketType: ',ticketType)
-=======
         // 删除 購物車項目
         await query('DELETE FROM cartitem WHERE cartId IN (SELECT cartId FROM cart WHERE userId = ?)', [userId])
->>>>>>> 5ea191cc3a2fbc31dcdb61993b27de8eca2de60e
 
         // 删除 購物車
         await query('DELETE FROM cart WHERE userId = ?', [userId])
@@ -217,26 +171,11 @@ const saveOrderDetails = async (sessionId, userId) => {
           [userId, eventId]
         )
 
-<<<<<<< HEAD
-                // 更新票券庫存
-                const updatedTicketTypes = currentTicketTypes.map(currentTicket => {
-                    const purchasedTicket = ticketType.find(t => t.type === currentTicket.type);
-                    if (purchasedTicket) {
-                        console.log('totalquantity: ',purchasedTicket.totalquantity)
-                        return {
-                            ...currentTicket,
-                            stock: currentTicket.stock - purchasedTicket.totalquantity
-                        };
-                    }
-                    return currentTicket;
-                });
-=======
         // 如果存在相同訂單，提交並返回
         if (existingOrder.length > 0) {
           await query('COMMIT')
           return { success: true, message: '票券訂單已存在，無需重複處理' }
         }
->>>>>>> 5ea191cc3a2fbc31dcdb61993b27de8eca2de60e
 
         // 獲取當前活動的票券
         const [eventResult] = await query('SELECT ticketType FROM events WHERE eventId = ?', [eventId])
@@ -271,26 +210,8 @@ const saveOrderDetails = async (sessionId, userId) => {
             `INSERT INTO ticketdetails
                                 (userId, eventId, ticketType, quantity, tdStatus, tdPrice, randNum, payTime, receiptType, receiptInfo, createdAt, updatedAt)
                                 VALUES (?, ?, ?, ?, ?, ?, ?, NOW(), ?, ?, NOW(), NOW())`,
-<<<<<<< HEAD
-                        [userId, eventId, ticket.type, ticket.quantity, '已付款', ticket.price, randNum, '手機載具', '/123K456']
-                    );
-                }
-
-                console.log('插入票券訂單成功');
-
-                // 提交
-                await query('COMMIT');
-
-                return { success: true, message: '票券訂單已成功處理並保存' };
-            } catch (error) {
-                // 如果出現錯誤，復原
-                await query('ROLLBACK');
-                throw error;
-            }
-=======
             [userId, eventId, ticket.type, ticket.quantity, 'pending', ticket.price, randNum, 'dupInvoice', '/123K456']
           )
->>>>>>> 5ea191cc3a2fbc31dcdb61993b27de8eca2de60e
         }
 
         console.log('插入票券訂單成功')
