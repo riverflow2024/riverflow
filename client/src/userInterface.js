@@ -50,9 +50,10 @@ export default function UserInterface() {
         <Route index element={<Index />} />
         <Route path='aboutUs' element={<AboutUs />} />
 
-        <Route path='Rap' element={<Rap />} />
-        <Route path='Skate' element={<Skate />} />
         <Route path='DJ' element={<DJ />} />
+        <Route path='Rap' element={<Rap />} />
+        <Route path='Graffiti' element={<Graffiti />} />
+        <Route path='Skate' element={<Skate />} />
 
         <Route path='News/Index' element={<News />} />
         <Route path='News/Article/:id' element={<NewsArticle />} />
@@ -75,7 +76,7 @@ export default function UserInterface() {
         <Route path='Event/ConfirmNoseat/:id' element={<EventConfirmNoseat />} />
         <Route path='Event/ConfirmSeat/:id' element={<EventConfirmSeat />} />
         <Route path='Event/ConfirmInfo' element={<EventConfirmInfo />} />
-        <Route path='Graffiti' element={<Graffiti />} />
+        
 
         <Route path='Product/All' element={<ProductAll />} />
         <Route path='Product/Detail/:productId' element={<ProductDetail />} />
