@@ -10,7 +10,7 @@ router.get('/', (req, res, next) => {
 })
 
 // 商品
-const prdUpload = imageUploader('products')
+
 // 列表
 router.get('/products', adminController.getAllProducts)
 // 搜尋
@@ -28,6 +28,8 @@ router.get('/products/:productId/review', (req, res) => {
 })
 // 新增
 router.post('/products/create', prdUpload.single('productImgs'), adminController.createProduct)
+// 圖片
+router.post('/products/imgUpload', prdUpload.single('productImgs'), adminController.createProductImage)
 // 刪除
 router.delete('/products/:productId/delete', adminController.deleteProduct)
 
@@ -80,6 +82,8 @@ router.get('/events', adminController.getAllEvents)
 router.get('/events/search', adminController.searchEvents)
 // 詳細內容
 router.get('/events/:eventId', adminController.getEventDetail)
+// 編輯
+router.put('/events/:eventId', eventsUpload.single('coverImg'), adminController.editEvent)
 // 下架
 router.put('/events/:eventId/remove', adminController.removeEvent)
 // 上架
@@ -90,7 +94,7 @@ router.get('/events/:eventId/review', (req, res) => {
   res.redirect(`/riverflow/events/${eventId}`)
 })
 // 新增
-router.post('/events/create', adminController.createEvent)
+router.post('/events/create', eventsUpload.single('coverImg'), adminController.createEvent)
 // 編輯器圖片處理
 router.post('/events/imgUpload', eventsUpload.single('upload'), adminController.createEventImages)
 // 刪除

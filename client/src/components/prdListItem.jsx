@@ -1,6 +1,9 @@
 import React from 'react'
+import { Navigate, useNavigate } from 'react-router-dom'
+import axios from 'axios'
 
 const PrdListItem = ({ product }) => {
+  const navigate = useNavigate()
   const statusMap = {
     Available: { text: '上架', color: 'var(--side)' },
     Discontinued: { text: '下架', color: 'var(--err)' },
@@ -13,6 +16,10 @@ const PrdListItem = ({ product }) => {
 
   const statusInfo = getStatusInfo(product.productStatus)
   const imagePath = `${process.env.PUBLIC_URL}/images/products/${product.productImg}`
+
+  const handleEdit = () => {
+    navigate(`/admin/prdList/edit/${product.productId}`)
+  }
 
   return (
     <tr className='item'>
@@ -38,18 +45,14 @@ const PrdListItem = ({ product }) => {
       </td>
       <td className='itemOpt'>
         <div className='flex'>
-          <a href='addPrd.html'>
-            <button id='btnEdit' className='btn itemOpr inline-flex'>
-              <i className='fa-solid fa-pen' />
-              編輯
-            </button>
-          </a>
-          <a href='#'>
-            <button id='btnView' className='btn itemOpr inline-flex'>
-              <i className='fa-solid fa-eye' />
-              檢視
-            </button>
-          </a>
+          <button onClick={handleEdit} id='btnEdit' className='btn itemOpr inline-flex'>
+            <i className='fa-solid fa-pen' />
+            編輯
+          </button>
+          <button id='btnView' className='btn itemOpr inline-flex'>
+            <i className='fa-solid fa-eye' />
+            檢視
+          </button>
         </div>
         <div className='flex'>
           <button className='btn btnSta itemOpr inline-flex'>

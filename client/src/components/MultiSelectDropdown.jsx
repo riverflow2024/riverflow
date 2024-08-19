@@ -5,13 +5,13 @@ const MAX_SELECTIONS = 3
 
 // 選項
 const options = [
-  { value: '1', label: 'DJ' },
-  { value: '2', label: '街舞' },
-  { value: '3', label: '饒舌' },
-  { value: '4', label: '塗鴉' },
-  { value: '5', label: '滑板' },
-  { value: '6', label: '新品' },
-  { value: '7', label: '優惠' }
+  { value: 1, label: 'DJ' },
+  { value: 2, label: '街舞' },
+  { value: 3, label: '饒舌' },
+  { value: 4, label: '塗鴉' },
+  { value: 5, label: '滑板' },
+  { value: 6, label: '新品' },
+  { value: 7, label: '優惠' }
 ]
 
 const MultiSelectDropdown = ({ selectedOptions, onChange }) => {

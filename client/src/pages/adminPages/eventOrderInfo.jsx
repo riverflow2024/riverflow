@@ -24,7 +24,9 @@ export default function EventOrderInfo() {
 
   const fetchEventOrderDetails = async () => {
     try {
-      const response = await axios.get(`http://localhost:3000/riverflow/admin/event-orders/${id}`)
+      const response = await axios.get(`http://localhost:3000/riverflow/admin/event-orders/${id}`, {
+        withCredentials: true
+      })
       const eventOrderData = response.data[0]
 
       // 處理時間格式
@@ -63,7 +65,9 @@ export default function EventOrderInfo() {
   const handleSubmit = async (e) => {
     e.preventDefault()
     try {
-      await axios.put(`http://localhost:3000/riverflow/admin/event-orders/${id}`, formData)
+      await axios.put(`http://localhost:3000/riverflow/admin/event-orders/${id}`, formData, {
+        withCredentials: true
+      })
       alert('訂單已成功更新')
       navigate(-1)
     } catch (error) {

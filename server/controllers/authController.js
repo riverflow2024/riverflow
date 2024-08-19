@@ -237,7 +237,7 @@ exports.requestPasswordReset = async (req, res) => {
     await transporter.sendMail(mailOptions)
 
     // res.json({ message: '密碼重置連結已發送到您的信箱' })
-    res.json({ message: '密碼重置連結已發送到您的信箱', token: resetToken });
+    res.json({ message: '密碼重置連結已發送到您的信箱', token: resetToken })
   } catch (error) {
     console.error('請求密碼重置錯誤:', error)
     if (error.code === 'EAUTH') {
@@ -317,12 +317,15 @@ exports.adminLogin = async (req, res) => {
     const newToken = jwt.sign({ adminId: admin.adminId }, process.env.JWT_SECRET, { expiresIn: '7d' })
 
     res.cookie('adminToken', newToken, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
+      httpOnly: false,
+      // sameSite: 'strict',
+      // secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+      secure: false,
       maxAge: 7 * 24 * 60 * 60 * 1000 // 7天
     })
 
-    res.json({ message: '管理員登入成功' })
+    res.json({ message: '管理員登入成功', token: newToken })
   } catch (error) {
     console.error('登入錯誤:', error)
     res.status(500).json({ message: '登入失敗，請稍後再試' })

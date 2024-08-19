@@ -18,7 +18,9 @@ const EventItem = ({ event, onStatusChange, handleDelete }) => {
       setIsUpdating(true)
       try {
         const endpoint = eventStatus === 1 ? 'launch' : 'remove'
-        await axios.put(`http://localhost:3000/riverflow/admin/events/${event.eventId}/${endpoint}`)
+        await axios.put(`http://localhost:3000/riverflow/admin/events/${event.eventId}/${endpoint}`, {
+          withCredentials: true
+        })
         setStatus(eventStatus)
         onStatusChange(event.eventId, eventStatus)
       } catch (error) {
@@ -38,7 +40,7 @@ const EventItem = ({ event, onStatusChange, handleDelete }) => {
   }
 
   const handleView = () => {
-    window.open(`http://localhost:3001/event/detail/${event.eventId}`, '_blank')
+    window.open(`http://localhost:3001/event/detail/${event.eventId}`, { withCredentials: true }, '_blank')
   }
 
   const saleDateFull = `${event.saleDate}`
@@ -66,7 +68,7 @@ const EventItem = ({ event, onStatusChange, handleDelete }) => {
         <br />
         {eventTime}
       </td>
-      <td className='prdId'>{event.seat === 0 ? '戶外' : '室內'}</td>
+      <td className='prdId'>{event.location}</td>
       <td className='Status'>{status === 1 ? '上架' : '下架'}</td>
       <td className='itemOpt'>
         <div className='flex'>

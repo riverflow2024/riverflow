@@ -15,7 +15,9 @@ export default function EventOrderList() {
 
   const fetchEventOrders = useCallback(async () => {
     try {
-      const response = await axios.get('http://localhost:3000/riverflow/admin/event-orders')
+      const response = await axios.get('http://localhost:3000/riverflow/admin/event-orders', {
+        withCredentials: true
+      })
       setEventOrders(response.data)
       setFilteredEventOrders(response.data)
     } catch (err) {
@@ -47,7 +49,10 @@ export default function EventOrderList() {
         await fetchEventOrders()
       } else {
         const response = await axios.get(
-          `http://localhost:3000/riverflow/admin/event-orders/search?keyword=${searchTerm}`
+          `http://localhost:3000/riverflow/admin/event-orders/search?keyword=${searchTerm}`,
+          {
+            withCredentials: true
+          }
         )
         setFilteredEventOrders(response.data)
       }

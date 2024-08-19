@@ -3,8 +3,6 @@ import React, { useState, useRef, useEffect, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import debounce from 'lodash/debounce'
-import $ from 'jquery'
-import 'jquery-ui/ui/widgets/tabs'
 // CKEditor套件
 import { CKEditor } from '@ckeditor/ckeditor5-react'
 import {
@@ -80,15 +78,20 @@ export default function AddEvent() {
   const fileInputRef = useRef(null)
   // 儲存的資料格式
   const [formData, setFormData] = useState({
-    eventType: '',
+    eventType: 'dj',
     eventName: '',
-    coverImg: '',
+    coverImg: null,
     eventAnoc: null,
     eventDesc: '',
     eventDate: '',
     location: '',
-    seat: 0,
-    ticketType: [],
+    seat: '1', // 預設為室內-對號入座
+    ticketType: [
+      { type: '1F搖滾區', price: 0, stock: 0 },
+      { type: '2F坐席區', price: 0, stock: 0 },
+      { type: '2F站席區', price: 0, stock: 0 },
+      { type: '1F身障區', price: 0, stock: 0 }
+    ],
     launchDate: '',
     launchStatus: 1,
     saleDate: ''
@@ -99,20 +102,53 @@ export default function AddEvent() {
   const handleFileChange = (e) => {
     const file = e.target.files[0]
     if (file) {
-      setFileName(file.name)
       setFormData((prevState) => ({
         ...prevState,
         coverImg: file
       }))
+      setFileName(file.name)
     }
+  }
+
+  const handleUploadClick = () => {
+    fileInputRef.current.click()
   }
 
   // 輸入框處理
   const handleInputChange = (e) => {
     const { name, value } = e.target
+    if (name === 'seat') {
+      const newTicketType =
+        value === '1'
+          ? [
+              { type: '1F搖滾區', price: 0, stock: 0 },
+              { type: '2F坐席區', price: 0, stock: 0 },
+              { type: '2F站席區', price: 0, stock: 0 },
+              { type: '1F身障區', price: 0, stock: 0 }
+            ]
+          : [
+              { type: '一般票', price: 0, stock: 0 },
+              { type: '愛心票', price: 0, stock: 0 }
+            ]
+      setFormData((prevState) => ({
+        ...prevState,
+        [name]: value,
+        ticketType: newTicketType
+      }))
+    } else {
+      setFormData((prevState) => ({
+        ...prevState,
+        [name]: value
+      }))
+    }
+  }
+
+  const handleTicketTypeChange = (index, field, value) => {
     setFormData((prevState) => ({
       ...prevState,
-      [name]: value
+      ticketType: prevState.ticketType.map((ticket, i) =>
+        i === index ? { ...ticket, [field]: Number(value) } : ticket
+      )
     }))
   }
 
@@ -324,7 +360,6 @@ export default function AddEvent() {
   useEffect(() => {
     if (editor) {
       editor.model.document.on('change:data', () => {
-        console.log('編輯器內容已更改')
         const data = editor.getData()
         checkForImages(data)
       })
@@ -359,10 +394,9 @@ export default function AddEvent() {
             'Content-Type': 'multipart/form-data'
           },
           maxContentLength: Infinity,
-          maxRedirects: 0
+          maxRedirects: 0,
+          withCredentials: true
         })
-
-        console.log('圖片上傳成功:', uploadResponse.data.url)
 
         if (editor) {
           const newContent = editor.getData().replace(base64String, uploadResponse.data.url)
@@ -432,82 +466,110 @@ export default function AddEvent() {
     },
     [debouncedCheckForImages]
   )
-  // $(function () {
-  //   $('.tabs').tabs()
-  //   $('.tabBtn').on('click', function () {
-  //     // console.log(this)
-  //     $('.tabBtn').removeClass('active')
-  //     $(this).addClass('active')
-  //   })
-  // })
 
-  // // 圖片上傳
-  // $('#prdPic').on('change', function () {
-  //   // console.log($(this).prop('files'))
-  //   $('#fileChosen').text($(this).prop('files')[0].name)
-  // })
+  // 送出資料儲存
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    if (!formData.coverImg) {
+      alert('請上傳封面圖片')
+      return
+    }
+    const postData = new FormData()
+    for (const key in formData) {
+      if (key === 'ticketType') {
+        postData.append(key, JSON.stringify(formData[key]))
+      } else if (key === 'coverImg') {
+        postData.append(key, formData[key], formData[key].name)
+      } else {
+        postData.append(key, formData[key])
+      }
+    }
 
-  // $('#priceSingle').css('display', 'none') // 預設
-  // $('#eventPlace').on('change', function () {
-  //   if ($('#eventPlace').val() == 1) {
-  //     // 對號座顯示
-  //     $('#priceSingle').css('display', 'none')
-  //     $('#priceMulti').css('display', 'flex')
-  //   } else {
-  //     // 單一區顯示
-  //     $('#priceSingle').css('display', 'block')
-  //     $('#priceMulti').css('display', 'none')
-  //   }
-  // })
+    try {
+      const response = await axios.post('http://localhost:3000/riverflow/admin/events/create', postData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        },
+        maxContentLength: Infinity,
+        maxRedirects: 0,
+        withCredentials: true
+      })
+      navigate(-1)
+    } catch (error) {
+      console.error('創建活動時出錯:', error)
+    }
+  }
+
+  const [activeTab, setActiveTab] = useState('eventIntro')
+  const handleTabChange = (tabId) => {
+    setActiveTab(tabId)
+  }
 
   return (
-    <div class='main'>
-      <div class='pageTitle'>新增活動</div>
-      <form action='' id='eventForm' enctype='multipart/form-data'>
-        <div class='tabs'>
-          <ul class='tabBtnList'>
+    <div className='main'>
+      <div className='pageTitle'>新增活動</div>
+      <form onSubmit={handleSubmit} id='eventForm' encType='multipart/form-data'>
+        <div className='tabs'>
+          <ul className='tabBtnList'>
             <li>
-              <a href='#eventIntro' id='defaultOpen' class='tabBtn active'>
+              <button
+                type='button'
+                onClick={() => handleTabChange('eventIntro')}
+                id='defaultOpen'
+                className={`tabBtn ${activeTab === 'eventIntro' ? 'active' : ''}`}
+              >
                 活動資訊
-              </a>
+              </button>
             </li>
             <li>
-              <a href='#eventInfo' class='tabBtn'>
+              <button
+                type='button'
+                onClick={() => handleTabChange('eventInfo')}
+                className={`tabBtn ${activeTab === 'eventInfo' ? 'active' : ''}`}
+              >
                 活動介紹
-              </a>
+              </button>
             </li>
           </ul>
 
           {/* tabContent 商品資訊 */}
-          <div id='eventIntro' class='tabContent'>
-            <div class='infoItem'>
-              <label for='eventName' class='editTitle'>
+          <div id='eventIntro' className={`tabContent ${activeTab === 'eventIntro' ? '' : 'hidden'}`}>
+            <div className='infoItem'>
+              <label htmlFor='eventName' className='editTitle'>
                 活動名稱：
               </label>
-              <input id='eventName' name='eventName' type='text' required />
+              <input
+                onChange={handleInputChange}
+                value={formData.eventName}
+                id='eventName'
+                name='eventName'
+                type='text'
+                required
+              />
             </div>
-            <div class='infoItem'>
-              <label class='editTitle'>主要圖片：</label>
-              <div class='picItem'>
-                <label for='eventPic' class='custUpload'>
-                  <i class='fa-solid fa-upload' /> 上傳圖片
-                </label>
+            <div className='infoItem'>
+              <label className='editTitle'>主要圖片：</label>
+              <div className='picItem'>
                 <input
-                  id='eventPic'
-                  name='eventPic'
-                  class='fileInput'
+                  ref={fileInputRef}
                   type='file'
+                  accept='image/*'
+                  style={{ display: 'none' }}
+                  className='fileInput'
                   required
-                  accept='image/png, image/jpeg'
+                  onChange={handleFileChange}
                 />
-                <span id='fileChosen'>未選擇任何檔案</span>
+                <button type='button' onClick={handleUploadClick} className='custUpload'>
+                  <i className='fa-solid fa-upload' /> 上傳圖片
+                </button>
+                <span id='fileChosen'>{fileName}</span>
               </div>
             </div>
-            <div class='infoItem'>
-              <label for='eventSort' class='editTitle'>
+            <div className='infoItem'>
+              <label htmlFor='eventSort' className='editTitle'>
                 商品分類：
               </label>
-              <select name='eventSort' id='eventSort'>
+              <select onChange={handleInputChange} value={formData.eventType} name='eventSort' id='eventSort'>
                 <option value='dj'>刷碟 Disc Jockey</option>
                 <option value='graffiti'>塗鴉 Graffiti</option>
                 <option value='rap'>饒舌 Rap</option>
@@ -515,175 +577,132 @@ export default function AddEvent() {
                 <option value='skate'>滑板 Skate</option>
               </select>
             </div>
-            <div class='infoItem'>
-              <label for='launchDate' class='editTitle'>
+            <div className='infoItem'>
+              <label htmlFor='launchDate' className='editTitle'>
                 活動上架時間：
               </label>
-              <input id='launchDate' name='launchDate' type='datetime-local' required />
+              <input
+                onChange={handleInputChange}
+                id='launchDate'
+                name='launchDate'
+                type='datetime-local'
+                step={1}
+                required
+              />
             </div>
-            <div class='infoItem itemflexList'>
+            <div className='infoItem itemflexList'>
               <div>
-                <label for='eventSell' class='editTitle'>
+                <label htmlFor='eventSell' className='editTitle'>
                   活動開賣時間：
                 </label>
-                <input id='eventSell' name='eventSell' type='datetime-local' required />
+                <input
+                  onChange={handleInputChange}
+                  id='eventSell'
+                  name='saleDate'
+                  type='datetime-local'
+                  step={1}
+                  required
+                />
               </div>
               <div>
-                <label for='eventStart' class='editTitle'>
+                <label htmlFor='eventStart' className='editTitle'>
                   活動開始時間：
                 </label>
-                <input id='eventStart' name='eventStart' type='datetime-local' required />
+                <input
+                  onChange={handleInputChange}
+                  id='eventStart'
+                  name='eventDate'
+                  type='datetime-local'
+                  step={1}
+                  required
+                />
+              </div>
+              <div>
+                <label htmlFor='location' className='editTitle'>
+                  活動地點：
+                </label>
+                <input onChange={handleInputChange} id='location' name='location' type='text' required />
               </div>
             </div>
-            <div class='infoItem'>
-              <label for='eventPlace' class='editTitle'>
-                活動場館：
-              </label>
-              <select name='eventPlace' id='eventPlace'>
+            <div className='infoItem'>
+              <label className='editTitle'>活動場館：</label>
+              <select value={formData.seat} onChange={handleInputChange} name='seat' id='eventPlace'>
                 <option value='1'>室內-對號入座</option>
                 <option value='0'>戶外-自由座</option>
               </select>
             </div>
-            <div id='priceMulti' class='flex multiSect'>
-              <div class='infoList'>
-                <label for='eventPrice_multi' class='editTitle'>
-                  活動票價：
-                </label>
-                <div class='descInfo'>
-                  <div class='descItem'>
-                    <label for='sec1Price' class='editTitle'>
-                      1F搖滾區：
-                    </label>
-                    <div class='itemPrice'>
-                      <span class='priceMark event'>NT$</span>
-                      <input id='sec1Price' name='sec1Price' type='number' min='0' step='1' required />
-                    </div>
+
+            <div id='ticketTypeInputs'>
+              {formData.ticketType.map((ticket, index) => (
+                <div key={index} className='ticketTypeItem flex multiSect'>
+                  <label className='editTitle'>{ticket.type}：</label>
+                  <div className='itemPrice'>
+                    <span className='priceMark event'>NT$</span>
+                    <input
+                      type='number'
+                      min='0'
+                      value={ticket.price}
+                      onChange={(e) => handleTicketTypeChange(index, 'price', e.target.value)}
+                      required
+                    />
                   </div>
-                  <div class='descItem'>
-                    <label for='sec2Price' class='editTitle'>
-                      2F坐席區：
-                    </label>
-                    <div class='itemPrice'>
-                      <span class='priceMark event'>NT$</span>
-                      <input id='sec2Price' name='sec2Price' type='number' min='0' required />
-                    </div>
-                  </div>
-                  <div class='descItem'>
-                    <label for='sec3Price' class='editTitle'>
-                      2F站席區：
-                    </label>
-                    <div class='itemPrice'>
-                      <span class='priceMark event'>NT$</span>
-                      <input id='sec3Price' type='number' min='0' required />
-                    </div>
-                  </div>
-                  <div class='descItem'>
-                    <label for='sec4Price' class='editTitle'>
-                      1F身障區：
-                    </label>
-                    <div class='itemPrice'>
-                      <span class='priceMark event'>NT$</span>
-                      <input id='sec4Price' type='number' min='0' required />
-                    </div>
+                  <div className='itemStock'>
+                    <label>庫存：</label>
+                    <input
+                      type='number'
+                      min='0'
+                      value={ticket.stock}
+                      onChange={(e) => handleTicketTypeChange(index, 'stock', e.target.value)}
+                      required
+                    />
                   </div>
                 </div>
-              </div>
-              <div id='stockMulti' class='infoList'>
-                <label for='eventPrice_multi' class='editTitle'>
-                  票券庫存：
-                </label>
-                <div class='descInfo'>
-                  <div class='descItem'>
-                    <label for='sec1Stock' class='editTitle'>
-                      1F搖滾區：
-                    </label>
-                    <input id='sec1Stock' class='tktStock' name='sec1Stock' type='number' min='0' step='1' required />
-                  </div>
-                  <div class='descItem'>
-                    <label for='sec2Stock' class='editTitle'>
-                      2F坐席區：
-                    </label>
-                    <input id='sec2Stock' class='tktStock' name='sec2Stock' type='number' min='0' step='1' required />
-                  </div>
-                  <div class='descItem'>
-                    <label for='sec3Stock' class='editTitle'>
-                      2F站席區：
-                    </label>
-                    <input id='sec3Stock' class='tktStock' name='sec3Stock' type='number' min='0' step='1' required />
-                  </div>
-                  <div class='descItem'>
-                    <label for='sec4Stock' class='editTitle'>
-                      1F身障區：
-                    </label>
-                    <input id='sec4Stock' class='tktStock' name='sec4Stock' type='number' min='0' step='1' required />
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div id='priceSingle'>
-              <div class='infoItem'>
-                <label for='eventPrice_single' class='editTitle'>
-                  活動票價：
-                </label>
-                <div class='itemPrice'>
-                  <span class='priceMark event'>NT$</span>
-                  <input id='eventPrice_single' type='number' min='0' required />
-                </div>
-              </div>
-              <div class='infoItem'>
-                <label for='eventSingleStock' class='editTitle'>
-                  票券庫存：
-                </label>
-                <input id='secSingleStock' name='secSingleStock' type='number' min='0' step='1' required />
-              </div>
+              ))}
             </div>
           </div>
 
           {/* tabContent 活動介紹 */}
-          <div id='eventInfo' class='tabContent'>
-            <div class='infoItem'>
-              <label class='editTitle'>介紹圖片：</label>
-              <div class='picItem'>
-                <label for='eventInfoPic' class='custUpload'>
-                  <i class='fa-solid fa-upload'></i>
-                  上傳圖片
-                </label>
-                <input
-                  id='eventInfoPic'
-                  name='eventInfoPic'
-                  class='fileInput'
-                  type='file'
-                  accept='image/png, image/jpeg'
-                />
-                <span id='infoPicsChosen' class='fileChosen'>
-                  未選擇任何檔案
-                </span>
+          <div id='eventInfo' className={`tabContent ${activeTab === 'eventInfo' ? '' : 'hidden'}`}>
+            <div className='introItem'>
+              <label className='editTitle'>最新公告：</label>
+              <div className='itemInfo'>
+                <textarea
+                  onChange={handleInputChange}
+                  name='eventAnoc'
+                  id='eventAnoc'
+                  placeholder='最新公告'
+                ></textarea>
               </div>
             </div>
-            <div class='introItem'>
-              <label for='eventDesc' class='editTitle'>
-                活動介紹：
-              </label>
-              <div class='itemInfo'>
-                <textarea name='eventDesc' id='eventDesc' placeholder='活動介紹' required></textarea>
-              </div>
-            </div>
-            <div class='introItem'>
-              <label for='eventAnnoc' class='editTitle'>
-                最新公告：
-              </label>
-              <div class='itemInfo'>
-                <textarea name='eventAnnoc' id='eventAnnoc' placeholder='最新公告'></textarea>
+            <div className='introItem'>
+              <label className='editTitle'>活動介紹：</label>
+              <div className='itemInfo main-container'>
+                <div className='editor-container editor-container_classic-editor' ref={editorContainerRef}>
+                  <div className='editor-container__editor'>
+                    <div ref={editorRef}>
+                      {isLayoutReady && (
+                        <CKEditor
+                          editor={ClassicEditor}
+                          config={editorConfig}
+                          onReady={(editorInstance) => {
+                            setEditor(editorInstance)
+                          }}
+                          onChange={handleEditorChange}
+                        />
+                      )}
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
-        <div class='btnList flex'>
-          <button className='btn' onClick={() => navigate(-1)}>
-            <i class='fa-solid fa-angle-left'></i> 返回
+        <div className='btnList flex'>
+          <button type='button' className='btn' onClick={() => navigate(-1)}>
+            <i className='fa-solid fa-angle-left'></i> 返回
           </button>
-          <button class='btn' type='submit'>
-            <i class='fa-solid fa-floppy-disk'></i> 儲存
+          <button className='btn' type='submit'>
+            <i className='fa-solid fa-floppy-disk'></i> 新增
           </button>
         </div>
       </form>

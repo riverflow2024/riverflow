@@ -3,11 +3,12 @@ import { useNavigate } from 'react-router-dom'
 import $, { data } from 'jquery'
 import 'jquery-ui/ui/widgets/tabs'
 import MultiSelectDropdown from '../../components/MultiSelectDropdown'
+import PrdImgUploader from '../../components/prdImgUploader'
 import axios from 'axios'
 
 export default function AddPrd() {
   const navigate = useNavigate()
-  const [productImage, setProductImage] = useState()
+  const [imageFields, setImageFields] = useState([{ id: 0, file: null }]);
   const [selectedOptions, setSelectedOptions] = useState([])
   const [specItems, setSpecItems] = useState([{ id: 1, title: '', isInitial: true }])
   const [tableItems, setTableItems] = useState([{ id: 1, name: '', stock: 0, isInitial: true }])
@@ -45,8 +46,22 @@ export default function AddPrd() {
   })
 
   // 圖片
-  const handleImageChange = (e) => {
-    setProductImage(e.target.files[0])
+  const handleImageChange = (id, event) => {
+    const newImageFields = imageFields.map(field => {
+      if (field.id === id) {
+        return { ...field, file: event.target.files[0] };
+      }
+      return field;
+    });
+    setImageFields(newImageFields);
+  }
+  const addImageField = () => {
+    const newId = imageFields.length > 0 ? Math.max(...imageFields.map(f => f.id)) + 1 : 0;
+    setImageFields([...imageFields, { id: newId, file: null }]);
+  }
+
+  const removeImageField = (id) => {
+    setImageFields(imageFields.filter(field => field.id !== id));
   }
 
   // input
@@ -106,29 +121,38 @@ export default function AddPrd() {
     console.log('提交開始formData', formData)
 
     const selectedCategories = selectedOptions.map(option => option.value)
+    const productImgs = imageFields.map(field => field.fill).filter(file => file !== null)
+    // console.log('selectedCategories:', typeof selectedCategories, selectedCategories)
     const productOpt = generateProductOpt()
 
     const formDataToSend = new FormData()
     // 添加基本字段
     Object.keys(formData).forEach(key => {
-      formDataToSend.append(key, formData[key])
+      if (key === 'productPrice') {
+        formDataToSend.append(key, formData[key] ? parseInt(formData[key]) : '')
+      } else if (key === 'discountRate') {
+        formDataToSend.append(key, formData[key] ? parseFloat(formData[key]) : '')
+      } else {
+        formDataToSend.append(key, formData[key])
+      }
     })
 
     // 添加處理後的字段
-    formDataToSend.append('productPrice', formData.productPrice ? parseInt(formData.productPrice) : '')
-    formDataToSend.append('discountRate', formData.discountRate ? parseFloat(formData.discountRate) : '')
+    // formDataToSend.append('productPrice', formData.productPrice ? parseInt(formData.productPrice) : '')
+    // formDataToSend.append('discountRate', formData.discountRate ? parseFloat(formData.discountRate) : '')
     
     // 添加類別和選項
-    formDataToSend.append('categories', JSON.stringify(selectedCategories))
+    formDataToSend.append('productCategories', selectedCategories)
     formDataToSend.append('productOpt', JSON.stringify(productOpt))
-
-    if (productImage) {
-      formDataToSend.append('productImgs', productImage.name)
-    }
+    formDataToSend.append('productImgs', productImgs)
+    
+    // if (productImage) {
+    //   formDataToSend.append('productImgs', productImage.name)
+    // }
 
     console.log("FormData contents:")
     for (let [key, value] of formDataToSend.entries()) {
-      console.log(key, value)
+      console.log(`${key}, ${value}, type: ${typeof value}`)
     }
 
     // const processedFormData = {
@@ -160,10 +184,6 @@ export default function AddPrd() {
     //   console.log(key, value)
     // }
 
-    if (!formData.productName) {
-      console.error('商品名稱不可為空')
-      return
-    }
     try {
       const response = await axios.post('http://localhost:3000/riverflow/admin/products/create', formDataToSend, {
         headers: {
@@ -209,7 +229,13 @@ export default function AddPrd() {
                 value={formData.productName} onChange={handleInputChange}
               />
             </div>
-            <div className="infoItem">
+            <PrdImgUploader
+              imageFields={imageFields}
+              handleImageChange={handleImageChange}
+              addImageField={addImageField}
+              removeImageField={removeImageField}
+            />
+            {/* <div className="infoItem">
               <label className="editTitle">商品圖片：</label>
               <div className="picItem">
                 <label htmlFor="productImgs" className="custUpload">
@@ -219,8 +245,14 @@ export default function AddPrd() {
                   onChange={handleImageChange}
                 />
                 <span id="fileChosen">未選擇任何檔案</span>
+                <button className='addItem'>
+                  <i className="bi bi-plus-circle" />
+                </button>
+                <button className='delItem'>
+                  <i className="bi bi-dash-circle" />
+                </button>
               </div>
-            </div>
+            </div> */}
             <MultiSelectDropdown
               selectedOptions={selectedOptions}
               onChange={handleChange}

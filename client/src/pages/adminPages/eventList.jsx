@@ -26,13 +26,13 @@ const reducer = (state, action) => {
       return {
         ...state,
         events: state.events.map((event) =>
-          event.newsId === action.payload.newsId ? { ...event, ...action.payload } : event
+          event.eventId === action.payload.eventId ? { ...event, ...action.payload } : event
         )
       }
     case 'DELETE_EVENT':
       return {
         ...state,
-        events: state.events.filter((event) => event.newsId !== action.payload)
+        events: state.events.filter((event) => event.eventId !== action.payload)
       }
     case 'SET_SEARCH_TERM':
       return { ...state, searchTerm: action.payload, currentPage: 1 }
@@ -51,10 +51,11 @@ const EventList = () => {
   const { events, loading, error, currentPage, searchTerm, eventsPerPage } = state
 
   const fetchEvents = useCallback(async () => {
-    console.log('Fetching events...')
     dispatch({ type: 'SET_LOADING', payload: true })
     try {
-      const response = await axios.get('http://localhost:3000/riverflow/admin/events')
+      const response = await axios.get('http://localhost:3000/riverflow/admin/events', {
+        withCredentials: true
+      })
 
       dispatch({ type: 'SET_EVENTS', payload: response.data })
     } catch (err) {
@@ -82,8 +83,9 @@ const EventList = () => {
 
   const reloadEventItem = useCallback(async (eventId, newStatus) => {
     try {
-      const response = await axios.get(`http://localhost:3000/riverflow/admin/events/${eventId}`)
-      console.log('reload results:', response.data)
+      const response = await axios.get(`http://localhost:3000/riverflow/admin/events/${eventId}`, {
+        withCredentials: true
+      })
       dispatch({ type: 'UPDATE_EVENT', payload: response.data })
     } catch (err) {
       console.error('重新加載活動資料錯誤：', err)
@@ -100,7 +102,9 @@ const EventList = () => {
   const handleDelete = useCallback(async (eventId) => {
     if (window.confirm('確定要刪除這個活動嗎？')) {
       try {
-        await axios.delete(`http://localhost:3000/riverflow/admin/news/${eventId}`)
+        await axios.delete(`http://localhost:3000/riverflow/admin/events/${eventId}`, {
+          withCredentials: true
+        })
         dispatch({ type: 'DELETE_EVENT', payload: eventId })
       } catch (err) {
         console.error('刪除活動錯誤：', err)
@@ -131,15 +135,15 @@ const EventList = () => {
     async (e) => {
       e.preventDefault()
       const keyword = e.target.eventSearch.value || ''
-      console.log('Searching with keyword:', keyword)
       dispatch({ type: 'SET_SEARCH_TERM', payload: keyword })
       dispatch({ type: 'SET_LOADING', payload: true })
       try {
         if (keyword === '' || undefined) {
           await fetchEvents()
         } else {
-          const response = await axios.get(`http://localhost:3000/riverflow/admin/events/search?keyword=${keyword}`)
-          console.log('Search results:', response.data)
+          const response = await axios.get(`http://localhost:3000/riverflow/admin/events/search?keyword=${keyword}`, {
+            withCredentials: true
+          })
           dispatch({ type: 'SET_EVENTS', payload: response.data })
         }
       } catch (err) {
@@ -151,7 +155,6 @@ const EventList = () => {
     },
     [fetchEvents]
   )
-  console.log('Current state:', state)
 
   if (loading) return <div>加載中...</div>
   if (error) return <div>{error}</div>
@@ -165,7 +168,7 @@ const EventList = () => {
         </Link>
         <div className='flex'>
           <form onSubmit={handleSearch} className='flex'>
-            <input type='text' name='' id='pdtSearch' className='search' placeholder='活動搜尋' />
+            <input type='text' name='eventSearch' id='pdtSearch' className='search' placeholder='活動搜尋' />
             <input type='submit' value='搜尋' />
           </form>
         </div>

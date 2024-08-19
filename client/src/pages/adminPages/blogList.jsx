@@ -50,11 +50,11 @@ const BlogList = () => {
   const { blogs, loading, error, currentPage, searchTerm, blogsPerPage } = state
 
   const fetchBlogs = useCallback(async () => {
-    console.log('Fetching blogs...')
     dispatch({ type: 'SET_LOADING', payload: true })
     try {
-      const response = await axios.get('http://localhost:3000/riverflow/admin/news')
-      console.log('Fetched blogs:', response.data)
+      const response = await axios.get('http://localhost:3000/riverflow/admin/news', {
+        withCredentials: true
+      })
       dispatch({ type: 'SET_BLOGS', payload: response.data })
     } catch (err) {
       console.error('獲取文章數據錯誤：', err)
@@ -81,8 +81,9 @@ const BlogList = () => {
 
   const reloadBlogItem = useCallback(async (blogId, newStatus) => {
     try {
-      const response = await axios.get(`http://localhost:3000/riverflow/admin/news/${blogId}`)
-      console.log('Search results:', response.data)
+      const response = await axios.get(`http://localhost:3000/riverflow/admin/news/${blogId}`, {
+        withCredentials: true
+      })
       dispatch({ type: 'UPDATE_BLOG', payload: response.data })
     } catch (err) {
       console.error('重新加載文章數據錯誤：', err)
@@ -99,7 +100,9 @@ const BlogList = () => {
   const handleDelete = useCallback(async (blogId) => {
     if (window.confirm('確定要刪除這篇文章嗎？')) {
       try {
-        await axios.delete(`http://localhost:3000/riverflow/admin/news/${blogId}`)
+        await axios.delete(`http://localhost:3000/riverflow/admin/news/${blogId}`, {
+          withCredentials: true
+        })
         dispatch({ type: 'DELETE_BLOG', payload: blogId })
       } catch (err) {
         console.error('刪除文章錯誤：', err)
@@ -133,15 +136,15 @@ const BlogList = () => {
     async (e) => {
       e.preventDefault()
       const keyword = e.target.blogSearch.value || ''
-      console.log('Searching with keyword:', keyword)
       dispatch({ type: 'SET_SEARCH_TERM', payload: keyword })
       dispatch({ type: 'SET_LOADING', payload: true })
       try {
         if (keyword === '' || undefined) {
           await fetchBlogs()
         } else {
-          const response = await axios.get(`http://localhost:3000/riverflow/admin/news/search?keyword=${keyword}`)
-          console.log('Search results:', response.data)
+          const response = await axios.get(`http://localhost:3000/riverflow/admin/news/search?keyword=${keyword}`, {
+            withCredentials: true
+          })
           dispatch({ type: 'SET_BLOGS', payload: response.data })
         }
       } catch (err) {
@@ -153,7 +156,6 @@ const BlogList = () => {
     },
     [fetchBlogs]
   )
-  console.log('Current state:', state)
 
   if (loading) return <div>加載中...</div>
   if (error) return <div>{error}</div>

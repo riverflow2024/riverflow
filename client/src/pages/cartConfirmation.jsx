@@ -35,6 +35,7 @@ const CartConfirmation = () => {
     setIsLoading(true)
     try {
       const response = await axios.post('http://localhost:3000/riverflow/pay/create-checkout-session', {
+        shippingFee,
         finalTotal,
         items: cartItems.map((item) => ({
           name: item.productName,
