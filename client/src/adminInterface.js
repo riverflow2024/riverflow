@@ -6,6 +6,7 @@ import LeftCol from './components/adminLeftCol'
 
 import PrdList from './pages/adminPages/prdList'
 import AddPrd from './pages/adminPages/addPrd'
+import EditPrd from './pages/adminPages/editPrd'
 import PrdOrderList from './pages/adminPages/prdOrder'
 import PrdOrderInfo from './pages/adminPages/prdOrderInfo'
 
@@ -27,6 +28,7 @@ export default function AdminInterface() {
         <Route path='dashboard' element={<PrdList />} />
         <Route path='prdList' element={<PrdList />} />
         <Route path='prdList/create' element={<AddPrd />} />
+        <Route path='prdList/edit/:id' element={<EditPrd />} />
         <Route path='prdOrderList' element={<PrdOrderList />} />
         <Route path='prdOrderList/edit/:id' element={<PrdOrderInfo />} />
         <Route path='blogList' element={<BlogList />} />
