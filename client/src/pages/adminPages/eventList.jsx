@@ -26,13 +26,13 @@ const reducer = (state, action) => {
       return {
         ...state,
         events: state.events.map((event) =>
-          event.newsId === action.payload.newsId ? { ...event, ...action.payload } : event
+          event.eventId === action.payload.eventId ? { ...event, ...action.payload } : event
         )
       }
     case 'DELETE_EVENT':
       return {
         ...state,
-        events: state.events.filter((event) => event.newsId !== action.payload)
+        events: state.events.filter((event) => event.eventId !== action.payload)
       }
     case 'SET_SEARCH_TERM':
       return { ...state, searchTerm: action.payload, currentPage: 1 }
@@ -100,7 +100,7 @@ const EventList = () => {
   const handleDelete = useCallback(async (eventId) => {
     if (window.confirm('確定要刪除這個活動嗎？')) {
       try {
-        await axios.delete(`http://localhost:3000/riverflow/admin/news/${eventId}`)
+        await axios.delete(`http://localhost:3000/riverflow/admin/events/${eventId}`)
         dispatch({ type: 'DELETE_EVENT', payload: eventId })
       } catch (err) {
         console.error('刪除活動錯誤：', err)
@@ -165,7 +165,7 @@ const EventList = () => {
         </Link>
         <div className='flex'>
           <form onSubmit={handleSearch} className='flex'>
-            <input type='text' name='' id='pdtSearch' className='search' placeholder='活動搜尋' />
+            <input type='text' name='eventSearch' id='pdtSearch' className='search' placeholder='活動搜尋' />
             <input type='submit' value='搜尋' />
           </form>
         </div>

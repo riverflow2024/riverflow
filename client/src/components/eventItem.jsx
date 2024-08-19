@@ -66,7 +66,7 @@ const EventItem = ({ event, onStatusChange, handleDelete }) => {
         <br />
         {eventTime}
       </td>
-      <td className='prdId'>{event.seat === 0 ? '戶外' : '室內'}</td>
+      <td className='prdId'>{event.location}</td>
       <td className='Status'>{status === 1 ? '上架' : '下架'}</td>
       <td className='itemOpt'>
         <div className='flex'>
