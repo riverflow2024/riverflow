@@ -202,7 +202,7 @@ export default function AddPrd() {
                         setTableItems(newTableItems)
                       }}
                     />
-                    <button onClick={addItem}>
+                    <button onClick={addItem} className='addItem'>
                       <i className="bi bi-plus-circle" />
                     </button>
                     <button
@@ -210,6 +210,7 @@ export default function AddPrd() {
                         const newItems = specItems.filter((_, i) => i !== index)
                         setSpecItems(newItems)
                       }}
+                      className='delItem'
                     >
                       <i className="bi bi-dash-circle" />
                     </button>
@@ -246,12 +247,14 @@ export default function AddPrd() {
           <div id="prdDiscount" className="tabContent">
             <div className="infoItem">
               <span>商品優惠：</span>
-              <input type="checkbox" name="disCheck" id="disCheck" className="prdDisCheck" />
+              <input type="checkbox" name="disCheck" id="disCheck" className="prdDisCheck"
+                checked={isDisChecked} onChange={(e) => setIsDisChecked(e.target.checked)}
+              />
               <label htmlFor="disCheck" className="checkmark">
                 {' '}
               </label>
             </div>
-            <div className="ifHasDis hidden">
+            <div className={`ifHasDis ${isDisChecked ? '' : 'hidden'}`}>
               <div className="infoItem itemflexList">
                 <div>
                   <label htmlFor="discountStart" className="editTitle">

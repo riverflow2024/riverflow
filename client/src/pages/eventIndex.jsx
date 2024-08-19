@@ -130,6 +130,11 @@ const EventIndex = () => {
       (event.title || event.eventName).toLowerCase().includes(searchTerm.toLowerCase())
   )
 
+  const handleFilterClick = (e, filterValue) => {
+    e.preventDefault();
+    setFilter(filterValue);
+  }
+
   if (loading) return <div>載入中...</div>
 
   return (
@@ -154,32 +159,32 @@ const EventIndex = () => {
             </div>
             <div className='titleSelect'>
               <div>
-                <a href='#' onClick={() => setFilter('all')}>
+                <a href='#' onClick={(e) => handleFilterClick(e,'all')}>
                   全部
                 </a>
               </div>
               <div>
-                <a href='#' onClick={() => setFilter('DJ')}>
+                <a href='#' onClick={(e) => handleFilterClick(e,'DJ')}>
                   DJ | Disc Jockey
                 </a>
               </div>
               <div>
-                <a href='#' onClick={() => setFilter('streetdance')}>
+                <a href='#' onClick={(e) => handleFilterClick(e,'streetdance')}>
                   街舞 | Street Dance
                 </a>
               </div>
               <div>
-                <a href='#' onClick={() => setFilter('rap')}>
+                <a href='#' onClick={(e) => handleFilterClick(e,'rap')}>
                   饒舌 | Rap
                 </a>
               </div>
               <div>
-                <a href='#' onClick={() => setFilter('graffiti')}>
+                <a href='#' onClick={(e) => handleFilterClick(e,'graffiti')}>
                   塗鴉 | Graffiti
                 </a>
               </div>
               <div>
-                <a href='#' onClick={() => setFilter('skate')}>
+                <a href='#' onClick={(e) => handleFilterClick(e,'skate')}>
                   滑板 | Skate
                 </a>
               </div>

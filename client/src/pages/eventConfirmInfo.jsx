@@ -48,6 +48,7 @@ const EventConfirmInfo = () => {
   const totalCost = tickets.reduce((sum, ticket) => sum + ticket.price, 0);
 
   const handleNextStep = () => {
+    window.scrollTo(0, 0);
     navigate('/Event/Order', {
       state: {
         eventDetails,
@@ -71,7 +72,7 @@ const EventConfirmInfo = () => {
               <div className="eventTitle">
                 <h1>{eventDetails.title}</h1>
                 <p>日期：{eventDetails.date}</p>
-                <p>時間： {eventDetails.time}</p>
+                <p>時間：{eventDetails.time}</p>
                 <p>場次地點：{eventDetails.location}</p>
               </div>
             </div>
@@ -124,7 +125,7 @@ const EventConfirmInfo = () => {
                   <React.Fragment key={index}>
                     <div className="contentTitle">
                       <div>
-                        <span>{eventDetails.seat !== 0 ? ticket.type : ''}</span>
+                        <span>{eventDetails.seat !== 0 ? ticket.type : '無'}</span>
                       </div>
                       <div>
                         <span>{eventDetails.seat !== 0 ? ticket.area : ticket.type}</span>
