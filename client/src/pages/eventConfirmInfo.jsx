@@ -47,8 +47,9 @@ const EventConfirmInfo = () => {
     
       const totalTickets = tickets.length;
   const totalCost = tickets.reduce((sum, ticket) => sum + ticket.price, 0);
-
+  
   const handleNextStep = () => {
+    
     window.scrollTo(0, 0);
     navigate('/Event/Order', {
       state: {

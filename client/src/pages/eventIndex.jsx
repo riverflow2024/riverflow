@@ -105,6 +105,7 @@ const EventIndex = () => {
   const [apiEventData, setApiEventData] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
+  const [visibleEvents, setVisibleEvents] = useState(6) // 新增: 控制顯示的活動數量
 
   useEffect(() => {
     const fetchEvents = async () => {
@@ -132,9 +133,16 @@ const EventIndex = () => {
   )
 
   const handleFilterClick = (e, filterValue) => {
-    e.preventDefault();
-    setFilter(filterValue);
+    e.preventDefault()
+    setFilter(filterValue)
+    setVisibleEvents(6)
   }
+
+  // 新增: 處理"查看更多活動"按鈕點擊
+  const handleViewMore = () => {
+    setVisibleEvents(prevVisible => prevVisible + 3)
+  }
+
 
   if (loading) return <div>載入中...</div>
 
@@ -142,8 +150,6 @@ const EventIndex = () => {
     <div className='w-bg scrollCust'>
       <Header />
       <div className='wrap container'>
-        
-
         <div className='carousel'>
           <EventSwiper />
         </div>
@@ -160,32 +166,32 @@ const EventIndex = () => {
             </div>
             <div className='titleSelect'>
               <div>
-                <a href='#' onClick={(e) => handleFilterClick(e,'all')}>
+                <a href='#' onClick={(e) => handleFilterClick(e, 'all')} className={filter === 'all' ? 'active' : ''}>
                   全部
                 </a>
               </div>
               <div>
-                <a href='#' onClick={(e) => handleFilterClick(e,'DJ')}>
+                <a href='#' onClick={(e) => handleFilterClick(e, 'DJ')} className={filter === 'DJ' ? 'active' : ''}>
                   DJ | Disc Jockey
                 </a>
               </div>
               <div>
-                <a href='#' onClick={(e) => handleFilterClick(e,'streetdance')}>
+                <a href='#' onClick={(e) => handleFilterClick(e, 'streetdance')} className={filter === 'streetdance' ? 'active' : ''}>
                   街舞 | Street Dance
                 </a>
               </div>
               <div>
-                <a href='#' onClick={(e) => handleFilterClick(e,'rap')}>
+                <a href='#' onClick={(e) => handleFilterClick(e, 'rap')} className={filter === 'rap' ? 'active' : ''}>
                   饒舌 | Rap
                 </a>
               </div>
               <div>
-                <a href='#' onClick={(e) => handleFilterClick(e,'graffiti')}>
+                <a href='#' onClick={(e) => handleFilterClick(e, 'graffiti')} className={filter === 'graffiti' ? 'active' : ''}>
                   塗鴉 | Graffiti
                 </a>
               </div>
               <div>
-                <a href='#' onClick={(e) => handleFilterClick(e,'skate')}>
+                <a href='#' onClick={(e) => handleFilterClick(e, 'skate')} className={filter === 'skate' ? 'active' : ''}>
                   滑板 | Skate
                 </a>
               </div>
@@ -194,7 +200,7 @@ const EventIndex = () => {
 
           <div className='eventList'>
             <div className='eventProduct'>
-              {filteredEvents.map((event) => (
+              {filteredEvents.slice(0, visibleEvents).map((event) => (
                 <div
                   key={event.id || event.eventId}
                   className='eventCard'
@@ -202,19 +208,21 @@ const EventIndex = () => {
                 >
                   <Link to={`/Event/Detail/${event.eventId}`}>
                     <img src={`/images/events/${event.eventImg}`} alt={event.title || event.eventName} />
-                    <p>{ event.eventName}</p>
-                    <p>{ new Date(event.eventDate).toLocaleDateString()}</p>
+                    <p>{event.eventName}</p>
+                    <p>{new Date(event.eventDate).toLocaleDateString()}</p>
                   </Link>
                 </div>
               ))}
             </div>
+            {visibleEvents < filteredEvents.length && ( // 新增: 條件渲染"查看更多活動"按鈕
             <div className='eventListBtn'>
-              <button>查看更多活動</button>
+              <button onClick={handleViewMore}>查看更多活動</button>
             </div>
+            )}
           </div>
         </div>
       </div>
-      <Footer/>
+      <Footer />
     </div>
   )
 }
