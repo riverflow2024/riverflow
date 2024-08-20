@@ -71,7 +71,7 @@ i.fa-solid {
   background-image: inherit;
 }
 .adminLogin input[type='text'] {
-  color: var(--main)
+  color: var(--main);
 }
 /*---------------------------------------------*/
 /*              左側SideBar Start              */
@@ -315,8 +315,15 @@ body .admin-page .itemOpr {
 /* input:invalid .required {
     display: inline-block;
 } */
-.picItem {
-  margin-left: 5px;
+.imgInfoItem {
+  align-items: flex-start;
+  flex-direction: column;
+}
+.imgInfoItem .picItem {
+  margin-top: 10px;
+}
+.imgInfoItem .picItem:nth-of-type(1) {
+  margin-top: 0;
 }
 .custUpload {
   background-color: var(--main);
@@ -557,6 +564,9 @@ button.delItem {
   overflow: visible;
 }
 
+.hidden {
+  display: none;
+}
 
 /*---------------------------------------------*/
 /*                   頁數功能                   */

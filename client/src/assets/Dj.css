@@ -8,24 +8,29 @@ html {
 
 .DJ-wrap {
   width: 100%;
+  /* 導覽列 */
+  /*------> banner<------ */
+  /* 跑馬燈海報區域位置調整 */
+  /* 播放機 */
+  /* 播放機的那一條 */
+  /* 處理唱片轉動 */
+  /* 唱片圖片 */
+  /* -----介紹內容----- */
+  /* 確保圖片和文字在同一個區塊中 */
+  /* 底下介紹 */
+  /* 這邊拿來調整position sticky效果 */
 }
-
-/* 導覽列 */
-.header-nav {
+.DJ-wrap .header-nav {
   background-color: #1d1d1d;
   width: 100%;
   box-shadow: 1px 2px 10px rgb(0, 0, 0);
   z-index: 10;
 }
-
-.header-nav img {
+.DJ-wrap .header-nav img {
   -o-object-fit: cover;
   object-fit: cover;
 }
-
-/*------> banner<------ */
-/* 跑馬燈海報區域位置調整 */
-.banner {
+.DJ-wrap .banner {
   margin-top: 0;
   height: 100vh;
   position: relative;
@@ -35,16 +40,16 @@ html {
   /* 跑馬燈文字的间距调整 */
   /* 跑馬燈錯位調整 */
 }
-.banner .marquee {
+.DJ-wrap .banner .marquee {
   position: absolute;
   top: 50%;
   left: 0;
   width: 100%;
   transform: translateY(-50%);
 }
-.banner .marquee p {
+.DJ-wrap .banner .marquee p {
   margin: 10px;
-  font-family: "Kanit", sans-serif !important;
+  font-family: "Kanit", sans-serif;
   font-weight: 800;
   font-style: italic;
   font-size: 230px;
@@ -52,40 +57,34 @@ html {
   line-height: 190px;
   white-space: nowrap;
 }
-.banner .marquee span {
+.DJ-wrap .banner .marquee span {
   padding-right: 2rem;
   margin: 0 10px;
 }
-.banner .marquee p:nth-of-type(1) {
+.DJ-wrap .banner .marquee p:nth-of-type(1) {
   transform: translateX(0);
 }
-.banner .marquee p:nth-of-type(2) {
+.DJ-wrap .banner .marquee p:nth-of-type(2) {
   transform: translateX(-20%);
 }
-.banner .marquee p:nth-of-type(3) {
+.DJ-wrap .banner .marquee p:nth-of-type(3) {
   transform: translateX(10%);
 }
-.banner .marquee p:nth-of-type(4) {
+.DJ-wrap .banner .marquee p:nth-of-type(4) {
   transform: translateX(-15%);
 }
-
-/* 播放機 */
-#Record {
+.DJ-wrap #Record {
   position: absolute;
   width: 45%;
   left: 28%;
   top: 20%;
 }
-
-/* 播放機的那一條 */
-#RecordBar {
+.DJ-wrap #RecordBar {
   position: absolute;
   width: 19%;
   top: 30%;
   left: 52%;
 }
-
-/* 處理唱片轉動 */
 @keyframes rotate {
   from {
     transform: rotate(0deg);
@@ -94,8 +93,7 @@ html {
     transform: rotate(360deg);
   }
 }
-/* 唱片圖片 */
-#DjImg {
+.DJ-wrap #DjImg {
   margin: 0px;
   width: 19%;
   position: absolute;
@@ -104,10 +102,7 @@ html {
   animation: rotate 5s linear infinite;
   cursor: pointer;
 }
-
-/* -----介紹內容----- */
-/* 確保圖片和文字在同一個區塊中 */
-.content {
+.DJ-wrap .content {
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -116,67 +111,55 @@ html {
   padding: 40px; /* 調整 padding 值以確保圖片和文字間距合理 */
   box-sizing: border-box;
 }
-
-.content:nth-of-type(2) img {
+.DJ-wrap .content:nth-of-type(2) img {
   max-width: 100%;
 }
-
-.content:nth-of-type(3) img {
+.DJ-wrap .content:nth-of-type(3) img {
   max-width: 100%;
   position: absolute;
   top: 10px;
 }
-
-.content:nth-of-type(4) img {
+.DJ-wrap .content:nth-of-type(4) img {
   max-width: 100%;
   position: absolute;
   top: 10px;
 }
-
-.content:nth-of-type(5) img {
+.DJ-wrap .content:nth-of-type(5) img {
   max-width: 60%;
   position: absolute;
   top: 30px;
 }
-
-.content:nth-of-type(6) img {
+.DJ-wrap .content:nth-of-type(6) img {
   max-width: 80%;
   position: absolute;
   top: 30px;
 }
-
-.content:nth-of-type(7) img {
+.DJ-wrap .content:nth-of-type(7) img {
   max-width: 65%;
   position: absolute;
   top: 30px;
 }
-
-.content-text {
+.DJ-wrap .content-text {
   position: absolute;
   top: 60%;
   padding: 20px;
   line-height: 6rem;
 }
-
-.content h2 {
+.DJ-wrap .content h2 {
   font-size: 4rem;
   margin: 0;
   color: #baf13a;
   font-weight: bold;
 }
-
-.content p {
+.DJ-wrap .content p {
   font-size: 1.3rem;
   line-height: 2rem;
   margin: 0;
 }
-
-/* 底下介紹 */
-.bottom-content {
+.DJ-wrap .bottom-content {
   margin-bottom: 100px;
 }
-
-.bottom-content img {
+.DJ-wrap .bottom-content img {
   margin-bottom: 5rem;
   width: 100%;
   height: 50vh;
@@ -184,142 +167,121 @@ html {
   -o-object-fit: cover;
   object-fit: cover;
 }
-
-.bottom-text {
+.DJ-wrap .bottom-text {
   color: white;
   z-index: 10;
   padding: 0px 50px;
   text-align: center;
 }
-
-.bottom-content h2 {
+.DJ-wrap .bottom-content h2 {
   margin: 0px;
   font-size: 4rem;
   color: #baf13a;
 }
-
-.bottom-content p {
+.DJ-wrap .bottom-content p {
   margin: 0 auto;
   width: 80ch;
   font-size: 1.3rem;
   margin-top: 50px;
   line-height: 35px;
 }
-
-/* 這邊拿來調整position sticky效果 */
-body {
+.DJ-wrap body {
   width: 100%;
   overflow-x: hidden;
 }
-
-.content {
+.DJ-wrap .content {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 }
-
-.content--sticky {
+.DJ-wrap .content--sticky {
   width: 100vw;
   position: sticky;
   --offset: 0px;
   top: var(--offset);
   height: calc(100vh - var(--offset));
 }
-
-.content--grid:has(.content__inner) {
+.DJ-wrap .content--grid:has(.content__inner) {
   display: block;
   padding: 0;
 }
-
-.content--card .content__title {
+.DJ-wrap .content--card .content__title {
   font-size: clamp(1.5rem, 4vw, 3.5rem);
 }
-
-.content--card .content__title i {
+.DJ-wrap .content--card .content__title i {
   display: block;
 }
-
-.content--half {
+.DJ-wrap .content--half {
   display: flex;
   flex-direction: column;
   gap: 3vh;
   text-align: center;
 }
-
-.content--half:nth-child(odd) {
+.DJ-wrap .content--half:nth-child(odd) {
   margin-left: auto;
 }
-
-.content__text {
+.DJ-wrap .content__text {
   margin: 0;
   max-width: 500px;
   grid-area: content-text;
   text-align: center;
   backface-visibility: hidden;
 }
-
-.content__text--narrow {
+.DJ-wrap .content__text--narrow {
   max-width: 300px;
 }
-
-.content--outro {
+.DJ-wrap .content--outro {
   padding-top: 50vh;
   padding-bottom: 30vh;
 }
-
-.bg-1 {
+.DJ-wrap .bg-1 {
   background-color: #1d1d1d;
 }
-
-.bg-2 {
+.DJ-wrap .bg-2 {
   background: #1d1d1d;
 }
-
-.bg-3 {
+.DJ-wrap .bg-3 {
   background: #1d1d1d;
 }
-
-.bg-4 {
+.DJ-wrap .bg-4 {
   background: #1d1d1d;
 }
-
-.bg-5 {
+.DJ-wrap .bg-5 {
   background: #1d1d1d;
 }
-
-.bg-6 {
+.DJ-wrap .bg-6 {
   background: #1d1d1d;
 }
-
 @media screen and (min-width: 63em) {
-  body {
+  .DJ-wrap body {
     --page-padding: 2rem 3rem;
   }
-  .frame--header {
+  .DJ-wrap .frame--header {
     height: 100vh;
     grid-template-columns: auto auto auto 1fr 1fr;
     grid-template-rows: auto 1fr auto;
     align-content: space-between;
   }
-  .frame__heading {
+  .DJ-wrap .frame__heading {
     margin-top: 0;
   }
-  .frame__heading h2 {
+  .DJ-wrap .frame__heading h2 {
     white-space: nowrap;
   }
-  .frame__heading p {
+  .DJ-wrap .frame__heading p {
     margin: 0 0 0 auto;
   }
-  .content--grid .content__title {
+  .DJ-wrap .content--grid .content__title {
     align-self: end;
   }
-  .frame__demos {
+  .DJ-wrap .frame__demos {
     position: fixed;
     bottom: 2rem;
   }
-  .content--half {
+  .DJ-wrap .content--half {
     width: 50%;
   }
 }
+
 /*# sourceMappingURL=Dj.css.map */

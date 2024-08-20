@@ -26,7 +26,7 @@ const CartConfirmation = () => {
   } = location.state || {}
 
   const [customerName, setCustomerName] = useState(initialCustomerName)
-  const [customerEmail] = useState(initialCustomerEmail) // 信箱保持不可編輯
+  const [customerEmail] = useState(initialCustomerEmail) // 信箱不可編輯
   const [customerPhone, setCustomerPhone] = useState(initialCustomerPhone)
   const [orderRemark, setOrderRemark] = useState(initialOrderRemark || '')
   const [isLoading, setIsLoading] = useState(false)
@@ -35,6 +35,7 @@ const CartConfirmation = () => {
     setIsLoading(true)
     try {
       const response = await axios.post('http://localhost:3000/riverflow/pay/create-checkout-session', {
+        shippingFee,
         finalTotal,
         items: cartItems.map((item) => ({
           name: item.productName,

@@ -18,7 +18,9 @@ const BlogItem = ({ blog, onStatusChange, handleDelete }) => {
       setIsUpdating(true)
       try {
         const endpoint = newStatus === 1 ? 'launch' : 'remove'
-        await axios.put(`http://localhost:3000/riverflow/admin/news/${blog.newsId}/${endpoint}`)
+        await axios.put(`http://localhost:3000/riverflow/admin/news/${blog.newsId}/${endpoint}`, {
+          withCredentials: true
+        })
         setStatus(newStatus)
         onStatusChange(blog.newsId, newStatus)
       } catch (error) {
