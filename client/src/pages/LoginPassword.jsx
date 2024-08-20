@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import '../assets/login.css';
 import Header from '../components/header'
+import Footer from '../components/footer'
 
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
@@ -113,6 +114,7 @@ class LoginPassword extends Component {
                             <label>帳號</label>
                             <input type="text" id="email" name="email"
                                 value={this.state.Users.email}
+                                style={{ width: '80%' }}
                                 placeholder="Enter email"
                                 autoComplete='off'
                                 onChange={this.EmailChange} /><br />
@@ -133,7 +135,7 @@ class LoginPassword extends Component {
                 </section>
 
 
-
+                <Footer/>
             </div >
 
 

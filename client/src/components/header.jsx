@@ -92,10 +92,10 @@ export default function Header () {
             </li>
           </ul>
           <div class='functionIcons flex'>
-            <Link to='Member/Tickets' class='headerIcon'>
+            <Link to='/Member/Tickets' class='headerIcon'>
               <i class='bi bi-ticket-perforated'> </i>
             </Link>
-            <Link to='Order/Cart' class='headerIcon'>
+            <Link to='/Order/Cart' class='headerIcon'>
               <i class='bi bi-cart'> </i>
             </Link>
             <Link to='/Member/Index' class='headerIcon'>

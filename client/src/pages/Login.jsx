@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import axios from 'axios'
 import '../assets/login.css'
 import Header from '../components/header'
+import Footer from '../components/footer'
 
 class Login extends Component {
   state = {
@@ -117,6 +118,7 @@ class Login extends Component {
             </div>
           )}
         </section>
+        <Footer/>
       </div>
     )
   }

@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
 import '../assets/login.css';
 import Header from '../components/header';
+import Footer from '../components/footer'
 
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
@@ -170,6 +171,7 @@ const LoginVerify = () => {
                     {resetError && <p className="error-message">{resetError}</p>}
                 </div>
             </section>
+            <Footer/>
         </div>
     );
 };

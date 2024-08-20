@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import axios from 'axios'
 import '../assets/member.css'
 import Header from '../components/header'
+import Footer from '../components/footer'
 import defaultImg from '../assets/images/defaultphoto.jpg' // 預設會員圖片
 
 class MemberOrderList extends Component {
@@ -123,7 +124,7 @@ class MemberOrderList extends Component {
       已付款: '待出貨',
       pending: '未付款',
       completed: '已完成',
-      canceled: '未完成'
+      cancelled: '未完成'
     }
     // 變更付款方式名稱
     const payMethodMap = {
@@ -229,7 +230,7 @@ class MemberOrderList extends Component {
             <div id='Unpaid' className='tabcontent'>
               {unpaidOrders.map((order) => (
                 <div className='member-order' key={order.orderId}>
-                  <div className='wrap'>
+                  <div className='member-wrap'>
                     <span>訂單編號：{order.orderId}</span>
                     <button className='orderbtn' onClick={() => this.goOrder(order.orderId)}>
                       訂單明細
@@ -260,7 +261,7 @@ class MemberOrderList extends Component {
             <div id='Payment' className='tabcontent'>
               {paymentOrders.map((order) => (
                 <div className='member-order' key={order.orderId}>
-                  <div className='wrap'>
+                  <div className='member-wrap'>
                     <span>訂單編號：{order.orderId}</span>
                     <a href='memberOrder.html'>
                       <button className='orderbtn' onClick={() => this.goOrder(order.orderId)}>
@@ -293,7 +294,7 @@ class MemberOrderList extends Component {
             <div id='Completed' className='tabcontent'>
               {displayedCompletedOrders.map((order) => (
                 <div className='member-order' key={order.orderId}>
-                  <div className='wrap'>
+                  <div className='member-wrap'>
                     <span>訂單編號：{order.orderId}</span>
                     <a href='memberOrder.html'>
                       <button className='orderbtn'>訂單明細</button>
@@ -327,7 +328,7 @@ class MemberOrderList extends Component {
             <div id='NotYetCompleted' className='tabcontent'>
               {displayedrecentnotYetCompletedOrders.map((order) => (
                 <div className='member-order' key={order.orderId}>
-                  <div className='wrap'>
+                  <div className='member-wrap'>
                     <span>訂單編號：{order.orderId}</span>
                     <a href='memberOrder.html'>
                       <button className='orderbtn'>訂單明細</button>
@@ -359,6 +360,7 @@ class MemberOrderList extends Component {
             </div>
           </div>
         </div>
+        <Footer/>
       </div>
     )
   }

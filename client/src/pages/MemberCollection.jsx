@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import '../assets/member.css';
 import axios from 'axios';
 import Header from '../components/header'
+import Footer from '../components/footer'
 import defaultImg from '../assets/images/defaultphoto.jpg'; // 預設會員圖片
 
 
@@ -150,17 +151,17 @@ class MemberCollection extends Component {
                                 <div class="member-order" key={index}>
 
                                     <div class="Img-box">
-                                        <img src={productItem.productImg} alt="" />
+                                    <img src={`/images/products/${productItem.productImg}`} alt="" />
                                     </div>
                                     <div class="container">
-                                        <div class="wrap">
+                                        <div class="member-wrap">
                                             <h3>{productItem.productName}</h3>
                                             <button class="closebtn" onClick={() => this.Delete(productItem.productId)}><i class="bi bi-x"></i></button>
                                         </div>
-                                        <div class="wrap">
+                                        <div class="member-wrap">
                                             <p>{productItem.productDesc}</p>
                                         </div>
-                                        <div class="wrap">
+                                        <div class="member-wrap">
                                             <span>NT${productItem.productPrice}</span>
                                             <button class="orderbtn" onClick={() => this.goProduct(productItem.productId)}>前往商品頁</button>
                                         </div>
@@ -178,7 +179,7 @@ class MemberCollection extends Component {
 
                 </div>
 
-
+                <Footer/>
             </div>
 
 
