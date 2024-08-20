@@ -102,6 +102,8 @@ exports.searchProducts = async (req, res) => {
 }
 // 新增
 exports.createProduct = async (req, res) => {
+  const formData = req.body
+  console.log('formData: ',formData)
   const query = util.promisify(dbConnect.query).bind(dbConnect)
   try {
     const repeatedProduct = await adminModel.searchProductName(req.body.productName)
@@ -114,13 +116,14 @@ exports.createProduct = async (req, res) => {
 
     try {
       const productId = await adminModel.createProduct(req.body)
-      console.log(productId)
-
+      
       if (!productId) {
         throw new Error('建立商品失敗')
       }
-
+      
       for (const categoryId of req.body.productCategories) {
+        console.log('productID: ',productId)
+        console.log('categoryId: ',categoryId + '類型: ',typeof(categoryId),)
         await adminModel.createProductCategories(productId, categoryId)
       }
 

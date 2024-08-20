@@ -121,6 +121,8 @@ export default function AddPrd() {
     console.log('提交開始formData', formData)
 
     const selectedCategories = selectedOptions.map(option => option.value)
+    // console.log('類別: ',selectedCategories);
+    
     const productImgs = imageFields.map(field => field.fill).filter(file => file !== null)
     // console.log('selectedCategories:', typeof selectedCategories, selectedCategories)
     const productOpt = generateProductOpt()
@@ -136,10 +138,6 @@ export default function AddPrd() {
         formDataToSend.append(key, formData[key])
       }
     })
-
-    // 添加處理後的字段
-    // formDataToSend.append('productPrice', formData.productPrice ? parseInt(formData.productPrice) : '')
-    // formDataToSend.append('discountRate', formData.discountRate ? parseFloat(formData.discountRate) : '')
     
     // 添加類別和選項
     formDataToSend.append('productCategories', selectedCategories)
@@ -150,10 +148,10 @@ export default function AddPrd() {
     //   formDataToSend.append('productImgs', productImage.name)
     // }
 
-    console.log("FormData contents:")
-    for (let [key, value] of formDataToSend.entries()) {
-      console.log(`${key}, ${value}, type: ${typeof value}`)
-    }
+    // console.log("FormData contents:")
+    // for (let [key, value] of formDataToSend.entries()) {
+    //   console.log(`${key}, ${value}, type: ${typeof value}`)
+    // }
 
     // const processedFormData = {
     //   ...formData,
@@ -188,7 +186,8 @@ export default function AddPrd() {
       const response = await axios.post('http://localhost:3000/riverflow/admin/products/create', formDataToSend, {
         headers: {
           'Content-Type': 'multipart/form-data'
-        }
+        },
+        withCredentials: true
       })
       console.log('提交成功:', response.data)
     } catch(error) {
