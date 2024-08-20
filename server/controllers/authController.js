@@ -318,10 +318,8 @@ exports.adminLogin = async (req, res) => {
 
     res.cookie('adminToken', newToken, {
       httpOnly: false,
-      // sameSite: 'strict',
-      // secure: process.env.NODE_ENV === 'production',
-      sameSite: 'lax',
-      secure: false,
+      sameSite: 'strict',
+      secure: process.env.NODE_ENV === 'production',
       maxAge: 7 * 24 * 60 * 60 * 1000 // 7天
     })
 

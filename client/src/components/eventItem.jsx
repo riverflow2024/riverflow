@@ -3,7 +3,7 @@ import React, { useState, useEffect, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 
-const EventItem = ({ event, onStatusChange, handleDelete }) => {
+const EventItem = ({ event, onStatusChange, handleDelete, adminToken }) => {
   const navigate = useNavigate()
 
   const [status, setStatus] = useState(event.launchStatus)
@@ -18,7 +18,13 @@ const EventItem = ({ event, onStatusChange, handleDelete }) => {
       setIsUpdating(true)
       try {
         const endpoint = eventStatus === 1 ? 'launch' : 'remove'
-        await axios.put(`http://localhost:3000/riverflow/admin/events/${event.eventId}/${endpoint}`, {
+        await axios({
+          method: 'put',
+          url: `http://localhost:3000/riverflow/admin/events/${event.eventId}/${endpoint}`,
+          headers: {
+            Authorization: `Bearer ${adminToken}`,
+            'Content-Type': 'application/json'
+          },
           withCredentials: true
         })
         setStatus(eventStatus)
@@ -29,7 +35,7 @@ const EventItem = ({ event, onStatusChange, handleDelete }) => {
         setIsUpdating(false)
       }
     },
-    [event.eventId, onStatusChange]
+    [event.eventId, onStatusChange, adminToken]
   )
 
   const removeStatus = () => updateStatus(0)
