@@ -5,8 +5,6 @@
   font-style: normal;
 }
 
-/* CURSOR */
-
 .cursor {
   position: fixed;
   display: block;
@@ -25,8 +23,6 @@
   background-color: black;
 }
 
-/* NAV */
-
 nav {
   position: fixed;
   top: 0;
@@ -44,8 +40,6 @@ nav h1 {
   color: rgb(255, 255, 255);
 }
 
-/* PREMIER BLOC */
-
 .container-1 {
   padding: 100px 0px 0px 0px;
   display: flex;
@@ -57,8 +51,6 @@ nav h1 {
   height: 3500px;
   position: absolute;
 }
-
-/* DEUXIEME BLOC */
 
 .container-2 {
   display: flex;
@@ -74,8 +66,6 @@ nav h1 {
   padding-bottom: 15vh;
 }
 
-/* TROISIEME BLOC */
-
 .container-3 {
   margin-top: 10rem;
   padding: 100px 0px 0px 0px;
@@ -88,8 +78,6 @@ nav h1 {
   height: 3500px;
   float: right;
 }
-
-/* IMAGES */
 
 .image {
   width: 450px;
