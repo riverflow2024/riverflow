@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import '../assets/login.css';
 import Header from '../components/header'
+import Footer from '../components/footer'
 
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
@@ -134,7 +135,7 @@ class LoginPassword extends Component {
                 </section>
 
 
-
+                <Footer/>
             </div >
 
 

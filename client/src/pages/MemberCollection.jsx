@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import '../assets/member.css';
 import axios from 'axios';
 import Header from '../components/header'
+import Footer from '../components/footer'
 import defaultImg from '../assets/images/defaultphoto.jpg'; // 預設會員圖片
 
 
@@ -178,7 +179,7 @@ class MemberCollection extends Component {
 
                 </div>
 
-
+                <Footer/>
             </div>
 
 

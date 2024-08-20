@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import '../assets/news.css';
 import axios from 'axios';
 import Header from '../components/header';
+import Footer from '../components/footer'
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 // 編輯器
 import CKEditorContent from '../components/CKEditorContent';
@@ -262,6 +263,7 @@ class NewsArticle extends Component {
                     <h4>Back to List</h4>
                     <i className="bi bi-arrow-left"></i>
                 </div>
+                <Footer/>
             </div>
         );
     }

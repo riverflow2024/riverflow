@@ -3,6 +3,7 @@ import '../assets/member.css'
 import '../assets/customSwalStyles.css'
 import axios from 'axios'
 import Header from '../components/header'
+import Footer from '../components/footer'
 import defaultImg from '../assets/images/defaultphoto.jpg' // 預設會員圖片
 
 import Swal from 'sweetalert2'
@@ -269,6 +270,7 @@ class MemberEdit extends Component {
             </div>
           </div>
         </section>
+        <Footer/>
       </div>
     )
   }

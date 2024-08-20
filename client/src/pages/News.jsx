@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import '../assets/news.css'
 import axios from 'axios'
 import Header from '../components/header'
+import Footer from '../components/footer'
+
 
 const NewsCard = ({ newsId, image, type, date, title, description, isGreen, goArticle }) => {
   const newsCardMap = {
@@ -423,6 +425,7 @@ class NewsIndex extends Component {
             </div>
           </div>
         </section>
+        <Footer/>
       </div>
     )
   }
