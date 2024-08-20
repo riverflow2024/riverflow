@@ -26,7 +26,7 @@ const CartConfirmation = () => {
   } = location.state || {}
 
   const [customerName, setCustomerName] = useState(initialCustomerName)
-  const [customerEmail] = useState(initialCustomerEmail) // 信箱保持不可編輯
+  const [customerEmail] = useState(initialCustomerEmail) // 信箱不可編輯
   const [customerPhone, setCustomerPhone] = useState(initialCustomerPhone)
   const [orderRemark, setOrderRemark] = useState(initialOrderRemark || '')
   const [isLoading, setIsLoading] = useState(false)
