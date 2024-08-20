@@ -3,6 +3,8 @@ import '../assets/news.css';
 import axios from 'axios';
 import Header from '../components/header';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
+// 編輯器
+import CKEditorContent from '../components/CKEditorContent';
 
 // 這是是因為orderId所加的程式碼
 
@@ -226,7 +228,8 @@ class NewsArticle extends Component {
                     </article>
                     <article>
                         <div className="wrap">
-                            <p dangerouslySetInnerHTML={{ __html: Article.newsContent }} />
+                            {/* <p dangerouslySetInnerHTML={{ __html: Article.newsContent }} /> */}
+                            <CKEditorContent content={Article.newsContent} />
                         </div>
                     </article>
                 </section>
