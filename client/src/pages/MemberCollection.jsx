@@ -150,7 +150,7 @@ class MemberCollection extends Component {
                                 <div class="member-order" key={index}>
 
                                     <div class="Img-box">
-                                        <img src={productItem.productImg} alt="" />
+                                    <img src={`/images/products/${productItem.productImg}`} alt="" />
                                     </div>
                                     <div class="container">
                                         <div class="member-wrap">
