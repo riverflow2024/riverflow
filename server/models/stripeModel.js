@@ -51,7 +51,7 @@ const createCheckoutSession = async (items , finalTotal) => {
 
 //新增活動付款Session
 const createEventCheckoutSession = async (event) => {
-    console.log('event',event)
+
     const session = await stripe.checkout.sessions.create({
         payment_method_types: ['card'],
         mode: 'payment',
@@ -64,7 +64,7 @@ const createEventCheckoutSession = async (event) => {
                 },
                 unit_amount: ticket.price * 100,
             },
-            quantity: 1, // 默認為1,可以根據需求調整
+            quantity: 1,
         })),
         success_url: `${process.env.CLIENT_URL}/Order/PaymentSuccess?session_id={CHECKOUT_SESSION_ID}`,
         cancel_url: `${process.env.CLIENT_URL}/cancel.html`,
@@ -75,6 +75,7 @@ const createEventCheckoutSession = async (event) => {
             tickets: JSON.stringify(event.ticketType.map(ticket => ({
                 type: ticket.type,
                 quantity: ticket.quantity,
+                totalquantity: ticket.totalquantity,
                 price: ticket.price
             })))
         }
@@ -166,6 +167,9 @@ const saveOrderDetails = async (sessionId, userId) => {
 
             const eventId = session.metadata.event_id;
             const ticketType = JSON.parse(session.metadata.tickets);
+            console.log('TicketType: ',ticketType)
+        // 删除 購物車項目
+        await query('DELETE FROM cartitem WHERE cartId IN (SELECT cartId FROM cart WHERE userId = ?)', [userId])
 
             // 開始資料庫交易
             await query('START TRANSACTION');
@@ -198,13 +202,19 @@ const saveOrderDetails = async (sessionId, userId) => {
                 const updatedTicketTypes = currentTicketTypes.map(currentTicket => {
                     const purchasedTicket = ticketType.find(t => t.type === currentTicket.type);
                     if (purchasedTicket) {
+                        console.log('totalquantity: ',purchasedTicket.totalquantity)
                         return {
                             ...currentTicket,
-                            stock: currentTicket.stock - purchasedTicket.quantity
+                            stock: currentTicket.stock - purchasedTicket.totalquantity
                         };
                     }
                     return currentTicket;
                 });
+        // 如果存在相同訂單，提交並返回
+        if (existingOrder.length > 0) {
+          await query('COMMIT')
+          return { success: true, message: '票券訂單已存在，無需重複處理' }
+        }
 
                 // 更新資料庫中的票券庫存
                 await query(
@@ -221,7 +231,7 @@ const saveOrderDetails = async (sessionId, userId) => {
                         `INSERT INTO ticketdetails
                                 (userId, eventId, ticketType, quantity, tdStatus, tdPrice, randNum, payTime, receiptType, receiptInfo, createdAt, updatedAt)
                                 VALUES (?, ?, ?, ?, ?, ?, ?, NOW(), ?, ?, NOW(), NOW())`,
-                        [userId, eventId, ticket.type, ticket.quantity, 'pending', ticket.price, randNum, 'dupInvoice', '/123K456']
+                        [userId, eventId, ticket.type, ticket.quantity, '已付款', ticket.price, randNum, '手機載具', '/123K456']
                     );
                 }
 

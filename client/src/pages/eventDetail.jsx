@@ -5,6 +5,8 @@ import '../assets/event/eventPage2.css'
 import '../utils/eventDetail.js'
 import Header from '../components/header'
 import Footer from '../components/footer'
+import CKEditorContent from '../components/CKEditorContent';
+import '../assets/ckeditor-content-styles.css'
 
 function EventDetail() {
   const { id } = useParams();
@@ -137,10 +139,12 @@ function EventDetail() {
           <div class="eventIntroduce" id="eventIntroduce">
             <p>活動介紹</p>
             <div class="introduceImage">
-              <img src={`/images/events/${event.eventImg}`} alt={event.eventName} />
+              {/* <img src={`/images/events/${event.eventImg}`} alt={event.eventName} /> */}
             </div>
-            <p>活動簡介</p>
-            <p>{event.eventDesc}</p>
+            {/* <p>活動簡介</p> */}
+            {/* <p>{event.eventDesc}</p> */}
+            {/* <p dangerouslySetInnerHTML={{ __html: event.eventDesc }} /> */}
+            <CKEditorContent content={event.eventDesc} />
           </div>
           {/* <!-- 選單-注意事項 --> */}
           <div class="eventCaution" id="eventCaution">

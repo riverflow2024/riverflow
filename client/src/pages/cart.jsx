@@ -11,60 +11,60 @@ const CartItem = ({ item, onQuantityChange, onDelete }) => {
   }
 
   return (
-    <tr className="cart-item">
+    <tr className='cart-item'>
       <td>
-        <div className="cart-item-left-content">
+        <div className='cart-item-left-content'>
           <img
-            src={`http://localhost:3000${item.productImg}`}
+            src={`/images/products/${item.productImg}`}
             alt={item.productName}
             onError={(e) => {
               e.target.src = '/images/products/default.jpg' // 預設圖片路徑
             }}
           />
-          <div className="cart-item-content">
+          <div className='cart-item-content'>
             <h4>{item.productName}</h4>
             <h5>{item.productOpt}</h5>
           </div>
         </div>
       </td>
-      <td className="price">NT${item.price}</td>
+      <td className='price'>NT${item.price}</td>
       <td>
-        <div className="quantity-plus-minus">
+        <div className='quantity-plus-minus'>
           <a
-            href="#"
+            href='#'
             onClick={(e) => {
               e.preventDefault()
               handleQuantityChange(-1)
             }}
-            className="quantity-minus"
+            className='quantity-minus'
             aria-disabled={item.quantity === 1 ? 'true' : 'false'}
           >
-            <i className="fa-solid fa-circle-minus"></i>
+            <i className='fa-solid fa-circle-minus'></i>
           </a>
-          <p className="quantity">{item.quantity}</p>
+          <p className='quantity'>{item.quantity}</p>
           <a
-            href="#"
+            href='#'
             onClick={(e) => {
               e.preventDefault()
               handleQuantityChange(1)
             }}
-            className="quantity-plus"
+            className='quantity-plus'
           >
-            <i className="fa-solid fa-circle-plus"></i>
+            <i className='fa-solid fa-circle-plus'></i>
           </a>
         </div>
       </td>
-      <td className="total">NT${item.price * item.quantity}</td>
+      <td className='total'>NT${item.price * item.quantity}</td>
       <td>
         <a
-          href="#"
+          href='#'
           onClick={(e) => {
             e.preventDefault()
             onDelete(item.ciid)
           }}
-          className="delete"
+          className='delete'
         >
-          <i className="fa-regular fa-trash-can"></i>
+          <i className='fa-regular fa-trash-can'></i>
         </a>
       </td>
     </tr>
@@ -126,19 +126,19 @@ const Cart = () => {
   const totalPrice = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0)
 
   return (
-    <div className="cart-wrap-f">
+    <div className='cart-wrap-f'>
       <Header />
-      <div className="container-f">
-        <div className="cart-wrap">
-          <div className="container">
-            <div className="top">
+      <div className='container-f'>
+        <div className='cart-wrap'>
+          <div className='container'>
+            <div className='top'>
               <h3>River Flow | 購物車</h3>
             </div>
-            <div className="cart-border">
-              <table className="cart-table">
+            <div className='cart-border'>
+              <table className='cart-table'>
                 <thead>
                   <tr>
-                    <th className="shop-push">商品</th>
+                    <th className='shop-push'>商品</th>
                     <th>單價</th>
                     <th>數量</th>
                     <th>總金額</th>
@@ -147,22 +147,22 @@ const Cart = () => {
                 </thead>
               </table>
             </div>
-            <div className="cart-border-inner">
-              <table className="cart-table">
-                <tbody id="cart-items">
+            <div className='cart-border-inner'>
+              <table className='cart-table'>
+                <tbody id='cart-items'>
                   {cartItems.map((item) => (
                     <CartItem key={item.ciid} item={item} onQuantityChange={updateCart} onDelete={deleteItem} />
                   ))}
                 </tbody>
               </table>
             </div>
-            <div className="checkButton">
+            <div className='checkButton'>
               <p>
-                已選購 <span id="item-count">{totalItems}</span> 項商品
+                已選購 <span id='item-count'>{totalItems}</span> 項商品
               </p>
-              <div className="rightCheckButton">
-                總金額: NT$<span id="total-amount">{totalPrice}</span>
-                <button onClick={handleCheckout} disabled={isLoading || cartItems.length === 0} className="GoBtn">
+              <div className='rightCheckButton'>
+                總金額: NT$<span id='total-amount'>{totalPrice}</span>
+                <button onClick={handleCheckout} disabled={isLoading || cartItems.length === 0} className='GoBtn'>
                   {isLoading ? '處理中...' : '前往訂單'}
                 </button>
               </div>

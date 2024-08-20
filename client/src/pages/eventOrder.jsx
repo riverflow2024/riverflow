@@ -43,6 +43,7 @@ const EventOrder = () => {
       ticketType: tickets.map(ticket => ({
         type: ticket.type,
         quantity: ticket.quantity,
+        totalquantity: ticket.totalquantity,
         price: ticket.price
       }))
 

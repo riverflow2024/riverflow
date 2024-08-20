@@ -33,7 +33,8 @@ const EventConfirmInfo = () => {
           console.log('selectedTickets : ',selectedTickets)
           const expandedTickets = selectedTickets.flatMap(ticket => 
             Array(ticket.quantity).fill().map(() => ({
-              quantity: ticket.quantity,
+              totalquantity: ticket.quantity,
+              quantity: 1,
               area: ticket.area,
               type: ticket.type,
               price: ticket.price
