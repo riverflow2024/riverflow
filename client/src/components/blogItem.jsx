@@ -3,7 +3,7 @@ import React, { useState, useEffect, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 
-const BlogItem = ({ blog, onStatusChange, handleDelete }) => {
+const BlogItem = ({ blog, onStatusChange, handleDelete, adminToken }) => {
   const navigate = useNavigate()
 
   const [status, setStatus] = useState(blog.newsStatus)
@@ -14,22 +14,28 @@ const BlogItem = ({ blog, onStatusChange, handleDelete }) => {
   }, [blog.newsStatus])
 
   const updateStatus = useCallback(
-    async (newStatus) => {
+    async (newsStatus) => {
       setIsUpdating(true)
       try {
-        const endpoint = newStatus === 1 ? 'launch' : 'remove'
-        await axios.put(`http://localhost:3000/riverflow/admin/news/${blog.newsId}/${endpoint}`, {
+        const endpoint = newsStatus === 1 ? 'launch' : 'remove'
+        await axios({
+          method: 'put',
+          url: `http://localhost:3000/riverflow/admin/news/${blog.newsId}/${endpoint}`,
+          headers: {
+            Authorization: `Bearer ${adminToken}`,
+            'Content-Type': 'application/json'
+          },
           withCredentials: true
         })
-        setStatus(newStatus)
-        onStatusChange(blog.newsId, newStatus)
+        setStatus(newsStatus)
+        onStatusChange(blog.newsId, newsStatus)
       } catch (error) {
         console.error('狀態更新失敗:', error)
       } finally {
         setIsUpdating(false)
       }
     },
-    [blog.newsId, onStatusChange]
+    [blog.newsId, onStatusChange, adminToken]
   )
 
   const removeStatus = () => updateStatus(0)

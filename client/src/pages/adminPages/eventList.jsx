@@ -1,5 +1,5 @@
 // Author: zhier1114
-import React, { useReducer, useEffect, useCallback } from 'react'
+import React, { useReducer, useState, useEffect, useCallback } from 'react'
 // import $ from 'jquery'
 import { Link, useMatch, useNavigate } from 'react-router-dom'
 import axios from 'axios'
@@ -49,12 +49,23 @@ const EventList = () => {
 
   const [state, dispatch] = useReducer(reducer, initialState)
   const { events, loading, error, currentPage, searchTerm, eventsPerPage } = state
+  const [adminToken, setAdminToken] = useState(null)
+
+  useEffect(() => {
+    const cookies = document.cookie.split(';')
+    const adminTokenCookie = cookies.find((cookie) => cookie.trim().startsWith('adminToken='))
+    if (adminTokenCookie) {
+      const token = adminTokenCookie.split('=')[1]
+      setAdminToken(token)
+    }
+  }, [])
 
   const fetchEvents = useCallback(async () => {
     dispatch({ type: 'SET_LOADING', payload: true })
     try {
       const response = await axios.get('http://localhost:3000/riverflow/admin/events', {
-        withCredentials: true
+        withCredentials: true,
+        headers: { Authorization: `Bearer ${adminToken}` }
       })
 
       dispatch({ type: 'SET_EVENTS', payload: response.data })
@@ -62,7 +73,7 @@ const EventList = () => {
       console.error('獲取活動數據錯誤：', err)
       dispatch({ type: 'SET_ERROR', payload: '獲取活動數據時出錯' })
     }
-  }, [])
+  }, [adminToken])
 
   useEffect(() => {
     fetchEvents()
@@ -201,6 +212,7 @@ const EventList = () => {
                 onStatusChange={reloadEventItem}
                 handleEdit={handleEdit}
                 handleDelete={handleDelete}
+                adminToken={adminToken}
               />
             ))}
           </tbody>

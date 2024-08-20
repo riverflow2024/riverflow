@@ -9,6 +9,9 @@ const AdminLogin = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault()
+    console.log('account:', account)
+    console.log('secret:', secret)
+
     try {
       const response = await axios.post(
         'http://localhost:3000/riverflow/admin/login',
@@ -16,11 +19,10 @@ const AdminLogin = () => {
         { withCredentials: true }
       )
       if (response.data.message === '管理員登入成功') {
-        // 如果後端在響應中也返回了 token，可以在這裡存儲
-        // localStorage.setItem('adminToken', response.data.token);
         navigate('/admin/dashboard')
       }
     } catch (error) {
+      alert('帳號或密碼錯誤，請重新嘗試')
       console.error('登入失敗:', error)
       // 處理登入錯誤，例如顯示錯誤消息
     }

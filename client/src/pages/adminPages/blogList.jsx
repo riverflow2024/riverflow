@@ -1,5 +1,5 @@
 // Author: zhier1114
-import React, { useReducer, useEffect, useCallback } from 'react'
+import React, { useReducer, useState, useEffect, useCallback } from 'react'
 import { Link, useMatch, useNavigate } from 'react-router-dom'
 import BlogItem from '../../components/blogItem'
 import axios from 'axios'
@@ -48,6 +48,16 @@ const BlogList = () => {
 
   const [state, dispatch] = useReducer(reducer, initialState)
   const { blogs, loading, error, currentPage, searchTerm, blogsPerPage } = state
+  const [adminToken, setAdminToken] = useState(null)
+
+  useEffect(() => {
+    const cookies = document.cookie.split(';')
+    const adminTokenCookie = cookies.find((cookie) => cookie.trim().startsWith('adminToken='))
+    if (adminTokenCookie) {
+      const token = adminTokenCookie.split('=')[1]
+      setAdminToken(token)
+    }
+  }, [])
 
   const fetchBlogs = useCallback(async () => {
     dispatch({ type: 'SET_LOADING', payload: true })
@@ -60,7 +70,7 @@ const BlogList = () => {
       console.error('獲取文章數據錯誤：', err)
       dispatch({ type: 'SET_ERROR', payload: '獲取文章數據時出錯' })
     }
-  }, [])
+  }, [adminToken])
 
   useEffect(() => {
     fetchBlogs()
@@ -199,6 +209,7 @@ const BlogList = () => {
                 onStatusChange={reloadBlogItem}
                 handleEdit={handleEdit}
                 handleDelete={handleDelete}
+                adminToken={adminToken}
               />
             ))}
           </tbody>
