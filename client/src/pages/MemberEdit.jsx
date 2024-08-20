@@ -70,13 +70,14 @@ class MemberEdit extends Component {
     if (!selectedFile) return
 
     const formData = new FormData()
-    formData.append('image', selectedFile)
+    formData.append('userImg', selectedFile)
 
     try {
       const response = await axios.post('http://localhost:3000/riverflow/user/update/img', formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
-        }
+        },
+        withCredentials: true // 确保请求带上 Cookie
       })
       // 更新用户头像文件名
       this.setState((prevState) => ({
@@ -231,6 +232,7 @@ class MemberEdit extends Component {
                   value={Users.phone}
                   placeholder={Users.phone}
                   required
+                  autoComplete='new-tel'
                 />
               </div>
               <span className='tips' id='' dangerouslySetInnerHTML={{ __html: this.state.phoneError }}></span>

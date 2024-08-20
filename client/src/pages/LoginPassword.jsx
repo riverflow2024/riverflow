@@ -113,6 +113,7 @@ class LoginPassword extends Component {
                             <label>帳號</label>
                             <input type="text" id="email" name="email"
                                 value={this.state.Users.email}
+                                style={{ width: '80%' }}
                                 placeholder="Enter email"
                                 autoComplete='off'
                                 onChange={this.EmailChange} /><br />

@@ -153,14 +153,14 @@ class MemberCollection extends Component {
                                         <img src={productItem.productImg} alt="" />
                                     </div>
                                     <div class="container">
-                                        <div class="wrap">
+                                        <div class="member-wrap">
                                             <h3>{productItem.productName}</h3>
                                             <button class="closebtn" onClick={() => this.Delete(productItem.productId)}><i class="bi bi-x"></i></button>
                                         </div>
-                                        <div class="wrap">
+                                        <div class="member-wrap">
                                             <p>{productItem.productDesc}</p>
                                         </div>
-                                        <div class="wrap">
+                                        <div class="member-wrap">
                                             <span>NT${productItem.productPrice}</span>
                                             <button class="orderbtn" onClick={() => this.goProduct(productItem.productId)}>前往商品頁</button>
                                         </div>

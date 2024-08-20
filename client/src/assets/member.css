@@ -1,6 +1,6 @@
 @charset "UTF-8";
-@import url('https://fonts.googleapis.com/css2?family=Just+Another+Hand&display=swap');
-@import url('https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css');
+@import url("https://fonts.googleapis.com/css2?family=Just+Another+Hand&display=swap");
+@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css");
 /*------- 個人資料--------- */
 .Member {
   width: 100%;
@@ -33,7 +33,7 @@
   height: 88px;
   border-radius: 50%;
   -o-object-fit: cover;
-  object-fit: cover;
+     object-fit: cover;
   overflow: hidden;
   position: relative;
 }
@@ -85,6 +85,7 @@
 .Member .nav-box .nav li a {
   color: var(--main2);
   text-decoration: none;
+  cursor: pointer;
 }
 .Member .nav-box .nav li i {
   margin-right: 20px;
@@ -124,7 +125,7 @@
 .Member .profile-box .input-card {
   padding: 15px 0;
 }
-.Member .profile-box .input-card input[type='text'] {
+.Member .profile-box .input-card input[type=text] {
   margin-left: 0;
 }
 .Member .profile-box .input-card:has(input:focus-visible) {
@@ -155,7 +156,7 @@
 .Member .profile-box .input-date label {
   color: var(--main);
 }
-.Member .profile-box input[type='date']::-webkit-calendar-picker-indicator {
+.Member .profile-box input[type=date]::-webkit-calendar-picker-indicator {
   background-color: var(--main);
   padding: 5px;
   border-radius: 5px;
@@ -170,7 +171,7 @@
   padding: 40px 0;
   gap: 20px;
 }
-.Member .profile-box .btn-box input[type='button'] {
+.Member .profile-box .btn-box input[type=button] {
   background-color: var(--main);
   border: 0;
   border-radius: 10px;
@@ -180,7 +181,7 @@
   padding: 10px;
   text-align: center;
 }
-.Member .profile-box .btn-box input[type='button']:hover {
+.Member .profile-box .btn-box input[type=button]:hover {
   background-color: var(--main2);
 }
 .Member .profile-box.active {
@@ -220,13 +221,14 @@
   height: 88px;
   border-radius: 50%;
   -o-object-fit: cover;
-  object-fit: cover;
+     object-fit: cover;
 }
 .OrderList .nav-box .member .profile {
   padding: 10px;
 }
 .OrderList .nav-box .member .profile a {
   color: var(--side2);
+  cursor: pointer;
 }
 .OrderList .nav-box .nav {
   margin-top: 20px;
@@ -296,18 +298,18 @@
   margin: 20px 0px;
   color: var(--main);
 }
-.OrderList .order-box .tabcontent .member-order .wrap {
+.OrderList .order-box .tabcontent .member-order .member-wrap {
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin-bottom: 30px;
 }
-.OrderList .order-box .tabcontent .member-order .wrap span {
+.OrderList .order-box .tabcontent .member-order .member-wrap span {
   font-size: 16px;
   font-weight: 200;
   letter-spacing: 1px;
 }
-.OrderList .order-box .tabcontent .member-order .wrap .orderbtn {
+.OrderList .order-box .tabcontent .member-order .member-wrap .orderbtn {
   border: none;
   background: transparent;
   border: 0.5px solid var(--main);
@@ -318,7 +320,7 @@
   font-weight: 200;
   letter-spacing: 1px;
 }
-.OrderList .order-box .tabcontent .member-order .wrap .orderbtn:hover {
+.OrderList .order-box .tabcontent .member-order .member-wrap .orderbtn:hover {
   background: var(--main);
   color: var(--bk1);
   font-weight: 400;
@@ -389,13 +391,14 @@
   height: 88px;
   border-radius: 50%;
   -o-object-fit: cover;
-  object-fit: cover;
+     object-fit: cover;
 }
 .Order .nav-box .member .profile {
   padding: 10px;
 }
 .Order .nav-box .member .profile a {
   color: var(--side2);
+  cursor: pointer;
 }
 .Order .nav-box .nav {
   margin-top: 20px;
@@ -544,7 +547,7 @@
   cursor: pointer;
 }
 .Order .order-box .tabcontent .member-order .accordion .container .label::before {
-  content: '+';
+  content: "+";
   color: var(--main);
   position: absolute;
   top: 50%;
@@ -556,7 +559,7 @@
   height: 150px;
 }
 .Order .order-box .tabcontent .member-order .accordion .container.active .label::before {
-  content: '-';
+  content: "-";
   font-size: 30px;
 }
 .Order .order-box .tabcontent .member-order .accordion .container .member-content {
@@ -613,7 +616,7 @@
   height: 88px;
   border-radius: 50%;
   -o-object-fit: cover;
-  object-fit: cover;
+     object-fit: cover;
 }
 .Tickets .nav-box .member .profile {
   padding: 10px;
@@ -633,6 +636,7 @@
 .Tickets .nav-box .nav li a {
   color: var(--main2);
   text-decoration: none;
+  cursor: pointer;
 }
 .Tickets .nav-box .nav li i {
   margin-right: 20px;
@@ -689,18 +693,18 @@
   margin: 20px 0px;
   color: var(--main);
 }
-.Tickets .order-box .tabcontent .member-order .wrap {
+.Tickets .order-box .tabcontent .member-order .member-wrap {
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin-bottom: 30px;
 }
-.Tickets .order-box .tabcontent .member-order .wrap span {
+.Tickets .order-box .tabcontent .member-order .member-wrap span {
   font-size: 16px;
   font-weight: 200;
   letter-spacing: 1px;
 }
-.Tickets .order-box .tabcontent .member-order .wrap .orderbtn {
+.Tickets .order-box .tabcontent .member-order .member-wrap .orderbtn {
   border: none;
   background: transparent;
   border: 0.5px solid var(--main);
@@ -711,7 +715,7 @@
   font-weight: 200;
   letter-spacing: 1px;
 }
-.Tickets .order-box .tabcontent .member-order .wrap .orderbtn:hover {
+.Tickets .order-box .tabcontent .member-order .member-wrap .orderbtn:hover {
   background: var(--main);
   color: var(--bk1);
   font-weight: 400;
@@ -794,7 +798,7 @@
   height: 88px;
   border-radius: 50%;
   -o-object-fit: cover;
-  object-fit: cover;
+     object-fit: cover;
 }
 .Collection .nav-box .member .profile {
   padding: 10px;
@@ -814,6 +818,7 @@
 .Collection .nav-box .nav li a {
   color: var(--main2);
   text-decoration: none;
+  cursor: pointer;
 }
 .Collection .nav-box .nav li i {
   margin-right: 20px;
@@ -878,7 +883,7 @@
 }
 .Collection .order-box .tabcontent .member-order .Img-box img {
   -o-object-fit: cover;
-  object-fit: cover;
+     object-fit: cover;
   width: 200px;
   height: 200px;
   border-radius: 5px;
@@ -889,24 +894,24 @@
   gap: 20px;
   flex-direction: column;
 }
-.Collection .order-box .tabcontent .member-order .container .wrap:nth-of-type(2) {
+.Collection .order-box .tabcontent .member-order .container .member-wrap:nth-of-type(2) {
   padding-right: 50px;
   color: var(--main2);
 }
-.Collection .order-box .tabcontent .member-order .container .wrap {
+.Collection .order-box .tabcontent .member-order .container .member-wrap {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
-.Collection .order-box .tabcontent .member-order .container .wrap h3 {
+.Collection .order-box .tabcontent .member-order .container .member-wrap h3 {
   line-height: normal;
   padding-top: 30px;
   padding-right: 50px;
 }
-.Collection .order-box .tabcontent .member-order .container .wrap p {
+.Collection .order-box .tabcontent .member-order .container .member-wrap p {
   text-align: justify;
 }
-.Collection .order-box .tabcontent .member-order .container .wrap .closebtn {
+.Collection .order-box .tabcontent .member-order .container .member-wrap .closebtn {
   height: auto;
   border: none;
   background: transparent;
@@ -920,12 +925,12 @@
   text-align: center;
   padding: 0px 5px;
 }
-.Collection .order-box .tabcontent .member-order .container .wrap .closebtn:hover {
+.Collection .order-box .tabcontent .member-order .container .member-wrap .closebtn:hover {
   background: var(--main);
   color: var(--bk1);
   font-weight: 400;
 }
-.Collection .order-box .tabcontent .member-order .container .wrap .orderbtn {
+.Collection .order-box .tabcontent .member-order .container .member-wrap .orderbtn {
   border: none;
   background: transparent;
   border: 0.5px solid var(--main);
@@ -936,8 +941,8 @@
   font-weight: 200;
   letter-spacing: 1px;
 }
-.Collection .order-box .tabcontent .member-order .container .wrap .orderbtn:hover,
-.Collection .order-box .tabcontent .member-order .container .wrap .closebtn:hover {
+.Collection .order-box .tabcontent .member-order .container .member-wrap .orderbtn:hover,
+.Collection .order-box .tabcontent .member-order .container .member-wrap .closebtn:hover {
   background: var(--main);
   color: var(--bk1);
   font-weight: 400;
@@ -996,4 +1001,4 @@
   .btn-box .btn {
     width: 100% !important;
   }
-} /*# sourceMappingURL=member.css.map */
+}/*# sourceMappingURL=member.css.map */
