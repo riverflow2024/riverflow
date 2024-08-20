@@ -1,308 +1,458 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
 
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="stylesheet" href="../assets/dance-2.css" />
-    <!-- 淡出淡入cdn -->
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
-    <link rel="stylesheet" href="../assets/dance.css" />
-    <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js"></script>
-    <title>街舞</title>
-  </head>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@100..900&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap"
+        rel="stylesheet">
 
-  <body>
-    <header id="navbar">
-      <div class="flex container">
-        <a href="#">
-          <img class="logo" src="../assets/images/riverflow_logo.png" alt="logo" />
-        </a>
-        <div class="flex header-right">
-          <ul class="headerLink flex">
-            <li><a href="index.html">首頁</a></li>
-            <li class="cultureListName dropdown">
-              <a class="dropdownToggle" href="#">嘻哈文化<i class="bi bi-caret-down-fill"></i></a>
-              <div id="dropdownMenu" class="">
-                <ul class="cultureList flex">
-                  <li><a href="./DJ.html" class="cultureOpt">DJ</a></li>
-                  <li><a href="#" class="cultureOpt">街舞</a></li>
-                  <li><a href="#" class="cultureOpt">饒舌</a></li>
-                  <li><a href="#" class="cultureOpt">塗鴉</a></li>
-                  <li><a href="./skate.html" class="cultureOpt">滑板</a></li>
-                </ul>
-              </div>
-            </li>
-            <li><a href="news.html">嘻哈專欄</a></li>
-            <li><a href="eventPage1.html">into flow</a></li>
-            <li><a href="./ProductAll.html">商店</a></li>
-          </ul>
-          <div class="functionIcons flex">
-            <a href="#" class="headerIcon">
-              <i class="bi bi-ticket-perforated"></i>
-            </a>
-            <a href="./cart.html" class="headerIcon">
-              <i class="bi bi-cart"></i>
-            </a>
-            <a href="login.html" class="headerIcon">
-              <i class="bi bi-person"></i>
-            </a>
-            <div class="headerIcon mobOnly">
-              <input id="menuBtn" class="menuBtn" type="checkbox" />
-              <label for="menuBtn" class="menuIcon">
-                <span class="navigation"></span>
-              </label>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="mobMenu">
-        <ul class="headerLink mob flex">
-          <li><a href="#">首頁</a></li>
-          <li class="cultureListName dropdown dropdown_mob">
-            <a class="dropdownToggle" href="#">嘻哈文化<i class="bi bi-caret-down-fill bi-caret-down-fill_mob"></i></a>
-            <div id="dropdownMenu">
-              <ul class="cultureList cultureList_mob flex">
-                <li><a href="#" class="cultureOpt">DJ</a></li>
-                <li><a href="#" class="cultureOpt">街舞</a></li>
-                <li><a href="#" class="cultureOpt">饒舌</a></li>
-                <li><a href="#" class="cultureOpt">塗鴉</a></li>
-                <li><a href="#" class="cultureOpt">滑板</a></li>
-              </ul>
-            </div>
-          </li>
-          <li><a href="#">嘻哈專欄</a></li>
-          <li><a href="#">into flow</a></li>
-          <li><a href="#">商店</a></li>
-        </ul>
-      </div>
-    </header>
+    <link rel="stylesheet" href="../assets/basic.css">
+    <link rel="stylesheet" href="../assets/style.css">
+    <link rel="stylesheet" href="../assets/reset.css">
+    <link rel="stylesheet" href="../assets/dance.css">
+    <script src="https://www.youtube.com/iframe_api"></script>
+    <title>Street dance</title>
+
+    <style>
+        * {
+            box-sizing: border-box
+        }
+
+        body {
+            font-family: "Lato", sans-serif;
+        }
+
+        /* Style the tab */
+        .tab {
+            float: left;
+            border: 3px solid #98D900;
+            border-right: none;
+            background-color: #1D1D1D;
+            width: 20%;
+            height: 50vh;
+            border-radius: 25px 0px 0px 25px;
+
+        }
+
+        /* Style the buttons inside the tab */
+        .tab button {
+            display: block;
+            background-color: inherit;
+            color: #BAF13A;
+            /* padding: 22px 16px; */
+            width: 100%;
+            border: none;
+            outline: none;
+            text-align: center;
+            cursor: pointer;
+            transition: 0.3s;
+            font-size: 17px;
+            height: 25%;
+            text-wrap: wrap;
+
+
+        }
+
+        /* Change background color of buttons on hover */
+        .tab button:hover {
+            background-color: #BAF13A;
+            color: black;
+        }
+
+        /* Create an active/current "tab button" class */
+        .tab button.active {
+            background-color: #BAF13A;
+            color: black;
+        }
+
+        /* Style the tab content */
+        .tabcontent {
+            /* display: flex; */
+            /* padding: 0px 1px; */
+            border: 3px solid #98D900;
+            width: 80%;
+            height: 100vh;
+            background-color: #1D1D1D;
+        }
+
+        .tabcontent button {
+            padding-left: 30px;
+            display: block;
+            background-color: inherit;
+            color: #FFFFFF;
+            /* padding: 22px 16px; */
+            width: 100%;
+            border: none;
+            outline: none;
+            text-align: start;
+            cursor: pointer;
+            transition: 0.3s;
+            font-size: 17px;
+            height: 10%;
+            /* border: 1px solid #98D900; */
+
+        }
+
+        .tabcontent button:hover {
+            background-color: #BAF13A;
+            color: black;
+        }
+
+        .tabcontent button.active {
+            background-color: #BAF13A;
+            color: black;
+        }
+    </style>
+</head>
+
+<body class="w-bg">
+
+
+
     <!-- 嘻哈起源介紹 -->
-    <section class="banner">
-      <!-- 大標題 -->
+    <section>
 
-      <div class="ml4">
-        <div class="letters letters-1">
-          <img src="../assets/images//dance//街舞1.jpeg" alt="" />
-          <p>街舞</p>
+        <!-- 大標題 -->
+        <div class="maintitle">
+            HISTORY OF HIP-HOP DANCE
         </div>
 
-        <div class="letters letters-2">
-          <img src="../assets/images/dance//街舞2.jpg" alt="" />
-          <p>節奏</p>
+
+        <div class="container-f " style=" display: flex;">
+
+            <!-- 左半部分 -->
+            <div class="title">
+                <div class="pic1" style="border: 1px solid white;">
+                    <img src="../src/assets/images/StreetDance/ORGIN2.jpg" alt="">
+                </div>
+                <div class="pic2" style="border: 1px solid white;">
+                    <img class="" src="../src/assets/images/StreetDance/ORIGIN6.jpg" alt="">
+                </div>
+                <div class="pic3" style="border: 1px solid white;">
+                    <img src="../src/assets/images/StreetDance/ORGIN4.jpg" alt="">
+                </div>
+                <div class="pic4" style="border: 1px solid white;">
+                    <img src="../src/assets/images/StreetDance/ORGIN3.jpg" alt="">
+                </div>
+            </div>
+
+
+            <!-- 右半部分 -->
+            <div>
+                <!-- 小標題 -->
+                <div class="title ">
+                    HIPHOP ORIGIN
+                </div>
+
+                <!-- 起源內容區 -->
+                <div class="orgin">
+
+                    <!-- 起源標題 -->
+                    <div class="orgintitle">
+                        HISTORY OF HIP-HOP DANCE
+                    </div>
+
+                    <!-- 起源內容 -->
+                    <div class="orginText">
+                        Hip-hop 舞蹈起源於 1960 年代末至 1970 年代初的紐約市布朗克斯區，這是一個充滿挑戰的貧困社區。隨著 DJ Kool Herc 在派對上運用創新的音樂剪輯技術，年輕人們開始在音樂的節奏中即興創作動作，這些動作逐漸發展成為後來的 hip-hop 舞蹈。這種舞蹈風格以其強烈的節奏感和充滿能量的動作而著稱，成為全球文化的一部分。
+                    </div>
+
+                    <!-- 起源按紐-->
+                    <div style="margin-top: 10vh; margin-bottom: 20vh;">
+                        <button style="width: 20vh; height: 10vh;">
+                            Read More
+                        </button>
+                    </div>
+
+
+                </div>
+            </div>
         </div>
-        <div class="letters letters-3">
-          <img src="../assets/images/dance/街舞3.jpg" alt="" />
-          <p>律動</p>
+        <br><br><br><br><br><br>
+        <div style="border: 1px solid white;max-width: 90%; margin: auto; "></div>
+
+        <div>
+            <div style=" display: flex;">
+                <div style="width: auto; margin: auto;" class="title">
+                    OLD SCHOOL
+                </div>
+                <div style="width: auto; margin: auto" class="title">
+                    NEW SCHOOL
+                </div>
+
+            </div>
+            <div style=" display: flex;">
+                <div style="width: auto; margin: auto;" class="content">
+                        OLD SCHOOL 街舞風格發源於 1970 年代，包括 breaking、locking 和 popping 等舞蹈形式。這些風格強調即興創作和舞者之間的互動，常常在派對和街頭表演中見到。
+                </div>
+                <div style="width: auto; margin: auto" class="content">
+                        NEW SCHOOL 街舞風格則是在 1980 年代後期至 1990 年代逐漸形成，融入了更多的當代音樂和舞蹈元素，例如 hip-hop、house 和 krump。
+                </div>
+
+            </div>
         </div>
-      </div>
     </section>
 
-    <section class="Dance-container">
-      <div class="container-1">
-        <div data-aos="fade-right" data-aos-duration="1500" class="image">
-          <img
-            src="https://static01.nyt.com/images/2020/07/05/arts/05dancer-in-nyc-1/05dancer-in-nyc-1-mediumSquareAt3X.jpg"
-          />
-        </div>
-        <div data-aos="fade-right" data-aos-duration="1500" class="image">
-          <img src="https://miro.medium.com/v2/resize:fit:1400/0*OoC5Wlrg2wF_t9Nj.jpg" />
-        </div>
-        <div data-aos="fade-right" data-aos-duration="1500" class="image">
-          <img
-            src="https://cdn.prod.website-files.com/5e2b8863ba7fff8df8949888/65b013aa4ac5e8eb92098e91_5e28eb130ab615fb245115a5_what-is-popping-dance.jpeg"
-          />
-        </div>
-        <div data-aos="fade-right" data-aos-duration="1500" class="image">
-          <img src="https://bucket-img.tnlmedia.com/cabinet/2023/08/6a785c7c-809a-40d6-90ac-d4d367c79955.png" />
-        </div>
-        <div data-aos="fade-right" data-aos-duration="1500" class="image">
-          <img src="https://cdn.blackpoolgrand.co.uk/app/uploads/2020/01/Jinjo17_Credit_Belinda_Lawley-1.jpg" />
-        </div>
-        <div data-aos="fade-right" data-aos-duration="1500" class="image">
-          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQSQw1RpF_27jtFAG5oFnzyFcGmbIlfdf0U4g&s" />
-        </div>
-      </div>
-      <!-- 第一個文字起源 -->
-      <div class="container-text-1" data-aos="zoom-in" data-aos-duration="1500">
-        <h2>街舞的起源</h2>
-        <p>
-          街舞，又稱為嘻哈舞（Hip-Hop Dance），起源於美國的紐約市，最早是在 1970
-          年代由街頭舞者開始的。當時街頭文化受到多種音樂流派影響，包括放克（Funk）、靈魂樂（Soul）、以及早期的嘻哈音樂。這些舞者在街頭、俱樂部、甚至是公園中，透過即興表演來展示他們的舞技，並逐漸發展出多種街舞風格。
-        </p>
-      </div>
 
-      <!-- 第二個文字起源 -->
-      <div class="container-text-2" data-aos="zoom-in" data-aos-duration="1500">
-        <h2>Breaking（霹靂舞）</h2>
-        <p>
-          Breaking 是最早的街舞形式之一，也常被稱為 B-Boying 或
-          B-Girling。這種舞蹈注重地板動作、旋轉技巧以及力量的表現。Breaking
-          的四大元素包括：Toprock（站立動作）、Downrock（地板動作）、Freeze（定格動作）、以及Power Moves（力量動作）。
-        </p>
-      </div>
+    <!-- 選擇舞種區域 -->
+    <section>
+        <div style=" display: flex;" style="margin: auto; max-width: 1440px;">
 
-      <!-- 第三個文字起源 -->
-      <div class="container-text-3" data-aos="zoom-in" data-aos-duration="1500">
-        <h2>Popping（震撼舞）</h2>
-        <p>
-          Popping 是一種以肌肉收縮和放鬆來創造出震動效果的舞蹈風格，通常伴隨著機械式的動作和精確的節奏感。這種風格在
-          1970 年代由 Boogaloo Sam 所創立，是 Funk 舞蹈文化的一部分。
-        </p>
-      </div>
+            <img style="margin: auto; width: 50%; height: 80vh; object-fit: cover;"
+                src="../src/assets/images/StreetDance/image 8.png">
+            <img style="margin: auto; width: 50%; height: 80vh; object-fit: cover;"
+                src="../src/assets/images/StreetDance/image 9.png">
 
-      <!-- 第四個文字起源 -->
-      <div class="container-text-4" data-aos="zoom-in" data-aos-duration="1500">
-        <h2>Locking（鎖舞）</h2>
-        <p>
-          Locking 是由 Don Campbell 在 1970
-          年代創立的舞蹈風格。這種舞蹈以突然的定格動作（Lock）和誇張的手勢、姿態為特色，舞者常常會在表演中與觀眾互動，展現出強烈的舞台感。
-        </p>
-      </div>
 
-      <!-- 第五個文字起源 -->
-      <div class="container-text-5" data-aos="zoom-in" data-aos-duration="1500">
-        <h2>Hip-Hop（嘻哈舞）</h2>
-        <p>
-          Hip-Hop
-          舞的風格多樣化，結合了多種舞蹈元素，如流暢的步伐、搖擺的動作以及快速的腳步變換。這種舞蹈通常以團隊的形式表演，強調舞者之間的互動和節奏感。
-        </p>
-      </div>
-
-      <!-- 第六個文字起源 -->
-      <div class="container-text-6" data-aos="zoom-in" data-aos-duration="1500">
-        <h2>Krumping（狂放舞）</h2>
-        <p>
-          Krumping
-          是一種充滿力量和情感表達的舞蹈風格，起源於美國洛杉磯的街頭。這種舞蹈注重強烈的身體律動、面部表情以及情感的釋放。
-        </p>
-      </div>
-      <div class="container-3">
-        <div data-aos="fade-left" data-aos-duration="1500" class="image">
-          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQjlYI3HaMcAOAUFue1eTyw6QmCL1LBjYcoSg&s" />
+            <!-- <img class="img1" src="../src/assets/images/StreetDance/break.png">
+        <img class="img2" src="../src/assets/images/StreetDance/hiphop.png">
+        <img class="img3" src="../src/assets/images/StreetDance/locking.png">
+        <img class="img4" src="../src/assets/images/StreetDance/popping.png"> -->
         </div>
-        <div data-aos="fade-left" data-aos-duration="1500" class="image">
-          <img
-            src="https://compote.slate.com/images/16649c8b-29ad-4954-9b0a-45f5e82373a3.jpeg?crop=1560%2C1040%2Cx0%2Cy0"
-          />
-        </div>
-        <div data-aos="fade-left" data-aos-duration="1500" class="image">
-          <img
-            src="https://img.redbull.com/images/c_crop,x_1135,y_0,h_3456,w_2592/c_fill,w_450,h_600/q_auto:low,f_auto/redbullcom/2020/8/24/gbrtlbsc4gh4shxgkebq/greenteck-popping-workshop"
-          />
-        </div>
-        <div data-aos="fade-left" data-aos-duration="1500" class="image">
-          <img src="../assets/images/dance/街舞2.jpg" />
-        </div>
-        <div data-aos="fade-left" data-aos-duration="1500" class="image">
-          <img
-            src="https://cdn.prod.website-files.com/5e2b8863ba7fff8df8949888/65b01374ff505575209fdadd_bam-martin-limelight-sbu-beats-basic.jpeg"
-          />
-        </div>
-        <div data-aos="fade-left" data-aos-duration="1500" class="image">
-          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSIlB4lRBpWLAXDKHrwYoshquQpJr1TqE1KOw&s" />
-        </div>
-      </div>
     </section>
-    <footer>
-      <div class="flex container">
-        <img class="logo" src="../assets/images/riverflow_logo_f.png" alt="logo" />
-        <div class="flex footer-right">
-          <div class="flex linkList">
-            <a href="#" class="footerLink">關於我們</a>
-            <a href="#" class="footerLink">聯絡我們</a>
-            <a href="#" class="footerLink">條款與隱私</a>
-            <a href="#" class="footerLink">FAQ</a>
-          </div>
-          <span class="copyright">Copyright © 2006-2024 RiverFlow</span>
+    <br>
+
+
+    <!-- 舞種介紹區域 -->
+    <section class=" container-f" style="border: 1px solid white;">
+        <div class="maintitle">
+            BREAK DANCE
         </div>
-      </div>
-    </footer>
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/2.0.2/anime.min.js"></script>
+
+        <div style=" display: flex;  position: relative;">
+
+            <!-- 左半部分 -->
+            <div class="m-auto" style="border: 1px solid white; position: relative;">
+
+                <!-- 圖片1 -->
+                <img class="w-auto" style="height: 90vh; margin-left: 100px; margin-top: 5vh;"
+                    src="../assets/images/StreetDance/BREAK DANCE.png">
+
+                <!-- 塗鴉裝飾 -->
+                <img style="width: 35vh; position: absolute; left: -1%; bottom: 45%;"
+                    src="../assets/images/StreetDance/塗鴉1.png" alt="">
+                <img src="../assets/images/StreetDance/X塗鴉.png"
+                    style="position: absolute; width: 15%; left: 10%; bottom: -35%">
+                <img src="../assets/images/StreetDance/X塗鴉.png"
+                    style="position: absolute; width: 15%; left: 25%; bottom: -34%">
+                <img src="../assets/images/StreetDance/X塗鴉.png"
+                    style="position: absolute; width: 15%; left: 40%; bottom: -33%">
+                <img src="../assets/images/StreetDance/裝飾圖1.png"
+                    style="position: absolute; width: 40%;left: 50%; bottom: -30%">
+                <img src="../assets/images/StreetDance/裝飾圖2.png"
+                    style="position: absolute; width: 30%;left: 85%; bottom: -30%">
+            </div>
+
+
+
+
+            <!-- 右半部分 -->
+            <div style="border: 1px solid rgb(239, 9, 9); position: relative;">
+
+                <!-- 塗鴉裝飾 -->
+                <img style="width: 40vh; position: absolute; right: 5vh; top: -10vh;"
+                    src="../src/assets/images/StreetDance/裝飾圖3.png" alt="">
+                <img src="../src/assets/images/StreetDance/塗鴉2.png"
+                    style="position: absolute; width: 20%; right: 5%;bottom: -10%">
+                <img src="../src/assets/images/StreetDance/裝飾圖4.png"
+                    style="width: 30%; position: absolute; right: 0%; bottom: 40%;">
+
+                <!-- 小標題 -->
+                <div class="title w-auto">
+                    BREAK 介紹
+                </div>
+                <!-- 內容 -->
+                <div class="content" style="padding: 10% 20%;">
+                        Break Dance，亦稱為 breaking 或 b-boying，是最早的 hip-hop 舞蹈形式之一。這種舞蹈以其高難度的動作和獨特的個人風格著稱，包括了頂岩（Toprock）、地板動作（Footwork）、力量動作（Power Moves）和凍結動作（Freezes）。每個舞者都可以通過創新和即興來表達自己的風格和態度。
+                </div>
+
+                <!-- 圖片2 -->
+                <div style="width: 80%; margin: auto;">
+                    <img src="../src/assets/images/StreetDance/BREAK DANCE2.png">
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+
+    <!-- 舞種教學區域 -->
+    <section>
+        <div class="container">
+            <!-- 大標題 -->
+            <div class="maintitle">
+                HOW TO BREAK
+            </div>
+
+            <div style=" display: flex;">
+                <!-- 左半部分 -->
+                <div class="col-4" style="margin-top: 20vh; padding: 5vh; display: flex;">
+
+                    <!-- 頁籤 -->
+                    <div class="tab">
+                        <button class="tablinks" style="border-radius: 21px 0px 0px 0px;"
+                            onclick="openCity(event, 'BREAK')" id="defaultOpen">BREAK</button>
+                        <button class="tablinks" onclick="openCity(event, 'POP')">POP</button>
+                        <button class="tablinks" onclick="openCity(event, 'LOCK')">LOCK</button>
+                        <button class="tablinks" style="border-radius: 0px 0px 0px 21px;"
+                            onclick="openCity(event, 'HIPHOP')">HIPHOP</button>
+                    </div>
+
+
+                    <div id="BREAK" class="tabcontent ">
+                        <button onclick="loadVideo('JCN2RMklDU8')">TOPROCK | Indian Step</button>
+                        <button onclick="loadVideo('3s6lAxak9LY')">TOPROCK | Two Step</button>
+                        <button onclick="loadVideo('FH4l_6FAwp4')">TOPROCK | Salsa Step</button>
+                        <button onclick="loadVideo('5W_TD4p6r48')">TOPROCK | MARCHING STEPS</button>
+                        <button onclick="loadVideo('6797nFQw6xY')">FOOTWORK | Six Step</button>
+                        <button onclick="loadVideo('4wyQ5gzEbCA')">FOOTWORK | CC</button>
+                        <button onclick="loadVideo('0dB7JjpBMtI')">POWERMOVE | Windmill</button>
+                        <button onclick="loadVideo('8w2OAzzwl84')">POWERMOVE | Flare</button>
+                        <button onclick="loadVideo('1vG2S9oE1wA')">POWERMOVE | AirFlare</button>
+
+                    </div>
+
+                    <!-- 頁籤內容 -->
+                    <div id="POP" class="tabcontent ">
+                        <button onclick="loadVideo('ARuho3eTVKo')">Pops</button>
+                        <button onclick="loadVideo('EfkgoZbVL98')">Robot </button>
+                        <button onclick="loadVideo('9Zd1LnclWug')">Boogaloo</button>
+                        <button onclick="loadVideo('-lrINh3JetY')">Wave</button>
+                        <button onclick="loadVideo('MvbYzMbNuLo')">Drills</button>
+                        <button onclick="loadVideo('CJ2fdXVjSuw')">Cobra</button>
+                    </div>
+
+                    <div id="LOCK" class="tabcontent ">
+                        <button onclick="loadVideo('d4jXQmXnvzo')">LOCK</button>
+                        <button onclick="loadVideo('c11qFFGuxCw')">SCOOBOT </button>
+                        <button onclick="loadVideo('-l2KbyrPKBo')">POINTS</button>
+                        <button onclick="loadVideo('AvOzCKlo6NU')">SKEETER RABBIT</button>
+                        <button onclick="loadVideo('DsjtWYuPSvE')">ALPHA </button>
+                    </div>
+
+                    <div id="HIPHOP" class="tabcontent ">
+                        <button onclick="loadVideo('M7lc1UVf-VE')">HIPHOP</button>
+                        <button onclick="loadVideo('M7lc1UVf-VE')">HIPHOP</button>
+                        <button onclick="loadVideo('M7lc1UVf-VE')">HIPHOP</button>
+                        <button onclick="loadVideo('M7lc1UVf-VE')">HIPHOP</button>
+                    </div>
+                </div>
+
+
+                <!-- 右半部分 -->
+                <div class="col-8" style="margin-top: 20vh; padding: 5vh;">
+
+                    <!-- 影片 -->
+                    <div style=" border: 4px solid #BAF13A;" id="player">
+                    </div>
+
+                    <!-- 教學標題 -->
+                    <div class="title" style="border: 1px solid白;">
+                        動作介紹
+                    </div>
+                    <!-- 教學內容 -->
+                    <div class="content">
+                            學習 Break Dance 從基本動作開始，例如 Indian Step、Two Step 和 Salsa Step，這些都是常見的頂岩（Toprock）動作。隨著熟練度的提高，可以逐步嘗試更具挑戰性的動作如六步（Six Step）和風車（Windmill）。不斷練習和磨練是成為優秀街舞者的關鍵。
+                    </div>
+                </div>
+            </div>
+
+
+            <br><br><br><br><br>
+            <br><br><br><br><br>
+            <br><br><br><br><br>
+    </section>
+
+
+
+
+
+
+
     <script>
-      AOS.init()
 
-      var ml4 = {}
-      ml4.opacityIn = [0, 1]
-      ml4.scaleIn = [0.2, 1]
-      ml4.scaleOut = 3
-      ml4.durationIn = 800
-      ml4.durationOut = 600
-      ml4.delay = 500
+        //這裡是主程式
 
-      anime
-        .timeline({ loop: true })
-        .add({
-          targets: '.ml4 .letters-1',
-          opacity: ml4.opacityIn,
-          scale: ml4.scaleIn,
-          duration: ml4.durationIn
-        })
-        .add({
-          targets: '.ml4 .letters-1',
-          opacity: 0,
-          scale: ml4.scaleOut,
-          duration: ml4.durationOut,
-          easing: 'easeInExpo',
-          delay: ml4.delay
-        })
-        .add({
-          targets: '.ml4 .letters-2',
-          opacity: ml4.opacityIn,
-          scale: ml4.scaleIn,
-          duration: ml4.durationIn
-        })
-        .add({
-          targets: '.ml4 .letters-2',
-          opacity: 0,
-          scale: ml4.scaleOut,
-          duration: ml4.durationOut,
-          easing: 'easeInExpo',
-          delay: ml4.delay
-        })
-        .add({
-          targets: '.ml4 .letters-3',
-          opacity: ml4.opacityIn,
-          scale: ml4.scaleIn,
-          duration: ml4.durationIn
-        })
-        .add({
-          targets: '.ml4 .letters-3',
-          opacity: 0,
-          scale: ml4.scaleOut,
-          duration: ml4.durationOut,
-          easing: 'easeInExpo',
-          delay: ml4.delay
-        })
-        .add({
-          targets: '.ml4 .letter-1',
-          opacity: 0.9,
-          duration: 500,
-          delay: 500
-        })
+        window.onload = function () {
+            document.getElementById("defaultOpen").click();
 
-      const cursor = document.getElementsByClassName('cursor')[0]
+        }
 
-      document.onmousemove = (ev) => {
-        cursor.style.top = ev.clientY + 'px'
-        cursor.style.left = ev.clientX + 'px'
-      }
 
-      document.querySelectorAll('.image').forEach((item) => {
-        item.addEventListener('mouseover', (event) => {
-          cursor.classList.add('active')
-        })
-        item.addEventListener('mouseleave', (event) => {
-          cursor.classList.remove('active')
-        })
-      })
 
-      $(window).on('scroll', function () {
-        $('.container-2').css('bottom', $(window).scrollTop() * -1)
-      })
+
+
+
+
+        //-------------------------------- 這裡是function --------------------------------------------------------------------
+
+
+        //頁籤
+        function openCity(evt, cityName) {
+            var i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("tabcontent");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
+            tablinks = document.getElementsByClassName("tablinks");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+            document.getElementById(cityName).style.display = "block";
+            evt.currentTarget.className += " active";
+        }
+
+
+
+
+
+
+
+        //影片
+        var player;
+        function onYouTubeIframeAPIReady() {
+            player = new YT.Player('player', {
+                height: '60%',
+                width: '100%',
+                videoId: 'JCN2RMklDU8',
+                events: {
+                    'onReady': onPlayerReady,
+                    'onStateChange': onPlayerStateChange
+                }
+            });
+        }
+
+        function onPlayerReady(event) {
+            event.target.playVideo();
+        }
+
+        function onPlayerStateChange(event) {
+            if (event.data == YT.PlayerState.ENDED) {
+                // 影片結束
+            }
+        }
+
+        function loadVideo(videoId) {
+            player.loadVideoById(videoId);
+        }
+
+
+
+
     </script>
-  </body>
+</body>
+
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+
 </html>
