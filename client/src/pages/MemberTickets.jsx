@@ -196,7 +196,7 @@ class MemberTickets extends Component {
                                             <th colspan="2">活動名稱</th>
                                             <th>數量</th>
                                             <th>總金額</th>
-                                            <th>付款方式</th>
+                                            <th>票種</th>
                                             <th>狀態</th>
                                         </thead>
 

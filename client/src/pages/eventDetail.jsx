@@ -139,12 +139,13 @@ function EventDetail() {
           <div class="eventIntroduce" id="eventIntroduce">
             <p>活動介紹</p>
             <div class="introduceImage">
-              {/* <img src={`/images/events/${event.eventImg}`} alt={event.eventName} /> */}
+              <img src={`/images/events/${event.eventImg}`} alt={event.eventName} />
             </div>
-            {/* <p>活動簡介</p> */}
-            {/* <p>{event.eventDesc}</p> */}
+            {/* 改成用文字編輯器顯示 */}
+            {/* <CKEditorContent content={event.eventDesc} /> */}
+            <p>活動簡介</p>
+            <p>{event.eventDesc}</p>
             {/* <p dangerouslySetInnerHTML={{ __html: event.eventDesc }} /> */}
-            <CKEditorContent content={event.eventDesc} />
           </div>
           {/* <!-- 選單-注意事項 --> */}
           <div class="eventCaution" id="eventCaution">

@@ -6,14 +6,25 @@ import PrdListItem from '../../components/prdListItem'
 // import Pic from '../../assets/images/products/product1_1.jpeg'
 
 export default function PrdList () {
-  const match = useMatch('/admin/prdList/*')
+  useMatch('/admin/prdList/*')
   const [products, setProducts] = useState([])
+  const [adminToken, setAdminToken] = useState(null)
 
+  useEffect(() => {
+    const cookies = document.cookie.split(';')
+    const adminTokenCookie = cookies.find((cookie) => cookie.trim().startsWith('adminToken='))
+    if (adminTokenCookie) {
+      const token = adminTokenCookie.split('=')[1]
+      setAdminToken(token)
+    }
+  }, [])
 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await axios.get('http://localhost:3000/riverflow/admin/')
+        const response = await axios.get('http://localhost:3000/riverflow/admin/', {
+          withCredentials: true
+        })
         setProducts(response.data)
         // console.log('測試:', response.data)
       } catch (error) {
@@ -22,26 +33,52 @@ export default function PrdList () {
     }
 
     fetchProducts()
-  }, [])
+  }, [adminToken])
+
+    // 狀態修改
+    const handleProductUpdate = async (updatedProduct) => {
+      console.log(typeof updatedProduct.productId)
+      try {
+        let response
+        if (updatedProduct.action === 'activate') {
+          response = await axios({
+            method: 'put',
+            url: `http://localhost:3000/riverflow/admin/products/${updatedProduct.productId}/launch`,
+            headers: {
+              Authorization: `Bearer ${adminToken}`,
+              'Content-Type': 'application/json'
+            },
+            withCredentials: true
+          })
+          // .put(`http://localhost:3000/riverflow/admin/products/${products.productId}/launch`, {
+          //   withCredentials: true
+          // })
+        } else if (updatedProduct.action === 'discontinue') {
+          response = await axios({
+            method: 'put',
+            url: `http://localhost:3000/riverflow/admin/products/${updatedProduct.productId}/remove`,
+            headers: {
+              Authorization: `Bearer ${adminToken}`,
+              'Content-Type': 'application/json'
+            },
+            withCredentials: true
+          })
+          // response = await axios.put(`http://localhost:3000/riverflow/admin/products/${products.productId}/remove`, {
+          //   withCredentials: true
+          // })
+        } else {
+          throw new Error('未知的產品狀態更新動作')
+        }
+  
+        setProducts(products.map(p =>
+          p.productId === updatedProduct.productId ? response.data : p
+        ))
+      } catch (error) {
+        console.error('更新狀態時出錯:', error)
+      }
+    }
 
   $(function () {
-    // $('.Status').each(function (index, elem) {
-    //   switch ($(elem).attr('status')) {
-    //     case 'Available':
-    //       $(elem).html('上架')
-    //       $(elem).css('color', 'var(--side)')
-    //       break
-    //     case 'Discontinued':
-    //       $(elem).text('下架')
-    //       $(this).css('color', 'var(--err)')
-    //       break
-    //     case 'Out_of_Stock':
-    //       $(elem).text('售完')
-    //       $(this).css('color', 'var(--cancel)')
-    //       break
-    //   }
-    // })
-
     $('.prdStock').each(function (index, elem) {
       if (elem.innerText == 0) {
         $(this).css('color', 'red')
@@ -76,7 +113,11 @@ export default function PrdList () {
         </thead>
         <tbody>
           {products.map(product => 
-            <PrdListItem key={product.productId} product={product} />
+            <PrdListItem key={product.productId}
+              product={product}
+              onProductUpdate={handleProductUpdate}
+              adminToken={adminToken}
+            />
           )}
           <tr prdid='01' className='item'>
             <td>

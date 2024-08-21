@@ -16,8 +16,8 @@ const EventOrder = () => {
   const [totalTickets, setTotalTickets] = useState(0)
   const [totalCost, setTotalCost] = useState(0)
   const [contactName, setContactName] = useState('林小美')
-  const [contactEmail, setContactEmail] = useState('abc12345@gmail.com')
-  const [contactPhone, setContactPhone] = useState('0912333555')
+  const [contactEmail, setContactEmail] = useState('linxiaomei015@gmail.com')
+  const [contactPhone, setContactPhone] = useState('0912345121')
   const [ibonSelected, setIbonSelected] = useState(false)
   const [creditCardSelected, setCreditCardSelected] = useState(false)
   const [otherMethodSelected, setOtherMethodSelected] = useState(false);
@@ -36,17 +36,27 @@ const EventOrder = () => {
     e.preventDefault()
     
     // 根據後端 API 要求格式化數據
+    const consolidatedTickets = tickets.reduce((acc, ticket) => {
+      const existingTicket = acc.find(t => t.type === ticket.type && t.area === ticket.area);
+      if (existingTicket) {
+        existingTicket.quantity += ticket.quantity;
+        existingTicket.price += ticket.price;
+      } else {
+        acc.push({...ticket});
+      }
+      return acc;
+    }, []);
+
     const event = {
       eventId: eventDetails.id,
       eventName: eventDetails.title,
       eventDesc: `${eventDetails.date} ${eventDetails.time} 於 ${eventDetails.location}`,
-      ticketType: tickets.map(ticket => ({
+      ticketType: consolidatedTickets.map(ticket => ({
         type: ticket.type,
         quantity: ticket.quantity,
         totalquantity: ticket.totalquantity,
         price: ticket.price
       }))
-
     }
     console.log('orderData :',event);
     try {
@@ -59,7 +69,18 @@ const EventOrder = () => {
 
       if (stripeResponse.data.url) {
         // 如果成功，將用戶重定向到 Stripe 結帳 URL
-        window.location.href = stripeResponse.data.url
+        Swal.fire({
+          title: '前往付款中',
+          icon: 'info',
+          confirmButtonColor: '#98d900',
+          timer: 1500,
+          timerProgressBar: true,
+          // 跳轉頁面
+          willClose: () => {
+              window.location.href = stripeResponse.data.url
+          }
+      })
+        
       } else {
         throw new Error('無法創建 Stripe 結帳會話')
       }

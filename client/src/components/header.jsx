@@ -69,9 +69,9 @@ export default function Header () {
                     </a>
                   </li>
                   <li>
-                    <a href='#' class='cultureOpt'>
+                    <Link to='/Graffiti' class='cultureOpt'>
                       塗鴉
-                    </a>
+                    </Link>
                   </li>
                   <li>
                     <Link to='/skate' class='cultureOpt'>

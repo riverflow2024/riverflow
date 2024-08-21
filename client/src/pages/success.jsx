@@ -52,13 +52,13 @@ const PaymentSuccess = () => {
           setPaymentStatus('success');
           Swal.fire({
             title: '付款成功！',
-            text: '您的訂單已成功處理。5秒後將自動跳轉到首頁。',
+            text: '您的訂單已成功處理。5秒後將自動跳轉到會員頁。',
             icon: 'success',
             timer: 5000,
             timerProgressBar: true,
             showConfirmButton: false
           }).then(() => {
-            navigate('/');
+            navigate('/Member/Index');
           });
         })
         .catch(error => {
