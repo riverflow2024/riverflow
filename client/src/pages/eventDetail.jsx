@@ -30,7 +30,7 @@ function EventDetail() {
     launchDate: '2024-07-25T12:00:00.000Z',
     launchStatus: 1,
     saleDate: '2024-08-07T07:00:00.000Z',
-    eventImg: 'event-yitai.jpg',
+    coverImg: 'event-yitai.jpg',
     eventAnoc: '若信用卡刷卡付款失敗，會將刷卡失敗的訂單，陸續轉為【ATM虛擬帳號付款】，屆時請依的訂單顯示之「銀行帳號」、「銀行代碼」於「匯款期限」內完成付款，系統將以款項實際入帳時間為準，請於繳費後一小時至我的訂單確認，若訂單付款狀態顯示為「待繳費」，須等待銀行回傳付款狀態；若逾期未付款，系統收到銀行回傳付款狀態後將自動取消該筆訂單並顯示「付款失敗」，各家銀行轉帳入帳時間不同，請盡早繳款以保障您的權益。'
   });
   const [loading, setLoading] = useState(true);
@@ -83,7 +83,7 @@ function EventDetail() {
 
           {/* <!-- 活動詳細頁面-首圖 --> */}
           <div class="headerImage">
-            <img src={`/images/events/${event.eventImg}`} alt={event.eventName} />
+            <img src={`/images/events/${event.coverImg}`} alt={event.eventName} />
           </div>
           {/* <!-- 活動詳細頁面-標題 --> */}
           <div class="detailEventTitle">
@@ -139,12 +139,12 @@ function EventDetail() {
           <div class="eventIntroduce" id="eventIntroduce">
             <p>活動介紹</p>
             <div class="introduceImage">
-              <img src={`/images/events/${event.eventImg}`} alt={event.eventName} />
+              {/* <img src={`/images/events/${event.coverImg}`} alt={event.eventName} /> */}
             </div>
             {/* 改成用文字編輯器顯示 */}
-            {/* <CKEditorContent content={event.eventDesc} /> */}
-            <p>活動簡介</p>
-            <p>{event.eventDesc}</p>
+            <CKEditorContent content={event.eventDesc} />
+            {/* <p>活動簡介</p> */}
+            {/* <p>{event.eventDesc}</p> */}
             {/* <p dangerouslySetInnerHTML={{ __html: event.eventDesc }} /> */}
           </div>
           {/* <!-- 選單-注意事項 --> */}

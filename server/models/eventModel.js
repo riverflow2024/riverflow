@@ -7,10 +7,7 @@ exports.getAllEvents = () => {
   return new Promise((resolve, reject) => {
     dbConnect.query(
       `
-      SELECT 
-      *
-      FROM events, eventimages
-      WHERE events.eventid = eventimages.eventid
+      SELECT * FROM events
       `, (err, events) => {
       if (err) return reject(err)
       resolve(events)
@@ -22,11 +19,7 @@ exports.getAllEvents = () => {
 exports.getEvents = (id) => {
   return new Promise((resolve, reject) => {
     dbConnect.query(`
-      SELECT
-       * 
-      FROM events
-      JOIN eventimages ON events.eventId = eventimages.eventId
-      WHERE events.eventId = ?
+    SELECT * FROM events WHERE eventId = ?
 
       `, [id], (err, event) => {
       if (err) return reject(err)
