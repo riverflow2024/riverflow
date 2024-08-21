@@ -65,41 +65,53 @@ class MemberEdit extends Component {
     }
   }
 
-  //上傳大頭貼到前端顯示
-  UploadImg = async () => {
-    const { selectedFile } = this.state
-    if (!selectedFile) return
-
-    const formData = new FormData()
-    formData.append('userImg', selectedFile)
-
-    try {
-      const response = await axios.post('http://localhost:3000/riverflow/user/update/img', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        },
-        withCredentials: true // 确保请求带上 Cookie
-      })
-      // 更新用户头像文件名
-      this.setState((prevState) => ({
-        Users: {
-          ...prevState.Users,
-          //返回圖片檔案名稱
-          userImg: response.data.fileName
-        }
-      }))
-    } catch (error) {
-      console.error('Error uploading file:', error)
-      alert('上传文件时发生错误，请稍后再试。')
-      return null
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.Users.userImg !== this.state.Users.userImg) {
+      this.forceUpdate(); // 强制组件重新渲染
     }
   }
+
+  //上傳大頭貼到前端顯示
+UploadImg = async () => {
+  const { selectedFile } = this.state
+  if (!selectedFile) return
+
+  const formData = new FormData()
+  formData.append('userImg', selectedFile)
+
+  try {
+    const response = await axios.post('http://localhost:3000/riverflow/user/update/img', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      },
+      withCredentials: true // Cookie
+    })
+    // 更新大頭貼檔名，添加時間戳記立即更新圖片
+    this.setState((prevState) => ({
+      Users: {
+        ...prevState.Users,
+        userImg: `${response.data.fileName}?${new Date().getTime()}`
+      }
+    }), () => {
+      // 強制圖片重新加载
+      const imgElement = document.querySelector('.member-img img');
+      if (imgElement) {
+        imgElement.src = `${require(`../assets/images/users/${this.state.Users.userImg}`).default}?${new Date().getTime()}`;
+      }
+    })
+  } catch (error) {
+    console.error('Error uploading file:', error)
+    alert('上傳文件發生錯誤，請稍後再試。')
+    return null
+  }
+}
+
 
   handleSave = async (e) => {
     try {
       const { Users } = this.state
       await axios.put('http://localhost:3000/riverflow/user/update', Users, {
-        withCredentials: true // 确保请求带上 Cookie
+        withCredentials: true // Cookie
       })
 
       MySwal.fire({
@@ -126,15 +138,13 @@ class MemberEdit extends Component {
   Logout = async () => {
     try {
       await axios.get('http://localhost:3000/riverflow/user/logout', {
-        withCredentials: true // 确保请求带上 Cookie
+        withCredentials: true // Cookie
       })
-      // 清除本地存储中的 Token
+      // 清除本地 Token
       localStorage.removeItem('token')
-      // 重定向到登录页面
       window.location.href = '/login/Index'
     } catch (error) {
       console.error('Error logging out:', error)
-      // 可以显示错误消息或者其他处理
     }
   }
 
