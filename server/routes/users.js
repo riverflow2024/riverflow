@@ -21,5 +21,7 @@ router.get('/events', userController.getUserEvents)
 router.get('/favorites', userController.getFavorites)
 // 會員中心：刪除最愛商品
 router.delete('/favorites/:productId', userController.deleteFavorite)
+// 會員中心：新增最愛商品
+router.post('/favorites/:productId', userController.postFavorite)
 
 module.exports = router

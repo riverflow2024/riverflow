@@ -251,3 +251,30 @@ exports.deleteFavorite = async (userId, productId) => {
     })
   })
 }
+
+
+// 新增最愛商品
+exports.addFavorite = async (userId, productId) => {
+  return new Promise((resolve, reject) => {
+    // 首先檢查是否已經存在這個收藏
+    db.query('SELECT * FROM ProductFavorite WHERE userId = ? AND productId = ?', [userId, productId], (error, results) => {
+      if (error) {
+        console.error('檢查最愛商品失敗:', error);
+        reject(error);
+      } else if (results.length > 0) {
+        // 如果已經存在，則視為成功但不做任何更改
+        resolve(true);
+      } else {
+        // 如果不存在，則新增
+        db.query('INSERT INTO ProductFavorite (userId, productId) VALUES (?, ?)', [userId, productId], (error, result) => {
+          if (error) {
+            console.error('新增最愛商品失敗:', error);
+            reject(error);
+          } else {
+            resolve(result.affectedRows > 0);
+          }
+        });
+      }
+    });
+  });
+}
