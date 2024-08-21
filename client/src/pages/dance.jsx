@@ -324,7 +324,7 @@ const Dance = () => {
 
         <section className='btmDance' data-aos='zoom-in' data-aos-duration='2000'>
           <div className='container'>
-            <div className='maintitle'>HOW TO BREAK</div>
+            <div className='maintitle'> HOW TO DANCE</div>
             <div style={{ display: 'flex' }}>
               <div className='col-4' style={{ marginTop: '20vh', padding: '5vh', display: 'flex' }}>
                 <div className='tab'>
