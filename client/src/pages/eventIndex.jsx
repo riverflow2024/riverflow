@@ -207,7 +207,7 @@ const EventIndex = () => {
                   data-category={event.category || event.eventType}
                 >
                   <Link to={`/Event/Detail/${event.eventId}`}>
-                    <img src={`/images/events/${event.eventImg}`} alt={event.title || event.eventName} />
+                    <img src={`/images/events/${event.coverImg}`} alt={event.title || event.eventName} />
                     <p>{event.eventName}</p>
                     <p>{new Date(event.eventDate).toLocaleDateString()}</p>
                   </Link>
