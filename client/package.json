@@ -20,6 +20,8 @@
   "dependencies": {
     "@ckeditor/ckeditor5-react": "^9.0.0",
     "@sweetalert2/theme-bulma": "^5.0.18",
+    "animejs": "^3.2.2",
+    "aos": "^2.3.4",
     "axios": "^1.7.4",
     "ckeditor5": "^43.0.0",
     "cors": "^2.8.5",

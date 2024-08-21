@@ -13,6 +13,7 @@ import NewsArticle from './pages/NewsArticle'
 import Skate from './pages/skate'
 import Rap from './pages/HippopRap'
 import DJ from './pages/DJ'
+import Dance from './pages/Dance'
 
 import Login from './pages/Login'
 import LoginVerify from './pages/LoginVerify'
@@ -54,14 +55,15 @@ export default function UserInterface() {
         <Route path='Rap' element={<Rap />} />
         <Route path='Graffiti' element={<Graffiti />} />
         <Route path='Skate' element={<Skate />} />
+        <Route path='Dance' element={<Dance />} />
 
         <Route path='News/Index' element={<News />} />
         <Route path='News/Article/:id' element={<NewsArticle />} />
 
-        <Route path="Login/Index" element={<Login />} />
-        <Route path="Login/Verify/reset-password/:token" element={<LoginVerify />} />
-        <Route path="Login/Register" element={<LoginRegister />} />
-        <Route path="Login/Password" element={<LoginPassword />} />
+        <Route path='Login/Index' element={<Login />} />
+        <Route path='Login/Verify/reset-password/:token' element={<LoginVerify />} />
+        <Route path='Login/Register' element={<LoginRegister />} />
+        <Route path='Login/Password' element={<LoginPassword />} />
 
         <Route path='Member/Index' element={<MemberIndex />} />
         <Route path='Member/Edit' element={<MemberEdit />} />
@@ -76,7 +78,6 @@ export default function UserInterface() {
         <Route path='Event/ConfirmNoseat/:id' element={<EventConfirmNoseat />} />
         <Route path='Event/ConfirmSeat/:id' element={<EventConfirmSeat />} />
         <Route path='Event/ConfirmInfo' element={<EventConfirmInfo />} />
-        
 
         <Route path='Product/All' element={<ProductAll />} />
         <Route path='Product/Detail/:productId' element={<ProductDetail />} />
