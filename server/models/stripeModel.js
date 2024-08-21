@@ -150,7 +150,7 @@ const saveOrderDetails = async (sessionId, userId) => {
                 // 插入訂單表
                 const result = await query(
                     'INSERT INTO `order` (userId, totalPrice, orderStatus, shipMethod, convAddr, rcptName, rcptPhone, rcptAddr, payMethod, payTime, receiptType, receiptInfo, orderRemark, createdAt) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), ?, ?, ?, NOW())',
-                    [userId, totalPrice, '已付款', '7-11', '台北市信義路123號', '林小美', '0912333555', '小美家', 'card', '手機載具', 'Z1234567', '備註']
+                    [userId, totalPrice, '已付款', '7-11', '台北市信義路123號', '林小美', '0912-345-121', '小美家', 'card', '手機載具', 'Z1234567', '備註']
                 );
                 const orderId = result.insertId;
                 console.log('插入訂單主表成功，orderId:', orderId);
