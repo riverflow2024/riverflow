@@ -171,7 +171,7 @@ const EventList = () => {
   if (error) return <div>{error}</div>
 
   return (
-    <div className='main'>
+    <div className='main adminEventList'>
       <div className='pageTitle'>活動列表</div>
       <div className='flex'>
         <Link to='create' className='divided'>
