@@ -176,7 +176,7 @@ exports.createProduct = async (req, res) => {
         console.log('categoryId: ',categoryId + '類型: ',typeof(categoryId),)
         await adminModel.createProductCategories(productId, categoryId)
       }
-      console.log('productImgs: ',req.body.productImgs);
+      console.log('productImgs:',req.body.productImgs);
       
       for (const productImg of req.body.productImgs) {
         await adminModel.createProductImages(productId, productImg)
