@@ -13,7 +13,7 @@ import NewsArticle from './pages/NewsArticle'
 import Skate from './pages/skate'
 import Rap from './pages/HippopRap'
 import DJ from './pages/DJ'
-import Dance from './pages/Dance'
+import Dance from './pages/dance'
 
 import Login from './pages/Login'
 import LoginVerify from './pages/LoginVerify'

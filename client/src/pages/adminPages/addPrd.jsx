@@ -135,16 +135,17 @@ export default function AddPrd() {
   // 送出
   const handleSubmit = async () => {
     console.log('提交開始formData', formData)
-
+    
     const selectedCategories = selectedOptions.map(option => option.value)
     console.log('imageFields : ', imageFields)
     const productImgs = imageFields
       .filter(field => field.preview)
       .map(field => field.preview);
     console.log('productImg : ', productImgs);
-
+    
+    // const productImgs = [];
     const productOpt = generateProductOpt()
-
+    
     const formDataToSend = new FormData()
     // 添加基本字段
     Object.keys(formData).forEach(key => {
@@ -156,30 +157,30 @@ export default function AddPrd() {
         formDataToSend.append(key, formData[key])
       }
     })
-
+    
     // 添加類別和選項
     // formDataToSend.append('productCategories', JSON.stringify(selectedCategories))
     selectedCategories.forEach(category => {
       formDataToSend.append('productCategories', category)
     })
     // productImgs.forEach((file, index) => {
-    //   formDataToSend.append(`productImgs[${index}]`, file)
-    // })
-    productImgs.forEach((dataUrl, index) => {
-      formDataToSend.append(`productImgs[${index}]`, dataUrl);
-    });
-
-    const base64ToBlob = async (dataUrl) => {
-      const response = await fetch(dataUrl);
-      const blob = await response.blob();
-      return blob;
-    };
-
-    // 處理圖片
-    for (let i = 0; i < imageFields.length; i++) {
-      if (imageFields[i].preview) {
-        try {
-          const blob = await base64ToBlob(imageFields[i].preview);
+      //   formDataToSend.append(`productImgs[${index}]`, file)
+      // })
+      productImgs.forEach((dataUrl, index) => {
+        formDataToSend.append(`productImgs[${index}]`, dataUrl);
+      });
+      
+      const base64ToBlob = async (dataUrl) => {
+        const response = await fetch(dataUrl);
+        const blob = await response.blob();
+        return blob;
+      };
+      
+      // 處理圖片
+      for (let i = 0; i < imageFields.length; i++) {
+        if (imageFields[i].preview) {
+          try {
+          const blob = await base64ToBlob(imageFields[i].preview);   
           formDataToSend.append(`productImgs`, blob, `image${i}.jpg`);
         } catch (error) {
           console.error('將圖片轉換為 Blob 時發生錯誤:', error);
@@ -196,7 +197,7 @@ export default function AddPrd() {
 
     console.log("FormData contents:")
     for (let [key, value] of formDataToSend.entries()) {
-      console.log(`${key}, ${value}, type: ${typeof value}`)
+      console.log(`key: ${key}, value: ${value}, type: ${typeof value}`)
     }
 
     try {
