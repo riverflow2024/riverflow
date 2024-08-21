@@ -72,6 +72,7 @@ input:-webkit-autofill {
   letter-spacing: 1px;
   text-align: center;
   margin: 10px 0px;
+  cursor: pointer;
 }
 .login .form span {
   color: var(--gr1);
@@ -225,6 +226,7 @@ input:-webkit-autofill {
   letter-spacing: 1px;
   text-align: center;
   margin-top: 10px;
+  cursor: pointer;
 }
 .register .form span {
   color: var(--gr1);

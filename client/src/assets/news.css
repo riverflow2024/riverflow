@@ -110,6 +110,7 @@ body {
   margin: 50px 30px;
   font-size: 0;
   line-height: 0;
+  cursor: pointer;
 }
 .news .content-box .tabcontent .newsContent .card-box .newsCard-green .img-box img {
   width: 100%;
@@ -171,6 +172,7 @@ body {
   margin: 40px 30px;
   font-size: 0;
   line-height: 0;
+  cursor: pointer;
 }
 .news .content-box .tabcontent .newsContent .card-box .newsCard-gray img {
   width: 100%;

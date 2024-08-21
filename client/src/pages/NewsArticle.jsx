@@ -263,6 +263,7 @@ class NewsArticle extends Component {
                     <h4>Back to List</h4>
                     <i className="bi bi-arrow-left"></i>
                 </div>
+                
                 <Footer/>
             </div>
         );
