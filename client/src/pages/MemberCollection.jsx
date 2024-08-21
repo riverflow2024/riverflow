@@ -159,7 +159,7 @@ class MemberCollection extends Component {
                                             <button class="closebtn" onClick={() => this.Delete(productItem.productId)}><i class="bi bi-x"></i></button>
                                         </div>
                                         <div class="member-wrap">
-                                            <p>{productItem.productDesc}</p>
+                                            <p class="multiline-ellipsis">{productItem.productDesc}</p>
                                         </div>
                                         <div class="member-wrap">
                                             <span>NT${productItem.productPrice}</span>

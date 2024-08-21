@@ -50,7 +50,7 @@ const NewsCard = ({ newsId, image, type, date, title, description, isGreen, goAr
                     </div>
                     <div className="card-wrap">
                         <h4 className="multiline-ellipsis">{title}</h4>
-                        <p className="multiline-ellipsis">{description}</p>
+                        <p className='multiline-ellipsis' dangerouslySetInnerHTML={{ __html: description }}/>
                     </div>
                     <div className="card-wrap">
                         <div className="morebtn"><i className="bi bi-arrow-right"></i></div>
@@ -263,6 +263,7 @@ class NewsArticle extends Component {
                     <h4>Back to List</h4>
                     <i className="bi bi-arrow-left"></i>
                 </div>
+                
                 <Footer/>
             </div>
         );

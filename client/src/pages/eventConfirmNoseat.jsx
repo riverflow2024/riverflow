@@ -119,7 +119,7 @@ function EventConfirmNoseat() {
             eventName: event.eventName,
             eventDate: event.eventDate,
             location: event.location,
-            eventImg: `/images/events/${event.eventImg}`,
+            eventImg: `/images/events/${event.coverImg}`,
             eventSeat: event.seat
           }
         }
@@ -146,7 +146,7 @@ function EventConfirmNoseat() {
         {/* 活動明細 */}
         <div className='eventName'>
           <div className='eventImg'>
-            <img src={`/images/events/${event.eventImg}`} alt={event.eventName} />
+            <img src={`/images/events/${event.coverImg}`} alt={event.eventName} />
           </div>
           <div className='eventTitle'>
             <h1>{event.eventName}</h1>

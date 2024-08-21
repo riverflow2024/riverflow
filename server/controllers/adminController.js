@@ -16,22 +16,72 @@ exports.getAllProducts = async (req, res) => {
     const productCategories = await adminModel.getProductCategories()
 
     const results = allProducts.map((product) => {
-      const options = JSON.parse(product.productOpt)
-      const totalStock = options.reduce((sum, option) => sum + option.stock, 0)
+      let options = [];
+      
+      try {
+        // 尝试解析 productOpt
+        if (typeof product.productOpt === 'string') {
+          options = JSON.parse(product.productOpt);
+        } else if (Array.isArray(product.productOpt)) {
+          options = product.productOpt;
+        }
+      } catch (error) {
+        console.error(`Error parsing productOpt for product ${product.productId}:`, error);
+        // 如果解析失败，设置为空数组
+        options = [];
+      }
+
+      // 确保 options 是数组
+      if (!Array.isArray(options)) {
+        options = [options].filter(Boolean);
+      }
+
+      const totalStock = options.reduce((sum, option) => {
+        const stock = Number(option.stock);
+        return sum + (isNaN(stock) ? 0 : stock);
+      }, 0);
 
       const categories = productCategories
         .filter((category) => category.productId === product.productId)
         .map((category) => category.categoryName)
 
-      return { ...product, categories, totalStock }
+      return { 
+        ...product, 
+        categories, 
+        totalStock,
+        productOpt: options // 返回解析后的 options
+      }
     })
 
     res.json(results)
   } catch (err) {
-    console.error('取得所所有商品資訊：', err)
+    console.error('取得所有商品資訊：', err)
     res.status(500).json({ message: err.message })
   }
 }
+// exports.getAllProducts = async (req, res) => {
+//   try {
+//     const allProducts = await adminModel.getAllProducts()
+//     const productCategories = await adminModel.getProductCategories()
+
+//     const results = allProducts.map((product) => {
+//       const options = JSON.parse(product.productOpt)
+//       console.log('options : ',options)
+//       const totalStock = options.reduce((sum, option) => sum + option.stock, 0)
+
+//       const categories = productCategories
+//         .filter((category) => category.productId === product.productId)
+//         .map((category) => category.categoryName)
+
+//       return { ...product, categories, totalStock }
+//     })
+
+//     res.json(results)
+//   } catch (err) {
+//     console.error('取得所所有商品資訊：', err)
+//     res.status(500).json({ message: err.message })
+//   }
+// }
 // 詳細內容
 exports.getProductDetail = async (req, res) => {
   try {
@@ -126,7 +176,8 @@ exports.createProduct = async (req, res) => {
         console.log('categoryId: ',categoryId + '類型: ',typeof(categoryId),)
         await adminModel.createProductCategories(productId, categoryId)
       }
-
+      console.log('productImgs:',req.body.productImgs);
+      
       for (const productImg of req.body.productImgs) {
         await adminModel.createProductImages(productId, productImg)
       }

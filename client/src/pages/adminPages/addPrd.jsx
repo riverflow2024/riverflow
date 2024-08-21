@@ -26,7 +26,7 @@ export default function AddPrd() {
     productRating: null,
     productStatus: 'Discontinued',
     launchDate: null,
-    removeDate: null
+    removeDate: null,
   })
 
   // tab
@@ -47,14 +47,30 @@ export default function AddPrd() {
 
   // 圖片
   const handleImageChange = (id, event) => {
-    const newImageFields = imageFields.map(field => {
-      if (field.id === id) {
-        return { ...field, file: event.target.files[0] };
-      }
-      return field;
-    });
-    setImageFields(newImageFields);
-  }
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        const newImageFields = imageFields.map(field => {
+          if (field.id === id) {
+            return { ...field, file: file, preview: reader.result };
+          }
+          return field;
+        });
+        setImageFields(newImageFields);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+  // const handleImageChange = (id, event) => {
+  //   const newImageFields = imageFields.map(field => {
+  //     if (field.id === id) {
+  //       return { ...field, file: event.target.files[0] };
+  //     }
+  //     return field;
+  //   });
+  //   setImageFields(newImageFields);
+  // }
   const addImageField = () => {
     const newId = imageFields.length > 0 ? Math.max(...imageFields.map(f => f.id)) + 1 : 0;
     setImageFields([...imageFields, { id: newId, file: null }]);
@@ -70,7 +86,7 @@ export default function AddPrd() {
     setFormData(prevState => {
       const newState = {
         ...prevState,
-        [name] : value
+        [name]: value
       }
       // console.log('Updated FormData', newState)
       return newState
@@ -119,14 +135,17 @@ export default function AddPrd() {
   // 送出
   const handleSubmit = async () => {
     console.log('提交開始formData', formData)
-
-    const selectedCategories = selectedOptions.map(option => option.value)
-    // console.log('類別: ',selectedCategories);
     
-    const productImgs = imageFields.map(field => field.fill).filter(file => file !== null)
-    // console.log('selectedCategories:', typeof selectedCategories, selectedCategories)
+    const selectedCategories = selectedOptions.map(option => option.value)
+    console.log('imageFields : ', imageFields)
+    const productImgs = imageFields
+      .filter(field => field.preview)
+      .map(field => field.preview);
+    console.log('productImg : ', productImgs);
+    
+    // const productImgs = [];
     const productOpt = generateProductOpt()
-
+    
     const formDataToSend = new FormData()
     // 添加基本字段
     Object.keys(formData).forEach(key => {
@@ -140,47 +159,46 @@ export default function AddPrd() {
     })
     
     // 添加類別和選項
-    formDataToSend.append('productCategories', selectedCategories)
+    // formDataToSend.append('productCategories', JSON.stringify(selectedCategories))
+    selectedCategories.forEach(category => {
+      formDataToSend.append('productCategories', category)
+    })
+    // productImgs.forEach((file, index) => {
+      //   formDataToSend.append(`productImgs[${index}]`, file)
+      // })
+      productImgs.forEach((dataUrl, index) => {
+        formDataToSend.append(`productImgs[${index}]`, dataUrl);
+      });
+      
+      const base64ToBlob = async (dataUrl) => {
+        const response = await fetch(dataUrl);
+        const blob = await response.blob();
+        return blob;
+      };
+      
+      // 處理圖片
+      for (let i = 0; i < imageFields.length; i++) {
+        if (imageFields[i].preview) {
+          try {
+          const blob = await base64ToBlob(imageFields[i].preview);   
+          formDataToSend.append(`productImgs`, blob, `image${i}.jpg`);
+        } catch (error) {
+          console.error('將圖片轉換為 Blob 時發生錯誤:', error);
+        }
+      }
+    }
+    // formDataToSend.append('productImgs', productImgs)
     formDataToSend.append('productOpt', JSON.stringify(productOpt))
-    formDataToSend.append('productImgs', productImgs)
-    
+    console.log('DATA :', formDataToSend);
+
     // if (productImage) {
     //   formDataToSend.append('productImgs', productImage.name)
     // }
 
-    // console.log("FormData contents:")
-    // for (let [key, value] of formDataToSend.entries()) {
-    //   console.log(`${key}, ${value}, type: ${typeof value}`)
-    // }
-
-    // const processedFormData = {
-    //   ...formData,
-    //   productPrice: formData.productPrice ? parseInt(formData.productPrice) : null,
-    //   discountRate: formData.discountRate ? parseFloat(formData.discountRate) : null
-    // }
-    // const dataToSend = {
-    //   ...processedFormData,
-    //   categories: selectedCategories,
-    //   productOpt: productOpt,
-    //   imageName: productImage.name
-    // }
-
-    // console.log("處理後:", dataToSend)
-
-    // const formDataToSend = new FormData()
-
-    // Object.keys(dataToSend).forEach(key => {
-    //   if (typeof dataToSend[key] === 'object' && !Array.isArray(dataToSend[key])) {
-    //     formDataToSend.append(key, JSON.stringify(dataToSend[key]))
-    //   } else {
-    //     formDataToSend.append(key, dataToSend[key])
-    //   }
-    // })
-
-    // console.log("FormData contents:")
-    // for (let [key, value] of formDataToSend.entries()) {
-    //   console.log(key, value)
-    // }
+    console.log("FormData contents:")
+    for (let [key, value] of formDataToSend.entries()) {
+      console.log(`key: ${key}, value: ${value}, type: ${typeof value}`)
+    }
 
     try {
       const response = await axios.post('http://localhost:3000/riverflow/admin/products/create', formDataToSend, {
@@ -190,7 +208,7 @@ export default function AddPrd() {
         withCredentials: true
       })
       console.log('提交成功:', response.data)
-    } catch(error) {
+    } catch (error) {
       console.error('提交失敗', error)
     }
   }
@@ -331,14 +349,14 @@ export default function AddPrd() {
                         onClick={() => {
                           const newSpecItems = specItems.filter((_, i) => i !== index);
                           setSpecItems(newSpecItems);
-                  
+
                           const newTableItems = tableItems.filter((_, i) => i !== index);
                           setTableItems(newTableItems);
                         }}
                         className='delItem'
                       >
-                      <i className="bi bi-dash-circle" />
-                    </button>
+                        <i className="bi bi-dash-circle" />
+                      </button>
                     )}
                   </div>
                 ))}
@@ -362,11 +380,11 @@ export default function AddPrd() {
                         </span>
                       </td>
                       <td>
-                        <input 
-                          type='number' 
-                          name={`specStock${item.id}`} 
-                          id={`specStock${item.id}`} 
-                          min='0' 
+                        <input
+                          type='number'
+                          name={`specStock${item.id}`}
+                          id={`specStock${item.id}`}
+                          min='0'
                           step='1'
                           value={item.stock}
                           onChange={(e) => {
