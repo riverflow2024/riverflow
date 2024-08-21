@@ -1,7 +1,7 @@
 import { Link, NavLink, useLocation } from 'react-router-dom'
 import HeaderLogo from '../assets/images/riverflow_logo.png'
 
-export default function Header () {
+export default function Header() {
   const location = useLocation()
   const isHomePage = location.pathname === '/'
 
@@ -15,7 +15,7 @@ export default function Header () {
     const menuIcon = document.querySelector('.menuIcon')
     menuIcon.addEventListener('click', menuExpand)
 
-    function dropDown () {
+    function dropDown() {
       const arrow = document.querySelector('.bi-caret-down-fill')
       // console.log(arrow)
       const dropMenu = document.querySelector('.cultureList')
@@ -23,21 +23,21 @@ export default function Header () {
       arrow.classList.toggle('rotate')
     }
 
-    function dropDownMob () {
+    function dropDownMob() {
       const arrow = document.querySelector('.bi-caret-down-fill_mob')
       const dropMenu = document.querySelector('.cultureList_mob')
       dropMenu.classList.toggle('expand')
       arrow.classList.toggle('rotate')
     }
 
-    function menuExpand () {
+    function menuExpand() {
       const menu = document.querySelector('.headerLink.mob')
       menu.classList.toggle('expand')
     }
   }
 
   return (
-    <header  class={`${isHomePage ? 'sticky-navbar' : ''}`}>
+    <header class={`${isHomePage ? 'sticky-navbar' : ''}`}>
       <div class='flex container '>
         <Link to='/'>
           <img class='logo' src={HeaderLogo} alt='logo' />
@@ -54,17 +54,17 @@ export default function Header () {
               <div id='dropdownMenu' class=''>
                 <ul class='cultureList flex'>
                   <li>
-                    <a href='#' class='cultureOpt'>
+                    <a href='/DJ' class='cultureOpt'>
                       DJ
                     </a>
                   </li>
                   <li>
-                    <a href='#' class='cultureOpt'>
+                    <a href='/Dance' class='cultureOpt'>
                       街舞
                     </a>
                   </li>
                   <li>
-                    <a href='#' class='cultureOpt'>
+                    <a href='/RAP' class='cultureOpt'>
                       饒舌
                     </a>
                   </li>
