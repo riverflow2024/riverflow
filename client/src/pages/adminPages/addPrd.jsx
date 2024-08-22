@@ -188,11 +188,6 @@ export default function AddPrd() {
     }
     // formDataToSend.append('productImgs', productImgs)
     formDataToSend.append('productOpt', JSON.stringify(productOpt))
-    console.log('DATA :', formDataToSend);
-
-    // if (productImage) {
-    //   formDataToSend.append('productImgs', productImage.name)
-    // }
 
     console.log("FormData contents:")
     for (let [key, value] of formDataToSend.entries()) {
@@ -251,24 +246,6 @@ export default function AddPrd() {
               addImageField={addImageField}
               removeImageField={removeImageField}
             />
-            {/* <div className="infoItem">
-              <label className="editTitle">商品圖片：</label>
-              <div className="picItem">
-                <label htmlFor="productImgs" className="custUpload">
-                  <i className="fa-solid fa-upload" /> 上傳圖片
-                </label>
-                <input id="productImgs" name="productImgs" type="file" required accept="image/png, image/jpeg"
-                  onChange={handleImageChange}
-                />
-                <span id="fileChosen">未選擇任何檔案</span>
-                <button className='addItem'>
-                  <i className="bi bi-plus-circle" />
-                </button>
-                <button className='delItem'>
-                  <i className="bi bi-dash-circle" />
-                </button>
-              </div>
-            </div> */}
             <MultiSelectDropdown
               selectedOptions={selectedOptions}
               onChange={handleChange}

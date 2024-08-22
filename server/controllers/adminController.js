@@ -195,6 +195,24 @@ exports.createProduct = async (req, res) => {
     res.status(500).json({ message: '建立失敗', error: err.message })
   }
 }
+// 新增：圖片處理
+exports.createProductImages = async (req, res) => {
+  try {
+    if (!req.file) {
+      return res.status(400).send({ error: '沒有上傳檔案' })
+    }
+    console.log('File details:', req.file)
+
+    // 構建前端可以使用的 URL
+    const imageUrl = `/images/products/${req.file.filename}`
+    console.log('圖片已保存，URL:', imageUrl)
+
+    res.status(200).json({ url: imageUrl })
+  } catch (error) {
+    console.error('圖片上傳處理錯誤:', error)
+    res.status(500).json({ error: '圖片上傳處理過程中發生錯誤' })
+  }
+}
 // 刪除
 exports.deleteProduct = async (req, res) => {
   try {

@@ -390,11 +390,22 @@ body .admin-page .itemOpr {
   display: inline-block;
   margin: 5px;
   position: relative;
-  width: 50%;
+  width: 40%;
+}
+.itemStock {
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+  margin-left: 20px;
+  width: 40%;
 }
 .itemPrice input[type='number'] {
   margin: 0;
   width: 100%;
+}
+.itemStock input[type='number'] {
+  margin: 0;
+  width: 80%;
 }
 .introItem {
   margin: 20px 0;
@@ -451,10 +462,10 @@ button.delItem {
   display: none;
 }
 .multiSect.flex {
-  align-items: flex-start;
+  align-items: center;
   flex-wrap: wrap;
   margin-top: 20px;
-  justify-content: space-between;
+  justify-content: flex-start;
 }
 .multiSect > .infoList {
   width: 48%;
@@ -542,17 +553,21 @@ button.delItem {
 .main-container {
   font-family: 'Lato';
   width: fit-content;
-  margin-left: auto;
+  /* margin-left: auto; */
+  margin-top: 20px;
   margin-right: auto;
   min-height: 500px;
   max-height: 500px;
-  overflow: scroll;
+  /* overflow: scroll; */
 }
 
 .ck-content {
   font-family: 'Lato';
   line-height: 1.6;
   word-break: break-word;
+}
+.itemInfo .ck-content {
+  font-family: 'Noto Sans TC';
 }
 
 .editor-container_classic-editor .editor-container__editor {
