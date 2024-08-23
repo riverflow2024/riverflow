@@ -117,7 +117,7 @@ class MemberCollection extends Component {
 
 
                     <div class="nav-box" flex="1">
-                        <div class="wrap">
+                        <div class="">
                             <div class="member">
                                 <div>
                                     <img className="member-img" src={imageSrc} alt="" />

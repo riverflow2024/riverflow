@@ -184,7 +184,7 @@ class MemberOrder extends Component {
         <Header />
         <div className='Order'>
           <div className='nav-box' flex='1'>
-            <div className='wrap'>
+            <div className=''>
               <div className='member'>
                 <div>
                   <img className='member-img' src={imageSrc} alt='' />

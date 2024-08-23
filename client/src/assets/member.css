@@ -623,6 +623,7 @@
 }
 .Tickets .nav-box .member .profile a {
   color: var(--side2);
+  cursor: pointer;
 }
 .Tickets .nav-box .nav {
   margin-top: 20px;
@@ -742,6 +743,7 @@
 .Tickets .order-box .tabcontent .member-order th:nth-of-type(1),
 .Tickets .order-box .tabcontent .member-order td:nth-of-type(1) {
   text-align: justify;
+  word-wrap: break-word;
 }
 .Tickets .order-box .tabcontent .member-order th:nth-of-type(2),
 .Tickets .order-box .tabcontent .member-order td:nth-of-type(2) {
@@ -979,7 +981,24 @@
     width: 375px;
   }
   .order-box {
-    width: 375px;
+    width: 500px;
+  }
+  .order-box .tabcontent .member-order thead {
+    display: none;
+  }
+  .order-box .tabcontent .member-order tbody {
+    border-top: 1px solid var(--main);
+  }
+  .order-box .tabcontent .member-order td {
+    display: block;
+    padding: 0.3rem 0.5rem;
+    text-align: left !important;
+  }
+  .order-box .tabcontent .member-order td:before {
+    content: attr(data-title);
+    display: inline-block;
+    width: auto;
+    text-align: left;
   }
   .btn-box {
     flex-direction: column;
@@ -995,10 +1014,21 @@
   .order-box {
     width: 300px;
   }
-  .btn-box {
+  .order-box .btn-box {
     flex-direction: column;
   }
-  .btn-box .btn {
+  .order-box .btn-box .btn {
     width: 100% !important;
+  }
+  .order-box .btn-box .tablink {
+    margin-right: 0px !important;
+  }
+  .order-box .tabcontent .member-order .member-wrap {
+    flex-direction: column;
+    align-items: start !important;
+  }
+  .order-box .tabcontent .member-order .member-wrap span {
+    display: block;
+    margin: 10px 0px;
   }
 }/*# sourceMappingURL=member.css.map */

@@ -151,7 +151,7 @@ class MemberTickets extends Component {
 
 
                     <div class="nav-box" flex="1">
-                        <div class="wrap">
+                        <div class="">
                             <div class="member">
                                 <div>
                                 <img className="member-img" src={imageSrc} alt="" />
@@ -201,12 +201,12 @@ class MemberTickets extends Component {
                                         </thead>
 
                                         <tbody>
-                                            <td>{this.formatDate(ticket.eventDate)}</td>
-                                            <td colspan="2">{ticket.eventName}</td>
-                                            <td>{ticket.quantity}</td>
-                                            <td>NT${ticket.tdPrice}</td>
-                                            <td>{ticket.ticketType}</td>
-                                            <td>{tdStatusMap[ticket.tdStatus] || ticket.tdStatus}</td>
+                                            <td data-title="日期：">{this.formatDate(ticket.eventDate)}</td>
+                                            <td data-title="活動名稱：" colspan="2">{ticket.eventName}</td>
+                                            <td data-title="數量：">{ticket.quantity}</td>
+                                            <td data-title="金額：">NT${ticket.tdPrice}</td>
+                                            <td data-title="票種：">{ticket.ticketType}</td>
+                                            <td data-title="狀態：">{tdStatusMap[ticket.tdStatus] || ticket.tdStatus}</td>
                                         </tbody>
                                     </table>
                                 </div>
