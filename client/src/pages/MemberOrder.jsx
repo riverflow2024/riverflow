@@ -6,13 +6,13 @@ import Footer from '../components/footer'
 import defaultImg from '../assets/images/defaultphoto.jpg' // 預設會員圖片
 import { useParams, useNavigate, useLocation } from 'react-router-dom'
 
-// 這是是因為orderId所加的程式碼
+// 這是是因為orderId所需的程式碼
 
 function withRouter(Component) {
   return function (props) {
-    const params = useParams() // 获取当前路由的 params
-    const navigate = useNavigate() // 获取 navigate 函数
-    const location = useLocation() // 获取当前 location 对象
+    const params = useParams() 
+    const navigate = useNavigate() 
+    const location = useLocation() 
     return <Component {...props} params={params} navigate={navigate} location={location} />
   }
 }
@@ -36,10 +36,10 @@ class MemberOrder extends Component {
       { orderId: '', createdAt: '', payMethod: '', totalPrice: '', orderStatus: '' }
     ],
 
-    isLoading: true, // 加载状态
-    error: null, // 错误信息
+    isLoading: true, 
+    error: null, 
     showAdditionalOrders: false,
-    activeAccordion: null // 用于跟踪哪个折叠面板是活动的
+    activeAccordion: null,
   }
   componentDidMount() {
     this.fetchUserData()
@@ -58,14 +58,14 @@ class MemberOrder extends Component {
       const response = await axios.get('http://localhost:3000/riverflow/user', {
         withCredentials: true //保持 Cookie
       })
-      console.log('Fetched user data:', response.data) // 打印返回的数据
+      console.log('Fetched user data:', response.data) 
       this.setState({
         Users: response.data,
         isLoading: false
       })
     } catch (error) {
       console.error('Error fetching user data:', error)
-      // 清除本地存储中的 Token，并重定向到登录页面
+      // 清除本地的 Token
       localStorage.removeItem('token')
       this.setState({
         isLoading: false,
@@ -112,17 +112,17 @@ class MemberOrder extends Component {
 
   // 格式化日期的方法
   formatDate(dateString) {
-    // 将日期字符串转换为 Date 对象
+    // 將日期字符串轉換為 Date
     const date = new Date(dateString)
 
-    // 获取年、月、日
+    // 獲取年、月、日
     const year = date.getFullYear()
-    const month = String(date.getMonth() + 1).padStart(2, '0') // 月份从 0 开始
+    const month = String(date.getMonth() + 1).padStart(2, '0') // 月份從 0 開始
     const day = String(date.getDate()).padStart(2, '0')
 
-    // 格式化为 YYYY/MM/DD
+    // 格式化為 YYYY/MM/DD
     const formattedDate = `${year}/${month}/${day}`
-    console.log('Formatted Date:', formattedDate) // 输出格式化后的日期
+    console.log('Formatted Date:', formattedDate) // 輸出格式化後的日期
     return formattedDate
   }
 
@@ -174,8 +174,7 @@ class MemberOrder extends Component {
       ? recentnotYetCompletedOrders
       : notYetCompletedOrders.slice(0, 2)
 
-    // 如果會員沒有照片就使用預設圖片
-
+   
     // 如果會員沒有照片就使用預設圖片
     const { userImg } = this.state.Users
     const imageSrc = userImg ? require(`../assets/images/users/${userImg}`) : defaultImg
@@ -407,7 +406,8 @@ class MemberOrder extends Component {
                 </div>
               ))}
               <button className='btn' onClick={this.toggleAdditionalOrders}>
-                {this.state.showAdditionalOrders ? '收起近一個月的訂單' : '近一個月的訂單'}
+                {/* {this.state.showAdditionalOrders ? '收起近一個月的訂單' : '近一個月的訂單'} */}
+                近一個月的訂單
               </button>
             </div>
 
@@ -441,7 +441,8 @@ class MemberOrder extends Component {
                 </div>
               ))}
               <button className='btn' onClick={this.toggleAdditionalOrders}>
-                {this.state.showAdditionalOrders ? '收起近一個月的訂單' : '近一個月的訂單'}
+                {/* {this.state.showAdditionalOrders ? '收起近一個月的訂單' : '近一個月的訂單'} */}
+                近一個月的訂單
               </button>
             </div>
           </div>

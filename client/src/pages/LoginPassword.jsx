@@ -21,9 +21,9 @@ class LoginPassword extends Component {
             "birth": "",
             "sex": "",
         },
-        emailError: '', // 添加 emailError 的初始值
+        emailError: '', 
         isPasswordVisible: false,
-        isLoading: false // 用于跟踪加载状态
+        isLoading: false // 跟蹤加載狀態
         
 
     }
@@ -54,7 +54,7 @@ class LoginPassword extends Component {
                 throw new Error('Network response was not ok');
             }
     
-            // 假设后端返回一个包含令牌的JSON响应
+            // 後端返回token的JSON
             const data = await response.json();
             const resetToken = data.token;
     
@@ -73,7 +73,7 @@ class LoginPassword extends Component {
                 },
             }).then((result) => {
                 if (result.isConfirmed) {
-                    // 重定向到带有令牌的路径
+                    // 帶有token的路徑
                     window.location = `/Login/Verify/reset-password/${resetToken}`;
                 }
             });
@@ -81,7 +81,7 @@ class LoginPassword extends Component {
             console.error('發送驗證信時出錯:', error);
             this.setState({ emailError: '發送驗證信時出錯，請稍後再試。' });
         } finally {
-            this.setState({ isLoading: false }); // 请求完成或出错后停止加载
+            this.setState({ isLoading: false }); // 請求完成後停止加載
         }
     };
     

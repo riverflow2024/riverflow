@@ -20,8 +20,8 @@ class MemberIndex extends Component {
 
         },
 
-        isLoading: true,      // 加载状态
-        error: null           // 错误信息
+        isLoading: true,  
+        error: null          
     };
     componentDidMount() {
         this.fetchUserData();
@@ -31,7 +31,7 @@ class MemberIndex extends Component {
     formatDate = (dateString) => {
         const date = new Date(dateString);
         const year = date.getFullYear();
-        const month = String(date.getMonth() + 1).padStart(2, '0'); // 月份从0开始，所以要加1
+        const month = String(date.getMonth() + 1).padStart(2, '0'); // 月份從0開始，所以+1
         const day = String(date.getDate()).padStart(2, '0');
         return `${year}-${month}-${day}`;
     };
@@ -40,17 +40,17 @@ class MemberIndex extends Component {
     fetchUserData = async () => {
     try {
         const response = await axios.get('http://localhost:3000/riverflow/user', {
-            withCredentials: true // 确保请求带上 Cookie
+            withCredentials: true //  Cookie
         });
 
         // 格式化日期
         const birth = response.data.birth ? this.formatDate(response.data.birth) : '';
 
-        // 更新状态以显示用户数据
+       
         this.setState({
             Users: {
                 ...response.data,
-                birth // 确保日期格式正确
+                birth // 確保日期程式正確
             },
             isLoading: false
         });
@@ -68,15 +68,15 @@ class MemberIndex extends Component {
     Logout = async () => {
         try {
             await axios.get('http://localhost:3000/riverflow/user/logout', {
-                withCredentials: true // 确保请求带上 Cookie
+                withCredentials: true // Cookie
             });
-            // 清除本地存储中的 Token
+            // 清除Token
             localStorage.removeItem('token');
-            // 重定向到登录页面
+            
             window.location.href = '/login/Index';
         } catch (error) {
             console.error("Error logging out:", error);
-            // 可以显示错误消息或者其他处理
+            
         }
     };
 

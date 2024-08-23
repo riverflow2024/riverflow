@@ -32,7 +32,7 @@ class MemberEdit extends Component {
   formatDate = (dateString) => {
     const date = new Date(dateString)
     const year = date.getFullYear()
-    const month = String(date.getMonth() + 1).padStart(2, '0') // 月份从0开始，所以要加1
+    const month = String(date.getMonth() + 1).padStart(2, '0') // 月份從0開始，要+1
     const day = String(date.getDate()).padStart(2, '0')
     return `${year}-${month}-${day}`
   }
@@ -41,7 +41,7 @@ class MemberEdit extends Component {
   fetchUserData = async () => {
     try {
       const response = await axios.get('http://localhost:3000/riverflow/user', {
-        withCredentials: true // 确保请求带上 Cookie
+        withCredentials: true //  Cookie
       })
 
       // 格式化日期
@@ -303,7 +303,7 @@ UploadImg = async () => {
   //日期
   handleInputChange = (e) => {
     const { name, value } = e.target
-    // 如果是生日字段，转换为 YYYY-MM-DD 格式
+    // 轉換為 YYYY-MM-DD 格式
     const newValue = name === 'birth' ? value.split('/').join('-') : value
     this.setState({ Users: { ...this.state.Users, [name]: value } })
   }

@@ -24,7 +24,7 @@ class MemberOrderList extends Component {
 
     showAdditionalOrders: false,
     activeAccordion: null,
-    isLoading: true, // 加载状态
+    isLoading: true, 
     error: null
   }
 
@@ -36,16 +36,16 @@ class MemberOrderList extends Component {
   fetchUserData = async () => {
     try {
       const response = await axios.get('http://localhost:3000/riverflow/user', {
-        withCredentials: true // 确保请求带上 Cookie
+        withCredentials: true // Cookie
       })
-      console.log('Fetched user data:', response.data) // 打印返回的数据
+      console.log('Fetched user data:', response.data) 
       this.setState({
         Users: response.data,
         isLoading: false
       })
     } catch (error) {
       console.error('Error fetching user data:', error)
-      // 清除本地存储中的 Token，并重定向到登录页面
+      // 清除本地Token
       localStorage.removeItem('token')
       this.setState({
         isLoading: false,
@@ -60,7 +60,7 @@ class MemberOrderList extends Component {
       const response = await axios.get('http://localhost:3000/riverflow/user/products/', {
         withCredentials: true
       })
-      console.log('Fetched order data:', response.data) // 打印返回的数据
+      console.log('Fetched order data:', response.data) 
       this.setState({
         Order: response.data
       })
@@ -74,15 +74,15 @@ class MemberOrderList extends Component {
 
   // 格式化日期的方法
   formatDate(dateString) {
-    // 将日期字符串转换为 Date 对象
+    // 將日期字符轉換為 Date 
     const date = new Date(dateString)
 
-    // 获取年、月、日
+    // 獲取年、月、日
     const year = date.getFullYear()
-    const month = String(date.getMonth() + 1).padStart(2, '0') // 月份从 0 开始
+    const month = String(date.getMonth() + 1).padStart(2, '0') // 月份從 0 開始
     const day = String(date.getDate()).padStart(2, '0')
 
-    // 格式化为 YYYY/MM/DD
+    // 格式化為 YYYY/MM/DD
     const formattedDate = `${year}/${month}/${day}`
     console.log('Formatted Date:', formattedDate) // 输出格式化后的日期
     return formattedDate
@@ -92,15 +92,15 @@ class MemberOrderList extends Component {
   Logout = async () => {
     try {
       await axios.get('http://localhost:3000/riverflow/user/logout', {
-        withCredentials: true // 确保请求带上 Cookie
+        withCredentials: true // Cookie
       })
-      // 清除本地存储中的 Token
+      // 清除本地的 Token
       localStorage.removeItem('token')
       // 重定向到登录页面
       window.location.href = '/login/Index'
     } catch (error) {
       console.error('Error logging out:', error)
-      // 可以显示错误消息或者其他处理
+     
     }
   }
 
@@ -321,7 +321,7 @@ class MemberOrderList extends Component {
                 </div>
               ))}
               <button className='btn' onClick={this.toggleAdditionalOrders}>
-                {completedOrders.showAdditionalOrders ? '收起近一個月的訂單' : '近一個月的訂單'}
+              近一個月的訂單
               </button>
             </div>
 
@@ -355,7 +355,8 @@ class MemberOrderList extends Component {
                 </div>
               ))}
               <button className='btn' onClick={this.toggleAdditionalOrders}>
-                {recentnotYetCompletedOrders.showAdditionalOrders ? '收起近一個月的訂單' : '近一個月的訂單'}
+                {/* {recentnotYetCompletedOrders.showAdditionalOrders ? '收起近一個月的訂單' : '近一個月的訂單'} */}
+                近一個月的訂單
               </button>
             </div>
           </div>

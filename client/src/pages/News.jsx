@@ -101,18 +101,18 @@ class NewsIndex extends Component {
   render() {
     const { News, selectedType, currentPage, cardsPerPage } = this.state
 
-    // 根据选择的类型筛选新闻
+    // 根據左側選單，分類專欄
     const filteredNews = selectedType === 'All' ? News : News.filter((news) => news.newsType === selectedType)
 
-    // 计算当前页的新闻卡片
+    // 計算當前頁面的card
     const indexOfLastCard = currentPage * cardsPerPage
     const indexOfFirstCard = indexOfLastCard - cardsPerPage
     const currentCards = filteredNews.slice(indexOfFirstCard, indexOfLastCard)
 
-    // 计算总页数
+    // 計算頁數
     const totalPages = Math.ceil(filteredNews.length / cardsPerPage)
 
-    // 生成页码
+    // 動代產生頁碼
     const pageNumbers = []
     for (let i = 1; i <= totalPages; i++) {
       pageNumbers.push(i)
@@ -180,11 +180,11 @@ class NewsIndex extends Component {
                   <NewsCard
                     key={newItem.newsId}
                     newsId={newItem.newsId}
-                    image={newItem.coverImg} // Replace with actual image name
+                    image={newItem.coverImg} 
                     type={newItem.newsType}
                     date={newItem.createdAt}
                     title={newItem.newsTitle}
-                    description= {newItem.newsContent} // Replace with actual description
+                    description= {newItem.newsContent}
                     isGreen={this.getCardClass(index)}
                     goArticle={this.goArticle}
                   />

@@ -29,11 +29,10 @@ class LoginRegister extends Component {
     nameError: '',
     emailError: '',
     agreeToPrivacy: false,
-    isLoading: false // 用于跟踪加载状态
+    isLoading: false // 跟蹤加載狀態
   }
 
   componentDidMount() {
-    // Initialize newPassword and confirmPassword to empty strings
     this.setState({
       newPassword: '',
       confirmPassword: ''
@@ -281,7 +280,7 @@ class LoginRegister extends Component {
           {/* Loading */}
           {this.state.isLoading && (
             <div className='loading-overlay'>
-              <div className='spinner'></div> {/* 你可以用CSS或图片来实现转动的加载效果 */}
+              <div className='spinner'></div>
               <p className='loading-text'>
                 Loading<span className='dots'></span>
               </p>
@@ -329,7 +328,7 @@ class LoginRegister extends Component {
   // 新密碼驗證，同時啟動確認密碼功能
   NewPassword = (event) => {
     const newPassword = event.target.value.trim() // 修剪空白字符
-    // console.log('New Password Input:', newPassword); // 調試輸出
+    // console.log('New Password Input:', newPassword); // 
 
     const passwordPattern = /^(?=.*[a-zA-Z])(?=.*[0-9]).{6,}$/
     let passwordError = ''
@@ -350,7 +349,7 @@ class LoginRegister extends Component {
       }),
       () => {
         // 確保狀態更新後調用 CheckPassword
-        console.log('Updated New Password (after state update):', this.state.Users.secret) // 調試輸出
+        console.log('Updated New Password (after state update):', this.state.Users.secret) 
         this.CheckPassword()
       }
     )
@@ -360,8 +359,8 @@ class LoginRegister extends Component {
   CheckPassword = () => {
     const { Users, confirmPassword } = this.state
     const newPassword = Users.secret // 確保獲取正確的 newPassword
-    // console.log('Current New Password (CheckPassword):', newPassword); // 調試輸出
-    // console.log('Current Confirm Password:', confirmPassword); // 調試輸出
+    // console.log('Current New Password (CheckPassword):', newPassword); 
+    // console.log('Current Confirm Password:', confirmPassword); 
 
     let checkPasswordError = ''
 
@@ -419,7 +418,7 @@ class LoginRegister extends Component {
     this.setState({ nameError, passwordError, emailError })
 
     if (!nameError && !passwordError && !emailError && agreeToPrivacy) {
-      this.setState({ isLoading: true }) // 开始加载
+      this.setState({ isLoading: true }) // 開始加載
       try {
         const response = await axios.post(
           'http://localhost:3000/riverflow/user/register',
@@ -447,9 +446,9 @@ class LoginRegister extends Component {
           confirmButtonColor: 'var(--main)',
           confirmButtonText: 'OK',
           customClass: {
-            title: 'custom-title', // 自定义标题的 class
-            htmlContainer: 'custom-text', // 自定义内文的 class
-            confirmButton: 'swal2-confirm' // 应用自定义按钮类
+            title: 'custom-title', 
+            htmlContainer: 'custom-text', 
+            confirmButton: 'swal2-confirm' 
           }
         }).then((result) => {
           if (result.isConfirmed) {
@@ -460,7 +459,7 @@ class LoginRegister extends Component {
         console.error('註冊失敗:', error.response ? error.response.data : error.message)
         alert(`註冊失敗！錯誤信息：${error.response ? error.response.data : error.message}`)
       } finally {
-        this.setState({ isLoading: false }) // 请求完成或出错后停止加载
+        this.setState({ isLoading: false }) // 請求後停止加載
       }
     }
   }

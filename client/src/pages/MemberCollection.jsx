@@ -26,7 +26,7 @@ class MemberCollection extends Component {
             },
         ],
 
-        isLoading: true,      // 加载状态
+        isLoading: true,    
         error: null
     }
     // 執行程式碼
@@ -39,7 +39,7 @@ class MemberCollection extends Component {
     fetchUserData = async () => {
         try {
             const response = await axios.get('http://localhost:3000/riverflow/user', {
-                withCredentials: true // 确保请求带上 Cookie
+                withCredentials: true //  Cookie
             });
             // check會員資料
             console.log("Fetched user data:", response.data); 
@@ -84,15 +84,15 @@ class MemberCollection extends Component {
     Logout = async () => {
         try {
             await axios.get('http://localhost:3000/riverflow/user/logout', {
-                withCredentials: true // 确保请求带上 Cookie
+                withCredentials: true // Cookie
             });
-            // 清除本地存储中的 Token
+            // 清除 Token
             localStorage.removeItem('token');
-            // 重定向到登录页面
+            
             window.location.href = '/login/Index';
         } catch (error) {
             console.error("Error logging out:", error);
-            // 可以显示错误消息或者其他处理
+           
         }
     };
 

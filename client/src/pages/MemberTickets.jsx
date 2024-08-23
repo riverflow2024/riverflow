@@ -25,8 +25,8 @@ class MemberTickets extends Component {
 
         ],
      
-        isLoading: true,      // 加载状态
-        error: null           // 错误信息
+        isLoading: true,      
+        error: null           
 
     }
     componentDidMount() {
@@ -62,9 +62,9 @@ class MemberTickets extends Component {
             const response = await axios.get('http://localhost:3000/riverflow/user/events', {
                 withCredentials: true
             });
-            console.log("Fetched order data:", response.data); // 打印返回的数据
+            console.log("Fetched order data:", response.data); 
     
-            // 确保 data 是一个数组
+           
             this.setState({
                 TicketsDetails: Array.isArray(response.data) ? response.data : [],
                 isLoading: false
@@ -81,12 +81,12 @@ class MemberTickets extends Component {
 
     // 格式化日期的方法
     formatDate(dateString) {
-        // 将日期字符串转换为 Date 对象
+        // 將日期字符串轉換 Date
         const date = new Date(dateString);
 
-        // 获取年、月、日
+        
         const year = date.getFullYear();
-        const month = String(date.getMonth() + 1).padStart(2, '0'); // 月份从 0 开始
+        const month = String(date.getMonth() + 1).padStart(2, '0'); 
         const day = String(date.getDate()).padStart(2, '0');
 
         // 格式化为 YYYY/MM/DD

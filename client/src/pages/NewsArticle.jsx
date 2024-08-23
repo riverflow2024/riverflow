@@ -4,16 +4,16 @@ import axios from 'axios';
 import Header from '../components/header';
 import Footer from '../components/footer'
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
-// 編輯器
+// 文字編輯器
 import CKEditorContent from '../components/CKEditorContent';
 
 // 這是是因為orderId所加的程式碼
 
 function withRouter(Component) {
     return function (props) {
-        const params = useParams(); // 获取当前路由的 params
-        const navigate = useNavigate(); // 获取 navigate 函数
-        const location = useLocation(); // 获取当前 location 对象
+        const params = useParams(); 
+        const navigate = useNavigate(); 
+        const location = useLocation();
         return <Component {...props} params={params} navigate={navigate} location={location} />;
     };
 }
@@ -82,7 +82,7 @@ class NewsArticle extends Component {
     componentDidMount() {
         window.addEventListener('scroll', this.Scroll);
 
-        this.fetchNewsData(); // 获取其他新闻数据
+        this.fetchNewsData(); 
 
         const { params } = this.props;
         console.log("params:", params);
@@ -107,17 +107,15 @@ class NewsArticle extends Component {
 
     // 格式化日期的方法
     formatDate(dateString) {
-        // 将日期字符串转换为 Date 对象
+        
         const date = new Date(dateString);
 
-        // 获取年、月、日
         const year = date.getFullYear();
-        const month = String(date.getMonth() + 1).padStart(2, '0'); // 月份从 0 开始
+        const month = String(date.getMonth() + 1).padStart(2, '0'); 
         const day = String(date.getDate()).padStart(2, '0');
 
-        // 格式化为 YYYY/MM/DD
         const formattedDate = `${year}/${month}/${day}`;
-        console.log('Formatted Date:', formattedDate); // 输出格式化后的日期
+        console.log('Formatted Date:', formattedDate); 
         return formattedDate;
     }
 
@@ -127,7 +125,6 @@ class NewsArticle extends Component {
         let shuffled = newsArray.slice(0);
         let i = newsArray.length, temp, randomIndex;
 
-        // Fisher-Yates shuffle algorithm
         while (i !== 0) {
             randomIndex = Math.floor(Math.random() * i);
             i--;
@@ -136,14 +133,14 @@ class NewsArticle extends Component {
             shuffled[randomIndex] = temp;
         }
 
-        // 返回前 count 个新闻
+        // 返回前 count 專欄
         return shuffled.slice(0, count);
     }
 
     fetchNewsData = async () => {
         try {
             const response = await axios.get('http://localhost:3000/riverflow/news/news');
-            // 获取随机新闻
+            // 獲取隨機的專欄
             const randomNews = this.getRandomNews(response.data, 5);
             this.setState({ News: randomNews });
         } catch (error) {
@@ -159,9 +156,10 @@ class NewsArticle extends Component {
                 withCredentials: true
             });
 
-            // 确保返回的数据是数组且非空
+            // 确保返回的数据是数组且非空 
+            // 確保返回的數據是數組且非空
             if (Array.isArray(response.data) && response.data.length > 0) {
-                const articleData = response.data[0]; // 取数组中的第一个对象
+                const articleData = response.data[0]; //獲取第一個
                 console.log("Fetched Article data:", articleData);
                 this.setState({
                     Article: {
@@ -245,7 +243,7 @@ class NewsArticle extends Component {
                                     <NewsCard
                                         key={newItem.newsId}
                                         newsId={newItem.newsId}
-                                        image={newItem.coverImg} // Replace with actual image name
+                                        image={newItem.coverImg} 
                                         type={newItem.newsType}
                                         date={newItem.createdAt}
                                         title={newItem.newsTitle}
