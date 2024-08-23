@@ -119,7 +119,7 @@ export default function PrdList () {
               adminToken={adminToken}
             />
           )}
-          <tr prdid='01' className='item'>
+          {/* <tr prdid='01' className='item'>
             <td>
               <img src='../assets/images/products/product1_1.jpeg' alt='' className='prdImgPre' />
             </td>
@@ -285,7 +285,7 @@ export default function PrdList () {
                 </button>
               </div>
             </td>
-          </tr>
+          </tr> */}
         </tbody>
       </table>
     </div>

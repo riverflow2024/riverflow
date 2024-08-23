@@ -173,7 +173,7 @@ input[type='text'].search {
 .admin-page td {
   border: 0;
   line-height: 120%;
-  padding: 10px 5px;
+  padding: 10px;
   text-align: center;
   width: auto;
 }
@@ -205,11 +205,19 @@ input[type='text'].search {
 /* .prdPrice::before {
     content: '$ ';
 } */
+.admin-page td.blogTitle, .admin-page .eventAddress {
+  padding: 10px 20px;
+}
+.blogAuthor, .admin-page .adminEventList .time {
+  white-space: nowrap;
+}
 .prdStock,
 .Status {
   font-weight: bold;
+  white-space: nowrap;
 }
 .itemOpt .flex {
+  flex-wrap: nowrap;
   justify-content: center;
 }
 body .admin-page .itemOpr {
@@ -390,11 +398,22 @@ body .admin-page .itemOpr {
   display: inline-block;
   margin: 5px;
   position: relative;
-  width: 50%;
+  width: 40%;
+}
+.itemStock {
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+  margin-left: 20px;
+  width: 40%;
 }
 .itemPrice input[type='number'] {
   margin: 0;
   width: 100%;
+}
+.itemStock input[type='number'] {
+  margin: 0;
+  width: 80%;
 }
 .introItem {
   margin: 20px 0;
@@ -451,10 +470,10 @@ button.delItem {
   display: none;
 }
 .multiSect.flex {
-  align-items: flex-start;
+  align-items: center;
   flex-wrap: wrap;
   margin-top: 20px;
-  justify-content: space-between;
+  justify-content: flex-start;
 }
 .multiSect > .infoList {
   width: 48%;
@@ -542,17 +561,26 @@ button.delItem {
 .main-container {
   font-family: 'Lato';
   width: fit-content;
-  margin-left: auto;
+  /* margin-left: auto; */
+  margin-top: 20px;
   margin-right: auto;
-  min-height: 500px;
+  /* min-height: 500px;
+  max-height: 500px; */
+  /* overflow: scroll; */
+}
+
+.editor-container.editor-container_classic-editor {
   max-height: 500px;
-  overflow: scroll;
+  overflow: auto;
 }
 
 .ck-content {
   font-family: 'Lato';
   line-height: 1.6;
   word-break: break-word;
+}
+.itemInfo .ck-content {
+  font-family: 'Noto Sans TC';
 }
 
 .editor-container_classic-editor .editor-container__editor {
@@ -572,11 +600,18 @@ button.delItem {
 /*                   頁數功能                   */
 /*---------------------------------------------*/
 .admin-page .pagination {
+  margin: 20px 0 40px;
   text-align: center;
+}
+.admin-page .pagination button {
+  background-color: transparent;
+  border: 1px solid;
+  border-radius: 5px;
+  cursor: pointer;
+  margin: 0 5px;
+  padding: 5px 10px;
 }
 .admin-page .pagination button.active {
   background-color: var(--main);
-  border: 0;
-  border-radius: 5px;
-  padding: 5px 10px;
+  border-color: transparent;
 }
