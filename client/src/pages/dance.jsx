@@ -17,7 +17,7 @@ let player
 
 // 定義在 useEffect 外部
 const onPlayerReady = (event) => {
-  event.target.playVideo()
+  // event.target.playVideo()
 }
 
 const onPlayerStateChange = (event) => {
@@ -389,15 +389,10 @@ const Dance = () => {
               </div>
 
               <div className='col-8' style={{ marginTop: '20vh', padding: '5vh' }}>
-                <div style={{ border: '4px solid #BAF13A' }} id='player'></div>
-                <div className='title' style={{ border: '1px solid白' }}>
+                <div className='title' style={{ marginButtom:'10vh' }}>
                   動作介紹
                 </div>
-                <div className='content'>
-                  學習 Break Dance 從基本動作開始，例如 Indian Step、Two Step 和 Salsa
-                  Step，這些都是常見的頂岩（Toprock）動作。 隨著熟練度的提高，可以逐步嘗試更具挑戰性的動作如六步（Six
-                  Step）和風車（Windmill）。 不斷練習和磨練是成為優秀街舞者的關鍵。
-                </div>
+                <div style={{ border: '4px solid #BAF13A' }} id='player'></div>
               </div>
             </div>
           </div>

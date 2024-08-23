@@ -74,7 +74,7 @@ const EventItem = ({ event, onStatusChange, handleDelete, adminToken }) => {
         <br />
         {eventTime}
       </td>
-      <td className='prdId'>{event.location}</td>
+      <td className='eventAddress'>{event.location}</td>
       <td className='Status'>{status === 1 ? '上架' : '下架'}</td>
       <td className='itemOpt'>
         <div className='flex'>

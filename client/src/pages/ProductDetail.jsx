@@ -11,9 +11,10 @@ import Header from '../components/header'
 const ProductImages = ({ images = [], isFavorited, onToggleFavorite }) => (
   <aside className='product-images'>
     <div className='product-images-big'>
-      <a href={images[0]} data-lightbox='example-set' data-title='產品圖片'>
+      <a href={`/images/products/${images[0]}`} data-lightbox='example-set' data-title='產品圖片'>
         <img className='example-image' src={`/images/products/${images[0]}`} alt='product' />
       </a>
+
       <a href='#' className={`favorite ${isFavorited ? 'selected' : ''}`} onClick={onToggleFavorite}>
         <i className={`fa-regular fa-heart ${isFavorited ? 'selected' : ''}`}></i>
       </a>
@@ -350,8 +351,8 @@ const ProductDetail = () => {
                 onQuantityChange={handleQuantityChange}
                 onAddToCart={handleAddToCart}
                 totalPrice={totalPrice}
-                isNew={isNew}
-                isOnSale={isOnSale}
+                isNew={isNew} // 傳遞 isNew
+                isOnSale={isOnSale} // 傳遞 isOnSale
               />
             </>
           )}

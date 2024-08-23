@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Navigate, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 
-const PrdListItem = ({ product, onProductUpdate, adminToken }) => {
+const PrdListItem = ({ product, onProductUpdate, onProductDelete, adminToken }) => {
   const [isLoading, setIsLoading] = useState(false)
   const navigate = useNavigate()
   const statusMap = {
@@ -46,23 +46,84 @@ const PrdListItem = ({ product, onProductUpdate, adminToken }) => {
 
     setIsLoading(true)
     try {
-      await onProductUpdate({
-        ...product,
-        status: statusInfo.nextStatus,
-        action: statusInfo.action
-      })
+      let response;
+      if (statusInfo.action === 'activate') {
+        response = await axios({
+          method: 'put',
+          url: `http://localhost:3000/riverflow/admin/products/${product.productId}/launch`,
+          headers: {
+            Authorization: `Bearer ${adminToken}`,
+            'Content-Type': 'application/json'
+          },
+          withCredentials: true
+        })
+      } else if (statusInfo.action === 'discontinue') {
+        response = await axios({
+          method: 'put',
+          url: `http://localhost:3000/riverflow/admin/products/${product.productId}/remove`,
+          headers: {
+            Authorization: `Bearer ${adminToken}`,
+            'Content-Type': 'application/json'
+          },
+          withCredentials: true
+        })
+      } else {
+        throw new Error('未知的產品狀態更新動作');
+      }
+
+      // 調用父組件的回調函數，更新父組件中的狀態
+      onProductUpdate(response.data);
     } catch (error) {
-      console.error('更新狀態時出錯', error)
+      console.error('更新商品狀態時出錯:', error);
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
+    // try {
+    //   await onProductUpdate({
+    //     ...product,
+    //     status: statusInfo.nextStatus,
+    //     action: statusInfo.action
+    //   })
+    // } catch (error) {
+    //   console.error('更新狀態時出錯', error)
+    // } finally {
+    //   setIsLoading(false)
+    // }
   }
 
+  const handleDelete = async () => {
+    if (window.confirm('確定要刪除此商品嗎？')) {
+      setIsLoading(true);
+      try {
+        await axios({
+          method: 'delete',
+          url: `http://localhost:3000/riverflow/admin/products/${product.productId}/delete`,
+          headers: {
+            Authorization: `Bearer ${adminToken}`,
+            'Content-Type': 'application/json'
+          },
+          withCredentials: true
+        })
+        // 調用父組件的回調函數，從父組件中刪除該產品
+        onProductDelete(product.productId);
+      } catch (error) {
+        console.error('刪除商品時出錯:', error);
+        // 可以在這裡添加錯誤處理邏輯
+      } finally {
+        setIsLoading(false);
+      }
+    }
+  };
+
+  // 編輯
   const handleEdit = () => {
     navigate(`/admin/prdList/edit/${product.productId}`)
   }
 
-
+  // 檢視
+  const handleView = () => {
+    window.open(`http://localhost:3001/product/detail/${product.productId}`, '_blank')
+  }
 
   const imagePath = `${process.env.PUBLIC_URL}/images/products/${product.productImg}`
 
@@ -94,7 +155,7 @@ const PrdListItem = ({ product, onProductUpdate, adminToken }) => {
             <i className='fa-solid fa-pen' />
             編輯
           </button>
-          <button id='btnView' className='btn itemOpr inline-flex'>
+          <button onClick={handleView} id='btnView' className='btn itemOpr inline-flex'>
             <i className='fa-solid fa-eye' />
             檢視
           </button>
@@ -108,7 +169,7 @@ const PrdListItem = ({ product, onProductUpdate, adminToken }) => {
             <i className={`fa-solid ${statusInfo.buttonIcon}`} />
             {statusInfo.buttonText}
           </button>
-          <button className='btn itemOpr inline-flex'>
+          <button onClick={handleDelete} className='btn itemOpr inline-flex'>
             <i className='fa-solid fa-trash'></i>刪除
           </button>
         </div>

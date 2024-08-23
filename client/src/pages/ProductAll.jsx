@@ -6,7 +6,6 @@ import Swiper from 'swiper/bundle'
 import 'swiper/css/bundle'
 import resetStyles from '../assets/reset.module.css'
 import '../assets/ProductAll.css'
-// import '@fortawesome/fontawesome-free/css/all.min.css';
 import Header from '../components/header'
 import axios from 'axios'
 import { Link } from 'react-router-dom'
@@ -318,7 +317,7 @@ const ProductItem = ({ product, toggleFavorite }) => (
   </div>
 )
 
-const ProductList = ({ filterCategory, searchQuery }) => {
+const ProductList = ({ filterCategory, searchQuery, favoriteProducts, setFavoriteProducts }) => {
   const [products, setProducts] = useState([])
 
   useEffect(() => {
@@ -327,7 +326,7 @@ const ProductList = ({ filterCategory, searchQuery }) => {
       .then((response) => {
         const allProducts = response.data.getAllProductInfo.map((product) => {
           const productImages = response.data.getAllProductImg.filter((img) => img.productId === product.productId)
-          const isFavorited = response.data.getAllProductFavorite.some((fav) => fav.productId === product.productId)
+          const isFavorited = favoriteProducts.some(favProduct => favProduct.productId === product.productId)
 
           const isNewProduct = product.productStatus === 'New'
 
@@ -349,23 +348,53 @@ const ProductList = ({ filterCategory, searchQuery }) => {
       .catch((error) => {
         console.error('Error fetching product data:', error)
       })
-  }, [])
+  }, [favoriteProducts])
 
-  const toggleFavorite = (product) => {
-    const updatedProducts = products.map((p) =>
-      p.productId === product.productId ? { ...p, isFavorited: !p.isFavorited } : p
-    )
-    setProducts(updatedProducts)
-
-    const apiUrl = product.isFavorited
-      ? 'http://localhost:3000/riverflow/removeFavorite' // 取消收藏
-      : 'http://localhost:3000/riverflow/addFavorite' // 加入收藏
-
-    axios
-      .post(apiUrl, { productId: product.productId })
-      .then(() => console.log('Favorite updated'))
-      .catch((error) => console.error('Error updating favorite:', error))
-  }
+  const toggleFavorite = async (product) => {
+    try {
+      const url = `http://localhost:3000/riverflow/user/favorites/${product.productId}`;
+      console.log(`Sending request to: ${url}`);
+      console.log(`Request method: ${product.isFavorited ? 'DELETE' : 'POST'}`);
+  
+      let response;
+      if (product.isFavorited) {
+        // 刪除收藏
+        response = await axios.delete(url, { withCredentials: true });
+      } else {
+        // 新增收藏
+        response = await axios.post(url, {}, { withCredentials: true });
+      }
+  
+      console.log('Server response:', response.data);
+  
+      // 更新本地狀態
+      setFavoriteProducts(prev => 
+        product.isFavorited
+          ? prev.filter(item => item.productId !== product.productId)
+          : [...prev, { productId: product.productId }]
+      );
+  
+      setProducts(prevProducts =>
+        prevProducts.map(p =>
+          p.productId === product.productId ? { ...p, isFavorited: !p.isFavorited } : p
+        )
+      );
+  
+    } catch (error) {
+      console.error('更新收藏狀態時出錯:', error);
+      if (error.response) {
+        console.error('錯誤響應數據:', error.response.data);
+        console.error('錯誤響應狀態:', error.response.status);
+        console.error('錯誤響應頭:', error.response.headers);
+      } else if (error.request) {
+        console.error('請求發送失敗:', error.request);
+      } else {
+        console.error('錯誤信息:', error.message);
+      }
+      console.error('錯誤配置:', error.config);
+      // 這裡可以添加用戶提示，例如使用一個 toast 通知
+    }
+  };
 
   const filteredProducts = products
     .filter((product) => {
@@ -389,25 +418,86 @@ const ProductAll = () => {
   const [filterCategory, setFilterCategory] = useState('all')
   const [searchQuery, setSearchQuery] = useState('')
 
+  // 測試最愛
+  const [userData, setUserData] = useState(null)
+  const [favoriteProducts, setFavoriteProducts] = useState([])
+  const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState(null)
+
+  //獲取目前會員登入userid
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const response = await axios.get('http://localhost:3000/riverflow/user', {
+          withCredentials: true // 确保请求带上 Cookie
+        });
+        // check會員資料
+        console.log("會員資料", response.data);
+        setUserData(response.data);
+        setIsLoading(false);
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+        localStorage.removeItem('token');
+        setIsLoading(false);
+        setError('Failed to fetch user data. Please log in again.');
+      }
+    };
+
+    fetchUserData();
+  }, []); // 空數組意味著這個效果只在組件掛載時運行一次
+
+//獲取商品id
+  useEffect(() => {
+    const fetchFavoritesData = async () => {
+      if (userData) {  // 只在用戶已登入時獲取收藏資料
+        try {
+          const response = await axios.get('http://localhost:3000/riverflow/user/favorites', {
+            withCredentials: true
+          });
+          console.log("獲取商品id:", response.data);
+          setFavoriteProducts(response.data);
+        } catch (error) {
+          console.error("Error fetching favorites data:", error);
+          setError('Failed to fetch favorites data.');
+        }
+      }
+    };
+
+    fetchFavoritesData();
+  }, [userData]);  // 當 userData 更新時重新獲取收藏資料
+
   return (
     <>
       <Header />
-      <section className={`wrap-f ${resetStyles.reset}`}>
-        <div className='container-f'>
-          <Banner />
-        </div>
-      </section>
-      <section className={`wrap ${resetStyles.reset}`}>
-        <div className='container'>
-          <Filter
-            onFilterChange={setFilterCategory}
-            selectedCategory={filterCategory}
-            setSearchQuery={setSearchQuery}
-          />
-          <RwdFilter onFilterChange={setFilterCategory} selectedCategory={filterCategory} />
-          <ProductList filterCategory={filterCategory} searchQuery={searchQuery} />
-        </div>
-      </section>
+      {isLoading ? (
+        <p>Loading...</p>
+      ) : error ? (
+        <p>{error}</p>
+      ) : (
+        <>
+          <section className={`wrap-f ${resetStyles.reset}`}>
+            <div className='container-f'>
+              <Banner />
+            </div>
+          </section>
+          <section className={`wrap ${resetStyles.reset}`}>
+            <div className='container'>
+              <Filter
+                onFilterChange={setFilterCategory}
+                selectedCategory={filterCategory}
+                setSearchQuery={setSearchQuery}
+              />
+              <RwdFilter onFilterChange={setFilterCategory} selectedCategory={filterCategory} />
+              <ProductList 
+                filterCategory={filterCategory} 
+                searchQuery={searchQuery} 
+                favoriteProducts={favoriteProducts}
+                setFavoriteProducts={setFavoriteProducts}
+              />
+            </div>
+          </section>
+        </>
+      )}
     </>
   )
 }

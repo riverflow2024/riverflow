@@ -21,8 +21,8 @@ const CartConfirmation = () => {
     finalTotal,
     initialOrderRemark,
     initialCustomerName = '林小美',
-    initialCustomerEmail = 'abc12345@gmail.com',
-    initialCustomerPhone = '0912333555'
+    initialCustomerEmail = 'linxiaomei015@gmail.com',
+    initialCustomerPhone = '0912-345-121'
   } = location.state || {}
 
   const [customerName, setCustomerName] = useState(initialCustomerName)

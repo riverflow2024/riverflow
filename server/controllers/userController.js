@@ -159,3 +159,28 @@ exports.deleteFavorite = async (req, res) => {
     res.status(500).json({ message: err.message })
   }
 }
+
+//會員新增最愛商品
+exports.postFavorite = async (req, res) => {
+  try {
+    const productId = req.params.productId;
+    const result = await userModel.addFavorite(req.userId, productId);
+    
+    if (result.affectedRows === 0) {
+      return res.status(400).json({ message: '無法添加此商品到收藏' });
+    }
+    
+    res.status(201).json({ message: '成功添加商品到收藏' });
+  } catch (err) {
+    console.error('添加收藏商品失敗：', err);
+    
+    // 檢查是否為重複添加的錯誤
+    if (err.code === 'ER_DUP_ENTRY') {
+      return res.status(409).json({ message: '此商品已在收藏列表中' });
+    }
+    
+    res.status(500).json({ message: err.message });
+  }
+};
+
+
