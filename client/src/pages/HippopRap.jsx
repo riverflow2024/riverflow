@@ -7,39 +7,63 @@ class Rap extends Component {
 
     componentDidMount() {
         document.body.classList.remove('w-bg');
-
+    
         const buttons = document.querySelectorAll('.tablinks');
         const audio = document.getElementById('audio');
-
+    
         buttons.forEach(button => {
-            button.addEventListener('click', function () {
-                console.log("Button clicked:", this.getAttribute('data-audio'));
-                if (!audio.paused) {
-                    audio.pause();
-                }
-                audio.currentTime = 0;
-                audio.src = this.getAttribute('data-audio');
-                console.log("Audio source set to:", audio.src);
-                audio.load();
-                audio.oncanplaythrough = () => {
-                    console.log("Audio can play through, starting playback...");
-                    audio.play().catch(error => {
-                        console.error("播放音频时出错：", error);
-                    });
-                };
-            });
+            button.addEventListener('click', this.ButtonClick);
         });
-        
-
+    
         const stopbtn = document.getElementById('stopbtn');
-        stopbtn.onclick = function () {
-            audio.pause();
-            audio.currentTime = 0; // 将播放进度设置为开始位置
-        };
+        stopbtn.addEventListener('click', this.StopButtonClick);
     }
+    
     componentWillUnmount() {
         document.body.classList.add('w-bg');
+    
+        const buttons = document.querySelectorAll('.tablinks');
+        buttons.forEach(button => {
+            button.removeEventListener('click', this.ButtonClick);
+        });
+    
+        const stopbtn = document.getElementById('stopbtn');
+        stopbtn.removeEventListener('click', this.StopButtonClick);
     }
+    
+    ButtonClick = (event) => {
+        const audio = document.getElementById('audio');
+        const audioSrc = event.target.getAttribute('data-audio');
+    
+        console.log("Button clicked:", audioSrc);
+        if (!audio.paused) {
+            audio.pause();
+        }
+        audio.currentTime = 0;
+        audio.src = audioSrc;
+        console.log("Audio source set to:", audio.src);
+        audio.load();
+        audio.oncanplaythrough = () => {
+            console.log("Audio can play through, starting playback...");
+            if (audio.paused) {
+                audio.play().catch(error => {
+                    console.error("播放音频时出错：", error);
+                });
+            } else {
+                console.log("Audio is already playing, not restarting playback.");
+            }
+        };
+    };
+    
+    StopButtonClick = () => {
+        const audio = document.getElementById('audio');
+        console.log("STOP button clicked. Pausing audio...");
+        audio.pause();
+        audio.currentTime = 0;
+        audio.oncanplaythrough = null; // 移除監聽防止音樂播放
+        console.log("Audio paused and reset to start.");
+    };
+    
     render() {
         return (
             <div>
