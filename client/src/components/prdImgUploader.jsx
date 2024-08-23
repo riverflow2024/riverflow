@@ -28,6 +28,9 @@ const PrdImgUploader = ({ imageFields, handleImageChange, addImageField, removeI
               <i className='bi bi-dash-circle' />
             </button>
           )}
+          {field.preview && (
+            <img src={field.preview} alt="Preview" style={{width: '100px', height: 'auto'}} />
+          )}
         </div>
       ))}
     </div>
