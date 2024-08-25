@@ -414,6 +414,7 @@
 @media (max-width: 768px) {
   .wrap .container .product-list {
     width: 100%;
+    margin-left: 2%;
   }
   .wrap .container .product-list .product-item {
     flex-basis: 45%;
