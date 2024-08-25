@@ -6,8 +6,9 @@ import Swal from 'sweetalert2'
 import axios from 'axios'
 import { useLocation } from 'react-router-dom'
 
+// CartConfirmation 元件：負責顯示訂單確認頁面，包括顧客資訊、配送方式、付款方式、發票資訊等
 const CartConfirmation = () => {
-  const location = useLocation()
+  const location = useLocation() // 獲取從前一頁傳遞過來的狀態資料
   const {
     cartItems,
     deliveryMethod,
@@ -25,12 +26,14 @@ const CartConfirmation = () => {
     initialCustomerPhone = '0912-345-121'
   } = location.state || {}
 
-  const [customerName, setCustomerName] = useState(initialCustomerName)
-  const [customerEmail] = useState(initialCustomerEmail) // 信箱不可編輯
-  const [customerPhone, setCustomerPhone] = useState(initialCustomerPhone)
-  const [orderRemark, setOrderRemark] = useState(initialOrderRemark || '')
-  const [isLoading, setIsLoading] = useState(false)
+  // 設定各種狀態來儲存表單的資料
+  const [customerName, setCustomerName] = useState(initialCustomerName) // 顧客姓名
+  const [customerEmail] = useState(initialCustomerEmail) // 信箱（不可編輯）
+  const [customerPhone, setCustomerPhone] = useState(initialCustomerPhone) // 顧客電話
+  const [orderRemark, setOrderRemark] = useState(initialOrderRemark || '') // 訂單備註
+  const [isLoading, setIsLoading] = useState(false) // 處理訂單的狀態
 
+  // 處理線上付款的函數
   const handleCheckout = async () => {
     setIsLoading(true)
     try {
@@ -48,7 +51,6 @@ const CartConfirmation = () => {
 
       Swal.fire({
         title: '正在前往線上付款',
-
         icon: 'info',
         confirmButtonColor: '#98d900',
         timer: 3000,
@@ -66,6 +68,7 @@ const CartConfirmation = () => {
     }
   }
 
+  // 提交訂單的處理函數
   const handleSubmitOrder = async () => {
     try {
       const orderData = {
@@ -85,6 +88,7 @@ const CartConfirmation = () => {
         customerPhone
       }
 
+      // 根據付款方式處理不同的訂單提交流程
       if (paymentMethod === '線上付款') {
         // 進行線上付款
         await handleCheckout()
@@ -101,7 +105,7 @@ const CartConfirmation = () => {
             timer: 6000,
             timerProgressBar: true,
             willClose: () => {
-              window.location.href = '/Member/OrderList'
+              window.location.href = '/Member/OrderList' // 跳轉到訂單列表頁面
             }
           })
         } else {
@@ -119,13 +123,16 @@ const CartConfirmation = () => {
     }
   }
 
+  // 計算最終總金額
   const updateFinalTotal = () => finalTotal
 
+  // 渲染頁面內容，顯示訂單確認資訊和提交訂單按鈕
   return (
     <div className='cartConfirmation-container'>
-      <Header />
+      <Header /> {/* 顯示頁面頂部的標題 */}
       <div className='container'>
         <div className='content-left'>
+          {/* 顯示訂單流程的步驟 */}
           <div className='order-steps'>
             <div className='order-detail'>
               <a href='#' style={{ color: 'gray' }}>
@@ -145,11 +152,13 @@ const CartConfirmation = () => {
             </div>
           </div>
 
+          {/* 顯示顧客基本資料 */}
           <div className='order-info'>
             <h3>訂單確認</h3>
             <p>顧客基本資料</p>
           </div>
 
+          {/* 顧客資訊表單：姓名、信箱、電話、訂單備註 */}
           <div className='customer-info'>
             <label htmlFor='customerName'>顧客姓名</label>
             <br />
@@ -199,10 +208,12 @@ const CartConfirmation = () => {
         </div>
 
         <div className='content-right'>
+          {/* 顯示付款方式、配送方式和發票資訊 */}
           <div className='payment-method'>
             <h2>選擇付款方式</h2>
 
             <form id='order-form'>
+              {/* 顯示固定的國家資訊 */}
               <div className='form-group dropdown'>
                 <label className='country' htmlFor='country'>
                   國家
@@ -218,6 +229,7 @@ const CartConfirmation = () => {
                 />
               </div>
 
+              {/* 顯示選擇的配送方式和地址 */}
               <div className='form-group dropdown'>
                 <label htmlFor='deliveryMethod'>運送方式</label>
                 <br />
@@ -237,12 +249,14 @@ const CartConfirmation = () => {
                 ) : null}
               </div>
 
+              {/* 顯示選擇的付款方式 */}
               <div className='form-group dropdown'>
                 <label htmlFor='paymentMethod'>付款方式</label>
                 <br />
                 <input className='text-border' type='text' id='paymentMethod' value={paymentMethod} readOnly />
               </div>
 
+              {/* 顯示發票相關的選項 */}
               <div className='invoice-promo-code'>
                 <div className='form-group dropdown'>
                   <label htmlFor='invoiceType'>電子發票</label>
@@ -267,6 +281,7 @@ const CartConfirmation = () => {
                 ) : null}
               </div>
 
+              {/* 顯示商品總金額和運費 */}
               <div className='total-amount'>
                 <p>
                   商品金額:
@@ -280,6 +295,7 @@ const CartConfirmation = () => {
                 </p>
               </div>
 
+              {/* 提交訂單的按鈕 */}
               <div className='submit'>
                 <button type='button' className='confirm-order' onClick={handleSubmitOrder} disabled={isLoading}>
                   {isLoading ? '處理中...' : '確認訂單'}

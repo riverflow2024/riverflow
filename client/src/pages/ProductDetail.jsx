@@ -295,7 +295,7 @@ const ProductDetail = () => {
       return
     }
 
-    console.log('Adding to cart: ', { productId, quantity, selectedSize })
+    // console.log('Adding to cart: ', { productId, quantity, selectedSize })
 
     const cartData = {
       productId: productId,

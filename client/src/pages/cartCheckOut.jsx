@@ -4,25 +4,28 @@ import '../assets/cartCheckOut.css'
 import Header from '../components/header'
 import { useLocation } from 'react-router-dom'
 
+// CartCheckout 元件：負責購物車的結帳流程，包括選擇配送方式、付款方式、填寫地址、選擇發票等功能
 const CartCheckout = () => {
-  const location = useLocation()
-  const [cartItems, setCartItems] = useState(location.state?.cartItems || [])
-  const [orderRemark, setOrderRemark] = useState('')
-  const [deliveryMethod, setDeliveryMethod] = useState('')
-  const [storeAddress, setStoreAddress] = useState('')
-  const [homeAddress, setHomeAddress] = useState('')
-  const [paymentMethod, setPaymentMethod] = useState('')
-  const [invoiceType, setInvoiceType] = useState('')
-  const [companyInfo, setCompanyInfo] = useState('')
-  const [mobileInfo, setMobileInfo] = useState('')
-  const [shippingFee, setShippingFee] = useState(60)
-  const [dropdownVisible, setDropdownVisible] = useState(null)
-  const navigate = useNavigate()
+  const location = useLocation() // 取得上一頁傳遞的狀態
+  const [cartItems, setCartItems] = useState(location.state?.cartItems || []) // 購物車中的商品項目
+  const [orderRemark, setOrderRemark] = useState('') // 訂單備註
+  const [deliveryMethod, setDeliveryMethod] = useState('') // 配送方式
+  const [storeAddress, setStoreAddress] = useState('') // 超商取貨地址
+  const [homeAddress, setHomeAddress] = useState('') // 宅配地址
+  const [paymentMethod, setPaymentMethod] = useState('') // 付款方式
+  const [invoiceType, setInvoiceType] = useState('') // 發票類型
+  const [companyInfo, setCompanyInfo] = useState('') // 公司行號資訊
+  const [mobileInfo, setMobileInfo] = useState('') // 手機載具資訊
+  const [shippingFee, setShippingFee] = useState(60) // 預設運費
+  const [dropdownVisible, setDropdownVisible] = useState(null) // 控制下拉選單顯示狀態
+  const navigate = useNavigate() // 用於頁面導航
 
+  // 切換下拉選單的顯示狀態
   const toggleDropdown = (dropdownName) => {
     setDropdownVisible((prev) => (prev === dropdownName ? null : dropdownName))
   }
 
+  // 點擊下拉選單外部時關閉下拉選單
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (!event.target.closest('.dropdown')) {
@@ -35,45 +38,51 @@ const CartCheckout = () => {
     }
   }, [])
 
+  // 更改配送方式的處理函數
   const handleDeliveryMethodChange = (method) => {
     setDeliveryMethod(method)
     setDropdownVisible(null)
 
+    // 根據選擇的配送方式，清除或保留相應的地址資訊
     if (method === '7-ELEVEN' || method === '全家') {
-      setHomeAddress('')
-      setStoreAddress('')
+      setHomeAddress('') // 清除宅配地址
+      setStoreAddress('') // 清除超商取貨地址
     } else if (method === '宅配') {
-      setStoreAddress('')
+      setStoreAddress('') // 清除超商取貨地址
     }
   }
 
+  // 設定超商取貨地址
   const handleStoreAddressChange = (address) => {
     setStoreAddress(address)
     setDropdownVisible(null)
   }
 
+  // 設定付款方式
   const handlePaymentMethodChange = (method) => {
     setPaymentMethod(method)
     setDropdownVisible(null)
   }
 
+  // 設定發票類型並清除不必要的資訊
   const handleInvoiceTypeChange = (type) => {
     setInvoiceType(type)
     if (type === 'company') {
-      setMobileInfo('')
+      setMobileInfo('') // 清除手機載具資訊
     } else if (type === 'mobile') {
-      setCompanyInfo('')
+      setCompanyInfo('') // 清除公司行號資訊
     }
     setDropdownVisible(null)
   }
 
+  // 計算最終總金額，包括商品金額和運費
   const updateFinalTotal = () => {
-    const itemTotal = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0)
-    return itemTotal + shippingFee
+    const itemTotal = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0) // 計算商品總金額
+    return itemTotal + shippingFee // 加上運費後的總金額
   }
 
+  // 提交訂單並導航到訂單確認頁面，傳遞訂單相關資訊
   const handleSubmit = () => {
-    // 將資料傳遞到下一個頁面
     navigate('/Order/CartConfirmation', {
       state: {
         orderRemark,
@@ -91,11 +100,13 @@ const CartCheckout = () => {
     })
   }
 
+  // 渲染頁面內容，顯示購物車資訊、選擇配送方式、付款方式和發票類型等
   return (
     <div className='cartCheckOut'>
-      <Header />
+      <Header /> {/* 顯示頁面頂部的標題 */}
       <div className='container'>
         <div className='content-left'>
+          {/* 顯示訂單流程的步驟 */}
           <div className='order-steps'>
             <div className='order-detail'>
               <a href='#'>訂單資訊</a>
@@ -115,6 +126,7 @@ const CartCheckout = () => {
             </div>
           </div>
 
+          {/* 顯示購物車中商品的簡要資訊 */}
           <div className='order-info'>
             <h3>訂單資訊</h3>
             <p>
@@ -122,6 +134,7 @@ const CartCheckout = () => {
             </p>
           </div>
 
+          {/* 列出所有購物車中的商品，每個商品包括名稱、選項、數量和總價 */}
           {cartItems.map((item) => (
             <div className='cart-items' key={item.ciId}>
               <img src={`/images/products/${item.productImg}`} alt={item.productName} />
@@ -150,10 +163,12 @@ const CartCheckout = () => {
         </div>
 
         <div className='content-right'>
+          {/* 付款和發票相關的選項 */}
           <div className='payment-method'>
             <h2>選擇付款方式</h2>
 
             <form id='order-form'>
+              {/* 顯示固定的國家資訊 */}
               <div className='form-group dropdown'>
                 <label className='country' htmlFor='country'>
                   國家
@@ -169,6 +184,7 @@ const CartCheckout = () => {
                 />
               </div>
 
+              {/* 配送方式的選擇 */}
               <div className='form-group dropdown'>
                 <label htmlFor='delivery-method'>運送方式</label>
                 <br />
@@ -199,6 +215,7 @@ const CartCheckout = () => {
                 </span>
               </div>
 
+              {/* 根據選擇的配送方式顯示相應的地址輸入框 */}
               {deliveryMethod === '7-ELEVEN' || deliveryMethod === '全家' ? (
                 <div className='form-group dropdown'>
                   <label htmlFor='store-address'>超商地址</label>
@@ -222,6 +239,7 @@ const CartCheckout = () => {
                 </div>
               ) : null}
 
+              {/* 宅配方式的地址輸入框 */}
               {deliveryMethod === '宅配' ? (
                 <div className='form-group' id='home-address-group'>
                   <label htmlFor='home-address'>宅配地址</label>
@@ -237,6 +255,7 @@ const CartCheckout = () => {
                 </div>
               ) : null}
 
+              {/* 付款方式的選擇 */}
               <div className='form-group dropdown'>
                 <label htmlFor='payment-method'>付款方式</label>
                 <br />
@@ -257,6 +276,7 @@ const CartCheckout = () => {
                 )}
               </div>
 
+              {/* 發票類型的選擇 */}
               <div className='invoice-promo-code'>
                 <div className='form-group dropdown'>
                   <label htmlFor='invoice'>電子發票</label>
@@ -280,6 +300,7 @@ const CartCheckout = () => {
                 </div>
               </div>
 
+              {/* 根據發票類型顯示相應的輸入框 */}
               {invoiceType === 'company' && (
                 <div className='form-group' id='company-info-group'>
                   <label htmlFor='company-info'>公司行號</label>
@@ -310,6 +331,7 @@ const CartCheckout = () => {
                 </div>
               )}
 
+              {/* 顯示商品總金額和運費 */}
               <div className='total-amount'>
                 <p>
                   商品金額:
@@ -323,6 +345,7 @@ const CartCheckout = () => {
                 </p>
               </div>
 
+              {/* 提交訂單的按鈕 */}
               <div className='submit'>
                 <button type='button' id='submit' onClick={handleSubmit}>
                   訂單確認

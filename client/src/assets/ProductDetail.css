@@ -11,6 +11,7 @@
 .container-f .wrap .product-images {
   width: 50%;
   text-align: center;
+  padding-right: 20px;
 }
 .container-f .wrap .product-images .product-images-big {
   width: 100%;
@@ -307,7 +308,7 @@
   padding: 3px 5px;
   text-align: right;
   background-color: #fff;
-  width: 30px;
+  width: 50px;
   padding-left: 15px;
 }
 .container-f .wrap .product-info .quantity .add-to-cart {
@@ -362,6 +363,7 @@
 .container-f .recommendations .product-item-container {
   display: flex;
   flex-wrap: wrap;
+  margin-top: 20px;
 }
 .container-f .recommendations .product-item-container .product-item {
   flex-wrap: wrap;
@@ -374,12 +376,14 @@
 }
 @media (max-width: 992px) {
   .container-f .recommendations .product-item-container .product-item {
+    margin-top: 20px;
     margin: 2% auto;
     width: 40%;
   }
 }
 @media (max-width: 576px) {
   .container-f .recommendations .product-item-container .product-item {
+    margin-top: 20px;
     margin: 2% auto;
   }
 }
@@ -445,6 +449,7 @@
   color: #1d1d1d;
   padding-left: 15px;
   padding-bottom: 0px;
+  margin: 0 auto;
 }
 @media (max-width: 576px) {
   .container-f .recommendations .product-item-container .product-item .product-info {
@@ -469,6 +474,7 @@
 @media (max-width: 576px) {
   .container-f .recommendations .product-item-container .product-item .product-info .product-text p {
     font-size: 0.8rem;
+    white-space: nowrap;
   }
 }
 .container-f .recommendations .product-item-container .product-item .product-info .product-text .add-to-cart {
@@ -481,6 +487,7 @@
   text-align: center;
   border: none;
   cursor: pointer;
+  white-space: nowrap;
 }
 .container-f .recommendations .product-item-container .product-item .product-info .product-text .add-to-cart:hover {
   background-color: #baf13a;
