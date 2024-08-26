@@ -51,6 +51,8 @@ class MemberOrder extends Component {
     } else {
       console.error('params or params.id is undefined')
     }
+
+    document.getElementById('defaultOpen')?.click();
   }
 
   fetchUserData = async () => {
@@ -126,8 +128,26 @@ class MemberOrder extends Component {
     return formattedDate
   }
 
+
+  // 登出
+  Logout = async () => {
+    try {
+      await axios.get('http://localhost:3000/riverflow/user/logout', {
+        withCredentials: true // Cookie
+      })
+      // 清除本地的 Token
+      localStorage.removeItem('token')
+      // 重定向到登录页面
+      window.location.href = '/login/Index'
+    } catch (error) {
+      console.error('Error logging out:', error)
+
+    }
+  }
+
+
   render() {
-    const { Order, isLoading, error } = this.state
+    const { Order, isLoading, error , showAdditionalOrders} = this.state
     // 當前日期一個月前的日期
     const oneMonthAgo = new Date()
     oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1)
@@ -136,8 +156,8 @@ class MemberOrder extends Component {
     const statusMap = {
       已付款: '待出貨',
       pending: '未付款',
-      complete: '已完成',
-      canceled: '未完成'
+      completed: '已完成',
+      cancelled: '未完成'
     }
     // 變更付款方式名稱
     const payMethodMap = {
@@ -157,7 +177,7 @@ class MemberOrder extends Component {
     // 根據訂單篩選，用filter過濾
     // const unpaidOrders = this.state.Order.filter(order => order.orderStatus === 'processing');
     const paymentOrders = this.state.OrderList.filter((order) => order.orderStatus === 'pending')
-    const completedOrders = this.state.OrderList.filter((order) => order.orderStatus === 'complete')
+    const completedOrders = this.state.OrderList.filter((order) => order.orderStatus === 'completed')
     const notYetCompletedOrders = this.state.OrderList.filter((order) => order.orderStatus === 'cancelled')
 
     // 篩選近一個月的訂單 已完成 ＆ 未完成
@@ -167,12 +187,12 @@ class MemberOrder extends Component {
     )
 
     // 根據 showAdditionalOrders 狀態來顯示訂單
-    const displayedCompletedOrders = this.state.showAdditionalOrders
+    const displayedCompletedOrders = showAdditionalOrders
       ? recentCompletedOrders
-      : completedOrders.slice(0, 2)
-    const displayedrecentnotYetCompletedOrders = this.state.showAdditionalOrders
+      : completedOrders.slice(0, 2);
+    const displayedrecentnotYetCompletedOrders = showAdditionalOrders
       ? recentnotYetCompletedOrders
-      : notYetCompletedOrders.slice(0, 2)
+      : notYetCompletedOrders.slice(0, 2);
 
    
     // 如果會員沒有照片就使用預設圖片
@@ -213,6 +233,9 @@ class MemberOrder extends Component {
                   </li>
                 </ul>
               </div>
+              <button className='btn' onClick={this.Logout}>
+                會員登出
+              </button>
             </div>
           </div>
           <div className='order-box' flex='2'>
@@ -348,11 +371,13 @@ class MemberOrder extends Component {
             <div id='Payment' className='tabcontent'>
               {paymentOrders.map((order) => (
                 <div className='member-order' key={order.orderId}>
-                  <div className='wrap'>
+                  <div className='member-wrap'>
                     <span>訂單編號：{order.orderId}</span>
-                    <a href='memberOrder.html'>
-                      <button className='orderbtn'>訂單明細</button>
-                    </a>
+                   
+                      <button className='orderbtn' onClick={() => this.goOrder(order.orderId)}>
+                        訂單明細
+                      </button>
+                  
                   </div>
                   <table>
                     <thead>
@@ -365,8 +390,8 @@ class MemberOrder extends Component {
                     </thead>
                     <tbody>
                       <tr>
-                        <td>{order.createdAt}</td>
-                        <td>{order.price}</td>
+                        <td>{this.formatDate(order.createdAt)}</td>
+                        <td>NT${order.totalPrice}</td>
                         <td>{payMethodMap[order.payMethod] || order.payMethod}</td>
                         <td>{statusMap[order.orderStatus] || order.orderStatus}</td>
                       </tr>
@@ -376,14 +401,17 @@ class MemberOrder extends Component {
               ))}
             </div>
 
+
             <div id='Completed' className='tabcontent'>
               {displayedCompletedOrders.map((order) => (
                 <div className='member-order' key={order.orderId}>
-                  <div className='wrap'>
+                  <div className='member-wrap'>
                     <span>訂單編號：{order.orderId}</span>
-                    <a href='memberOrder.html'>
-                      <button className='orderbtn'>訂單明細</button>
-                    </a>
+                    
+                    <button className='orderbtn' onClick={() => this.goOrder(order.orderId)}>
+                        訂單明細
+                      </button>
+                    
                   </div>
                   <table>
                     <thead>
@@ -396,8 +424,8 @@ class MemberOrder extends Component {
                     </thead>
                     <tbody>
                       <tr>
-                        <td>{order.createdAt}</td>
-                        <td>{order.price}</td>
+                        <td>{this.formatDate(order.createdAt)}</td>
+                        <td>NT${order.totalPrice}</td>
                         <td>{payMethodMap[order.payMethod] || order.payMethod}</td>
                         <td>{statusMap[order.orderStatus] || order.orderStatus}</td>
                       </tr>
@@ -406,19 +434,20 @@ class MemberOrder extends Component {
                 </div>
               ))}
               <button className='btn' onClick={this.toggleAdditionalOrders}>
-                {/* {this.state.showAdditionalOrders ? '收起近一個月的訂單' : '近一個月的訂單'} */}
-                近一個月的訂單
+                {showAdditionalOrders ? '收起近一個月的訂單' : '顯示近一個月的訂單'}
               </button>
             </div>
 
             <div id='NotYetCompleted' className='tabcontent'>
               {displayedrecentnotYetCompletedOrders.map((order) => (
                 <div className='member-order' key={order.orderId}>
-                  <div className='wrap'>
+                  <div className='member-wrap'>
                     <span>訂單編號：{order.orderId}</span>
-                    <a href='memberOrder.html'>
-                      <button className='orderbtn'>訂單明細</button>
-                    </a>
+                   
+                    <button className='orderbtn' onClick={() => this.goOrder(order.orderId)}>
+                        訂單明細
+                      </button>
+                    
                   </div>
                   <table>
                     <thead>
@@ -431,8 +460,8 @@ class MemberOrder extends Component {
                     </thead>
                     <tbody>
                       <tr>
-                        <td>{order.createdAt}</td>
-                        <td>{order.price}</td>
+                        <td>{this.formatDate(order.createdAt)}</td>
+                        <td>NT${order.totalPrice}</td>
                         <td>{payMethodMap[order.payMethod] || order.payMethod}</td>
                         <td>{statusMap[order.orderStatus] || order.orderStatus}</td>
                       </tr>
@@ -441,8 +470,7 @@ class MemberOrder extends Component {
                 </div>
               ))}
               <button className='btn' onClick={this.toggleAdditionalOrders}>
-                {/* {this.state.showAdditionalOrders ? '收起近一個月的訂單' : '近一個月的訂單'} */}
-                近一個月的訂單
+                {showAdditionalOrders ? '收起近一個月的訂單' : '顯示近一個月的訂單'}
               </button>
             </div>
           </div>
@@ -458,10 +486,12 @@ class MemberOrder extends Component {
     }))
   }
 
+  
   toggleAdditionalOrders = () => {
-    this.setState((prevState) => ({ showAdditionalOrders: !prevState.showAdditionalOrders }))
+    this.setState((prevState) => ({
+      showAdditionalOrders: !prevState.showAdditionalOrders
+    }));
   }
-
   openPage(pageName, elmnt, border) {
     var i, tabcontent, tablinks
     tabcontent = document.getElementsByClassName('tabcontent')
@@ -476,8 +506,12 @@ class MemberOrder extends Component {
     elmnt.style.borderBottom = border
   }
 
-  componentDidUpdate() {
-    document.getElementById('defaultOpen').click()
+  componentDidUpdate(prevProps, prevState)  {
+    if (this.state.showAdditionalOrders !== prevState.showAdditionalOrders) {
+    
+    }
+    
+   
   }
 
   // 選單按鈕
@@ -492,6 +526,9 @@ class MemberOrder extends Component {
   }
   backCollection = async () => {
     window.location = '/Member/Collection'
+  }
+  goOrder = (orderId) => {
+    window.location = `/Member/Order/${orderId}`
   }
 }
 

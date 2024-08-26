@@ -24,13 +24,20 @@ class MemberOrderList extends Component {
 
     showAdditionalOrders: false,
     activeAccordion: null,
-    isLoading: true, 
+    isLoading: true,
     error: null
   }
 
-  componentDidMount() {
-    this.fetchUserData()
-    this.fetchOrderData()
+  async componentDidMount() {
+    await this.fetchUserData();
+    await this.fetchOrderData();
+  
+    const defaultOpenElement = document.getElementById('defaultOpen');
+    if (defaultOpenElement) {
+      defaultOpenElement.click();
+    } else {
+      console.error("Element with ID 'defaultOpen' not found.");
+    }
   }
 
   fetchUserData = async () => {
@@ -38,7 +45,7 @@ class MemberOrderList extends Component {
       const response = await axios.get('http://localhost:3000/riverflow/user', {
         withCredentials: true // Cookie
       })
-      console.log('Fetched user data:', response.data) 
+      console.log('Fetched user data:', response.data)
       this.setState({
         Users: response.data,
         isLoading: false
@@ -60,7 +67,7 @@ class MemberOrderList extends Component {
       const response = await axios.get('http://localhost:3000/riverflow/user/products/', {
         withCredentials: true
       })
-      console.log('Fetched order data:', response.data) 
+      console.log('Fetched order data:', response.data)
       this.setState({
         Order: response.data
       })
@@ -100,12 +107,12 @@ class MemberOrderList extends Component {
       window.location.href = '/login/Index'
     } catch (error) {
       console.error('Error logging out:', error)
-     
+
     }
   }
 
   render() {
-    const { Users, isLoading, error } = this.state
+    const { Users, isLoading, error, showAdditionalOrders } = this.state;
 
     if (isLoading) {
       return <div>Loading...</div>
@@ -146,12 +153,12 @@ class MemberOrderList extends Component {
     )
 
     // 根據 showAdditionalOrders 狀態來顯示訂單
-    const displayedCompletedOrders = this.state.showAdditionalOrders
+    const displayedCompletedOrders = showAdditionalOrders
       ? recentCompletedOrders
-      : completedOrders.slice(0, 2)
-    const displayedrecentnotYetCompletedOrders = this.state.showAdditionalOrders
+      : completedOrders.slice(0, 2);
+    const displayedrecentnotYetCompletedOrders = showAdditionalOrders
       ? recentnotYetCompletedOrders
-      : notYetCompletedOrders.slice(0, 2)
+      : notYetCompletedOrders.slice(0, 2);
 
     // 如果會員沒有照片就使用預設圖片
     const { userImg } = this.state.Users
@@ -263,11 +270,11 @@ class MemberOrderList extends Component {
                 <div className='member-order' key={order.orderId}>
                   <div className='member-wrap'>
                     <span>訂單編號：{order.orderId}</span>
-                    <a href='memberOrder.html'>
+                  
                       <button className='orderbtn' onClick={() => this.goOrder(order.orderId)}>
                         訂單明細
                       </button>
-                    </a>
+                    
                   </div>
                   <table>
                     <thead>
@@ -296,9 +303,11 @@ class MemberOrderList extends Component {
                 <div className='member-order' key={order.orderId}>
                   <div className='member-wrap'>
                     <span>訂單編號：{order.orderId}</span>
-                    <a href='memberOrder.html'>
-                      <button className='orderbtn'>訂單明細</button>
-                    </a>
+                   
+                    <button className='orderbtn' onClick={() => this.goOrder(order.orderId)}>
+                        訂單明細
+                      </button>
+                    
                   </div>
                   <table>
                     <thead>
@@ -321,7 +330,7 @@ class MemberOrderList extends Component {
                 </div>
               ))}
               <button className='btn' onClick={this.toggleAdditionalOrders}>
-              近一個月的訂單
+                {showAdditionalOrders ? '收起近一個月的訂單' : '顯示近一個月的訂單'}
               </button>
             </div>
 
@@ -330,9 +339,11 @@ class MemberOrderList extends Component {
                 <div className='member-order' key={order.orderId}>
                   <div className='member-wrap'>
                     <span>訂單編號：{order.orderId}</span>
-                    <a href='memberOrder.html'>
-                      <button className='orderbtn'>訂單明細</button>
-                    </a>
+                 
+                    <button className='orderbtn' onClick={() => this.goOrder(order.orderId)}>
+                        訂單明細
+                      </button>
+                    
                   </div>
                   <table>
                     <thead>
@@ -355,19 +366,20 @@ class MemberOrderList extends Component {
                 </div>
               ))}
               <button className='btn' onClick={this.toggleAdditionalOrders}>
-                {/* {recentnotYetCompletedOrders.showAdditionalOrders ? '收起近一個月的訂單' : '近一個月的訂單'} */}
-                近一個月的訂單
+                {showAdditionalOrders ? '收起近一個月的訂單' : '顯示近一個月的訂單'}
               </button>
             </div>
           </div>
         </div>
-        <Footer/>
+        <Footer />
       </div>
     )
   }
 
   toggleAdditionalOrders = () => {
-    this.setState((prevState) => ({ showAdditionalOrders: !prevState.showAdditionalOrders }))
+    this.setState((prevState) => ({
+      showAdditionalOrders: !prevState.showAdditionalOrders
+    }));
   }
 
   openPage(pageName, elmnt, border) {
@@ -384,8 +396,9 @@ class MemberOrderList extends Component {
     elmnt.style.borderBottom = border
   }
 
-  componentDidUpdate() {
-    document.getElementById('defaultOpen').click()
+  componentDidUpdate(prevProps, prevState) {
+    if (this.state.showAdditionalOrders !== prevState.showAdditionalOrders) {
+    }
   }
 
   // 選單按鈕
