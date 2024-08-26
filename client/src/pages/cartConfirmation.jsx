@@ -2,6 +2,8 @@ import React, { useState } from 'react'
 import '../assets/cartConfirmation.css'
 import '../assets/reset.css'
 import Header from '../components/header'
+import Footer from '../components/footer'
+
 import Swal from 'sweetalert2'
 import axios from 'axios'
 import { useLocation } from 'react-router-dom'
@@ -305,6 +307,7 @@ const CartConfirmation = () => {
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   )
 }

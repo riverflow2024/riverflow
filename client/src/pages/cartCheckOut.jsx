@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import '../assets/cartCheckOut.css'
 import Header from '../components/header'
+import Footer from '../components/footer'
 import { useLocation } from 'react-router-dom'
 
 // CartCheckout 元件：負責購物車的結帳流程，包括選擇配送方式、付款方式、填寫地址、選擇發票等功能
@@ -355,6 +356,7 @@ const CartCheckout = () => {
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   )
 }
