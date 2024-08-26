@@ -92,10 +92,16 @@ body .sectionTwo .imageHalf {
   display: flex;
 }
 body .sectionTwo .imageHalf img {
-  width: 50%;
+  width: 100%;
   height: 70dvh;
   -o-object-fit: cover;
      object-fit: cover;
+}
+body .sectionTwo .imageHalf .people1 {
+  width: 100%;
+}
+body .sectionTwo .imageHalf .people2 {
+  width: 69vw;
 }
 body .sectionTwo .sectionTwoDetails {
   width: 50%;
@@ -271,6 +277,7 @@ body .community {
   width: 100%;
   height: 100vh;
   text-align: center;
+  margin-top: 40rem;
 }
 body .community h2 {
   color: #b3e837;
@@ -414,12 +421,13 @@ body .sustain-right {
   position: relative;
   display: flex;
   justify-content: end;
-  z-index: 1;
+  width: 100%;
+  z-index: 999;
 }
 body .sustain-right .parallax-window {
-  z-index: 100;
-  width: 30dvw;
-  height: 20dvh;
+  z-index: 999;
+  width: 100px;
+  height: 100px;
   margin-right: 10rem;
   -o-object-position: center;
      object-position: center;

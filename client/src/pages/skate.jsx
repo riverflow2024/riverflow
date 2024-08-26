@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react'
+import React, { useRef, useEffect } from 'react'
+import SimpleParallax from 'simple-parallax-js'
 import $ from 'jquery'
 import 'jquery.marquee'
-import 'paroller.js' // 引入 paroller.js
 
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
@@ -30,9 +30,6 @@ import '../assets/skate.css'
 
 const Skate = () => {
   useEffect(() => {
-    // 初始化 paroller.js
-    $('.jumbotron').paroller()
-
     // 初始化跑馬燈
     $('.marquee').marquee({
       allowCss3Support: true,
@@ -55,7 +52,7 @@ const Skate = () => {
           pin: true,
           triggerHook: 'onLeave',
           start: 'bottom',
-          end: '+=400%',
+          end: '+=0%',
           scrub: true
         }
       })
@@ -72,17 +69,9 @@ const Skate = () => {
   return (
     <div className='scrollCust'>
       <Header />
-
       <main>
         <section className='intro'>
-          <img
-            src={skateTitle}
-            className='skateImg'
-            alt='Group'
-            data-paroller-factor='0.3'
-            data-paroller-type='foreground'
-            data-paroller-direction='vertical'
-          />
+          <img src={skateTitle} className='skateImg' alt='Group' />
           <div className='text'>
             <h1>
               滑板
@@ -94,22 +83,12 @@ const Skate = () => {
 
         <section className='sectionTwo'>
           <div className='imageHalf'>
-            <div
-              className='parallax-window'
-              data-paroller-factor='0.5'
-              data-paroller-type='background'
-              data-paroller-direction='vertical'
-            >
-              <img src={skatepeople} alt='Skate People' />
-            </div>
-            <div
-              className='parallax-window'
-              data-paroller-factor='0.5'
-              data-paroller-type='background'
-              data-paroller-direction='vertical'
-            >
-              <img src={skatepeople2} alt='Skate People 2' />
-            </div>
+            <SimpleParallax delay={1} transition='cubic-bezier(0,0,0,1)'>
+              <img className='people1' src={skatepeople} alt='Skate People' />
+            </SimpleParallax>
+            <SimpleParallax delay={1} transition='cubic-bezier(0,0,0,1)'>
+              <img className='people2' src={skatepeople2} alt='Skate People 2' />
+            </SimpleParallax>
           </div>
           <div className='sectionTwoDetails'>
             <h2>
@@ -127,7 +106,7 @@ const Skate = () => {
         </section>
 
         <section className='marquee-text'>
-          <div className='marquee' data-optionname='value'>
+          <div className='marquee'>
             <p>RiverFlow✧Skate✧</p>
           </div>
         </section>
@@ -146,13 +125,8 @@ const Skate = () => {
         </section>
 
         <section className='sustain-right'>
-          <div
-            className='parallax-window'
-            data-paroller-factor='0.5'
-            data-paroller-type='foreground'
-            data-paroller-direction='vertical'
-          >
-            <img src={skateskill} alt='Skate Skill' />
+          <SimpleParallax delay={1} transition='cubic-bezier(0,0,0,1)'>
+            <img className='parallax-window' src={skateskill} alt='Skate Skill' />
             <div className='sustain-right-text'>
               <h2>
                 我們是 <br />
@@ -164,16 +138,11 @@ const Skate = () => {
               </p>
               <img className='lightning' src={lightning} alt='lightning' />
             </div>
-          </div>
+          </SimpleParallax>
         </section>
 
         <section className='sustain-left'>
-          <div
-            className='parallax-window'
-            data-paroller-factor='0.5'
-            data-paroller-type='foreground'
-            data-paroller-direction='vertical'
-          >
+          <SimpleParallax delay={1} transition='cubic-bezier(0,0,0,1)'>
             <img src={skateskillThree} alt='Skate Skill Three' />
             <div className='sustain-left-text'>
               <h2>
@@ -185,7 +154,107 @@ const Skate = () => {
               </p>
               <img className='star' src={star} alt='star' />
             </div>
-          </div>
+          </SimpleParallax>
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
         </section>
 
         <div id='pinContainer'>

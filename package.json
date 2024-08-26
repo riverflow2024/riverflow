@@ -30,6 +30,7 @@
     "react-router-dom": "^5.3.4",
     "react-select": "^5.8.0",
     "scrollmagic": "^2.0.8",
+    "simple-parallax-js": "^6.0.1",
     "sweetalert2": "^11.12.4",
     "swiper": "^11.1.9"
   }
