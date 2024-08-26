@@ -5,7 +5,7 @@
 .container-f .DetailWrap {
   margin: 0 auto;
   padding-top: 50px;
-  padding-left: 50px;
+  padding-left: 30px;
   padding-right: 50px;
   margin-right: 100px;
   display: flex;
@@ -104,7 +104,7 @@
 }
 @media (max-width: 768px) {
   .container-f .DetailWrap {
-    width: 100%;
+    width: 75%;
     flex-direction: column;
   }
   .container-f .DetailWrap .product-images {
@@ -348,7 +348,7 @@
   border-top: 1px solid #baf13a;
   padding-top: 30px;
   padding-bottom: 30px;
-  border-bottom: 1px solid none;
+  border-bottom: 1px solid #baf13a;
   display: flex;
   justify-content: space-between;
 }
@@ -410,7 +410,7 @@
     font-size: 0.7rem;
     padding: 15px 10px;
     margin-top: 30px;
-    margin-left: 40px;
+    margin-left: 55px;
   }
   .container-f .DetailWrap .product-info .quantity .order-info ul {
     padding-bottom: 20px;
@@ -466,6 +466,7 @@
   }
 }
 .container-f .recommendations {
+  margin: auto;
   border-top: 1px solid #baf13a;
   padding-top: 50px;
   margin-top: 100px;
