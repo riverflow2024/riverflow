@@ -457,7 +457,7 @@ export default function AddBlog() {
 
   return (
     <div className='main'>
-      <div className='pageTitle'>專欄編輯</div>
+      <div className='pageTitle'>新增專欄</div>
       <form onSubmit={handleSubmit}>
         <div className='tabs'>
           <ul className='tabBtnList'>

@@ -46,7 +46,7 @@ const BlogItem = ({ blog, onStatusChange, handleDelete, adminToken }) => {
   }
 
   const handleView = () => {
-    window.open(`http://localhost:3001/riverflow/news/${blog.newsId}`, '_blank')
+    window.open(`http://localhost:3001/news/article/${blog.newsId}`, '_blank')
   }
 
   return (
