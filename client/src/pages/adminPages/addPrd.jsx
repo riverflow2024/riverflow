@@ -45,7 +45,39 @@ export default function AddPrd() {
     $('#fileChosen').text($(this).prop('files')[0].name)
   })
 
-  // 圖片
+  // 圖片走Multer
+  // const handleImageChange = async (id, event) => {
+  //   const file = event.target.files[0];
+  //   if (file) {
+  //     try {
+  //       const formData = new FormData();
+  //       formData.append('image', file);
+
+  //       const response = await axios.post('http://localhost:3000/riverflow/admin/products/imgUpload', formData, {
+  //         headers: {
+  //           'Content-Type': 'multipart/form-data'
+  //         },
+  //         withCredentials: true
+  //       });
+
+  //       setImageFields(prevFields => prevFields.map(field => {
+  //         if (field.id === id) {
+  //           return { 
+  //             ...field, 
+  //             fileName: response.data.fileName,
+  //             preview: response.data.url
+  //           };
+  //         }
+  //         return field;
+  //       }));
+
+  //     } catch (error) {
+  //       console.error('Error processing image:', error);
+  //       // 處理錯誤
+  //     }
+  //   }
+  // }
+  // 圖片沒走multer
   const handleImageChange = (id, event) => {
     const file = event.target.files[0]
     if (file) {
@@ -62,15 +94,7 @@ export default function AddPrd() {
       reader.readAsDataURL(file)
     }
   }
-  // const handleImageChange = (id, event) => {
-  //   const newImageFields = imageFields.map(field => {
-  //     if (field.id === id) {
-  //       return { ...field, file: event.target.files[0] };
-  //     }
-  //     return field;
-  //   });
-  //   setImageFields(newImageFields);
-  // }
+
   const addImageField = () => {
     const newId = imageFields.length > 0 ? Math.max(...imageFields.map((f) => f.id)) + 1 : 0
     setImageFields([...imageFields, { id: newId, file: null, fileName: '', preview: '' }])
@@ -209,6 +233,7 @@ export default function AddPrd() {
         withCredentials: true
       })
       console.log('提交成功:', response.data)
+      navigate(-1)
     } catch (error) {
       console.error('提交失敗', error)
     }
@@ -216,7 +241,7 @@ export default function AddPrd() {
 
   return (
     <div className='main'>
-      <div className='pageTitle'>商品編輯</div>
+      <div className='pageTitle'>新增商品</div>
       <form action='' id='prdForm' enctype='multipart/form-data'>
         <div className='tabs'>
           <ul className='tabBtnList'>

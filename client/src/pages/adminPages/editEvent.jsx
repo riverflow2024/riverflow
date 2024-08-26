@@ -611,7 +611,7 @@ export default function AddEvent() {
 
   return (
     <div className='main'>
-      <div className='pageTitle'>新增活動</div>
+      <div className='pageTitle'>活動編輯</div>
       <form onSubmit={handleSubmit} id='eventForm' encType='multipart/form-data'>
         <div className='tabs'>
           <ul className='tabBtnList'>
