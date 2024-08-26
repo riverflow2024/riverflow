@@ -100,13 +100,13 @@
   }
 }
 
-.wrap .container {
+.AllWrap .container {
   margin: auto;
   margin-top: 8rem;
   display: flex;
   position: relative;
 }
-.wrap .container .shop-filter {
+.AllWrap .container .shop-filter {
   margin-right: 50px;
   position: sticky;
   top: 10px;
@@ -116,44 +116,44 @@
   border: 0.75px solid var(--main2);
   border-radius: 20px;
 }
-.wrap .container .shop-filter .filter-text {
+.AllWrap .container .shop-filter .filter-text {
   padding-bottom: 20px;
   padding-top: 20px;
 }
-.wrap .container .shop-filter h3 {
+.AllWrap .container .shop-filter h3 {
   font-size: 1.2rem;
   padding-bottom: 10px;
   color: #baf13a;
 }
-.wrap .container .shop-filter input {
+.AllWrap .container .shop-filter input {
   width: 100%;
   border-bottom: 0.75px solid var(--main2);
   margin: 0px;
 }
-.wrap .container .shop-filter ul li {
+.AllWrap .container .shop-filter ul li {
   font-size: 1.1rem;
   font-weight: bold;
   display: inline-block;
   margin-top: 1rem;
   margin-bottom: 0.5rem;
 }
-.wrap .container .shop-filter ul li a {
+.AllWrap .container .shop-filter ul li a {
   display: inline-block;
   padding: 10px 10px 10px 10px;
   border-radius: 20px;
 }
-.wrap .container .shop-filter ul li a:hover {
+.AllWrap .container .shop-filter ul li a:hover {
   background-color: #baf13a;
   color: #333;
 }
-.wrap .container .shop-filter ul li a.selected {
+.AllWrap .container .shop-filter ul li a.selected {
   background-color: #baf13a;
   color: #1d1d1d;
 }
-.wrap .container .RWD-shop-filter {
+.AllWrap .container .RWD-shop-filter {
   position: absolute;
   margin-right: 50px;
-  padding: 10px 20px;
+  padding: 7px 17px;
   width: 85%;
   height: 7%;
   border: 0.75px solid var(--main2);
@@ -161,73 +161,71 @@
   white-space: nowrap;
   display: none;
 }
-.wrap .container .RWD-shop-filter #categoryFilter {
+.AllWrap .container .RWD-shop-filter #categoryFilter {
   gap: 10px;
   display: flex;
 }
-.wrap .container .RWD-shop-filter ul li {
+.AllWrap .container .RWD-shop-filter ul li {
   font-size: 0.7rem;
   font-weight: 500;
   display: inline-block;
   margin-top: 0.5rem;
-  margin-bottom: 10rem;
 }
-.wrap .container .RWD-shop-filter ul li a {
+.AllWrap .container .RWD-shop-filter ul li a {
   display: inline-block;
   padding: 5px;
   border-radius: 20px;
 }
-.wrap .container .RWD-shop-filter ul li a:hover {
+.AllWrap .container .RWD-shop-filter ul li a:hover {
   background-color: #baf13a;
   color: #333;
 }
-.wrap .container .RWD-shop-filter ul li a.selected {
+.AllWrap .container .RWD-shop-filter ul li a.selected {
   background-color: #baf13a;
   color: #1d1d1d;
 }
 @media (max-width: 768px) {
-  .wrap .container .shop-filter {
+  .AllWrap .container .shop-filter {
     display: none;
   }
-  .wrap .container .RWD-shop-filter {
+  .AllWrap .container .RWD-shop-filter {
     top: -5%;
     height: 2%;
     display: block;
   }
 }
 @media (max-width: 576px) {
-  .wrap .container .RWD-shop-filter {
+  .AllWrap .container .RWD-shop-filter {
+    flex-wrap: wrap;
     top: -3%;
-    height: 1%;
+    height: 1.7%;
     width: auto;
   }
-  .wrap .container .RWD-shop-filter #categoryFilter {
-    gap: 3px;
+  .AllWrap .container .RWD-shop-filter #categoryFilter {
     display: flex;
-    flex-wrap: wrap;
+    gap: 0px;
   }
-  .wrap .container .RWD-shop-filter ul li {
-    font-size: 0.4rem;
+  .AllWrap .container .RWD-shop-filter ul li {
+    font-size: 0.5rem;
     font-weight: 500;
     display: inline-block;
     margin-top: 0.5rem;
-    margin-bottom: 10rem;
   }
-  .wrap .container .RWD-shop-filter ul li a {
+  .AllWrap .container .RWD-shop-filter ul li a {
     display: inline-block;
     padding: 5px;
     border-radius: 20px;
   }
-  .wrap .container .RWD-shop-filter ul li a:hover {
+  .AllWrap .container .RWD-shop-filter ul li a:hover {
     background-color: #baf13a;
     color: #333;
   }
-  .wrap .container .RWD-shop-filter ul li a.selected {
+  .AllWrap .container .RWD-shop-filter ul li a.selected {
     background-color: #baf13a;
     color: #1d1d1d;
   }
 }
-.wrap .container .product-list {
+.AllWrap .container .product-list {
   width: 80%;
   padding: 20px 20px 20px 30px;
   display: flex;
@@ -237,7 +235,7 @@
   overflow-y: auto;
   height: 100%;
 }
-.wrap .container .product-list .product-item {
+.AllWrap .container .product-list .product-item {
   flex-basis: 30%;
   min-width: 200px;
   height: 30%;
@@ -250,11 +248,11 @@
   flex-wrap: wrap;
   background-color: white;
 }
-.wrap .container .product-list .sold-out-card {
+.AllWrap .container .product-list .sold-out-card {
   position: relative;
   pointer-events: none;
 }
-.wrap .container .product-list .sold-out-card::before {
+.AllWrap .container .product-list .sold-out-card::before {
   content: "";
   position: absolute;
   top: 0;
@@ -265,23 +263,23 @@
   border-radius: 0px 0px 10px 10px;
   z-index: 1;
 }
-.wrap .container .product-list .product-img {
+.AllWrap .container .product-list .product-img {
   width: 100%;
   height: 200px;
   -o-object-fit: cover;
      object-fit: cover;
   position: relative;
 }
-.wrap .container .product-list .product-img img {
+.AllWrap .container .product-list .product-img img {
   height: 200px;
   -o-object-fit: cover;
      object-fit: cover;
   background-color: #1d1d1d;
 }
-.wrap .container .product-list .product-img .sold-out {
+.AllWrap .container .product-list .product-img .sold-out {
   position: absolute;
   width: 100%;
-  height: 20%;
+  height: 40%;
   top: 60%;
   left: 50%;
   transform: translate(-50%, -50%) rotate(-25deg);
@@ -297,7 +295,7 @@
   opacity: 1;
   white-space: nowrap;
 }
-.wrap .container .product-list .fa-regular {
+.AllWrap .container .product-list .fa-regular {
   position: absolute;
   bottom: 10%;
   right: 7%;
@@ -308,15 +306,15 @@
   padding: 5px;
   transition: 1s;
 }
-.wrap .container .product-list .fa-regular.selected {
+.AllWrap .container .product-list .fa-regular.selected {
   background-color: crimson; /* 點擊後背景變為紅色 */
   color: #fff; /* 愛心內部變為白色 */
 }
-.wrap .container .product-list .fa-regular:hover {
+.AllWrap .container .product-list .fa-regular:hover {
   background-color: crimson;
   color: #fff;
 }
-.wrap .container .product-list .labels {
+.AllWrap .container .product-list .labels {
   padding-top: 10px;
   padding-left: 10px;
   gap: 10px;
@@ -325,19 +323,19 @@
   color: black;
   font-size: 0.6rem;
 }
-.wrap .container .product-list .labels span {
+.AllWrap .container .product-list .labels span {
   text-align: center;
   padding: 1.5px 15px;
   border: 1px solid black;
   border-radius: 10px;
 }
-.wrap .container .product-list .labels span.sale {
+.AllWrap .container .product-list .labels span.sale {
   background-color: #ff5722;
 }
-.wrap .container .product-list .labels span.new {
+.AllWrap .container .product-list .labels span.new {
   background-color: #ffc107;
 }
-.wrap .container .product-list .product-info {
+.AllWrap .container .product-list .product-info {
   color: black;
   padding-left: 15px;
   padding-top: 15px;
@@ -345,21 +343,21 @@
   background-color: #fff;
   border-radius: 0px 0px 15px 15px;
 }
-.wrap .container .product-list h4 {
+.AllWrap .container .product-list h4 {
   font-weight: bolder;
 }
-.wrap .container .product-list .product-text {
+.AllWrap .container .product-list .product-text {
   position: relative;
   display: flex;
   justify-content: space-between;
   text-align: center;
   padding-top: 40px;
 }
-.wrap .container .product-list .product-text p {
+.AllWrap .container .product-list .product-text p {
   font-size: 18px;
   font-weight: bold;
 }
-.wrap .container .product-list .product-text .discount-price {
+.AllWrap .container .product-list .product-text .discount-price {
   position: absolute;
   bottom: 30px;
   left: 0px;
@@ -367,7 +365,7 @@
   color: #ff0000;
   font-weight: bold;
 }
-.wrap .container .product-list .product-text .look-btn {
+.AllWrap .container .product-list .product-text .look-btn {
   color: #333;
   background-color: var(--main2);
   border-radius: 20px;
@@ -381,18 +379,18 @@
   border: none;
   cursor: pointer;
 }
-.wrap .container .product-list .product-text .look-btn:hover {
+.AllWrap .container .product-list .product-text .look-btn:hover {
   background-color: #baf13a;
   color: var(--bk2);
   padding: 10px;
   border-radius: 20px;
 }
 @media (max-width: 1200px) {
-  .wrap .container .product-list {
+  .AllWrap .container .product-list {
     width: 100%;
     gap: 10px;
   }
-  .wrap .container .product-list .product-item {
+  .AllWrap .container .product-list .product-item {
     height: 30%;
     margin: 1%;
     flex-grow: 1;
@@ -401,10 +399,10 @@
   }
 }
 @media (max-width: 992px) {
-  .wrap .container .product-list {
+  .AllWrap .container .product-list {
     width: 100%;
   }
-  .wrap .container .product-list .product-item {
+  .AllWrap .container .product-list .product-item {
     flex-basis: 5%;
     min-width: 210px;
     height: 30%;
@@ -412,11 +410,11 @@
   }
 }
 @media (max-width: 768px) {
-  .wrap .container .product-list {
+  .AllWrap .container .product-list {
     width: 100%;
     margin-left: 2%;
   }
-  .wrap .container .product-list .product-item {
+  .AllWrap .container .product-list .product-item {
     flex-basis: 45%;
     min-width: 200px;
     height: 30%;
@@ -424,18 +422,20 @@
   }
 }
 @media (max-width: 576px) {
-  .wrap .container .product-list {
-    width: 50%;
+  .AllWrap .container .product-list {
+    margin: auto;
+    width: 90%;
+    height: 50%;
   }
-  .wrap .container .product-list .product-item {
+  .AllWrap .container .product-list .product-item {
+    transform: scale(0.93);
     flex-basis: 100%;
-    max-width: 100%;
-    height: 30%;
+    max-width: 50%;
     margin: 1.5% auto;
     flex-basis: calc(100% - 20px);
     max-width: calc(100% - 20px);
   }
-  .wrap .container .product-list .product-info {
+  .AllWrap .container .product-list .product-info {
     color: black;
     padding-left: 15px;
     padding-top: 15px;
@@ -443,29 +443,29 @@
     background-color: #fff;
     border-radius: 0px 0px 15px 15px;
   }
-  .wrap .container .product-list h4 {
+  .AllWrap .container .product-list h4 {
     font-weight: bolder;
     font-size: 1.3rem;
   }
-  .wrap .container .product-list .product-text {
+  .AllWrap .container .product-list .product-text {
     position: relative;
     display: flex;
     justify-content: space-between;
     text-align: center;
     padding-top: 40px;
   }
-  .wrap .container .product-list .product-text p {
+  .AllWrap .container .product-list .product-text p {
     font-size: 1.2rem;
     font-weight: bold;
   }
-  .wrap .container .product-list .product-text .discount-price {
+  .AllWrap .container .product-list .product-text .discount-price {
     position: absolute;
     bottom: 30px;
     font-size: 1.4rem;
     color: #ff0000;
     font-weight: bold;
   }
-  .wrap .container .product-list .product-text .look-btn {
+  .AllWrap .container .product-list .product-text .look-btn {
     color: #333;
     background-color: var(--main2);
     border-radius: 20px;
@@ -479,7 +479,7 @@
     border: none;
     cursor: pointer;
   }
-  .wrap .container .product-list .product-text .look-btn:hover {
+  .AllWrap .container .product-list .product-text .look-btn:hover {
     background-color: #baf13a;
     color: var(--bk2);
     padding: 10px;

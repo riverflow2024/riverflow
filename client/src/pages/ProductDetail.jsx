@@ -339,7 +339,7 @@ const ProductDetail = () => {
     <div className='w-bg scrollCust'>
       <Header />
       <div className='container-f'>
-        <div className='wrap'>
+        <div className='DetailWrap'>
           {product && (
             <>
               <ProductImages images={product.images} isFavorited={isFavorited} onToggleFavorite={toggleFavorite} />

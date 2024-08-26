@@ -478,7 +478,7 @@ const ProductAll = () => {
               <Banner />
             </div>
           </section>
-          <section className={`wrap ${resetStyles.reset}`}>
+          <section className={`AllWrap ${resetStyles.reset}`}>
             <div className='container'>
               <Filter
                 onFilterChange={setFilterCategory}
