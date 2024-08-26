@@ -17,11 +17,6 @@
   margin: 0 auto;
   box-sizing: border-box;
 }
-@media (max-width: 768px) {
-  .cart-wrap-f .container-f .cart-wrap .container {
-    padding: 2rem;
-  }
-}
 .cart-wrap-f .container-f .cart-wrap .top {
   margin-top: 5rem;
 }
@@ -201,14 +196,13 @@
   color: #98d900;
   transition: 1s;
 }
-@media (max-width: 768px) {
+@media (max-width: 480px) {
   .cart-wrap-f .container-f .cart-wrap .checkButton {
     flex-direction: column;
     height: auto;
-    padding: 10px 20px;
+    padding: 5px 0px;
   }
   .cart-wrap-f .container-f .cart-wrap .checkButton .rightCheckButton {
-    flex-direction: column;
     gap: 10px;
   }
 }/*# sourceMappingURL=cart.css.map */

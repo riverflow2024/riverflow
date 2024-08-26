@@ -3,6 +3,7 @@ import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 import '../assets/cart.css'
 import Header from '../components/header'
+import Footer from '../components/footer'
 
 // 負責顯示每個購物車項目的內容，例如商品名稱、圖片、數量、單價、總金額，以及刪除按鈕
 const CartItem = ({ item, onQuantityChange, onDelete }) => {
@@ -187,6 +188,7 @@ const Cart = () => {
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   )
 }

@@ -6,6 +6,7 @@ import lightbox from 'lightbox2'
 import Swal from 'sweetalert2'
 import { useParams } from 'react-router-dom'
 import Header from '../components/header'
+import Footer from '../components/footer'
 
 // 商品圖片展示組件
 const ProductImages = ({ images = [], isFavorited, onToggleFavorite }) => (
@@ -359,6 +360,7 @@ const ProductDetail = () => {
         </div>
         <Recommendations />
       </div>
+      <Footer />
     </div>
   )
 }

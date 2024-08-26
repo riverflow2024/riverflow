@@ -389,7 +389,7 @@ const Dance = () => {
               </div>
 
               <div className='col-8' style={{ marginTop: '20vh', padding: '5vh' }}>
-                <div className='title' style={{ marginButtom:'10vh' }}>
+                <div className='title' style={{ marginButtom: '10vh' }}>
                   動作介紹
                 </div>
                 <div style={{ border: '4px solid #BAF13A' }} id='player'></div>
@@ -410,10 +410,7 @@ const Dance = () => {
         <br />
         <br />
         <br />
-        <br />
-        <br />
-        <br />
-        <br />
+
         <br />
         <br />
         <br />

@@ -9,6 +9,7 @@ import '../assets/ProductAll.css'
 import Header from '../components/header'
 import axios from 'axios'
 import { Link } from 'react-router-dom'
+import Footer from '../components/footer'
 
 const Banner = () => {
   useEffect(() => {
@@ -493,6 +494,7 @@ const ProductAll = () => {
                 setFavoriteProducts={setFavoriteProducts}
               />
             </div>
+            <Footer />
           </section>
         </>
       )}
