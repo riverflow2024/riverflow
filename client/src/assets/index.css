@@ -510,23 +510,23 @@ body {
   top: 0px;
   right: 50px;
 }
-.IndexPage .djSection .item .wrap {
+.IndexPage .djSection .item .index-wrap {
   flex: 1;
   position: relative;
   box-sizing: border-box;
 }
-.IndexPage .djSection .item .wrap .twdj-box {
+.IndexPage .djSection .item .index-wrap .twdj-box {
   position: absolute;
   top: 100px;
   left: -100px;
 }
-.IndexPage .djSection .item .wrap .djgif_box {
+.IndexPage .djSection .item .index-wrap .djgif_box {
   position: absolute;
   top: 50px;
   right: 100px;
   width: 22vw;
 }
-.IndexPage .djSection .item .wrap:nth-of-type(1) {
+.IndexPage .djSection .item .index-wrap:nth-of-type(1) {
   padding: 100px 10vw 0px 5vw;
 }
 .IndexPage .djSection .item h2 {
@@ -558,12 +558,12 @@ body {
   flex: 2;
   position: relative;
 }
-.IndexPage .BreakingSection .item .wrap {
+.IndexPage .BreakingSection .item .breaking-wrap {
   flex: 1;
   position: relative;
   padding: 100px 0vw 0px 10vw;
 }
-.IndexPage .BreakingSection .item .wrap h2 {
+.IndexPage .BreakingSection .item .breaking-wrap h2 {
   height: 113px;
   padding-left: 20px;
   line-height: 113px;
@@ -571,7 +571,7 @@ body {
   align-items: center;
   position: relative;
 }
-.IndexPage .BreakingSection .item .wrap h2 .titlebg {
+.IndexPage .BreakingSection .item .breaking-wrap h2 .titlebg {
   width: 190px;
   height: 100%;
   position: absolute;
@@ -652,16 +652,16 @@ body {
   left: -100px;
   z-index: -1;
 }
-.IndexPage .rapSection .item .wrap {
+.IndexPage .rapSection .item .rap-wrap {
   flex: 1;
   position: relative;
   padding: 100px 10vw 0px 5vw;
   box-sizing: border-box;
 }
-.IndexPage .rapSection .item .wrap:nth-of-type(2) {
+.IndexPage .rapSection .item .rap-wrap:nth-of-type(2) {
   padding: 100px 0px 0px 10vw;
 }
-.IndexPage .rapSection .item .wrap:nth-of-type(2) h3 {
+.IndexPage .rapSection .item .rap-wrap:nth-of-type(2) h3 {
   color: white;
   font-family: "Just Another Hand";
   font-size: 80px;
@@ -670,10 +670,10 @@ body {
   letter-spacing: 7.68px;
   white-space: nowrap;
 }
-.IndexPage .rapSection .item .wrap:nth-of-type(2) h3:nth-of-type(2) {
+.IndexPage .rapSection .item .rap-wrap:nth-of-type(2) h3:nth-of-type(2) {
   opacity: 0.5;
 }
-.IndexPage .rapSection .item .wrap:nth-of-type(2) h3:nth-of-type(3) {
+.IndexPage .rapSection .item .rap-wrap:nth-of-type(2) h3:nth-of-type(3) {
   opacity: 0.2;
 }
 .IndexPage .rapSection .item h2 {
@@ -769,13 +769,13 @@ body {
 .IndexPage .GraffitiSection .item img {
   width: 780px;
 }
-.IndexPage .GraffitiSection .item .wrap {
+.IndexPage .GraffitiSection .item .graffiti-wrap {
   flex: 1;
   position: relative;
   padding: 100px 20px 0px 6vw;
   box-sizing: border-box;
 }
-.IndexPage .GraffitiSection .item .wrap h2 {
+.IndexPage .GraffitiSection .item .graffiti-wrap h2 {
   height: 113px;
   padding-left: 20px;
   line-height: 113px;
@@ -783,7 +783,7 @@ body {
   align-items: center;
   position: relative;
 }
-.IndexPage .GraffitiSection .item .wrap h2 .titlebg {
+.IndexPage .GraffitiSection .item .graffiti-wrap h2 .titlebg {
   width: 180px;
   height: 100%;
   position: absolute;
@@ -791,10 +791,10 @@ body {
   left: -10px;
   z-index: -1;
 }
-.IndexPage .GraffitiSection .item .wrap img {
+.IndexPage .GraffitiSection .item .graffiti-wrap img {
   width: 70%;
 }
-.IndexPage .GraffitiSection .item .wrap .gC {
+.IndexPage .GraffitiSection .item .graffiti-wrap .gC {
   width: 300px;
   position: absolute;
   right: 0;
@@ -834,13 +834,13 @@ body {
   flex: 1;
   position: relative;
 }
-.IndexPage .SkateSection .item .wrap {
+.IndexPage .SkateSection .item .skate-wrap {
   flex: 1;
   position: relative;
   padding: 250px 2vw 0px 2vw;
   box-sizing: border-box;
 }
-.IndexPage .SkateSection .item .wrap h2 {
+.IndexPage .SkateSection .item .skate-wrap h2 {
   height: 113px;
   padding-left: 20px;
   line-height: 113px;
@@ -848,7 +848,7 @@ body {
   align-items: center;
   position: relative;
 }
-.IndexPage .SkateSection .item .wrap h2 .titlebg {
+.IndexPage .SkateSection .item .skate-wrap h2 .titlebg {
   width: 150px;
   height: 100%;
   position: absolute;
@@ -856,7 +856,7 @@ body {
   left: -10px;
   z-index: -1;
 }
-.IndexPage .SkateSection .item .wrap img {
+.IndexPage .SkateSection .item .skate-wrap img {
   width: 430px;
 }
 .IndexPage .SkateSection .item .skateA {
@@ -1092,23 +1092,23 @@ body {
   .IndexPage .djSection .item .djImg-box img {
     width: 60vw;
   }
-  .IndexPage .djSection .item .wrap .twdj-box {
+  .IndexPage .djSection .item .index-wrap .twdj-box {
     position: absolute;
     top: 50px;
     left: 40px;
     z-index: 1;
   }
-  .IndexPage .djSection .item .wrap .djgif_box {
+  .IndexPage .djSection .item .index-wrap .djgif_box {
     width: 250px;
   }
-  .IndexPage .djSection .item .wrap:nth-of-type(1) {
+  .IndexPage .djSection .item .index-wrap:nth-of-type(1) {
     padding: 100px 10vw 0px 10vw;
   }
   .IndexPage .BreakingSection {
     flex-direction: column;
     overflow: hidden;
   }
-  .IndexPage .BreakingSection .item .wrap {
+  .IndexPage .BreakingSection .item .breaking-wrap {
     padding: 0px 10vw 0px 10vw;
   }
   .IndexPage .BreakingSection .item .dance-wrap {
@@ -1150,15 +1150,15 @@ body {
     left: 0px;
     z-index: 1;
   }
-  .IndexPage .rapSection .item .wrap {
+  .IndexPage .rapSection .item .rap-wrap {
     flex: 1;
     position: relative;
     padding: 0px 10vw 0px 10vw;
   }
-  .IndexPage .rapSection .item .wrap:nth-of-type(2) {
+  .IndexPage .rapSection .item .rap-wrap:nth-of-type(2) {
     padding: 50px 0px 0px 35vw;
   }
-  .IndexPage .rapSection .item .wrap:nth-of-type(2) h3 {
+  .IndexPage .rapSection .item .rap-wrap:nth-of-type(2) h3 {
     color: white;
     font-family: "Just Another Hand";
     font-size: 60px;
@@ -1167,10 +1167,10 @@ body {
     line-height: normal;
     letter-spacing: 7.68px;
   }
-  .IndexPage .rapSection .item .wrap:nth-of-type(2) h3:nth-of-type(2) {
+  .IndexPage .rapSection .item .rap-wrap:nth-of-type(2) h3:nth-of-type(2) {
     opacity: 0.5;
   }
-  .IndexPage .rapSection .item .wrap:nth-of-type(2) h3:nth-of-type(3) {
+  .IndexPage .rapSection .item .rap-wrap:nth-of-type(2) h3:nth-of-type(3) {
     opacity: 0.2;
   }
   .IndexPage .rapSection .rapImg {
@@ -1191,9 +1191,15 @@ body {
     top: 100px;
     bottom: -10px;
   }
+  .IndexPage .logoBox {
+    height: 400px !important;
+  }
   .IndexPage .logoBox svg {
-    width: 500px;
-    height: 500px;
+    width: 400px;
+    height: 400px;
+  }
+  .IndexPage .logoBox .index-logo {
+    width: 320px !important;
   }
   .IndexPage .introSection::before {
     background-image: linear-gradient(180deg, #1d1d1d 24.52%, #000 102.19%);
@@ -1228,7 +1234,10 @@ body {
     display: none;
   }
   .IndexPage .introSection .item:nth-child(3) .djKoolsay {
-    width: 200px;
+    right: -20px !important;
+    width: 450px !important;
+    -o-object-fit: cover !important;
+       object-fit: cover !important;
   }
   .IndexPage .introSection .transitions-box {
     overflow: hidden;
@@ -1238,29 +1247,37 @@ body {
   .IndexPage .djSection {
     height: 600px;
   }
-  .IndexPage .djSection .item .wrap .djgif_box {
+  .IndexPage .djSection .item .index-wrap .djgif_box {
     width: 150px;
     right: 10px;
   }
   .IndexPage .BreakingSection {
     margin-top: 300px;
   }
-  .IndexPage .rapSection .item .wrap:nth-of-type(2) {
+  .IndexPage .rapSection {
+    overflow: hidden;
+  }
+  .IndexPage .rapSection .item .rap-wrap:nth-of-type(2) {
     padding: 50px 0px 0px 10vw;
   }
   .IndexPage .rapSection .item .rapImg-box img:nth-of-type(1) {
     width: 100px;
     top: -90px;
+    left: -100px;
   }
   .IndexPage .rapSection .item .rapImg-box img:nth-of-type(2) {
     width: 280px;
+    left: -300px;
   }
   .IndexPage .rapSection .rapImg {
-    width: 400px;
+    width: 100%;
     bottom: 100px;
   }
   .IndexPage .Transitions {
     display: none;
+  }
+  .IndexPage .GraffitiSection {
+    overflow: hidden;
   }
   .IndexPage .GraffitiSection::after {
     display: none;
@@ -1270,30 +1287,41 @@ body {
   }
   .IndexPage .GraffitiSection .item {
     padding: 0px !important;
+    flex-direction: column;
   }
   .IndexPage .GraffitiSection .item .gA-box {
     width: 300px;
+    left: -115px;
   }
-  .IndexPage .GraffitiSection .item .wrap {
+  .IndexPage .GraffitiSection .item .graffiti-wrap {
     padding: 0px 10vw;
   }
-  .IndexPage .GraffitiSection .item .wrap:nth-of-type(2) {
-    display: none;
+  .IndexPage .skateTransitions {
+    overflow: hidden;
+    height: 200px;
   }
   .IndexPage .SkateSection {
     flex-direction: column;
-    height: 600px;
+    height: 800px;
+    align-items: normal;
   }
   .IndexPage .SkateSection .item:nth-child(1) {
     display: none;
   }
-  .IndexPage .SkateSection .item .wrap {
+  .IndexPage .SkateSection .item .skate-wrap {
     padding: 0px 10vw;
   }
   .IndexPage .SkateSection .item .skateB {
     position: absolute;
     width: 90%;
-    top: 0px;
-    z-index: 1;
+    left: 20px;
+    top: -150px;
+    z-index: 99;
+  }
+  .IndexPage .sectionBtn {
+    display: none;
+  }
+  .IndexPage #ontop {
+    display: none;
   }
 }/*# sourceMappingURL=index.css.map */

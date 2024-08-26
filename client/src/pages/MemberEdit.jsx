@@ -161,7 +161,7 @@ UploadImg = async () => {
 
         <section className='Member'>
           <div className='nav-box' flex='1'>
-            <div className='wrap'>
+            <div className='member-wrap'>
               <div className='member'>
                 <div className='member-img'>
                   <img className='member-img img' src={imageSrc} alt='Profile' />
@@ -204,7 +204,7 @@ UploadImg = async () => {
             </div>
           </div>
           <div className='profile-box' flex='2' id='profile'>
-            <div className='wrap'>
+            <div className='member-wrap'>
               <div className='item'>
                 <h3>個人資料</h3>
               </div>

@@ -107,7 +107,7 @@ class Index extends Component {
               />
             </svg>
 
-            <svg class="" xmlns="http://www.w3.org/2000/svg" width="483" height="222" viewBox="0 0 483 222" fill="none">
+            <svg class="index-logo" xmlns="http://www.w3.org/2000/svg" width="483" height="222" viewBox="0 0 483 222" fill="none">
               <path
                 d="M67 59.5L63.9375 59.5625C61.1875 67.5625 58.9375 74.5 57.1875 80.375C55.4375 86.2083 54.0208 90.0208 52.9375 91.8125C51.8958 93.5625 50.75 94.9792 49.5 96.0625C48.2917 97.1042 46.7292 97.8958 44.8125 98.4375C41.6458 99.3125 37.3542 99.75 31.9375 99.75C26.5208 99.75 21.3125 99.1458 16.3125 97.9375C11.3542 96.7292 7.39583 95.25 4.4375 93.5C1.47917 91.7083 0 89.9792 0 88.3125C0 87.3542 0.416667 86.6042 1.25 86.0625C2.04167 85.4792 2.97917 85.1875 4.0625 85.1875C7.89583 85.1875 10.7083 84.5833 12.5 83.375C14.3333 82.125 16.0625 79.8542 17.6875 76.5625C19.3125 73.2708 20.9167 69.4583 22.5 65.125C24.125 60.7917 25.625 56.7708 27 53.0625C28.4167 49.3542 30.0417 45.5625 31.875 41.6875C35.7917 33.3542 40.6458 27.7917 46.4375 25C49.2292 23.6667 52.9375 22.6458 57.5625 21.9375C62.1875 21.1875 65.7917 20.8125 68.375 20.8125C70.9583 20.8125 72.6458 20.8542 73.4375 20.9375C74.2292 20.9792 75.0208 21.1042 75.8125 21.3125C77.4375 21.7292 78.25 22.6458 78.25 24.0625C78.25 24.9375 78.0833 25.75 77.75 26.5C77.4167 27.25 76.3958 29.0625 74.6875 31.9375C73.0208 34.7708 70.1458 41.9375 66.0625 53.4375C88.1875 50.8542 99.25 42.7708 99.25 29.1875C99.25 24.6042 97.8125 21.1667 94.9375 18.875C91.9792 16.5833 88.9792 15.1875 85.9375 14.6875C81.3958 13.9375 76.3958 13.5625 70.9375 13.5625C65.5208 13.5625 59.8542 14.0833 53.9375 15.125C48.0208 16.125 43.4167 17.25 40.125 18.5C36.875 19.7083 33.9583 20.8333 31.375 21.875C28.8333 22.875 27.2083 23.375 26.5 23.375C24.2917 23.375 23.1875 22.6458 23.1875 21.1875C23.1875 19.3542 24.375 17.6875 26.75 16.1875C35 10.8958 44.4375 6.875 55.0625 4.125C65.6875 1.375 79 0 95 0C103.208 0 110.062 0.854167 115.562 2.5625C121.062 4.22917 125.271 6 128.188 7.875C131.146 9.70833 133.562 12.1458 135.438 15.1875C137.312 18.2292 138.25 21.5625 138.25 25.1875C138.25 28.8125 137.562 32.0208 136.188 34.8125C134.812 37.5625 132.917 39.9375 130.5 41.9375C128.125 43.8958 125.104 45.6667 121.438 47.25C115.104 49.9583 106.542 52.1667 95.75 53.875C104 53.875 110.521 55.2917 115.312 58.125C120.104 60.9583 122.5 64.9583 122.5 70.125L121.375 81.25C121.375 84.25 122.896 85.9583 125.938 86.375C127.229 86.5833 128.521 86.75 129.812 86.875C132.854 87.125 134.375 88.2917 134.375 90.375C134.375 93.2083 130.833 95.6875 123.75 97.8125C116.708 99.9375 108.979 101 100.562 101C84.6875 101 76.75 96.3542 76.75 87.0625C76.75 84.8125 77.4375 81.6042 78.8125 77.4375C80.1875 73.2708 80.875 70.4792 80.875 69.0625C80.875 66.4375 79.7917 64.1875 77.625 62.3125C75.4583 60.4375 71.9167 59.5 67 59.5Z"
                 fill="#FEFEFE"
@@ -360,7 +360,7 @@ class Index extends Component {
               </div>
             </div>
             <div class="item">
-              <div class="wrap">
+              <div class="index-wrap">
                 <h2 class="gtitle">
                   <img class="titlebg" src={require('../assets/images/indexImg/djtitlebg.png')} alt="" />
                   <span>Disc Jockey</span>
@@ -377,7 +377,7 @@ class Index extends Component {
                   起初DJ通俗稱之為「轉碟子的人」，把轉碟子視為一種音樂上的樂器藝術。一般上來說，DJ將會同時的使用二個唱盤，產生一種獨特的聲音，即兩首不相干的歌曲看上去仿佛被合成一氣。
                 </p>
               </div>
-              <div class="wrap">
+              <div class="index-wrap">
                 <div class="twdj-box">
                   <img src={require('../assets/images/indexImg/Twdj.png')} alt="" />
                 </div>
@@ -392,7 +392,7 @@ class Index extends Component {
           {/* 街舞 開始 */}
           <section class="BreakingSection" id="BreakingSection">
             <div class="item">
-              <div class="wrap">
+              <div class="breaking-wrap">
                 <h2 class="gtitle">
                   <img class="titlebg" src={require('../assets/images/indexImg/gitlebg.png')} alt="" />
                   <span>Breaking</span>
@@ -444,7 +444,7 @@ class Index extends Component {
               </div>
             </div>
             <div class="item">
-              <div class="wrap">
+              <div class="rap-wrap">
                 <h2 class="gtitle">
                   <img class="titlebg" src={require('../assets/images/indexImg/gitlebg.png')} alt="" />
                   <span>Rapping</span>
@@ -460,7 +460,7 @@ class Index extends Component {
                   作為音樂風格，以吐詞為詞、R&B及其他音樂取樣為曲的嘻哈樂在幾十年裏發展成了美國流行樂的一種主要風格，也影響到了包括亞洲在內的世界流行樂，許多流行歌曲都會加入饒舌元素。
                 </p>
               </div>
-              <div class="wrap">
+              <div class="rap-wrap">
                 <h3>Life's a Struggle </h3>
                 <h3>Life's a Struggle </h3>
                 <h3>Life's a Struggle </h3>
@@ -485,7 +485,7 @@ class Index extends Component {
               </div>
             </div>
             <div class="item" id="GraffitiSection">
-              <div class="wrap">
+              <div class="graffiti-wrap">
                 <h2 class="gtitle">
                   <img class="titlebg" src={require('../assets/images/indexImg/gitlebg.png')} alt="" />
                   <span>Graffiti</span>
@@ -503,7 +503,7 @@ class Index extends Component {
                 </p>
                 <img class="gC" src={require('../assets/images/indexImg/gC.png')} alt="" />
               </div>
-              <div class="wrap">
+              <div class="graffiti-wrap">
                 <img class="" src={require('../assets/images/indexImg/gB.png')} alt="" />
               </div>
             </div>
@@ -615,7 +615,7 @@ class Index extends Component {
               <img class="skateA" src={require('../assets/images/indexImg/skateA.png')} alt="" />
             </div>
             <div class="item">
-              <div class="wrap">
+              <div class="skate-wrap">
                 <h2 class="gtitle">
                   <img class="titlebg" src={require('../assets/images/indexImg/gitlebg.png')} alt="" />
                   <span>Skate</span>

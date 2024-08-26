@@ -9,6 +9,7 @@
   padding: 5vh 10vw 50px 10vw;
   display: flex;
   justify-content: center;
+  flex-wrap: wrap;
   text-wrap: nowrap;
 }
 .Member h3 {
@@ -107,16 +108,16 @@
   background: var(--bk2);
   padding: 40px;
 }
-.Member .profile-box .wrap .item {
+.Member .profile-box .member-wrap .item {
   border-bottom: 0.5px solid var(--gr2);
 }
-.Member .profile-box .wrap span {
+.Member .profile-box .member-wrap span {
   display: block;
   padding: 5px 0px;
   color: #eee;
   font-weight: 200;
 }
-.Member .profile-box .wrap .tips {
+.Member .profile-box .member-wrap .tips {
   padding: 10px 0px;
   color: var(--side2);
   font-size: 15px;
@@ -1006,10 +1007,16 @@
 }
 @media screen and (max-width: 375px) {
   .nav-box {
-    width: 300px;
+    width: 200px;
+  }
+  .nav-box .member-wrap .member {
+    gap: 0;
   }
   .profile-box {
-    width: 300px;
+    width: 200px;
+  }
+  .profile-box .member-wrap .input-date {
+    width: 100%;
   }
   .order-box {
     width: 300px;

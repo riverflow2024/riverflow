@@ -105,7 +105,7 @@ class MemberIndex extends Component {
 
 
                     <div class="nav-box" flex="1">
-                        <div class="">
+                        <div class="member-wrap">
                             <div class="member">
                                 <div>
                                     <img className="member-img" src={imageSrc} alt="" />
@@ -128,7 +128,7 @@ class MemberIndex extends Component {
 
                     </div>
                     <div class="profile-box" flex="2" id="profile" >
-                        <form class="wrap">
+                        <form class="member-wrap">
                             <div class="item">
                                 <h3>個人資料</h3>
                             </div>
