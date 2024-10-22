@@ -125,7 +125,7 @@ const Skate = () => {
         </section>
 
         <section className='sustain-right'>
-          <SimpleParallax delay={1} transition='cubic-bezier(0,0,0,1)'>
+
             <img className='parallax-window' src={skateskill} alt='Skate Skill' />
             <div className='sustain-right-text'>
               <h2>
@@ -138,11 +138,11 @@ const Skate = () => {
               </p>
               <img className='lightning' src={lightning} alt='lightning' />
             </div>
-          </SimpleParallax>
+ 
         </section>
 
         <section className='sustain-left'>
-          <SimpleParallax delay={1} transition='cubic-bezier(0,0,0,1)'>
+     
             <img src={skateskillThree} alt='Skate Skill Three' />
             <div className='sustain-left-text'>
               <h2>
@@ -154,41 +154,7 @@ const Skate = () => {
               </p>
               <img className='star' src={star} alt='star' />
             </div>
-          </SimpleParallax>
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
+   
           <br />
           <br />
           <br />
@@ -257,22 +223,8 @@ const Skate = () => {
           <br />
         </section>
 
-        <div id='pinContainer'>
-          <section className='panel one-img'>
-            <img src={RiverFlow1} alt='RiverOne' />
-          </section>
-          <section className='panel two-img'>
-            <img src={skateimg1} alt='skate' />
-          </section>
-          <section className='panel three-img'>
-            <img src={skateimg2} alt='skate' />
-          </section>
-          <section className='panel four-img'>
-            <img src={skateimg3} alt='skate' />
-          </section>
-          <section className='panel five-img'>
-            <img src={skateimg4} alt='skate' />
-          </section>
+       
+        
           <section className='end'>
             <h2>
               一同成為
@@ -280,7 +232,7 @@ const Skate = () => {
             </h2>
             <img src={LetSkate} alt="Let's skate" />
           </section>
-        </div>
+        
       </main>
       <Footer />
     </div>

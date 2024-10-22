@@ -22,6 +22,11 @@
     height: 100vh;
     width: 100vw;
     position: relative;
+   
+  }
+
+  .banner img{
+    object-fit: cover;
   }
   .banner .ml4 {
     display: flex;
@@ -509,4 +514,65 @@
     background-color: #baf13a;
     color: black;
   }
+}
+
+
+/*  banner 文字*/
+@media (max-width:430px) {
+ .danceAll .banner .ml4 {
+    font-size: 6em;
+  }
+
+  /* 下面照片調整 */
+ 
+  .danceAll .Dance-container{
+   padding-left: 150px;
+  }
+
+  .danceAll .container-3 img{
+    display: none;
+  }
+
+ .danceAll .container-text-1 {
+    left: 10%;
+    bottom: -60%;
+    width: 40vh;
+  }
+  .danceAll .container-text-2{
+    left: 10%;
+    width: 40vh;
+    bottom: -130%;
+  }
+  .danceAll .container-text-3{
+    left: 10%;
+    width: 40vh;
+    bottom: -205%;
+  }
+  .danceAll .container-text-4{
+    left: 10%;
+    width: 40vh;
+    bottom: -278%;
+  }
+  .danceAll .container-text-5{
+    left: 10%;
+    width: 40vh;
+    bottom: -358%;
+  }
+  .danceAll .container-text-6{
+    left: 10%;
+    width: 40vh;
+    bottom: -433%;
+  }
+  .danceAll .image img{
+    opacity: 0.7;
+  }
+  .danceAll .font h2{
+   font-size: 1.5rem;
+  }
+  .danceAll .font p{
+    font-size: 1rem;
+   }
+   .danceAll .btmDance{
+    display: none
+   }
 }

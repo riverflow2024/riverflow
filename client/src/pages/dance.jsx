@@ -234,7 +234,7 @@ const Dance = () => {
             </div>
           </div>
 
-          <div className='container-text-1' data-aos='zoom-in' data-aos-duration='1500'>
+          <div className='container-text-1 font' data-aos='zoom-in' data-aos-duration='1500'>
             <h2>街舞的起源</h2>
             <p>
               街舞，又稱為嘻哈舞（Hip-Hop Dance），起源於美國的紐約市，最早是在 1970
@@ -243,7 +243,7 @@ const Dance = () => {
             </p>
           </div>
 
-          <div className='container-text-2' data-aos='zoom-in' data-aos-duration='1500'>
+          <div className='container-text-2 font' data-aos='zoom-in' data-aos-duration='1500'>
             <h2>Breaking（霹靂舞）</h2>
             <p>
               Breaking 是最早的街舞形式之一，也常被稱為 B-Boying 或
@@ -253,7 +253,7 @@ const Dance = () => {
             </p>
           </div>
 
-          <div className='container-text-3' data-aos='zoom-in' data-aos-duration='1500'>
+          <div className='container-text-3 font' data-aos='zoom-in' data-aos-duration='1500'>
             <h2>Popping（震撼舞）</h2>
             <p>
               Popping 是一種以肌肉收縮和放鬆來創造出震動效果的舞蹈風格，通常伴隨著機械式的動作和精確的節奏感。這種風格在
@@ -261,7 +261,7 @@ const Dance = () => {
             </p>
           </div>
 
-          <div className='container-text-4' data-aos='zoom-in' data-aos-duration='1500'>
+          <div className='container-text-4 font' data-aos='zoom-in' data-aos-duration='1500'>
             <h2>Locking（鎖舞）</h2>
             <p>
               Locking 是由 Don Campbell 在 1970
@@ -269,7 +269,7 @@ const Dance = () => {
             </p>
           </div>
 
-          <div className='container-text-5' data-aos='zoom-in' data-aos-duration='1500'>
+          <div className='container-text-5 font' data-aos='zoom-in' data-aos-duration='1500'>
             <h2>Hip-Hop（嘻哈舞）</h2>
             <p>
               Hip-Hop
@@ -277,7 +277,7 @@ const Dance = () => {
             </p>
           </div>
 
-          <div className='container-text-6' data-aos='zoom-in' data-aos-duration='1500'>
+          <div className='container-text-6 font' data-aos='zoom-in' data-aos-duration='1500'>
             <h2>Krumping（狂放舞）</h2>
             <p>
               Krumping
@@ -285,7 +285,7 @@ const Dance = () => {
             </p>
           </div>
 
-          <div className='container-3'>
+          <div className='container-3 '>
             <div data-aos='fade-left' data-aos-duration='1500' className='image'>
               <img
                 src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQjlYI3HaMcAOAUFue1eTyw6QmCL1LBjYcoSg&s'
@@ -416,7 +416,7 @@ const Dance = () => {
         <br />
         <br />
       </div>
-      <Footer />
+      {/* <Footer /> */}
     </div>
   )
 }

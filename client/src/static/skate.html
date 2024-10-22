@@ -265,25 +265,27 @@
 
 
       
-		// scroll 疊加效果製作
+        // ScrollMagic 控制器（controller），用來控制滾動觸發的動畫效果。
 		var controller = new ScrollMagic.Controller();
-
-		// define movement of panels
+    // .fromTo() 表示從一個狀態過渡到另一個狀態，第一個物件代表初始狀態，第二個物件代表最終狀態。
+    // x: "-100%" 和 x: "100%" 表示這些面板在初始狀態下分別從左邊或右邊進入畫面。
+    // x: "0%" 或 x: "1%" 表示動畫的結束狀態，即這些面板完全顯示在畫面中。
 		var wipeAnimation = new TimelineMax()
-			.fromTo("section.panel.two-img", 1, {x: "-100%"}, {x: "0%", ease: Linear.easeNone})  // in from left
-			.fromTo("section.panel.three-img", 1, {x:  "100%"}, {x: "0%", ease: Linear.easeNone})  // in from right
-      .fromTo("section.panel.four-img", 1, {x: "-100%"}, {x: "1%", ease: Linear.easeNone})  // in from left
-      .fromTo("section.panel.five-img", 1, {x: "100%"}, {x: "0%", ease: Linear.easeNone})  // in from right
-      .fromTo("section.panel.six-text", 1, {y: "100%"}, {x: "0%", ease: Linear.easeNone})  // in from right
+			.fromTo("section.panel.two-img", 1, {x: "-100%"}, {x: "0%", ease: Linear.easeNone})  // 從左邊
+			.fromTo("section.panel.three-img", 1, {x:  "100%"}, {x: "0%", ease: Linear.easeNone})  // 從右邊
+      .fromTo("section.panel.four-img", 1, {x: "-100%"}, {x: "1%", ease: Linear.easeNone})  // 從左邊
+      .fromTo("section.panel.five-img", 1, {x: "100%"}, {x: "0%", ease: Linear.easeNone})  // 從右邊
+      
 
-		// create scene to pin and link animation
 		new ScrollMagic.Scene({
 				triggerElement: "#pinContainer",
+        // triggerHook: "onLeave"：觸發條件是當 #pinContainer 的頂部離開視口時觸發。
 				triggerHook: "onLeave",
 				duration: "400%"
 			})
 			.setPin("#pinContainer")
 			.setTween(wipeAnimation)
+      // addTo(controller)：場景添加到 ScrollMagic 控制器中。
 			.addTo(controller);
 	});
      

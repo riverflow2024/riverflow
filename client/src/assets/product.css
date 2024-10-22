@@ -11,11 +11,9 @@
 .wrap-f .container-f .swiper .swiper-slide img {
   width: 100%;
   height: 600px;
-  -o-object-fit: cover;
-     object-fit: cover;
+  object-fit: cover;
   opacity: 0.6;
-  -o-object-position: center;
-     object-position: center;
+  object-position: center;
 }
 .wrap-f .container-f .swiper .swiper-slide .swiper-text {
   width: 40%;
@@ -44,11 +42,9 @@
   .wrap-f .container-f .swiper .swiper-slide img {
     width: 100%;
     height: 400px;
-    -o-object-fit: cover;
-       object-fit: cover;
+    object-fit: cover;
     opacity: 0.6;
-    -o-object-position: center;
-       object-position: center;
+    object-position: center;
   }
 }
 @media (max-width: 768px) {
@@ -58,11 +54,9 @@
   .wrap-f .container-f .swiper .swiper-slide img {
     width: 100%;
     height: 350px;
-    -o-object-fit: cover;
-       object-fit: cover;
+    object-fit: cover;
     opacity: 0.6;
-    -o-object-position: center;
-       object-position: center;
+    object-position: center;
   }
   .wrap-f .container-f .swiper .swiper-slide .swiper-text h1 {
     line-height: 1rem;
@@ -82,11 +76,9 @@
   .wrap-f .container-f .swiper .swiper-slide img {
     width: 100%;
     height: 300px;
-    -o-object-fit: cover;
-       object-fit: cover;
+    object-fit: cover;
     opacity: 0.6;
-    -o-object-position: center;
-       object-position: center;
+    object-position: center;
   }
   .wrap-f .container-f .swiper .swiper-slide .swiper-text h1 {
     line-height: 1rem;
@@ -136,7 +128,6 @@
   display: inline-block;
   margin-top: 1rem;
   margin-bottom: 0.5rem;
-  width: 200px;
 }
 .AllWrap .container .shop-filter ul li a {
   display: inline-block;
@@ -198,8 +189,8 @@
 @media (max-width: 576px) {
   .AllWrap .container .RWD-shop-filter {
     flex-wrap: wrap;
-    top: -2.5%;
-    height: 1.3%;
+    top: -3%;
+    height: 1.7%;
     width: auto;
   }
   .AllWrap .container .RWD-shop-filter #categoryFilter {
@@ -267,14 +258,12 @@
 .AllWrap .container .product-list .product-img {
   width: 100%;
   height: 200px;
-  -o-object-fit: cover;
-     object-fit: cover;
+  object-fit: cover;
   position: relative;
 }
 .AllWrap .container .product-list .product-img img {
   height: 200px;
-  -o-object-fit: cover;
-     object-fit: cover;
+  object-fit: cover;
   background-color: #1d1d1d;
 }
 .AllWrap .container .product-list .product-img .sold-out {
@@ -486,4 +475,6 @@
     padding: 10px;
     border-radius: 20px;
   }
-}/*# sourceMappingURL=ProductAll.css.map */
+}
+
+/*# sourceMappingURL=product.css.map */

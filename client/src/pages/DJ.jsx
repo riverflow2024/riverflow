@@ -149,9 +149,7 @@ const DJ = () => {
           <p>
             DJ音樂風格經歷了顯著的變化和演變。電子舞曲（EDM）的崛起成為主流，融合了浩室（House）、浩室舞曲（Trance）、電音（Electro）和電子流行（Electropop）等多種電子音樂流派，以高能量的節奏和震撼的合成器聲音吸引了大量年輕聽眾。浩室音樂變得更加多樣化，出現了Deep
             House、Progressive House、Future
-            House等子類型，並且涌現出許多新興的DJ和製作人。流行音樂和電子音樂的界限變得越來越模糊，許多流行歌手與DJ合作，創作出了大量熱門單曲，例如Calvin
-            Harris與Rihanna合作的《We Found Love》，David
-            Guetta與Sia合作的《Titanium》。重低音和陷阱音樂（Trap）的流行，特別是在2000年代後期和2010年代早期迅速崛起，這些風格以重低音和複雜的鼓點著稱，成為了音樂節和夜店的熱門曲風。
+            House等子類型，並且涌現出許多新興的DJ和製作人。
           </p>
         </div>
       </div>

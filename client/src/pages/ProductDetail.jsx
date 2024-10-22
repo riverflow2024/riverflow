@@ -10,6 +10,7 @@ import Footer from '../components/footer'
 
 // 商品圖片展示組件
 const ProductImages = ({ images = [], isFavorited, onToggleFavorite }) => (
+  // 這個組件負責展示商品圖片，包括大圖片和小縮圖，並允許用戶點擊最愛按鈕。
   <aside className='product-images'>
     <div className='product-images-big'>
       <a href={`/images/products/${images[0]}`} data-lightbox='example-set' data-title='產品圖片'>
@@ -42,6 +43,7 @@ const ProductInfo = ({
   isNew,
   isOnSale
 }) => (
+  // 這個組件展示商品的詳細資訊，包括名稱、價格、評分、描述、材質等，用戶還可以選擇尺寸和數量，並將商品加入購物車。
   <main className='product-info'>
     <h1>{product.productName}</h1>
     <div className='labels'>
@@ -131,6 +133,7 @@ const ProductInfo = ({
 
 // 你可能會喜歡組件，展示假資料
 const Recommendations = () => {
+  // 這個組件展示"你可能會喜歡"的商品列表，用假資料模擬推薦商品。
   const fakeProducts = [
     // 假資料
     {
@@ -200,23 +203,25 @@ const Recommendations = () => {
 
 // 商品詳細資訊頁面組件
 const ProductDetail = () => {
-  const { productId } = useParams()
-  const [selectedSize, setSelectedSize] = useState('')
-  const [quantity, setQuantity] = useState(1)
-  const [product, setProduct] = useState(null)
-  const [loading, setLoading] = useState(true)
-  const [isFavorited, setIsFavorited] = useState(false)
-  const [isNew, setIsNew] = useState(false)
-  const [isOnSale, setIsOnSale] = useState(false)
+  // 這個組件是商品詳細資訊頁的主要部分，負責顯示圖片、商品資訊、推薦商品，以及處理購物車功能。
+  const { productId } = useParams() // 從路由中獲取商品 ID
+  const [selectedSize, setSelectedSize] = useState('') // 用於存選中的尺寸
+  const [quantity, setQuantity] = useState(1) // 用於存購買的數量
+  const [product, setProduct] = useState(null) // 用於存從後端獲取的商品資料
+  const [loading, setLoading] = useState(true) // 用於顯示載入狀態
+  const [isFavorited, setIsFavorited] = useState(false) // 用於判斷是否加入最愛
+  const [isNew, setIsNew] = useState(false) // 判斷是否是新品
+  const [isOnSale, setIsOnSale] = useState(false) // 判斷是否有優惠
 
   useEffect(() => {
+    // 使用 useEffect 來向後端請求商品詳細資料
     axios
       .get(`http://localhost:3000/riverflow/products/${productId}`)
       .then((response) => {
         const data = response.data
 
         if (!data.productInfo || data.productInfo.length === 0) {
-          console.error('No product info available')
+          console.error('沒有產品資訊')
           return
         }
 
@@ -236,7 +241,7 @@ const ProductDetail = () => {
         try {
           productData.sizes = productData.productOpt ? JSON.parse(productData.productOpt).map((opt) => opt.name) : []
         } catch (error) {
-          console.error('Error parsing product options:', error)
+          console.error('選項錯誤:', error)
           productData.sizes = []
         }
 
@@ -249,7 +254,7 @@ const ProductDetail = () => {
           productData.rating =
             ratingData.length > 0 ? ratingData.reduce((acc, curr) => acc + curr.rating, 0) / ratingData.length : 'N/A'
         } catch (error) {
-          console.error('Error parsing product ratings:', error)
+          console.error('評分錯誤:', error)
           productData.rating = 'N/A'
         }
 
@@ -262,12 +267,13 @@ const ProductDetail = () => {
         })
       })
       .catch((error) => {
-        console.error('Error fetching product details:', error)
+        console.error('產品抓取失敗:', error)
         setLoading(false)
       })
-  }, [productId])
+  }, [productId]) // 每當 productId 變化時，重新加載商品資料
 
   const toggleFavorite = async () => {
+    // 切換是否加入最愛
     try {
       if (isFavorited) {
         await axios.delete('http://localhost:3000/riverflow/favorite', { data: { productId, userId: currentUserId } })
@@ -276,15 +282,15 @@ const ProductDetail = () => {
       }
       setIsFavorited(!isFavorited)
     } catch (error) {
-      console.error('Error toggling favorite:', error)
+      console.error('收藏失敗:', error)
     }
   }
 
-  const unitPrice = product ? parseInt(product.productPrice, 10) : 0
-  const totalPrice = `NT$${unitPrice * quantity}`
+  const unitPrice = product ? parseInt(product.productPrice, 10) : 0 // 單價
+  const totalPrice = `NT$${unitPrice * quantity}` // 總價
 
-  const handleSizeSelect = (size) => setSelectedSize(size)
-  const handleQuantityChange = (delta) => setQuantity((prev) => Math.max(1, prev + delta))
+  const handleSizeSelect = (size) => setSelectedSize(size) // 選擇商品尺寸
+  const handleQuantityChange = (delta) => setQuantity((prev) => Math.max(1, prev + delta)) // 調整數量
 
   const handleAddToCart = async () => {
     if (!selectedSize) {
@@ -295,8 +301,6 @@ const ProductDetail = () => {
       })
       return
     }
-
-    // console.log('Adding to cart: ', { productId, quantity, selectedSize })
 
     const cartData = {
       productId: productId,
@@ -333,7 +337,7 @@ const ProductDetail = () => {
   }
 
   if (loading) {
-    return <div>Loading...</div>
+    return <div>Loading...</div> // 如果商品資料還在載入中，顯示 Loading
   }
 
   return (
@@ -358,7 +362,7 @@ const ProductDetail = () => {
             </>
           )}
         </div>
-        <Recommendations />
+        <Recommendations /> {/* 展示"你可能會喜歡"的商品 */}
       </div>
       <Footer />
     </div>

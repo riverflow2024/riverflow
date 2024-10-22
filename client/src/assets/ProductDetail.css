@@ -104,7 +104,7 @@
 }
 @media (max-width: 768px) {
   .container-f .DetailWrap {
-    width: 75%;
+    width: 80%;
     flex-direction: column;
   }
   .container-f .DetailWrap .product-images {
@@ -354,7 +354,7 @@
 }
 @media (max-width: 768px) {
   .container-f .DetailWrap .product-info .quantity {
-    padding-left: 20px;
+    padding-left: 40px;
   }
 }
 .container-f .DetailWrap .product-info .quantity .add-minus {

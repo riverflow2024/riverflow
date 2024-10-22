@@ -97,7 +97,6 @@ const CartConfirmation = () => {
       } else {
         // 保存訂單資訊到會員訂單中
         const response = await axios.post('http://localhost:3000/riverflow/order/save', orderData)
-
         if (response.status === 200) {
           Swal.fire({
             title: '訂單已保存',
@@ -212,7 +211,7 @@ const CartConfirmation = () => {
         <div className='content-right'>
           {/* 顯示付款方式、配送方式和發票資訊 */}
           <div className='payment-method'>
-            <h2>選擇付款方式</h2>
+            <h2>確認付款方式</h2>
 
             <form id='order-form'>
               {/* 顯示固定的國家資訊 */}
